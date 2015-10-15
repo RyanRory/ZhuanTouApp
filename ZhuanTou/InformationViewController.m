@@ -22,8 +22,8 @@
     self.navigationItem.leftBarButtonItem = backItem;
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor darkGrayColor],NSForegroundColorAttributeName,nil]];
     
-    textView.layer.cornerRadius = 5;
-    nextButton.layer.cornerRadius = 5;
+    textView.layer.cornerRadius = 3;
+    nextButton.layer.cornerRadius = 3;
     [nextButton setUserInteractionEnabled:NO];
     [nextButton setAlpha:0.6f];
     

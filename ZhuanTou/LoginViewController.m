@@ -22,8 +22,8 @@
     [self.navigationItem.rightBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont boldSystemFontOfSize:13], NSFontAttributeName,nil] forState:UIControlStateNormal];
     [self.navigationItem.backBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont boldSystemFontOfSize:13], NSFontAttributeName,nil] forState:UIControlStateNormal];
     
-    loginButton.layer.cornerRadius = 5;
-    textView.layer.cornerRadius = 5;
+    loginButton.layer.cornerRadius = 3;
+    textView.layer.cornerRadius = 3;
     
     [loginButton addTarget:self action:@selector(Login:) forControlEvents:UIControlEventTouchUpInside];
     [forgottenButton addTarget:self action:@selector(ToForgotten:) forControlEvents:UIControlEventTouchUpInside];

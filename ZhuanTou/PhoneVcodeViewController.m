@@ -24,9 +24,9 @@
     
     [getVcodeButton.layer setBorderWidth:1];
     [getVcodeButton.layer setBorderColor:[UIColor colorWithRed:56.0/255.0 green:148.0/255.0 blue:238.0/255.0 alpha:100].CGColor];
-    getVcodeButton.layer.cornerRadius = 5;
-    textView.layer.cornerRadius = 5;
-    nextButton.layer.cornerRadius = 5;
+    getVcodeButton.layer.cornerRadius = 3;
+    textView.layer.cornerRadius = 3;
+    nextButton.layer.cornerRadius = 3;
     [nextButton setUserInteractionEnabled:NO];
     [nextButton setAlpha:0.6f];
     

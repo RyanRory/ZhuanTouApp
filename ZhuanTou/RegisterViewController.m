@@ -22,9 +22,9 @@
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"backIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(backToParent:)];
     self.navigationItem.leftBarButtonItem = backItem;
     
-    phoneView.layer.cornerRadius = 5;
-    vcodeView.layer.cornerRadius = 5;
-    nextButton.layer.cornerRadius = 5;
+    phoneView.layer.cornerRadius = 3;
+    vcodeView.layer.cornerRadius = 3;
+    nextButton.layer.cornerRadius = 3;
     [nextButton setUserInteractionEnabled:NO];
     [nextButton setAlpha:0.6f];
     checkboxButton.selected = YES;

@@ -624,7 +624,7 @@
 				TargetAttributes = {
 					A41C6B291BB9849E006B731D = {
 						CreatedOnToolsVersion = 7.0;
-						DevelopmentTeam = 9N5ML665B7;
+						DevelopmentTeam = PLUMEJFL9V;
 					};
 					A41C6B421BB9849E006B731D = {
 						CreatedOnToolsVersion = 7.0;
@@ -963,6 +963,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/ZhuanTou/PrefixHeader.pch";
 				INFOPLIST_FILE = ZhuanTou/Info.plist;
@@ -970,6 +971,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Shanghai-Momu-Financial-Information-Service-Co.--Ltd..ZhuanTou";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -979,6 +981,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/ZhuanTou/PrefixHeader.pch";
 				INFOPLIST_FILE = ZhuanTou/Info.plist;
@@ -986,6 +989,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Shanghai-Momu-Financial-Information-Service-Co.--Ltd..ZhuanTou";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
