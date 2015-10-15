@@ -114,7 +114,7 @@
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSString *URL = [BASEURL stringByAppendingString:@"Account/SignOut"];
     [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
-        NSLog(@"%@", responseObject);
+        NSLog(@"signout%@", responseObject);
         NSString *str = [responseObject objectForKey:@"isAuthenticated"];
         int f1 = str.intValue;
         if (f1 == 0)
