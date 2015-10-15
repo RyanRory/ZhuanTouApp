@@ -10,14 +10,18 @@
 
 @interface LoginViewController : UIViewController
 @property (strong, nonatomic) IBOutlet UIButton *forgottenButton;
-@property (strong, nonatomic) IBOutlet UIButton *toRegisterButton;
 @property (strong, nonatomic) IBOutlet UIButton *loginButton;
 @property (strong, nonatomic) IBOutlet UITextField *usernameTextField;
 @property (strong, nonatomic) IBOutlet UITextField *passwordTextField;
-@property (strong, nonatomic) IBOutlet UIButton *backButton;
+@property (strong, nonatomic) IBOutlet UIView *textView;
+
 
 - (IBAction)textFiledReturnEditing:(id)sender;
 
 - (IBAction)backgroundTap:(id)sender;
+
+- (IBAction)buttonEnableListener:(id)sender;
+
+- (IBAction)signOut:(id)sender;
 
 @end

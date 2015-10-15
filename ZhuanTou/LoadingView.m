@@ -15,13 +15,10 @@
     self = [super initWithFrame:frame];
     if (self)
     {
-        self.midImageView = [[UIImageView alloc]initWithFrame:CGRectMake(frame.size.width/2-25, frame.size.height/2-25, 50, 50)];
         self.rotateImageView = [[UIImageView alloc]initWithFrame:CGRectMake(frame.size.width/2-25, frame.size.height/2-25, 50, 50)];
         
-        self.midImageView.image = [UIImage imageNamed:@"backIconActive.png"];
-        self.rotateImageView.image = [UIImage imageNamed:@"backIconActive.png"];
+        self.rotateImageView.image = [UIImage imageNamed:@"loginSpinner.png"];
         
-        [self addSubview:self.midImageView];
         [self addSubview:self.rotateImageView];
         
         //self.backgroundColor = [UIColor colorWithWhite:1 alpha:0.6f];

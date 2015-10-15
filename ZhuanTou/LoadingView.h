@@ -10,7 +10,6 @@
 
 @interface LoadingView : UIView
 
-@property(strong, nonatomic) UIImageView *midImageView;
 @property(strong, nonatomic) UIImageView *rotateImageView;
 
 - (void)startAnimation;
