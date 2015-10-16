@@ -70,7 +70,7 @@
             [userDefaults synchronize];
             
             [KeychainData forgotPsw];
-            SetpasswordViewController *setpass = [[SetpasswordViewController alloc] init];
+            SetpasswordViewController *setpass = [[self storyboard]instantiateViewControllerWithIdentifier:@"SetpasswordViewController"];
             setpass.string = @"重置密码";
             [[self navigationController]pushViewController:setpass animated:YES];
             
