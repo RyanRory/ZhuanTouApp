@@ -16,6 +16,7 @@
 #import "LoadingView.h"
 #import <Foundation/Foundation.h>
 #import <CoreGraphics/CoreGraphics.h>
+#import <QuartzCore/QuartzCore.h> 
 
 
 #endif /* PrefixHeader_pch */

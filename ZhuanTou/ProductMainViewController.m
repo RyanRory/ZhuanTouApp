@@ -16,7 +16,7 @@
 
 @synthesize wenjianButton, zongheButton, huoqiButton;
 @synthesize featureButton1, featureButton2, featureButton3, detailButton;
-@synthesize bigRateLabel, monthNumLabel, moryLabel, percentLabel, rateContentLabel, bgCircleImageView, circleImageView;
+@synthesize bigRateLabel, monthNumLabel, moryLabel, percentLabel, rateContentLabel, bgCircleImageView, circleImageView, huoqiBgImageView1, huoqiBgImageView2;
 @synthesize productsBeforeButton;
 @synthesize smallRateLabel, rightView;
 @synthesize amountLabel, timeLabel, buyButton;
@@ -40,23 +40,45 @@
     [featureButton3 setUserInteractionEnabled:NO];
     [detailButton addTarget:self action:@selector(goToDetail:) forControlEvents:UIControlEventTouchUpInside];
     
-    [wenjianButton setUserInteractionEnabled:NO];
-    wenjianButton.tintColor = ZTLIGHTRED;
-    zongheButton.tintColor = ZTLIGHTGRAY;
-    huoqiButton.tintColor = ZTLIGHTGRAY;
-    [self setupWenjian];
+    bigRateLabel.format = @"%d";
     
     buyButton.layer.cornerRadius = 3;
     [buyButton addTarget:self action:@selector(buyNow:) forControlEvents:UIControlEventTouchUpInside];
     
+    [wenjianButton setUserInteractionEnabled:NO];
+    wenjianButton.tintColor = ZTLIGHTRED;
+    zongheButton.tintColor = ZTLIGHTGRAY;
+    huoqiButton.tintColor = ZTLIGHTGRAY;
+    
+    style = WENJIAN;
+    isFirstLoad = YES;
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    if (frame.origin.x == 0) frame = huoqiBgImageView1.frame;
+    if (bgPoint.x == 0) bgPoint = CGPointMake(bgCircleImageView.frame.origin.x + bgCircleImageView.frame.size.width/2+10, bgCircleImageView.frame.origin.y+bgCircleImageView.frame.size.height/2);
+    if (point.x == 0) point = CGPointMake(bgCircleImageView.frame.origin.x - huoqiBgImageView1.frame.origin.x + 20, bgCircleImageView.frame.origin.y - frame.origin.y + 5);
+
+    if (isFirstLoad)
+    {
+        [self setupWenjian];
+        isFirstLoad = NO;
+    }
 }
 
 - (void)setupWenjian
 {
+    [bgCircleImageView.layer removeAllAnimations];
     [rightView setHidden:YES];
     [moryLabel setHidden:NO];
     [monthNumLabel setHidden:NO];
     [productsBeforeButton setHidden:NO];
+    [huoqiBgImageView1 setHidden:YES];
+    [huoqiBgImageView1 setFrame:frame];
+    [huoqiBgImageView2 setHidden:YES];
+    [huoqiBgImageView2 setFrame:frame];
+    [bgCircleImageView setHidden:NO];
     bgView.backgroundColor = ZTLIGHTRED;
     triangleImageView.image = [UIImage imageNamed:@"wenjianTriangle.png"];
     circleImageView.image = [UIImage imageNamed:@"wenjian.png"];
@@ -68,14 +90,25 @@
     [featureButton1 setImage:[UIImage imageNamed:@"profitIcon.png"] forState:UIControlStateNormal];
     [featureButton1 setTitle:@"较高收益" forState:UIControlStateNormal];
     [buyButton setBackgroundColor:ZTLIGHTRED];
+    
+    [self bgCircleAnimation];
+    
+    [bigRateLabel countFromZeroTo:12 withDuration:0.8f];
+    
 }
 
 - (void)setupZonghe
 {
+    [bgCircleImageView.layer removeAllAnimations];
     [rightView setHidden:NO];
     [moryLabel setHidden:NO];
     [monthNumLabel setHidden:NO];
     [productsBeforeButton setHidden:NO];
+    [huoqiBgImageView1 setHidden:YES];
+    [huoqiBgImageView1 setFrame:frame];
+    [huoqiBgImageView2 setHidden:YES];
+    [huoqiBgImageView2 setFrame:frame];
+    [bgCircleImageView setHidden:NO];
     bgView.backgroundColor = ZTBLUE;
     triangleImageView.image = [UIImage imageNamed:@"zongheTriangle.png"];
     circleImageView.image = [UIImage imageNamed:@"zonghe.png"];
@@ -87,6 +120,10 @@
     [featureButton1 setImage:[UIImage imageNamed:@"profitIcon.png"] forState:UIControlStateNormal];
     [featureButton1 setTitle:@"超高收益" forState:UIControlStateNormal];
     [buyButton setBackgroundColor:ZTBLUE];
+    
+    [self bgCircleAnimation];
+    
+    [bigRateLabel countFromZeroTo:14 withDuration:0.8f];
 }
 
 - (void)setupHuoqi
@@ -95,6 +132,9 @@
     [moryLabel setHidden:YES];
     [monthNumLabel setHidden:YES];
     [productsBeforeButton setHidden:YES];
+    [huoqiBgImageView1 setHidden:NO];
+    [huoqiBgImageView2 setHidden:NO];
+    [bgCircleImageView setHidden:YES];
     bgView.backgroundColor = ZTRED;
     triangleImageView.image = [UIImage imageNamed:@"huoqiTriangle.png"];
     circleImageView.image = [UIImage imageNamed:@"huoqi.png"];
@@ -106,6 +146,16 @@
     [featureButton1 setImage:[UIImage imageNamed:@"quickIcon.png"] forState:UIControlStateNormal];
     [featureButton1 setTitle:@"随存随取" forState:UIControlStateNormal];
     [buyButton setBackgroundColor:ZTRED];
+    
+    //动画效果
+    [UIView beginAnimations:nil context:UIGraphicsGetCurrentContext()];
+    [UIView setAnimationDuration:0.8f];
+    [huoqiBgImageView1 setFrame:CGRectMake(frame.origin.x + point.x, frame.origin.y + point.y, frame.size.width, frame.size.height)];
+    [huoqiBgImageView2 setFrame:CGRectMake(frame.origin.x - point.x, frame.origin.y - point.y, frame.size.width, frame.size.height)];
+    [bigRateLabel countFromZeroTo:6 withDuration:0.8f];
+    [UIView commitAnimations];
+    
+    
 }
 
 - (void)clickWenjianButton:(id)sender
@@ -117,6 +167,7 @@
     [huoqiButton setUserInteractionEnabled:YES];
     zongheButton.tintColor = ZTLIGHTGRAY;
     huoqiButton.tintColor = ZTLIGHTGRAY;
+    style = WENJIAN;
 }
 
 - (void)clickZongheButton:(id)sender
@@ -128,6 +179,7 @@
     [huoqiButton setUserInteractionEnabled:YES];
     wenjianButton.tintColor = ZTLIGHTGRAY;
     huoqiButton.tintColor = ZTLIGHTGRAY;
+    style = ZONGHE;
 }
 
 - (void)clickHuoqi:(id)sender
@@ -139,6 +191,22 @@
     [zongheButton setUserInteractionEnabled:YES];
     wenjianButton.tintColor = ZTLIGHTGRAY;
     zongheButton.tintColor = ZTLIGHTGRAY;
+    style = HUOQI;
+}
+
+- (void)bgCircleAnimation
+{
+    CAKeyframeAnimation *pathAnimation = [CAKeyframeAnimation animationWithKeyPath:@"position"];
+    pathAnimation.calculationMode = kCAAnimationPaced;
+    pathAnimation.fillMode = kCAFillModeForwards;
+    pathAnimation.removedOnCompletion = NO;
+    pathAnimation.duration = 0.8;
+    pathAnimation.repeatCount = 1;
+    //设置运转动画的路径
+    CGMutablePathRef curvedPath = CGPathCreateMutable();
+    CGPathAddArc(curvedPath, NULL, bgPoint.x, bgPoint.y, 10, M_PI, 3 * M_PI, 0);
+    pathAnimation.path = curvedPath;
+    [bgCircleImageView.layer addAnimation:pathAnimation forKey:@"moveTheCircleOne"];
 }
 
 - (void)goToDetail:(id)sender
@@ -153,7 +221,9 @@
 
 - (void)buyNow:(id)sender
 {
-    
+    ProductBuyViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ProductBuyViewController"];
+    [vc setStyle:style];
+    [[self navigationController]pushViewController:vc animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

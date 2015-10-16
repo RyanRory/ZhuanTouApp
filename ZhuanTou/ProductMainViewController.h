@@ -7,12 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UICountingLabel.h"
+#import "ProductBuyViewController.h"
 
 @interface ProductMainViewController : UIViewController
+{
+    CGRect frame;
+    CGPoint bgPoint;
+    CGPoint point;
+    NSString *style;
+    BOOL isFirstLoad;
+}
 @property (strong, nonatomic) IBOutlet UIButton *wenjianButton;
 @property (strong, nonatomic) IBOutlet UIButton *zongheButton;
 @property (strong, nonatomic) IBOutlet UIButton *huoqiButton;
-@property (strong, nonatomic) IBOutlet UILabel *bigRateLabel;
+@property (strong, nonatomic) IBOutlet UICountingLabel *bigRateLabel;
 @property (strong, nonatomic) IBOutlet UILabel *monthNumLabel;
 @property (strong, nonatomic) IBOutlet UIView *rightView;
 @property (strong, nonatomic) IBOutlet UILabel *smallRateLabel;
@@ -31,5 +40,7 @@
 @property (strong, nonatomic) IBOutlet UIImageView *triangleImageView;
 @property (strong, nonatomic) IBOutlet UIImageView *circleImageView;
 @property (strong, nonatomic) IBOutlet UILabel *moryLabel;
+@property (strong, nonatomic) IBOutlet UIImageView *huoqiBgImageView1;
+@property (strong, nonatomic) IBOutlet UIImageView *huoqiBgImageView2;
 
 @end

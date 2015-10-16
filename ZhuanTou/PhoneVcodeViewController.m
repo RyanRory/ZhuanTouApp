@@ -46,10 +46,12 @@
 
 - (void)toNextPage:(id)sender
 {
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSString *URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/validateRegisterSmsCode/%@", phoneVcodeTextField.text]];
     [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
         NSLog(@"%@", responseObject);
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
         NSString *str = [responseObject objectForKey:@"isSuccess"];
         int f = str.intValue;
         if (f == 0)
@@ -69,13 +71,10 @@
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"验证失败，请重试！" message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alert show];
     }];
-
-    
-    
-    
 }
 
 - (void)getVcode:(id)sender

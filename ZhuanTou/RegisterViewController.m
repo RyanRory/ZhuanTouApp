@@ -48,55 +48,66 @@
 
 - (void)toNextPage:(id)sender
 {
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    NSString *URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/checkMobile/%@",phoneTextField.text]];
-    [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
-        NSLog(@"%@", responseObject);
-        NSString *str = [responseObject objectForKey:@"isSuccess"];
-        int f1 = str.intValue;
-        if (f1 == 0)
-        {
-            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:[responseObject objectForKey:@"errorMessage"] message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-            [alert show];
-        }
-        else
-        {
-            AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-            NSString *URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/checkVCode/%@",vcodeTextField.text]];
-            [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject2) {
-                NSLog(@"%@", responseObject2);
-                NSString *str = [responseObject2 objectForKey:@"isSuccess"];
-                int f2 = str.intValue;
-                if (f2 == 0)
-                {
-                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:[responseObject2 objectForKey:@"errorMessage"] message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-                    [alert show];
-                }
-                else
-                {
-                    NSUserDefaults *userDefauts = [NSUserDefaults standardUserDefaults];
-                    [userDefauts setObject:phoneTextField.text forKey:PHONENUM];
-                    [userDefauts setObject:vcodeTextField.text forKey:VCODE];
-                    [userDefauts synchronize];
-                    
-                    PhoneVcodeViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"PhoneVcodeViewController"];
-                    [[self navigationController]pushViewController:vc animated:YES];
-                }
-                
-            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                NSLog(@"Error: %@", error);
-                UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"验证失败，请重试！" message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-                [alert show];
-            }];
-
-        }
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Error: %@", error);
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"验证失败，请重试！" message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+    if (![[NSPredicate predicateWithFormat:@"SELF MATCHES %@",@"^[0-9]{11}$"] evaluateWithObject:phoneTextField.text])
+    {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"请检查您输入的手机号码是否正确" message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alert show];
-    }];
-    
+    }
+    else
+    {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+        NSString *URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/checkMobile/%@",phoneTextField.text]];
+        [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+            NSLog(@"%@", responseObject);
+            NSString *str = [responseObject objectForKey:@"isSuccess"];
+            int f1 = str.intValue;
+            if (f1 == 0)
+            {
+                UIAlertView *alert = [[UIAlertView alloc]initWithTitle:[responseObject objectForKey:@"errorMessage"] message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                [alert show];
+            }
+            else
+            {
+                AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+                NSString *URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/checkVCode/%@",vcodeTextField.text]];
+                [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject2) {
+                    NSLog(@"%@", responseObject2);
+                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                    NSString *str = [responseObject2 objectForKey:@"isSuccess"];
+                    int f2 = str.intValue;
+                    if (f2 == 0)
+                    {
+                        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:[responseObject2 objectForKey:@"errorMessage"] message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                        [alert show];
+                    }
+                    else
+                    {
+                        NSUserDefaults *userDefauts = [NSUserDefaults standardUserDefaults];
+                        [userDefauts setObject:phoneTextField.text forKey:PHONENUM];
+                        [userDefauts setObject:vcodeTextField.text forKey:VCODE];
+                        [userDefauts synchronize];
+                        
+                        PhoneVcodeViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"PhoneVcodeViewController"];
+                        [[self navigationController]pushViewController:vc animated:YES];
+                    }
+                    
+                } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                    NSLog(@"Error: %@", error);
+                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"验证失败，请重试！" message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                    [alert show];
+                }];
+                
+            }
+            
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            NSLog(@"Error: %@", error);
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"验证失败，请重试！" message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+            [alert show];
+        }];
+
+    }
     
 }
 

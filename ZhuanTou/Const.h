@@ -25,5 +25,10 @@
 #define PHONENUM @"PHONENUM"
 #define VCODE @"VCODE"
 
+#define WENJIAN @"WENJIAN"
+#define ZONGHE @"ZONGHE"
+#define HUOQI @"HUOQI"
+#define ONLYONEBONUS @"ONLYONEBONUS"
+
 
 #endif /* Const_h */
