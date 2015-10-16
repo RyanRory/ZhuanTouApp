@@ -33,6 +33,7 @@
     [agreementButton addTarget:self action:@selector(toAgreemet:) forControlEvents:UIControlEventTouchUpInside];
     [checkboxButton addTarget:self action:@selector(checkboxEnsure:) forControlEvents:UIControlEventTouchUpInside];
     [changeButton addTarget:self action:@selector(changeVcode:) forControlEvents:UIControlEventTouchUpInside];
+    [vcodeImageView addTarget:self action:@selector(changeVcode:) forControlEvents:UIControlEventTouchUpInside];
     
     [self getVcode];
     
@@ -134,7 +135,7 @@
 {
     NSString *URL = [BASEURL stringByAppendingString:@"Account/GetValidateCode"];
     imageData = [[NSData alloc]initWithContentsOfURL:[NSURL URLWithString:URL]];
-    vcodeImageView.image = [UIImage imageWithData:imageData];
+    [vcodeImageView setBackgroundImage:[UIImage imageWithData:imageData] forState:UIControlStateNormal];
 }
 
 

@@ -43,12 +43,16 @@
 
 - (void)Login:(id)sender
 {
+    [loginButton setUserInteractionEnabled:NO];
+    [loginButton setAlpha:0.6f];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSDictionary *parameters = @{@"login":usernameTextField.text,
                                  @"password":passwordTextField.text};
     NSString *URL = [BASEURL stringByAppendingString:@"api/auth/signIn"];
     [manager POST:URL parameters:parameters success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
         NSLog(@"%@", responseObject);
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
         NSString *str = [responseObject objectForKey:@"isAuthenticated"];
         int f1 = str.intValue;
         if (f1 == 0)
@@ -62,10 +66,17 @@
             [alert show];
         }
         
+        [loginButton setUserInteractionEnabled:YES];
+        [loginButton setAlpha:1.0f];
+        
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"登录失败，请重试！" message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alert show];
+        
+        [loginButton setUserInteractionEnabled:YES];
+        [loginButton setAlpha:1.0f];
     }];
 
 }
@@ -114,7 +125,7 @@
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSString *URL = [BASEURL stringByAppendingString:@"Account/SignOut"];
     [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
-        NSLog(@"signout%@", responseObject);
+        NSLog(@"%@", responseObject);
         NSString *str = [responseObject objectForKey:@"isAuthenticated"];
         int f1 = str.intValue;
         if (f1 == 0)

@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "AliPayViews.h"
 #import "KeychainData.h"
+#import "RegisterSuccessViewController.h"
 
 @interface SetpasswordViewController : UIViewController
 

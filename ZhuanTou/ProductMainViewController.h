@@ -30,5 +30,6 @@
 @property (strong, nonatomic) IBOutlet UIView *bgView;
 @property (strong, nonatomic) IBOutlet UIImageView *triangleImageView;
 @property (strong, nonatomic) IBOutlet UIImageView *circleImageView;
+@property (strong, nonatomic) IBOutlet UILabel *moryLabel;
 
 @end

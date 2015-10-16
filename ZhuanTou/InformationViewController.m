@@ -37,10 +37,13 @@
 
 - (void)toNextPage:(id)sender
 {
+    [nextButton setUserInteractionEnabled:NO];
+    [nextButton setAlpha:0.6f];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     smsCode = [userDefaults objectForKey:SMSCODE];
     phoneNum = [userDefaults objectForKey:PHONENUM];
     
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSDictionary *parameters = @{@"username":usernameTextField.text,
                                  @"mobile":phoneNum,
@@ -52,6 +55,7 @@
     NSString *URL = [BASEURL stringByAppendingString:@"api/account/register"];
     [manager POST:URL parameters:parameters success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
         NSLog(@"%@", responseObject);
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
         NSString *str = [responseObject objectForKey:@"isSuccess"];
         int f1 = str.intValue;
         if (f1 == 0)
@@ -72,19 +76,22 @@
             
             
         }
+        [nextButton setUserInteractionEnabled:YES];
+        [nextButton setAlpha:1.0f];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"注册失败，请重试！" message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alert show];
+        [nextButton setUserInteractionEnabled:YES];
+        [nextButton setAlpha:1.0f];
     }];
     
 //    [KeychainData forgotPsw];
-//    SetpasswordViewController *setpass = [[SetpasswordViewController alloc] init];
+//    SetpasswordViewController *setpass = [[self storyboard]instantiateViewControllerWithIdentifier:@"SetpasswordViewController"];
 //    setpass.string = @"重置密码";
 //    [[self navigationController]pushViewController:setpass animated:YES];
-
-
 }
 
 - (void)didReceiveMemoryWarning {

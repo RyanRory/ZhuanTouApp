@@ -30,12 +30,13 @@
         alipay.gestureModel = AlertPwdModel;
     } else if ([self.string isEqualToString:@"重置密码"]) {
         alipay.gestureModel = SetPwdModel;
-        self.title = @"设置手势密码";
     } else {
         alipay.gestureModel = NoneModel;
     }
     alipay.block = ^(NSString *pswString) {
-
+        NSLog(@"设置密码成功-----你的密码为 = 【%@】\n\n", pswString);
+        RegisterSuccessViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"RegisterSuccessVC"];
+        [[self navigationController]pushViewController:vc animated:YES];
     };
     
     [self.view addSubview:alipay];

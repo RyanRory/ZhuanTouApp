@@ -87,6 +87,7 @@
 		A44AFA561BCF4EC1002A8AC4 /* productActive.png in Resources */ = {isa = PBXBuildFile; fileRef = A44AFA541BCF4EC1002A8AC4 /* productActive.png */; settings = {ASSET_TAGS = (); }; };
 		A44AFA5A1BCF6FA2002A8AC4 /* ProductMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A44AFA591BCF6FA2002A8AC4 /* ProductMainViewController.m */; settings = {ASSET_TAGS = (); }; };
 		A44AFA5C1BCF7058002A8AC4 /* productActive@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A44AFA5B1BCF7058002A8AC4 /* productActive@3x.png */; settings = {ASSET_TAGS = (); }; };
+		A44AFA5F1BCFA565002A8AC4 /* RegisterSuccessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A44AFA5E1BCFA565002A8AC4 /* RegisterSuccessViewController.m */; settings = {ASSET_TAGS = (); }; };
 		A48347BB1BBBBFE4002D6591 /* LoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = A48347BA1BBBBFE4002D6591 /* LoadingView.m */; settings = {ASSET_TAGS = (); }; };
 		A4E7F1FD1BCDFDBD00B20EC6 /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4E7F1FC1BCDFDBD00B20EC6 /* RegisterViewController.m */; settings = {ASSET_TAGS = (); }; };
 		A4E7F2081BCE050E00B20EC6 /* checkIcon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4E7F1FE1BCE050E00B20EC6 /* checkIcon@3x.png */; settings = {ASSET_TAGS = (); }; };
@@ -228,6 +229,8 @@
 		A44AFA581BCF6FA2002A8AC4 /* ProductMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductMainViewController.h; sourceTree = "<group>"; };
 		A44AFA591BCF6FA2002A8AC4 /* ProductMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductMainViewController.m; sourceTree = "<group>"; };
 		A44AFA5B1BCF7058002A8AC4 /* productActive@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "productActive@3x.png"; path = "images/@3x/productActive@3x.png"; sourceTree = "<group>"; };
+		A44AFA5D1BCFA565002A8AC4 /* RegisterSuccessViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterSuccessViewController.h; sourceTree = "<group>"; };
+		A44AFA5E1BCFA565002A8AC4 /* RegisterSuccessViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterSuccessViewController.m; sourceTree = "<group>"; };
 		A48347B91BBBBFE4002D6591 /* LoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingView.h; sourceTree = "<group>"; };
 		A48347BA1BBBBFE4002D6591 /* LoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingView.m; sourceTree = "<group>"; };
 		A4E7F1FB1BCDFDBD00B20EC6 /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
@@ -342,9 +345,9 @@
 				A44AF9DA1BCF469B002A8AC4 /* ZTTabBarViewController.h */,
 				A44AFA491BCF481D002A8AC4 /* ZTTabBarViewController.m */,
 				A44AFA571BCF4FA3002A8AC4 /* Product */,
-				A4E7F2461BCE54BE00B20EC6 /* GestureViews */,
 				A48347B81BBBBFC6002D6591 /* LoadingView */,
 				A41C6B621BBA6374006B731D /* Login_Register */,
+				A4E7F2461BCE54BE00B20EC6 /* GestureViews */,
 				A41C6B301BB9849E006B731D /* AppDelegate.h */,
 				A41C6B311BB9849E006B731D /* AppDelegate.m */,
 				A41C6B361BB9849E006B731D /* Main.storyboard */,
@@ -395,6 +398,10 @@
 				A4E7F23B1BCE166B00B20EC6 /* PhoneVcodeViewController.m */,
 				A4E7F23D1BCE28DF00B20EC6 /* InformationViewController.h */,
 				A4E7F23E1BCE28DF00B20EC6 /* InformationViewController.m */,
+				A4E7F2571BCE552400B20EC6 /* SetpasswordViewController.h */,
+				A4E7F2581BCE552400B20EC6 /* SetpasswordViewController.m */,
+				A44AFA5D1BCFA565002A8AC4 /* RegisterSuccessViewController.h */,
+				A44AFA5E1BCFA565002A8AC4 /* RegisterSuccessViewController.m */,
 			);
 			name = Login_Register;
 			sourceTree = "<group>";
@@ -538,8 +545,6 @@
 		A4E7F2461BCE54BE00B20EC6 /* GestureViews */ = {
 			isa = PBXGroup;
 			children = (
-				A4E7F2571BCE552400B20EC6 /* SetpasswordViewController.h */,
-				A4E7F2581BCE552400B20EC6 /* SetpasswordViewController.m */,
 				A4E7F2471BCE54DD00B20EC6 /* AliPayItem.h */,
 				A4E7F2481BCE54DD00B20EC6 /* AliPayItem.m */,
 				A4E7F2491BCE54DD00B20EC6 /* AlipaySubItem.h */,
@@ -624,7 +629,7 @@
 				TargetAttributes = {
 					A41C6B291BB9849E006B731D = {
 						CreatedOnToolsVersion = 7.0;
-						DevelopmentTeam = PLUMEJFL9V;
+						DevelopmentTeam = 9N5ML665B7;
 					};
 					A41C6B421BB9849E006B731D = {
 						CreatedOnToolsVersion = 7.0;
@@ -815,6 +820,7 @@
 				A41C6B2F1BB9849E006B731D /* main.m in Sources */,
 				A4E7F2551BCE54DD00B20EC6 /* KeychainData.m in Sources */,
 				A41C6B651BBA63B9006B731D /* LoginViewController.m in Sources */,
+				A44AFA5F1BCFA565002A8AC4 /* RegisterSuccessViewController.m in Sources */,
 				A4E7F23F1BCE28DF00B20EC6 /* InformationViewController.m in Sources */,
 				A44AFA4A1BCF481D002A8AC4 /* ZTTabBarViewController.m in Sources */,
 				A4E7F2561BCE54DD00B20EC6 /* KeychainItemWrapper.m in Sources */,
@@ -963,7 +969,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/ZhuanTou/PrefixHeader.pch";
 				INFOPLIST_FILE = ZhuanTou/Info.plist;
@@ -971,7 +976,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Shanghai-Momu-Financial-Information-Service-Co.--Ltd..ZhuanTou";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -981,7 +985,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/ZhuanTou/PrefixHeader.pch";
 				INFOPLIST_FILE = ZhuanTou/Info.plist;
@@ -989,7 +992,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Shanghai-Momu-Financial-Information-Service-Co.--Ltd..ZhuanTou";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

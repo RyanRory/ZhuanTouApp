@@ -18,7 +18,7 @@
 @property (strong, nonatomic) IBOutlet UITextField *phoneTextField;
 @property (strong, nonatomic) IBOutlet UIView *vcodeView;
 @property (strong, nonatomic) IBOutlet UITextField *vcodeTextField;
-@property (strong, nonatomic) IBOutlet UIImageView *vcodeImageView;
+@property (strong, nonatomic) IBOutlet UIButton *vcodeImageView;
 @property (strong, nonatomic) IBOutlet UIButton *changeButton;
 @property (strong, nonatomic) IBOutlet UIButton *nextButton;
 @property (strong, nonatomic) IBOutlet UIButton *checkboxButton;
