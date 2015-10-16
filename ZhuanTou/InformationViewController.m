@@ -37,7 +37,6 @@
 
 - (void)toNextPage:(id)sender
 {
-<<<<<<< HEAD
     NSString *PasswordReg = @"(?=.*[0-9])(?=.*[a-zA-Z]).{6,30}";
     NSPredicate *regextestpassword = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", PasswordReg];
     if(![passwordTextField.text isEqualToString: pswdAgainTextFiled.text]){
@@ -89,45 +88,6 @@
             }
             [nextButton setUserInteractionEnabled:YES];
             [nextButton setAlpha:1.0f];
-=======
-    [nextButton setUserInteractionEnabled:NO];
-    [nextButton setAlpha:0.6f];
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    smsCode = [userDefaults objectForKey:SMSCODE];
-    phoneNum = [userDefaults objectForKey:PHONENUM];
-    
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    NSDictionary *parameters = @{@"username":usernameTextField.text,
-                                 @"mobile":phoneNum,
-                                 @"password":passwordTextField.text,
-                                 @"confirmPassword":pswdAgainTextFiled.text,
-                                 @"smsCode":smsCode,
-                                 @"referrerCode":recommendTextField.text};
-    NSLog(@"%@", parameters);
-    NSString *URL = [BASEURL stringByAppendingString:@"api/account/register"];
-    [manager POST:URL parameters:parameters success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
-        NSLog(@"%@", responseObject);
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-        NSString *str = [responseObject objectForKey:@"isSuccess"];
-        int f1 = str.intValue;
-        if (f1 == 0)
-        {
-            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:[responseObject objectForKey:@"errorMessage"] message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-            [alert show];
-        }
-        else
-        {
-            [userDefaults setObject:usernameTextField.text forKey:USERNAME];
-            [userDefaults setObject:passwordTextField.text forKey:PASSWORD];
-            [userDefaults synchronize];
-            
-            [KeychainData forgotPsw];
-            SetpasswordViewController *setpass = [[self storyboard]instantiateViewControllerWithIdentifier:@"SetpasswordViewController"];
-            setpass.string = @"重置密码";
-            [[self navigationController]pushViewController:setpass animated:YES];
-            
->>>>>>> 64f7c324d337e828aef3398668f7084256eba80d
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"Error: %@", error);
