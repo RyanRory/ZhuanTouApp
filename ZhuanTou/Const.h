@@ -15,7 +15,7 @@
 #define SCREEN_HEIGHT ([UIScreen mainScreen].bounds.size.height)
 
 #define ZTBLUE ([UIColor colorWithRed:59.0/255.0 green:148.0/255.0 blue:238.0/255.0 alpha:100])
-#define ZTLIGHTGRAY ([UIColor colorWithRed:202.0/255.0 green:202.0/255.0 blue:202.0/255.0 alpha:100])
+#define ZTLIGHTGRAY ([UIColor colorWithRed:180.0/255.0 green:180.0/255.0 blue:180.0/255.0 alpha:100])
 #define ZTLIGHTRED ([UIColor colorWithRed:235.0/255.0 green:90.0/255.0 blue:43.0/255.0 alpha:100])
 #define ZTRED ([UIColor colorWithRed:231.0/255.0 green:76.0/255.0 blue:60.0/255.0 alpha:100])
 

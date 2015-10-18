@@ -53,10 +53,17 @@
     CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
     maskLayer.frame = bgView.bounds;
     maskLayer.path = maskPath.CGPath;
-    bgView.layer.mask = maskLayer;
-    wenjianBgView.layer.mask = maskLayer;
-    bgView.layer.masksToBounds = YES;
-    wenjianBgView.layer.masksToBounds = YES;
+    if ([style isEqualToString:WENJIAN])
+    {
+        wenjianBgView.layer.mask = maskLayer;
+        wenjianBgView.layer.masksToBounds = YES;
+    }
+    else
+    {
+        bgView.layer.mask = maskLayer;
+        bgView.layer.masksToBounds = YES;
+    }
+    
 
 }
 

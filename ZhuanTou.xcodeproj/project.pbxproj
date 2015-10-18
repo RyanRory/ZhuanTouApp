@@ -31,6 +31,8 @@
 		A41C6B481BB9849E006B731D /* ZhuanTouTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A41C6B471BB9849E006B731D /* ZhuanTouTests.m */; };
 		A41C6B531BB9849E006B731D /* ZhuanTouUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = A41C6B521BB9849E006B731D /* ZhuanTouUITests.m */; };
 		A41C6B651BBA63B9006B731D /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A41C6B641BBA63B9006B731D /* LoginViewController.m */; settings = {ASSET_TAGS = (); }; };
+		A431744B1BD394F70001FC53 /* DingqiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A431744A1BD394F70001FC53 /* DingqiViewController.m */; settings = {ASSET_TAGS = (); }; };
+		A431744E1BD3950B0001FC53 /* HuoqiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A431744D1BD3950B0001FC53 /* HuoqiViewController.m */; settings = {ASSET_TAGS = (); }; };
 		A44AF9EF1BCF47E1002A8AC4 /* account@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A44AF9DD1BCF47E1002A8AC4 /* account@3x.png */; settings = {ASSET_TAGS = (); }; };
 		A44AF9F01BCF47E1002A8AC4 /* bgCircle@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A44AF9DE1BCF47E1002A8AC4 /* bgCircle@3x.png */; settings = {ASSET_TAGS = (); }; };
 		A44AF9F11BCF47E1002A8AC4 /* detailIcon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A44AF9DF1BCF47E1002A8AC4 /* detailIcon@3x.png */; settings = {ASSET_TAGS = (); }; };
@@ -89,6 +91,11 @@
 		A44AFA5C1BCF7058002A8AC4 /* productActive@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A44AFA5B1BCF7058002A8AC4 /* productActive@3x.png */; settings = {ASSET_TAGS = (); }; };
 		A44AFA5F1BCFA565002A8AC4 /* RegisterSuccessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A44AFA5E1BCFA565002A8AC4 /* RegisterSuccessViewController.m */; settings = {ASSET_TAGS = (); }; };
 		A48347BB1BBBBFE4002D6591 /* LoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = A48347BA1BBBBFE4002D6591 /* LoadingView.m */; settings = {ASSET_TAGS = (); }; };
+		A4B227841BD3516F0020C4D5 /* KnobButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A4B2277D1BD3516F0020C4D5 /* KnobButton.m */; settings = {ASSET_TAGS = (); }; };
+		A4B227851BD3516F0020C4D5 /* SimpleSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = A4B2277F1BD3516F0020C4D5 /* SimpleSwitch.m */; settings = {ASSET_TAGS = (); }; };
+		A4B227861BD3516F0020C4D5 /* TitleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = A4B227811BD3516F0020C4D5 /* TitleLayer.m */; settings = {ASSET_TAGS = (); }; };
+		A4B227871BD3516F0020C4D5 /* UIView+InnerShadow.m in Sources */ = {isa = PBXBuildFile; fileRef = A4B227831BD3516F0020C4D5 /* UIView+InnerShadow.m */; settings = {ASSET_TAGS = (); }; };
+		A4B2278A1BD363300020C4D5 /* UserCenterMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4B227891BD363300020C4D5 /* UserCenterMainViewController.m */; settings = {ASSET_TAGS = (); }; };
 		A4BBC1C71BD0E825006331AC /* ProductBuyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4BBC1C61BD0E825006331AC /* ProductBuyViewController.m */; settings = {ASSET_TAGS = (); }; };
 		A4BBC1CA1BD0E871006331AC /* ProductBuyConfirmViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4BBC1C91BD0E871006331AC /* ProductBuyConfirmViewController.m */; settings = {ASSET_TAGS = (); }; };
 		A4BBC1CD1BD0F009006331AC /* ProductBonusView.m in Sources */ = {isa = PBXBuildFile; fileRef = A4BBC1CC1BD0F009006331AC /* ProductBonusView.m */; settings = {ASSET_TAGS = (); }; };
@@ -204,6 +211,10 @@
 		A41C6B611BBA5F9F006B731D /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		A41C6B631BBA63B9006B731D /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		A41C6B641BBA63B9006B731D /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		A43174491BD394F70001FC53 /* DingqiViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DingqiViewController.h; sourceTree = "<group>"; };
+		A431744A1BD394F70001FC53 /* DingqiViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DingqiViewController.m; sourceTree = "<group>"; };
+		A431744C1BD3950B0001FC53 /* HuoqiViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HuoqiViewController.h; sourceTree = "<group>"; };
+		A431744D1BD3950B0001FC53 /* HuoqiViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HuoqiViewController.m; sourceTree = "<group>"; };
 		A44AF9DA1BCF469B002A8AC4 /* ZTTabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZTTabBarViewController.h; sourceTree = "<group>"; };
 		A44AF9DD1BCF47E1002A8AC4 /* account@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "account@3x.png"; path = "images/@3x/account@3x.png"; sourceTree = "<group>"; };
 		A44AF9DE1BCF47E1002A8AC4 /* bgCircle@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bgCircle@3x.png"; path = "images/@3x/bgCircle@3x.png"; sourceTree = "<group>"; };
@@ -266,6 +277,16 @@
 		A44AFA5E1BCFA565002A8AC4 /* RegisterSuccessViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterSuccessViewController.m; sourceTree = "<group>"; };
 		A48347B91BBBBFE4002D6591 /* LoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingView.h; sourceTree = "<group>"; };
 		A48347BA1BBBBFE4002D6591 /* LoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingView.m; sourceTree = "<group>"; };
+		A4B2277C1BD3516F0020C4D5 /* KnobButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KnobButton.h; path = SimpleSwitch/KnobButton.h; sourceTree = "<group>"; };
+		A4B2277D1BD3516F0020C4D5 /* KnobButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KnobButton.m; path = SimpleSwitch/KnobButton.m; sourceTree = "<group>"; };
+		A4B2277E1BD3516F0020C4D5 /* SimpleSwitch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SimpleSwitch.h; path = SimpleSwitch/SimpleSwitch.h; sourceTree = "<group>"; };
+		A4B2277F1BD3516F0020C4D5 /* SimpleSwitch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SimpleSwitch.m; path = SimpleSwitch/SimpleSwitch.m; sourceTree = "<group>"; };
+		A4B227801BD3516F0020C4D5 /* TitleLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TitleLayer.h; path = SimpleSwitch/TitleLayer.h; sourceTree = "<group>"; };
+		A4B227811BD3516F0020C4D5 /* TitleLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TitleLayer.m; path = SimpleSwitch/TitleLayer.m; sourceTree = "<group>"; };
+		A4B227821BD3516F0020C4D5 /* UIView+InnerShadow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+InnerShadow.h"; path = "SimpleSwitch/UIView+InnerShadow.h"; sourceTree = "<group>"; };
+		A4B227831BD3516F0020C4D5 /* UIView+InnerShadow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+InnerShadow.m"; path = "SimpleSwitch/UIView+InnerShadow.m"; sourceTree = "<group>"; };
+		A4B227881BD363300020C4D5 /* UserCenterMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserCenterMainViewController.h; sourceTree = "<group>"; };
+		A4B227891BD363300020C4D5 /* UserCenterMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserCenterMainViewController.m; sourceTree = "<group>"; };
 		A4BBC1C51BD0E825006331AC /* ProductBuyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductBuyViewController.h; sourceTree = "<group>"; };
 		A4BBC1C61BD0E825006331AC /* ProductBuyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductBuyViewController.m; sourceTree = "<group>"; };
 		A4BBC1C81BD0E871006331AC /* ProductBuyConfirmViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductBuyConfirmViewController.h; sourceTree = "<group>"; };
@@ -414,8 +435,10 @@
 				A44AF9DA1BCF469B002A8AC4 /* ZTTabBarViewController.h */,
 				A44AFA491BCF481D002A8AC4 /* ZTTabBarViewController.m */,
 				A44AFA571BCF4FA3002A8AC4 /* Product */,
+				A4B2277A1BD341E50020C4D5 /* UserCenter */,
 				A48347B81BBBBFC6002D6591 /* LoadingView */,
 				A41C6B621BBA6374006B731D /* Login_Register */,
+				A4B2277B1BD351440020C4D5 /* SimpleSwitch */,
 				A4E7F2461BCE54BE00B20EC6 /* GestureViews */,
 				A41C6B301BB9849E006B731D /* AppDelegate.h */,
 				A41C6B311BB9849E006B731D /* AppDelegate.m */,
@@ -647,6 +670,34 @@
 			name = LoadingView;
 			sourceTree = "<group>";
 		};
+		A4B2277A1BD341E50020C4D5 /* UserCenter */ = {
+			isa = PBXGroup;
+			children = (
+				A4B227881BD363300020C4D5 /* UserCenterMainViewController.h */,
+				A4B227891BD363300020C4D5 /* UserCenterMainViewController.m */,
+				A43174491BD394F70001FC53 /* DingqiViewController.h */,
+				A431744A1BD394F70001FC53 /* DingqiViewController.m */,
+				A431744C1BD3950B0001FC53 /* HuoqiViewController.h */,
+				A431744D1BD3950B0001FC53 /* HuoqiViewController.m */,
+			);
+			name = UserCenter;
+			sourceTree = "<group>";
+		};
+		A4B2277B1BD351440020C4D5 /* SimpleSwitch */ = {
+			isa = PBXGroup;
+			children = (
+				A4B2277C1BD3516F0020C4D5 /* KnobButton.h */,
+				A4B2277D1BD3516F0020C4D5 /* KnobButton.m */,
+				A4B2277E1BD3516F0020C4D5 /* SimpleSwitch.h */,
+				A4B2277F1BD3516F0020C4D5 /* SimpleSwitch.m */,
+				A4B227801BD3516F0020C4D5 /* TitleLayer.h */,
+				A4B227811BD3516F0020C4D5 /* TitleLayer.m */,
+				A4B227821BD3516F0020C4D5 /* UIView+InnerShadow.h */,
+				A4B227831BD3516F0020C4D5 /* UIView+InnerShadow.m */,
+			);
+			name = SimpleSwitch;
+			sourceTree = "<group>";
+		};
 		A4E7F2461BCE54BE00B20EC6 /* GestureViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -734,7 +785,7 @@
 				TargetAttributes = {
 					A41C6B291BB9849E006B731D = {
 						CreatedOnToolsVersion = 7.0;
-						DevelopmentTeam = PLUMEJFL9V;
+						DevelopmentTeam = 9N5ML665B7;
 					};
 					A41C6B421BB9849E006B731D = {
 						CreatedOnToolsVersion = 7.0;
@@ -948,6 +999,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A4B227851BD3516F0020C4D5 /* SimpleSwitch.m in Sources */,
 				A4E7F1FD1BCDFDBD00B20EC6 /* RegisterViewController.m in Sources */,
 				A41C6B321BB9849E006B731D /* AppDelegate.m in Sources */,
 				A4E7F2541BCE54DD00B20EC6 /* AliPayViews.m in Sources */,
@@ -956,6 +1008,7 @@
 				A41C6B2F1BB9849E006B731D /* main.m in Sources */,
 				A4E7F2551BCE54DD00B20EC6 /* KeychainData.m in Sources */,
 				A41C6B651BBA63B9006B731D /* LoginViewController.m in Sources */,
+				A431744B1BD394F70001FC53 /* DingqiViewController.m in Sources */,
 				A44AFA5F1BCFA565002A8AC4 /* RegisterSuccessViewController.m in Sources */,
 				A4E7F23F1BCE28DF00B20EC6 /* InformationViewController.m in Sources */,
 				A4BBC1C71BD0E825006331AC /* ProductBuyViewController.m in Sources */,
@@ -965,8 +1018,13 @@
 				A4E7F2531BCE54DD00B20EC6 /* AlipaySubItem.m in Sources */,
 				A4BBC1CA1BD0E871006331AC /* ProductBuyConfirmViewController.m in Sources */,
 				A4E7F2591BCE552400B20EC6 /* SetpasswordViewController.m in Sources */,
+				A4B227861BD3516F0020C4D5 /* TitleLayer.m in Sources */,
+				A4B227871BD3516F0020C4D5 /* UIView+InnerShadow.m in Sources */,
+				A4B227841BD3516F0020C4D5 /* KnobButton.m in Sources */,
+				A4B2278A1BD363300020C4D5 /* UserCenterMainViewController.m in Sources */,
 				A4E7F23C1BCE166B00B20EC6 /* PhoneVcodeViewController.m in Sources */,
 				A44AFA5A1BCF6FA2002A8AC4 /* ProductMainViewController.m in Sources */,
+				A431744E1BD3950B0001FC53 /* HuoqiViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
