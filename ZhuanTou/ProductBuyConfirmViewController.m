@@ -47,26 +47,6 @@
     
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:bgView.bounds byRoundingCorners:UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii:CGSizeMake(3, 3)];
-    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
-    maskLayer.frame = bgView.bounds;
-    maskLayer.path = maskPath.CGPath;
-    if ([style isEqualToString:WENJIAN])
-    {
-        wenjianBgView.layer.mask = maskLayer;
-        wenjianBgView.layer.masksToBounds = YES;
-    }
-    else
-    {
-        bgView.layer.mask = maskLayer;
-        bgView.layer.masksToBounds = YES;
-    }
-    
-
-}
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     

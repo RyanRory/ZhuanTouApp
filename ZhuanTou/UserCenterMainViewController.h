@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "SimpleSwitch.h"
 #import "HuoqiViewController.h"
+#import "DingqiViewController.h"
 
 @interface UserCenterMainViewController : UIViewController
 {

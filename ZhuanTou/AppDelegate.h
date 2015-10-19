@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LaunchScreenViewController.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 

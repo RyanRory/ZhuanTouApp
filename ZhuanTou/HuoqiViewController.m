@@ -26,9 +26,6 @@
     drawButton.layer.cornerRadius = 3;
     
     yesterdayProfitLabel.format = @"%.2f";
-    myPortionLabel.format = @"%.2f";
-    totalProfitLabel.format = @"%.2f";
-    
     
     [buyButton addTarget:self action:@selector(toBuyHuoqi:) forControlEvents:UIControlEventTouchUpInside];
     [drawButton addTarget:self action:@selector(toDrawHuoqi:) forControlEvents:UIControlEventTouchUpInside];
@@ -50,8 +47,10 @@
 - (void)setupData
 {
     [yesterdayProfitLabel countFromZeroTo:5.00 withDuration:0.8f];
-    [myPortionLabel countFromZeroTo:11000 withDuration:0.8f];
-    [totalProfitLabel countFromZeroTo:1000 withDuration:0.8f];
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
+    [formatter setPositiveFormat:@"###,##0.00"];
+    myPortionLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:1111001.11]]];
+    totalProfitLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:1001.11]]];
     
 
 }

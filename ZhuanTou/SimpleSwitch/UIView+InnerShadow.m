@@ -31,20 +31,20 @@
     CGPathAddPath(path, NULL, visiblePath);
     CGPathCloseSubpath(path);
     
-    CGContextAddPath(context, visiblePath); 
-    CGContextClip(context);         
+    CGContextAddPath(context, visiblePath);
+    CGContextClip(context);
     
-    UIColor * shadowColor = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.6f];
+    UIColor * shadowColor = [UIColor clearColor];
     CGContextSaveGState(context);
     CGContextSetShadowWithColor(context, CGSizeMake(0.0f, 4.0f), 8.0f, [shadowColor CGColor]);
-    [shadowColor setFill];   
+    [shadowColor setFill];
     
-    CGContextSaveGState(context);   
+    CGContextSaveGState(context);
     CGContextAddPath(context, path);
     CGContextFillPath(context);
     
-    CGPathRelease(path);    
-    CGPathRelease(visiblePath);     
+    CGPathRelease(path);
+    CGPathRelease(visiblePath);
     CGContextRestoreGState(context);
 }
 

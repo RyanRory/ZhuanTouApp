@@ -18,6 +18,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [[IQKeyboardManager sharedManager] disableToolbarInViewControllerClass:[UIViewController class]];
     [[IQKeyboardManager sharedManager] setKeyboardDistanceFromTextField:20.0f];
+    
     return YES;
 }
 

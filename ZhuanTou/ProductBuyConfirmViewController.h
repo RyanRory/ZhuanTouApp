@@ -15,7 +15,7 @@
 }
 @property (strong, nonatomic) IBOutlet UIView *contentView;
 @property (strong, nonatomic) IBOutlet UIButton *confirmButton;
-@property (strong, nonatomic) IBOutlet UIView *bgView;
+@property (strong, nonatomic) IBOutlet HeadView *bgView;
 @property (strong, nonatomic) IBOutlet UILabel *preIncomeLabel;
 @property (strong, nonatomic) IBOutlet UILabel *productTimeLabel;
 @property (strong, nonatomic) IBOutlet UILabel *lowestIncomeLabel;
@@ -26,7 +26,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *amountNumLabel;
 @property (strong, nonatomic) IBOutlet UIView *wenjianView;
 
-@property (strong, nonatomic) IBOutlet UIView *wenjianBgView;
+@property (strong, nonatomic) IBOutlet HeadView *wenjianBgView;
 - (void)setStyle:(NSString*)str;
 @property (strong, nonatomic) IBOutlet UILabel *wenjianPILabel;
 @property (strong, nonatomic) IBOutlet UILabel *wenjianPTLabel;

@@ -56,7 +56,8 @@
 
 - (void)toDingqi:(id)sender
 {
-    
+    DingqiViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"DingqiViewController"];
+    [[self navigationController]pushViewController:vc animated:YES];
 }
 
 - (void)toHuoqi:(id)sender

@@ -34,8 +34,8 @@
 #import "TitleLayer.h"
 #define kWIDTH 40
 #define kHEIGHT 20
-#define kDefaultTitleOn @"on"
-#define kDefaultTitleOff @"off"
+#define kDefaultTitleOn @""
+#define kDefaultTitleOff @""
 @interface SimpleSwitch()
 -(void)setUpWithDefault;
 @end
@@ -88,7 +88,7 @@
    
     self.titleOn = kDefaultTitleOn;
     self.titleOff = kDefaultTitleOff;
-    self.fillColor = [UIColor colorWithRed:247.0/255.0 green:181.0/255.0 blue:44.0/255.0 alpha:100];
+    self.fillColor = ZTBLUE;
     self.knobColor = [UIColor whiteColor];
    
     on= NO;
@@ -160,12 +160,14 @@
     if (on) {
         knobButton.frame = knobFrameOff;
         on = !on;
+        self.fillColor = ZTBLUE;
         [self setNeedsDisplay];
         [knobButton setTitle:self.titleOff forState:UIControlStateNormal];
         [knobButton setTitleColor:[UIColor colorWithRed:247.0/255.0 green:181.0/255.0 blue:44.0/255.0 alpha:100] forState:UIControlStateNormal];
     }else{
         knobButton.frame = knobFrameOn;
         on = !on;
+        self.fillColor = ZTGRAY;
         [self setNeedsDisplay];
         [knobButton setTitle:self.titleOn forState:UIControlStateNormal];
         [knobButton setTitleColor:[UIColor colorWithRed:247.0/255.0 green:181.0/255.0 blue:44.0/255.0 alpha:100] forState:UIControlStateNormal];
@@ -198,12 +200,14 @@
         
 		if (self.on)
 		{
+            self.fillColor = ZTBLUE;
 			knobButton.frame = knobFrameOn;
             [knobButton setTitle:self.titleOn forState:UIControlStateNormal];
             [knobButton setTitleColor:[UIColor colorWithRed:247.0/255.0 green:181.0/255.0 blue:44.0/255.0 alpha:100] forState:UIControlStateNormal];
 		}
 		else
 		{
+            self.fillColor = ZTGRAY;
 			knobButton.frame = knobFrameOff;
             [knobButton setTitle:self.titleOff forState:UIControlStateNormal];
             [knobButton setTitleColor:[UIColor colorWithRed:247.0/255.0 green:181.0/255.0 blue:44.0/255.0 alpha:100] forState:UIControlStateNormal];

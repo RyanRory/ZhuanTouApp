@@ -47,8 +47,8 @@
     
     [wenjianButton setUserInteractionEnabled:NO];
     wenjianButton.tintColor = ZTLIGHTRED;
-    zongheButton.tintColor = ZTLIGHTGRAY;
-    huoqiButton.tintColor = ZTLIGHTGRAY;
+    zongheButton.tintColor = ZTGRAY;
+    huoqiButton.tintColor = ZTGRAY;
     
     style = WENJIAN;
     isFirstLoad = YES;
@@ -60,10 +60,27 @@
     if (bgPoint.x == 0) bgPoint = CGPointMake(bgCircleImageView.frame.origin.x + bgCircleImageView.frame.size.width/2+10, bgCircleImageView.frame.origin.y+bgCircleImageView.frame.size.height/2);
     if (point.x == 0) point = CGPointMake(bgCircleImageView.frame.origin.x - huoqiBgImageView1.frame.origin.x + 20, bgCircleImageView.frame.origin.y - frame.origin.y + 5);
 
-    if (isFirstLoad)
+    if ([style isEqualToString:WENJIAN])
     {
         [self setupWenjian];
-        isFirstLoad = NO;
+    }
+    else if ([style isEqualToString:ZONGHE])
+    {
+        [self setupZonghe];
+    }
+    else
+    {
+        [self setupHuoqi];
+    }
+    
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    if ([style isEqualToString:HUOQI])
+    {
+        [huoqiBgImageView1 setFrame:frame];
+        [huoqiBgImageView2 setFrame:frame];
     }
 }
 
@@ -165,8 +182,8 @@
     [wenjianButton setUserInteractionEnabled:NO];
     [zongheButton setUserInteractionEnabled:YES];
     [huoqiButton setUserInteractionEnabled:YES];
-    zongheButton.tintColor = ZTLIGHTGRAY;
-    huoqiButton.tintColor = ZTLIGHTGRAY;
+    zongheButton.tintColor = ZTGRAY;
+    huoqiButton.tintColor = ZTGRAY;
     style = WENJIAN;
 }
 
@@ -177,8 +194,8 @@
     [zongheButton setUserInteractionEnabled:NO];
     [wenjianButton setUserInteractionEnabled:YES];
     [huoqiButton setUserInteractionEnabled:YES];
-    wenjianButton.tintColor = ZTLIGHTGRAY;
-    huoqiButton.tintColor = ZTLIGHTGRAY;
+    wenjianButton.tintColor = ZTGRAY;
+    huoqiButton.tintColor = ZTGRAY;
     style = ZONGHE;
 }
 
@@ -189,8 +206,8 @@
     [huoqiButton setUserInteractionEnabled:NO];
     [wenjianButton setUserInteractionEnabled:YES];
     [zongheButton setUserInteractionEnabled:YES];
-    wenjianButton.tintColor = ZTLIGHTGRAY;
-    zongheButton.tintColor = ZTLIGHTGRAY;
+    wenjianButton.tintColor = ZTGRAY;
+    zongheButton.tintColor = ZTGRAY;
     style = HUOQI;
 }
 

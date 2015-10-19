@@ -7,7 +7,22 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WenjianIngTableViewCell.h"
+#import "WenjianEndedTableViewCell.h"
+#import "ZongheEndedTableViewCell.h"
+#import "ZongheIngTableViewCell.h"
 
-@interface DingqiViewController : UIViewController
+@interface DingqiViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+{
+    int productsNum;
+    NSMutableArray *datas;
+}
+
+@property (strong, nonatomic) IBOutlet UIView *noneProductView;
+@property (strong, nonatomic) IBOutlet UIButton *findProductButton;
+@property (strong, nonatomic) IBOutlet UITableView *tView;
+@property (strong, nonatomic) IBOutlet UIButton *ingButton;
+@property (strong, nonatomic) IBOutlet UIButton *endedButton;
+
 
 @end

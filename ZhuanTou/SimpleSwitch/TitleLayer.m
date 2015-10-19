@@ -54,7 +54,7 @@
     [self.onString drawInRect:CGRectMake(self.bounds.size.width/2 + 3, 4, self.bounds.size.width/2, self.bounds.size.height) withFont:[UIFont systemFontOfSize:9]];
     [[UIColor whiteColor] set];
     
-    [self.offString drawInRect:CGRectMake(4, 4, self.bounds.size.width/2, self.bounds.size.height) withFont:[UIFont systemFontOfSize:9]];
+    [self.offString drawInRect:CGRectMake(5, 4, self.bounds.size.width/2, self.bounds.size.height) withFont:[UIFont systemFontOfSize:9]];
 	UIGraphicsPopContext();
 }
 

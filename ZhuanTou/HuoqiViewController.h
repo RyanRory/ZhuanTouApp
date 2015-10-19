@@ -12,8 +12,8 @@
 @interface HuoqiViewController : UIViewController
 
 @property (strong, nonatomic) IBOutlet UICountingLabel *yesterdayProfitLabel;
-@property (strong, nonatomic) IBOutlet UICountingLabel *myPortionLabel;
-@property (strong, nonatomic) IBOutlet UICountingLabel *totalProfitLabel;
+@property (strong, nonatomic) IBOutlet UILabel *myPortionLabel;
+@property (strong, nonatomic) IBOutlet UILabel *totalProfitLabel;
 @property (strong, nonatomic) IBOutlet UIButton *buyButton;
 @property (strong, nonatomic) IBOutlet UIButton *drawButton;
 
