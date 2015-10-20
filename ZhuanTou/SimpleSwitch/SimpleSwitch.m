@@ -160,14 +160,14 @@
     if (on) {
         knobButton.frame = knobFrameOff;
         on = !on;
-        self.fillColor = ZTBLUE;
+        self.fillColor = ZTGRAY;
         [self setNeedsDisplay];
         [knobButton setTitle:self.titleOff forState:UIControlStateNormal];
         [knobButton setTitleColor:[UIColor colorWithRed:247.0/255.0 green:181.0/255.0 blue:44.0/255.0 alpha:100] forState:UIControlStateNormal];
     }else{
         knobButton.frame = knobFrameOn;
         on = !on;
-        self.fillColor = ZTGRAY;
+        self.fillColor = ZTBLUE;
         [self setNeedsDisplay];
         [knobButton setTitle:self.titleOn forState:UIControlStateNormal];
         [knobButton setTitleColor:[UIColor colorWithRed:247.0/255.0 green:181.0/255.0 blue:44.0/255.0 alpha:100] forState:UIControlStateNormal];

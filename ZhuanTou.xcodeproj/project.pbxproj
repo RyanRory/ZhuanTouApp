@@ -128,6 +128,15 @@
 		A463EA8F1BD4E50B00CAF146 /* launchBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A463EA8D1BD4E50B00CAF146 /* launchBg@2x.png */; settings = {ASSET_TAGS = (); }; };
 		A463EA901BD4E50B00CAF146 /* launchCenter@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A463EA8E1BD4E50B00CAF146 /* launchCenter@2x.png */; settings = {ASSET_TAGS = (); }; };
 		A463EA941BD4E68D00CAF146 /* LaunchScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A463EA931BD4E68D00CAF146 /* LaunchScreenViewController.m */; settings = {ASSET_TAGS = (); }; };
+		A463EA991BD5FF7100CAF146 /* ProfitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A463EA981BD5FF7100CAF146 /* ProfitViewController.m */; settings = {ASSET_TAGS = (); }; };
+		A463EA9C1BD5FF9600CAF146 /* AutoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A463EA9B1BD5FF9600CAF146 /* AutoViewController.m */; settings = {ASSET_TAGS = (); }; };
+		A463EAB31BD60FB300CAF146 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A463EAB21BD60FA200CAF146 /* Charts.framework */; };
+		A463EAB41BD60FB300CAF146 /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A463EAB21BD60FA200CAF146 /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A463EAC31BD6354F00CAF146 /* wave@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A463EAC21BD6354F00CAF146 /* wave@3x.png */; settings = {ASSET_TAGS = (); }; };
+		A463EAC51BD6358400CAF146 /* wave@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A463EAC41BD6358400CAF146 /* wave@2x.png */; settings = {ASSET_TAGS = (); }; };
+		A463EAC71BD6359100CAF146 /* wave.png in Resources */ = {isa = PBXBuildFile; fileRef = A463EAC61BD6359100CAF146 /* wave.png */; settings = {ASSET_TAGS = (); }; };
+		A463EACA1BD6377700CAF146 /* WaveView.m in Sources */ = {isa = PBXBuildFile; fileRef = A463EAC91BD6377700CAF146 /* WaveView.m */; settings = {ASSET_TAGS = (); }; };
+		A463EACC1BD6434900CAF146 /* 方正硬笔楷书简体.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A463EACB1BD6434900CAF146 /* 方正硬笔楷书简体.ttf */; settings = {ASSET_TAGS = (); }; };
 		A48347BB1BBBBFE4002D6591 /* LoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = A48347BA1BBBBFE4002D6591 /* LoadingView.m */; settings = {ASSET_TAGS = (); }; };
 		A4B227841BD3516F0020C4D5 /* KnobButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A4B2277D1BD3516F0020C4D5 /* KnobButton.m */; settings = {ASSET_TAGS = (); }; };
 		A4B227851BD3516F0020C4D5 /* SimpleSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = A4B2277F1BD3516F0020C4D5 /* SimpleSwitch.m */; settings = {ASSET_TAGS = (); }; };
@@ -211,7 +220,35 @@
 			remoteGlobalIDString = A41C6B291BB9849E006B731D;
 			remoteInfo = ZhuanTou;
 		};
+		A463EAB11BD60FA200CAF146 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A463EAAD1BD60FA100CAF146 /* Charts.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5BA8EC401A9D14DC00CE82E1;
+			remoteInfo = Charts;
+		};
+		A463EAB51BD60FB300CAF146 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A463EAAD1BD60FA100CAF146 /* Charts.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 5BA8EC3F1A9D14DC00CE82E1;
+			remoteInfo = Charts;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A463EAB71BD60FB400CAF146 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				A463EAB41BD60FB300CAF146 /* Charts.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		1E46C15B95A6D67780362D08 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -357,6 +394,18 @@
 		A463EA8E1BD4E50B00CAF146 /* launchCenter@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "launchCenter@2x.png"; path = "images/@2x/launchCenter@2x.png"; sourceTree = "<group>"; };
 		A463EA921BD4E68D00CAF146 /* LaunchScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaunchScreenViewController.h; sourceTree = "<group>"; };
 		A463EA931BD4E68D00CAF146 /* LaunchScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaunchScreenViewController.m; sourceTree = "<group>"; };
+		A463EA971BD5FF7100CAF146 /* ProfitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfitViewController.h; sourceTree = "<group>"; };
+		A463EA981BD5FF7100CAF146 /* ProfitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfitViewController.m; sourceTree = "<group>"; };
+		A463EA9A1BD5FF9600CAF146 /* AutoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoViewController.h; sourceTree = "<group>"; };
+		A463EA9B1BD5FF9600CAF146 /* AutoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutoViewController.m; sourceTree = "<group>"; };
+		A463EAAD1BD60FA100CAF146 /* Charts.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Charts.xcodeproj; path = Charts/Charts.xcodeproj; sourceTree = "<group>"; };
+		A463EAB81BD6117C00CAF146 /* ZhuanTou-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZhuanTou-Bridging-Header.h"; sourceTree = "<group>"; };
+		A463EAC21BD6354F00CAF146 /* wave@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wave@3x.png"; path = "images/@3x/wave@3x.png"; sourceTree = "<group>"; };
+		A463EAC41BD6358400CAF146 /* wave@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wave@2x.png"; path = "images/@2x/wave@2x.png"; sourceTree = "<group>"; };
+		A463EAC61BD6359100CAF146 /* wave.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = wave.png; path = "images/@1x/wave.png"; sourceTree = "<group>"; };
+		A463EAC81BD6377700CAF146 /* WaveView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveView.h; sourceTree = "<group>"; };
+		A463EAC91BD6377700CAF146 /* WaveView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaveView.m; sourceTree = "<group>"; };
+		A463EACB1BD6434900CAF146 /* 方正硬笔楷书简体.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "方正硬笔楷书简体.ttf"; sourceTree = "<group>"; };
 		A48347B91BBBBFE4002D6591 /* LoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingView.h; sourceTree = "<group>"; };
 		A48347BA1BBBBFE4002D6591 /* LoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingView.m; sourceTree = "<group>"; };
 		A4B2277C1BD3516F0020C4D5 /* KnobButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KnobButton.h; path = SimpleSwitch/KnobButton.h; sourceTree = "<group>"; };
@@ -451,6 +500,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6960161C4D1F51521E05885E /* libPods.a in Frameworks */,
+				A463EAB31BD60FB300CAF146 /* Charts.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -491,6 +541,7 @@
 		A41C6B211BB9849E006B731D = {
 			isa = PBXGroup;
 			children = (
+				A463EAAD1BD60FA100CAF146 /* Charts.xcodeproj */,
 				A41C6B661BBA642A006B731D /* images */,
 				A41C6B2C1BB9849E006B731D /* ZhuanTou */,
 				A41C6B461BB9849E006B731D /* ZhuanTouTests */,
@@ -525,10 +576,12 @@
 				A463EA911BD4E66600CAF146 /* LaunchScreen */,
 				A41C6B301BB9849E006B731D /* AppDelegate.h */,
 				A41C6B311BB9849E006B731D /* AppDelegate.m */,
+				A463EAB81BD6117C00CAF146 /* ZhuanTou-Bridging-Header.h */,
 				A41C6B361BB9849E006B731D /* Main.storyboard */,
 				A41C6B391BB9849E006B731D /* Assets.xcassets */,
 				A41C6B3B1BB9849E006B731D /* LaunchScreen.storyboard */,
 				A41C6B3E1BB9849E006B731D /* Info.plist */,
+				A463EACD1BD6435300CAF146 /* Fonts */,
 				A41C6B2D1BB9849E006B731D /* Supporting Files */,
 			);
 			path = ZhuanTou;
@@ -594,6 +647,7 @@
 		A41C6B711BBAAF9E006B731D /* @1x */ = {
 			isa = PBXGroup;
 			children = (
+				A463EAC61BD6359100CAF146 /* wave.png */,
 				A463EA851BD4D26D00CAF146 /* accountActive.png */,
 				A463EA861BD4D26D00CAF146 /* helpActive.png */,
 				A463EA871BD4D26D00CAF146 /* homeActive.png */,
@@ -650,6 +704,7 @@
 		A41C6B721BBAAFA7006B731D /* @2x */ = {
 			isa = PBXGroup;
 			children = (
+				A463EAC41BD6358400CAF146 /* wave@2x.png */,
 				A463EA8D1BD4E50B00CAF146 /* launchBg@2x.png */,
 				A463EA8E1BD4E50B00CAF146 /* launchCenter@2x.png */,
 				A463EA7D1BD4D26200CAF146 /* accountActive@2x.png */,
@@ -708,6 +763,7 @@
 		A41C6B731BBAAFC0006B731D /* @3x */ = {
 			isa = PBXGroup;
 			children = (
+				A463EAC21BD6354F00CAF146 /* wave@3x.png */,
 				A463EA751BD4D25600CAF146 /* accountActive@3x.png */,
 				A463EA761BD4D25600CAF146 /* helpActive@3x.png */,
 				A463EA771BD4D25600CAF146 /* homeAcitve@3x.png */,
@@ -800,6 +856,22 @@
 			name = LaunchScreen;
 			sourceTree = "<group>";
 		};
+		A463EAAE1BD60FA100CAF146 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A463EAB21BD60FA200CAF146 /* Charts.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A463EACD1BD6435300CAF146 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				A463EACB1BD6434900CAF146 /* 方正硬笔楷书简体.ttf */,
+			);
+			name = Fonts;
+			sourceTree = "<group>";
+		};
 		A48347B81BBBBFC6002D6591 /* ZTViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -807,6 +879,8 @@
 				A48347BA1BBBBFE4002D6591 /* LoadingView.m */,
 				A43174811BD4C9FD0001FC53 /* HeadView.h */,
 				A43174821BD4C9FD0001FC53 /* HeadView.m */,
+				A463EAC81BD6377700CAF146 /* WaveView.h */,
+				A463EAC91BD6377700CAF146 /* WaveView.m */,
 			);
 			name = ZTViews;
 			sourceTree = "<group>";
@@ -820,6 +894,10 @@
 				A431744A1BD394F70001FC53 /* DingqiViewController.m */,
 				A431744C1BD3950B0001FC53 /* HuoqiViewController.h */,
 				A431744D1BD3950B0001FC53 /* HuoqiViewController.m */,
+				A463EA971BD5FF7100CAF146 /* ProfitViewController.h */,
+				A463EA981BD5FF7100CAF146 /* ProfitViewController.m */,
+				A463EA9A1BD5FF9600CAF146 /* AutoViewController.h */,
+				A463EA9B1BD5FF9600CAF146 /* AutoViewController.m */,
 				A43174741BD49EDA0001FC53 /* cells */,
 			);
 			name = UserCenter;
@@ -870,10 +948,12 @@
 				A41C6B271BB9849E006B731D /* Frameworks */,
 				A41C6B281BB9849E006B731D /* Resources */,
 				4C381CFB0889D85C63D13F0F /* Copy Pods Resources */,
+				A463EAB71BD60FB400CAF146 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				A463EAB61BD60FB300CAF146 /* PBXTargetDependency */,
 			);
 			name = ZhuanTou;
 			productName = ZhuanTou;
@@ -922,6 +1002,7 @@
 		A41C6B221BB9849E006B731D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Shanghai Momu Financial Information Service  Shanghai Momu Financial Information Service Co., Ltd.";
 				TargetAttributes = {
@@ -950,6 +1031,12 @@
 			mainGroup = A41C6B211BB9849E006B731D;
 			productRefGroup = A41C6B2B1BB9849E006B731D /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = A463EAAE1BD60FA100CAF146 /* Products */;
+					ProjectRef = A463EAAD1BD60FA100CAF146 /* Charts.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				A41C6B291BB9849E006B731D /* ZhuanTou */,
@@ -958,6 +1045,16 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		A463EAB21BD60FA200CAF146 /* Charts.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Charts.framework;
+			remoteRef = A463EAB11BD60FA200CAF146 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		A41C6B281BB9849E006B731D /* Resources */ = {
@@ -971,6 +1068,7 @@
 				A4BBC1F01BD10D61006331AC /* uDetail@2x.png in Resources */,
 				A43174731BD492940001FC53 /* pNoProduct.png in Resources */,
 				A4BBC2061BD10DA1006331AC /* uHuoqi.png in Resources */,
+				A463EAC51BD6358400CAF146 /* wave@2x.png in Resources */,
 				A41C6B3D1BB9849E006B731D /* LaunchScreen.storyboard in Resources */,
 				A431746E1BD492940001FC53 /* pAmount.png in Resources */,
 				A43174561BD4927A0001FC53 /* pAmount@3x.png in Resources */,
@@ -1059,6 +1157,7 @@
 				A4BBC2041BD10DA1006331AC /* uDetail.png in Resources */,
 				A4E7F2411BCE387600B20EC6 /* recommendIcon@3x.png in Resources */,
 				A43174671BD492880001FC53 /* pNoProduct@2x.png in Resources */,
+				A463EAC71BD6359100CAF146 /* wave.png in Resources */,
 				A463EA791BD4D25600CAF146 /* accountActive@3x.png in Resources */,
 				A4BBC2021BD10DA1006331AC /* uBankcard.png in Resources */,
 				A44AF9EF1BCF47E1002A8AC4 /* account@3x.png in Resources */,
@@ -1069,6 +1168,7 @@
 				A4E7F2311BCE053200B20EC6 /* checkIconActive.png in Resources */,
 				A4BBC1F21BD10D61006331AC /* uHuoqi@2x.png in Resources */,
 				A4E7F2101BCE050E00B20EC6 /* loginTelIcon@3x.png in Resources */,
+				A463EAC31BD6354F00CAF146 /* wave@3x.png in Resources */,
 				A463EA811BD4D26200CAF146 /* accountActive@2x.png in Resources */,
 				A4E7F2431BCE388400B20EC6 /* recommendIcon@2x.png in Resources */,
 				A44AFA461BCF4801002A8AC4 /* wenjianTriangle.png in Resources */,
@@ -1093,6 +1193,7 @@
 				A405AC691BC91210002BFCE9 /* loginLogo@2x.png in Resources */,
 				A44AFA371BCF4801002A8AC4 /* account.png in Resources */,
 				A44AFA3C1BCF4801002A8AC4 /* huoqi.png in Resources */,
+				A463EACC1BD6434900CAF146 /* 方正硬笔楷书简体.ttf in Resources */,
 				A43174621BD492880001FC53 /* pAmount@2x.png in Resources */,
 				A4BBC1EE1BD10D61006331AC /* uBankcard@2x.png in Resources */,
 				A44AF9FC1BCF47E1002A8AC4 /* safeIcon@3x.png in Resources */,
@@ -1174,10 +1275,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				A4B227851BD3516F0020C4D5 /* SimpleSwitch.m in Sources */,
+				A463EACA1BD6377700CAF146 /* WaveView.m in Sources */,
 				A4E7F1FD1BCDFDBD00B20EC6 /* RegisterViewController.m in Sources */,
 				A41C6B321BB9849E006B731D /* AppDelegate.m in Sources */,
 				A4E7F2541BCE54DD00B20EC6 /* AliPayViews.m in Sources */,
 				A48347BB1BBBBFE4002D6591 /* LoadingView.m in Sources */,
+				A463EA9C1BD5FF9600CAF146 /* AutoViewController.m in Sources */,
+				A463EA991BD5FF7100CAF146 /* ProfitViewController.m in Sources */,
 				A43174771BD4B0230001FC53 /* WenjianIngTableViewCell.m in Sources */,
 				A4BBC1CD1BD0F009006331AC /* ProductBonusView.m in Sources */,
 				A41C6B2F1BB9849E006B731D /* main.m in Sources */,
@@ -1237,6 +1341,11 @@
 			target = A41C6B291BB9849E006B731D /* ZhuanTou */;
 			targetProxy = A41C6B4F1BB9849E006B731D /* PBXContainerItemProxy */;
 		};
+		A463EAB61BD60FB300CAF146 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Charts;
+			targetProxy = A463EAB51BD60FB300CAF146 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -1279,6 +1388,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1322,6 +1432,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1344,8 +1455,10 @@
 			baseConfigurationReference = 69A1B34D9815045875A56A3A /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/ZhuanTou/PrefixHeader.pch";
 				INFOPLIST_FILE = ZhuanTou/Info.plist;
@@ -1354,6 +1467,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "Shanghai-Momu-Financial-Information-Service-Co.--Ltd..ZhuanTou";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "ZhuanTou/ZhuanTou-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -1362,8 +1477,10 @@
 			baseConfigurationReference = B241E5576143A7703444EB0B /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/ZhuanTou/PrefixHeader.pch";
 				INFOPLIST_FILE = ZhuanTou/Info.plist;
@@ -1372,6 +1489,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "Shanghai-Momu-Financial-Information-Service-Co.--Ltd..ZhuanTou";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "ZhuanTou/ZhuanTou-Bridging-Header.h";
 			};
 			name = Release;
 		};

@@ -14,33 +14,39 @@
 
 @implementation LaunchScreenViewController
 
-@synthesize bgImageView, centerImageView;
+@synthesize centerImageView, bgView, titleLabel, discriptionLabel;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    UIImage *bgImage = [UIImage imageNamed:@"launchBg.png"];
-    bgImage = [bgImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    bgImageView.image = bgImage;
-    bgImageView.tintColor = [UIColor whiteColor];
     
-    UIImage *centerImage = [UIImage imageNamed:@"launchCenter.png"];
-    centerImage = [centerImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    centerImageView.image = centerImage;
-    centerImageView.tintColor = ZTBLUE;
+    bgView.layer.cornerRadius = 20;
+    
+    [centerImageView setAlpha:0.0f];
+    [titleLabel setAlpha:0.0f];
+    [discriptionLabel setAlpha:0.0f];
+
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    centerImageView.transform = CGAffineTransformMakeScale(1.5f, 1.5f);
-    [UIView beginAnimations:nil context:UIGraphicsGetCurrentContext()];
-    [UIView setAnimationDuration:2.0f];
-    [bgImageView setTintColor:ZTBLUE];
-    [centerImageView setTintColor:[UIColor whiteColor]];
-    centerImageView.transform=CGAffineTransformMakeScale(1.0f, 1.0f);
-    [UIView commitAnimations];
+    [bgView startAnimation];
     
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [UIView beginAnimations:nil context:UIGraphicsGetCurrentContext()];
+        [UIView setAnimationDuration:1.2f];
+        [centerImageView setAlpha:1.0f];
+        [UIView commitAnimations];
+    });
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [UIView beginAnimations:nil context:UIGraphicsGetCurrentContext()];
+        [UIView setAnimationDuration:1.5f];
+        [titleLabel setAlpha:1.0f];
+        [discriptionLabel setAlpha:1.0f];
+        [UIView commitAnimations];
+    });
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         ZTTabBarViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ZTTabBarViewController"];
         [self presentViewController:vc animated:NO completion:nil];
     });

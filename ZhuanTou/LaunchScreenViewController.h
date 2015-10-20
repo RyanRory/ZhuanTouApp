@@ -8,11 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "ZTTabBarViewController.h"
+#import "WaveView.h"
 
 @interface LaunchScreenViewController : UIViewController
 
-@property (strong, nonatomic) IBOutlet UIImageView *bgImageView;
 @property (strong, nonatomic) IBOutlet UIImageView *centerImageView;
+@property (strong, nonatomic) IBOutlet WaveView *bgView;
+@property (strong, nonatomic) IBOutlet UILabel *titleLabel;
+@property (strong, nonatomic) IBOutlet UILabel *discriptionLabel;
 
 
 @end

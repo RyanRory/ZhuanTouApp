@@ -28,7 +28,7 @@
     [huoqiButton addTarget:self action:@selector(toHuoqi:) forControlEvents:UIControlEventTouchUpInside];
     [autoButton addTarget:self action:@selector(setAuto:) forControlEvents:UIControlEventTouchUpInside];
     [profitButton addTarget:self action:@selector(toProfit:) forControlEvents:UIControlEventTouchUpInside];
-    [detailButton addTarget:self action:@selector(toProfit:) forControlEvents:UIControlEventTouchUpInside];
+    [detailButton addTarget:self action:@selector(toDetail:) forControlEvents:UIControlEventTouchUpInside];
     [bankCardButton addTarget:self action:@selector(toBankCard:) forControlEvents:UIControlEventTouchUpInside];
     [bonusButton addTarget:self action:@selector(toBonus:) forControlEvents:UIControlEventTouchUpInside];
     [securityButton addTarget:self action:@selector(toSecurity:) forControlEvents:UIControlEventTouchUpInside];
@@ -68,20 +68,14 @@
 
 - (void)setAuto:(id)sender
 {
-    [autoSwitch setOn:!autoSwitch.on animated:YES];
-    NSString *str;
-    if (autoSwitch.on)
-        str = @"您已开启自动投标";
-    else
-        str = @"您已关闭自动投标";
-    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:str message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-    [alert show];
-    
+    AutoViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"AutoViewController"];
+    [[self navigationController]pushViewController:vc animated:YES];
 }
 
 - (void)toProfit:(id)sender
 {
-    
+    ProfitViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ProfitViewController"];
+    [[self navigationController]pushViewController:vc animated:YES];
 }
 
 - (void)toDetail:(id)sender

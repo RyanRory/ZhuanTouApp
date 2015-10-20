@@ -10,6 +10,8 @@
 #import "SimpleSwitch.h"
 #import "HuoqiViewController.h"
 #import "DingqiViewController.h"
+#import "ProfitViewController.h"
+#import "AutoViewController.h"
 
 @interface UserCenterMainViewController : UIViewController
 {

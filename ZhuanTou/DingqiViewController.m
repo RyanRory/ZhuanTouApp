@@ -160,22 +160,22 @@
     {
         if ([str isEqualToString:WENJIAN])
         {
-            return 177;
+            return 167;
         }
         else
         {
-            return 218;
+            return 208;
         }
     }
     else
     {
         if ([str isEqualToString:WENJIAN])
         {
-            return 218;
+            return 208;
         }
         else
         {
-            return 259;
+            return 249;
         }
 
     }
