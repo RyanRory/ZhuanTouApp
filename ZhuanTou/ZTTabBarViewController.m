@@ -14,6 +14,8 @@
 
 @implementation ZTTabBarViewController
 
+@synthesize lastSelectedIndex;
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     NSArray *items = self.tabBar.items;
@@ -41,17 +43,39 @@
     [helpItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:ZTLIGHTGRAY,NSForegroundColorAttributeName, nil] forState:UIControlStateNormal];//正常
     [helpItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:ZTBLUE,NSForegroundColorAttributeName, nil]forState:UIControlStateSelected];//被选中
 
-    
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)setSelectedIndex:(NSUInteger)selectedIndex
+{
+    //判断是否相等,不同才设置
+    if (self.selectedIndex != selectedIndex) {
+        //设置最近一次
+        lastSelectedIndex = self.selectedIndex;
+    }
+    [super setSelectedIndex:selectedIndex];
+}
+
+
+- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
+{
+    //获得选中的item
+    NSUInteger tabIndex = [tabBar.items indexOfObject:item];
+    if (tabIndex != self.selectedIndex) {
+        //设置最近一次变更
+        lastSelectedIndex = self.selectedIndex;
+        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+        BOOL flag = [userDefault boolForKey:ISLOGIN];
+        if ((tabIndex == 2) && (!flag))
+        {
+            UINavigationController *nav = [[self storyboard]instantiateViewControllerWithIdentifier:@"LoginNav"];
+            [self presentViewController:nav animated:YES completion:nil];
+        }
+    }
 }
 
 

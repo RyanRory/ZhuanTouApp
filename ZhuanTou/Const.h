@@ -19,17 +19,30 @@
 #define ZTLIGHTRED ([UIColor colorWithRed:235.0/255.0 green:90.0/255.0 blue:43.0/255.0 alpha:1.0f])
 #define ZTRED ([UIColor colorWithRed:231.0/255.0 green:76.0/255.0 blue:60.0/255.0 alpha:1.0f])
 #define ZTGRAY ([UIColor colorWithRed:136.0/255.0 green:136.0/255.0 blue:136.0/255.0 alpha:1.0f])
+#define ZTCHARTSGRAY ([UIColor colorWithRed:136.0/255.0 green:136.0/255.0 blue:136.0/255.0 alpha:0.2f])
+#define ZTPIECHARTPURPLE ([UIColor colorWithRed:161.0/255.0 green:115.0/255.0 blue:209.0/255.0 alpha:0.6f])
+#define ZTPIECHARTBLUE ([UIColor colorWithRed:104.0/255.0 green:215.0/255.0 blue:220.0/255.0 alpha:0.6f])
+#define ZTPIECHARTRED ([UIColor colorWithRed:248.0/255.0 green:115.0/255.0 blue:98.0/255.0 alpha:0.6f])
+#define ZTPIECHARTGREEN ([UIColor colorWithRed:156.0/255.0 green:235.0/255.0 blue:158.0/255.0 alpha:0.6f])
+#define ZTPIECHARTYELLOW ([UIColor colorWithRed:255.0/255.0 green:194.0/255.0 blue:15.0/255.0 alpha:0.6f])
+#define ZTSECURITYRED ([UIColor colorWithRed:248.0/255.0 green:115.0/255.0 blue:98.0/255.0 alpha:1.0f])
+#define ZTSECURITYYELLOW ([UIColor colorWithRed:255.0/255.0 green:194.0/255.0 blue:15.0/255.0 alpha:1.0f])
+#define ZTSECURITYGREEN ([UIColor colorWithRed:156.0/255.0 green:235.0/255.0 blue:158.0/255.0 alpha:1.0f])
 
 #define USERNAME @"USERNAME"
 #define PASSWORD @"PASSWORD"
 #define SMSCODE @"SMSCODE"
 #define PHONENUM @"PHONENUM"
 #define VCODE @"VCODE"
+#define ISLOGIN @"ISLOGIN"
 
 #define WENJIAN @"WENJIAN"
 #define ZONGHE @"ZONGHE"
 #define HUOQI @"HUOQI"
 #define ONLYONEBONUS @"ONLYONEBONUS"
+
+#define RESETLOGINPSWD @"RESETLOGINPSWD"
+#define RESETTRADEPSWD @"RESETTRADEPSWD"
 
 
 #endif /* Const_h */

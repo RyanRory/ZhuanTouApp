@@ -51,7 +51,6 @@
     huoqiButton.tintColor = ZTGRAY;
     
     style = WENJIAN;
-    isFirstLoad = YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -72,7 +71,6 @@
     {
         [self setupHuoqi];
     }
-    
 }
 
 - (void)viewDidDisappear:(BOOL)animated

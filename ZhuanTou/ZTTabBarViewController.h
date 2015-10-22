@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ZTTabBarViewController : UITabBarController
+@interface ZTTabBarViewController : UITabBarController<UITabBarControllerDelegate, UITabBarDelegate>
+
+@property(readonly, nonatomic)NSUInteger lastSelectedIndex;
 
 @end

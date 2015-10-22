@@ -14,14 +14,15 @@
 
 @implementation HuoqiViewController
 
-@synthesize yesterdayProfitLabel, myPortionLabel, totalProfitLabel, buyButton, drawButton;
+@synthesize yesterdayProfitLabel, myPortionLabel, totalProfitLabel, buyButton, drawButton, profitPercentLabel;
 @synthesize lineChartView;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor darkGrayColor],NSForegroundColorAttributeName,nil]];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"backIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(backToParent:)];
-    self.navigationItem.leftBarButtonItem = backItem;
+    UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithCustomView:[UIButton buttonWithType:UIButtonTypeCustom]];
+    self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:backItem, item, nil];
     
     buyButton.layer.cornerRadius = 3;
     drawButton.layer.cornerRadius = 3;
@@ -47,17 +48,21 @@
     ChartXAxis *xAxis = lineChartView.xAxis;
     xAxis.labelPosition = XAxisLabelPositionBottom;
     xAxis.labelFont = [UIFont systemFontOfSize:10.f];
-    xAxis.labelTextColor = ZTGRAY;
+    xAxis.labelTextColor = ZTCHARTSGRAY;
+    xAxis.gridColor = ZTCHARTSGRAY;
     xAxis.drawGridLinesEnabled = YES;
     xAxis.spaceBetweenLabels = 0.0;
+    xAxis.axisLineColor = ZTCHARTSGRAY;
     
     ChartYAxis *leftAxis = lineChartView.leftAxis;
-    leftAxis.labelTextColor = ZTGRAY;
+    leftAxis.labelTextColor = ZTCHARTSGRAY;
     leftAxis.customAxisMax = 10.00;
     leftAxis.customAxisMin = 0.00;
     leftAxis.startAtZeroEnabled = NO;
-    leftAxis.gridLineDashLengths = @[@5.f, @5.f];
+    leftAxis.gridColor = ZTCHARTSGRAY;
     leftAxis.drawLimitLinesBehindDataEnabled = YES;
+    leftAxis.labelPosition = YAxisLabelPositionInsideChart;
+    leftAxis.axisLineColor = ZTCHARTSGRAY;
     
     lineChartView.rightAxis.enabled = NO;
     
@@ -82,6 +87,7 @@
     [formatter setPositiveFormat:@"###,##0.00"];
     myPortionLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:1111001.11]]];
     totalProfitLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:1001.11]]];
+    profitPercentLabel.text = @"6.832%";
 
     [self setDataCount:10 range:8.00];
     [lineChartView animateWithXAxisDuration:0.8];
@@ -110,10 +116,10 @@
     [set1 setColor:ZTRED];
     [set1 setCircleColor:ZTRED];
     set1.lineWidth = 3.0;
-    set1.circleRadius = 5.0;
+    set1.circleRadius = 1.5;
     set1.fillAlpha = 1.0f;
     set1.fillColor = ZTRED;
-    set1.drawCircleHoleEnabled = YES;
+    set1.drawCircleHoleEnabled = NO;
     set1.drawValuesEnabled = NO;
     
     NSMutableArray *dataSets = [[NSMutableArray alloc] init];

@@ -19,7 +19,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"backIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(backToParent:)];
-    self.navigationItem.leftBarButtonItem = backItem;
+    UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithCustomView:[UIButton buttonWithType:UIButtonTypeCustom]];
+    self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:backItem, item, nil];
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor darkGrayColor],NSForegroundColorAttributeName,nil]];
     
     [getVcodeButton.layer setBorderWidth:1];
@@ -46,35 +47,45 @@
 
 - (void)toNextPage:(id)sender
 {
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    NSString *URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/validateRegisterSmsCode/%@", phoneVcodeTextField.text]];
-    [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
-        NSLog(@"%@", responseObject);
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-        NSString *str = [responseObject objectForKey:@"isSuccess"];
-        int f = str.intValue;
-        if (f == 0)
-        {
-            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:[responseObject objectForKey:@"errorMessage"] message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-            [alert show];
-        }
-        else
-        {
-            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-            [userDefaults setObject:phoneVcodeTextField.text forKey:SMSCODE];
-            [userDefaults synchronize];
-            
-            InformationViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"InformationViewController"];
-            [[self navigationController]pushViewController:vc animated:YES];
-        }
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Error: %@", error);
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"验证失败，请重试！" message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+    if (![[NSPredicate predicateWithFormat:@"SELF MATCHES %@",@"^[0-9]{6}$"] evaluateWithObject:phoneVcodeTextField.text])
+    {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"验证码错误！" message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alert show];
-    }];
+        [phoneVcodeTextField becomeFirstResponder];
+    }
+    else
+    {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+        NSString *URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/validateRegisterSmsCode/%@", phoneVcodeTextField.text]];
+        [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+            NSLog(@"%@", responseObject);
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            NSString *str = [responseObject objectForKey:@"isSuccess"];
+            int f = str.intValue;
+            if (f == 0)
+            {
+                UIAlertView *alert = [[UIAlertView alloc]initWithTitle:[responseObject objectForKey:@"errorMessage"] message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                [alert show];
+                [phoneVcodeTextField becomeFirstResponder];
+            }
+            else
+            {
+                NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+                [userDefaults setObject:phoneVcodeTextField.text forKey:SMSCODE];
+                [userDefaults synchronize];
+                
+                InformationViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"InformationViewController"];
+                [[self navigationController]pushViewController:vc animated:YES];
+            }
+            
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            NSLog(@"Error: %@", error);
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"验证失败，请重试！" message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+            [alert show];
+        }];
+    }
 }
 
 - (void)getVcode:(id)sender

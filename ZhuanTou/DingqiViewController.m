@@ -20,7 +20,8 @@
     [super viewDidLoad];
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor darkGrayColor],NSForegroundColorAttributeName,nil]];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"backIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(backToParent:)];
-    self.navigationItem.leftBarButtonItem = backItem;
+    UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithCustomView:[UIButton buttonWithType:UIButtonTypeCustom]];
+    self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:backItem, item, nil];
     
     findProductButton.layer.cornerRadius = 3;
     ingButton.tintColor = ZTBLUE;
@@ -146,11 +147,21 @@
 }
 
 #pragma TableViewDelegates
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 10;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 10;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return productsNum;
 }
-
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -160,22 +171,22 @@
     {
         if ([str isEqualToString:WENJIAN])
         {
-            return 167;
+            return 143;
         }
         else
         {
-            return 208;
+            return 184;
         }
     }
     else
     {
         if ([str isEqualToString:WENJIAN])
         {
-            return 208;
+            return 184;
         }
         else
         {
-            return 249;
+            return 225;
         }
 
     }

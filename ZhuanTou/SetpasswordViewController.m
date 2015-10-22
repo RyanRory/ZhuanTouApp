@@ -17,7 +17,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"backIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(backToParent:)];
-    self.navigationItem.leftBarButtonItem = backItem;
+    UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithCustomView:[UIButton buttonWithType:UIButtonTypeCustom]];
+    self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:backItem, item, nil];
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor darkGrayColor],NSForegroundColorAttributeName,nil]];
     
     
@@ -35,8 +36,15 @@
     }
     alipay.block = ^(NSString *pswString) {
         NSLog(@"设置密码成功-----你的密码为 = 【%@】\n\n", pswString);
-        RegisterSuccessViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"RegisterSuccessVC"];
-        [[self navigationController]pushViewController:vc animated:YES];
+        if ([self.string isEqualToString:@"重置密码"])
+        {
+            RegisterSuccessViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"RegisterSuccessVC"];
+            [[self navigationController]pushViewController:vc animated:YES];
+        }
+        else
+        {
+            [[self navigationController]popViewControllerAnimated:YES];
+        }
     };
     
     [self.view addSubview:alipay];

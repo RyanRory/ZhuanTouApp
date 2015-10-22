@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Charts/Charts.h>
+#import "ZhuanTou-Bridging-Header.h"
 
-@interface ProfitViewController : UIViewController
+@interface ProfitViewController : UIViewController<ChartViewDelegate>
 @property (strong, nonatomic) IBOutlet UIView *contentView;
 @property (strong, nonatomic) IBOutlet UILabel *dingqiPercentLabel;
 @property (strong, nonatomic) IBOutlet UILabel *huoqiPercentLabel;
@@ -18,5 +20,9 @@
 @property (strong, nonatomic) IBOutlet UILabel *huoqiNumLabel;
 @property (strong, nonatomic) IBOutlet UILabel *balanceNumLabel;
 @property (strong, nonatomic) IBOutlet UILabel *frozenNumLabel;
+@property (strong, nonatomic) IBOutlet PieChartView *pieChartView;
+@property (strong, nonatomic) IBOutlet UILabel *bonusPercentLabel;
+@property (strong, nonatomic) IBOutlet UILabel *bonusNumLabel;
+@property (strong, nonatomic) IBOutlet UILabel *totalNumLabel;
 
 @end

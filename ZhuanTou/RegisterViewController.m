@@ -20,7 +20,8 @@
     [super viewDidLoad];
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor darkGrayColor],NSForegroundColorAttributeName,nil]];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"backIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(backToParent:)];
-    self.navigationItem.leftBarButtonItem = backItem;
+    UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithCustomView:[UIButton buttonWithType:UIButtonTypeCustom]];
+    self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:backItem, item, nil];
     
     phoneView.layer.cornerRadius = 3;
     vcodeView.layer.cornerRadius = 3;
@@ -35,10 +36,11 @@
     [changeButton addTarget:self action:@selector(changeVcode:) forControlEvents:UIControlEventTouchUpInside];
     [vcodeImageView addTarget:self action:@selector(changeVcode:) forControlEvents:UIControlEventTouchUpInside];
     
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
     [self getVcode];
-    
-    
-   
 }
 
 - (void)backToParent:(id)sender
@@ -50,27 +52,30 @@
 {
     if (![[NSPredicate predicateWithFormat:@"SELF MATCHES %@",@"^[0-9]{11}$"] evaluateWithObject:phoneTextField.text])
     {
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"请检查您输入的手机号码是否正确" message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"请检查手机号码是否正确" message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alert show];
+        [phoneTextField becomeFirstResponder];
     }
     else
     {
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-        NSString *URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/checkMobile/%@",phoneTextField.text]];
+        NSString *URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/checkVCode/%@",vcodeTextField.text]];
         [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
             NSLog(@"%@", responseObject);
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
             NSString *str = [responseObject objectForKey:@"isSuccess"];
             int f1 = str.intValue;
             if (f1 == 0)
             {
                 UIAlertView *alert = [[UIAlertView alloc]initWithTitle:[responseObject objectForKey:@"errorMessage"] message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
                 [alert show];
+                [vcodeTextField becomeFirstResponder];
             }
             else
             {
                 AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-                NSString *URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/checkVCode/%@",vcodeTextField.text]];
+                NSString *URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/checkMobile/%@",phoneTextField.text]];
                 [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject2) {
                     NSLog(@"%@", responseObject2);
                     [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -80,6 +85,7 @@
                     {
                         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:[responseObject2 objectForKey:@"errorMessage"] message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
                         [alert show];
+                        [phoneTextField becomeFirstResponder];
                     }
                     else
                     {
@@ -103,6 +109,7 @@
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"Error: %@", error);
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
             UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"验证失败，请重试！" message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
             [alert show];
         }];

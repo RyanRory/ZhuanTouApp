@@ -20,7 +20,9 @@
     [super viewDidLoad];
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor darkGrayColor],NSForegroundColorAttributeName,nil]];
     [self.navigationItem.rightBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont boldSystemFontOfSize:13], NSFontAttributeName,nil] forState:UIControlStateNormal];
-    [self.navigationItem.backBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont boldSystemFontOfSize:13], NSFontAttributeName,nil] forState:UIControlStateNormal];
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"backIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(backToParent:)];
+    UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithCustomView:[UIButton buttonWithType:UIButtonTypeCustom]];
+    self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:backItem, item, nil];
     
     loginButton.layer.cornerRadius = 3;
     textView.layer.cornerRadius = 3;
@@ -38,7 +40,6 @@
         [loginButton setUserInteractionEnabled:NO];
         [loginButton setAlpha:0.6f];
     }
-    
 }
 
 - (void)Login:(id)sender
@@ -73,6 +74,10 @@
             {
                 UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"登录成功！" message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
                 [alert show];
+                NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+                [userDefault setBool:YES forKey:ISLOGIN];
+                [userDefault synchronize];
+                [self dismissViewControllerAnimated:YES completion:nil];
             }
             
             [loginButton setUserInteractionEnabled:YES];
@@ -97,9 +102,11 @@
     
 }
 
-- (void)BackToParent:(id)sender
+- (void)backToParent:(id)sender
 {
-    
+    ZTTabBarViewController *vc = (ZTTabBarViewController*)[self presentingViewController];
+    [vc setSelectedIndex:vc.lastSelectedIndex];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(IBAction)textFiledReturnEditing:(id)sender {
@@ -128,33 +135,6 @@
         [loginButton setUserInteractionEnabled:NO];
         [loginButton setAlpha:0.6f];
     }
-}
-
-- (IBAction)signOut:(id)sender
-{
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    NSString *URL = [BASEURL stringByAppendingString:@"Account/SignOut"];
-    [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
-        NSLog(@"%@", responseObject);
-        NSString *str = [responseObject objectForKey:@"isAuthenticated"];
-        int f1 = str.intValue;
-        if (f1 == 0)
-        {
-            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:[responseObject objectForKey:@"errorMessage"] message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-            [alert show];
-        }
-        else
-        {
-            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"登出成功！" message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-            [alert show];
-        }
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Error: %@", error);
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"登出成功" message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-        [alert show];
-    }];
-
 }
 
 

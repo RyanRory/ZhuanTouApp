@@ -19,6 +19,10 @@
     [[IQKeyboardManager sharedManager] disableToolbarInViewControllerClass:[UIViewController class]];
     [[IQKeyboardManager sharedManager] setKeyboardDistanceFromTextField:20.0f];
     
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    [userDefault setBool:NO forKey:ISLOGIN];
+    [userDefault synchronize];
+    
     return YES;
 }
 

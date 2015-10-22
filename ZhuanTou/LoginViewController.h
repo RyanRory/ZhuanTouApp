@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZTTabBarViewController.h"
 
 @interface LoginViewController : UIViewController
 @property (strong, nonatomic) IBOutlet UIButton *forgottenButton;
@@ -21,7 +22,5 @@
 - (IBAction)backgroundTap:(id)sender;
 
 - (IBAction)buttonEnableListener:(id)sender;
-
-- (IBAction)signOut:(id)sender;
 
 @end

@@ -16,7 +16,6 @@
     CGPoint bgPoint;
     CGPoint point;
     NSString *style;
-    BOOL isFirstLoad;
 }
 @property (strong, nonatomic) IBOutlet UIButton *wenjianButton;
 @property (strong, nonatomic) IBOutlet UIButton *zongheButton;

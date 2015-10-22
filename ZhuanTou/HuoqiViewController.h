@@ -19,5 +19,6 @@
 @property (strong, nonatomic) IBOutlet UIButton *buyButton;
 @property (strong, nonatomic) IBOutlet UIButton *drawButton;
 @property (strong, nonatomic) IBOutlet LineChartView *lineChartView;
+@property (strong, nonatomic) IBOutlet UILabel *profitPercentLabel;
 
 @end

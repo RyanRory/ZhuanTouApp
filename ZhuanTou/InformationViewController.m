@@ -19,7 +19,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"backIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(backToParent:)];
-    self.navigationItem.leftBarButtonItem = backItem;
+    UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithCustomView:[UIButton buttonWithType:UIButtonTypeCustom]];
+    self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:backItem, item, nil];
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor darkGrayColor],NSForegroundColorAttributeName,nil]];
     
     textView.layer.cornerRadius = 3;
@@ -39,13 +40,25 @@
 {
     NSString *PasswordReg = @"(?=.*[0-9])(?=.*[a-zA-Z]).{6,30}";
     NSPredicate *regextestpassword = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", PasswordReg];
-    if(![passwordTextField.text isEqualToString: pswdAgainTextFiled.text]){
+    if(![passwordTextField.text isEqualToString: pswdAgainTextFiled.text])
+    {
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"两次输入的密码不一致" message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alert show];
-    }else if(![regextestpassword evaluateWithObject: passwordTextField.text]){
+        [pswdAgainTextFiled becomeFirstResponder];
+    }
+    else if(![regextestpassword evaluateWithObject: passwordTextField.text])
+    {
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"密码至少6位，包括数字和字母" message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alert show];
-    }else
+        [passwordTextField becomeFirstResponder];
+    }
+    else if (!((recommendTextField.text.length == 0) || [[NSPredicate predicateWithFormat:@"SELF MATCHES %@",@"^[0-9]{11}$"] evaluateWithObject:recommendTextField.text]))
+    {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"请检查推荐人手机号码是否正确" message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [alert show];
+        [recommendTextField becomeFirstResponder];
+    }
+    else
     {
         [nextButton setUserInteractionEnabled:NO];
         [nextButton setAlpha:0.6f];
@@ -77,6 +90,7 @@
             {
                 [userDefaults setObject:usernameTextField.text forKey:USERNAME];
                 [userDefaults setObject:passwordTextField.text forKey:PASSWORD];
+                [userDefaults setBool:YES forKey:ISLOGIN];
                 [userDefaults synchronize];
                 
                 [KeychainData forgotPsw];

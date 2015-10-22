@@ -27,7 +27,7 @@
 
 - (void)toNewerReward:(id)sender
 {
-    
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 

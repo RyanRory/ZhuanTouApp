@@ -12,6 +12,10 @@
 #import "DingqiViewController.h"
 #import "ProfitViewController.h"
 #import "AutoViewController.h"
+#import "SecurityViewController.h"
+
+#import "SetpasswordViewController.h"
+#import "ZTTabBarViewController.h"
 
 @interface UserCenterMainViewController : UIViewController
 {
