@@ -68,10 +68,10 @@
 
 
 //选错的颜色  红色
-#define WRONGCOLOR [UIColor colorWithRed:235.0/255.0 green:90.0/255.0 blue:43.0/255.0 alpha:0.8]
+#define WRONGCOLOR ([UIColor colorWithRed:231.0/255.0 green:76.0/255.0 blue:60.0/255.0 alpha:1.0f])
 
 //文字错误提示颜色   浅红色
-#define LABELWRONGCOLOR [UIColor colorWithRed:235.0/255.0 green:90.0/255.0 blue:43.0/255.0 alpha:0.8]
+#define LABELWRONGCOLOR ([UIColor colorWithRed:231.0/255.0 green:76.0/255.0 blue:60.0/255.0 alpha:1.0f])
 
 
 
@@ -84,7 +84,7 @@
 #define SETPSWSTRING          @"请滑动设置密码"
 #define RESETPSWSTRING        @"请再次滑动确认密码"
 #define PSWSUCCESSSTRING      @"设置密码成功"
-#define PSWFAILTSTRING        @"密码错误,请重新设置"
+#define PSWFAILTSTRING        @"密码错误"
 #define PSW_WRONG_NUMSTRING   @"请至少设置4个点"
 #define INPUT_OLD_PSWSTRING   @"请输入原始密码"
 #define INPUT_NEW_PSWSTRING   @"请输入新密码"

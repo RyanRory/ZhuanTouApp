@@ -94,7 +94,8 @@
 
 - (void)toDetail:(id)sender
 {
-    
+    DetailViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"DetailViewController"];
+    [[self navigationController]pushViewController:vc animated:YES];
 }
 
 - (void)toBankCard:(id)sender

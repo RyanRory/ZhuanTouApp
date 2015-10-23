@@ -42,7 +42,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 36;
+    return 40;
 }
 
 
@@ -130,7 +130,9 @@
     {
         if (indexPath.row == 0)
         {
-
+            CommonQuestionViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"CommonQuestionViewController"];
+            vc.hidesBottomBarWhenPushed = YES;
+            [[self navigationController]pushViewController:vc animated:YES];
         }
         else if (indexPath.row == 1)
         {

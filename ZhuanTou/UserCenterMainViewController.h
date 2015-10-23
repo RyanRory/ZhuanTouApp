@@ -13,6 +13,7 @@
 #import "ProfitViewController.h"
 #import "AutoViewController.h"
 #import "SecurityViewController.h"
+#import "DetailViewController.h"
 
 #import "SetpasswordViewController.h"
 #import "ZTTabBarViewController.h"

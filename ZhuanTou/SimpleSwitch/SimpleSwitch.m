@@ -32,8 +32,6 @@
 #import "UIView+InnerShadow.h"
 #import "SimpleSwitch.h"
 #import "TitleLayer.h"
-#define kWIDTH 40
-#define kHEIGHT 20
 #define kDefaultTitleOn @""
 #define kDefaultTitleOff @""
 @interface SimpleSwitch()

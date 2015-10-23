@@ -161,6 +161,9 @@
 		A4B2CFEA1BD9D3DD00AC2E78 /* HelpDescriptionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A4B2CFE91BD9D3DD00AC2E78 /* HelpDescriptionTableViewCell.m */; settings = {ASSET_TAGS = (); }; };
 		A4B2CFED1BD9E4F600AC2E78 /* FeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4B2CFEC1BD9E4F600AC2E78 /* FeedbackViewController.m */; settings = {ASSET_TAGS = (); }; };
 		A4B2CFF01BD9E7A300AC2E78 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4B2CFEF1BD9E7A300AC2E78 /* AboutViewController.m */; settings = {ASSET_TAGS = (); }; };
+		A4B2CFF41BDA32EA00AC2E78 /* CommonQuestionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4B2CFF31BDA32EA00AC2E78 /* CommonQuestionViewController.m */; settings = {ASSET_TAGS = (); }; };
+		A4B2CFF71BDA370200AC2E78 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4B2CFF61BDA370200AC2E78 /* DetailViewController.m */; settings = {ASSET_TAGS = (); }; };
+		A4B2CFFA1BDA3D2700AC2E78 /* DetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A4B2CFF91BDA3D2700AC2E78 /* DetailTableViewCell.m */; settings = {ASSET_TAGS = (); }; };
 		A4BBC1C71BD0E825006331AC /* ProductBuyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4BBC1C61BD0E825006331AC /* ProductBuyViewController.m */; settings = {ASSET_TAGS = (); }; };
 		A4BBC1CA1BD0E871006331AC /* ProductBuyConfirmViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4BBC1C91BD0E871006331AC /* ProductBuyConfirmViewController.m */; settings = {ASSET_TAGS = (); }; };
 		A4BBC1CD1BD0F009006331AC /* ProductBonusView.m in Sources */ = {isa = PBXBuildFile; fileRef = A4BBC1CC1BD0F009006331AC /* ProductBonusView.m */; settings = {ASSET_TAGS = (); }; };
@@ -463,6 +466,12 @@
 		A4B2CFEC1BD9E4F600AC2E78 /* FeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedbackViewController.m; sourceTree = "<group>"; };
 		A4B2CFEE1BD9E7A300AC2E78 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
 		A4B2CFEF1BD9E7A300AC2E78 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
+		A4B2CFF21BDA32EA00AC2E78 /* CommonQuestionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonQuestionViewController.h; sourceTree = "<group>"; };
+		A4B2CFF31BDA32EA00AC2E78 /* CommonQuestionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonQuestionViewController.m; sourceTree = "<group>"; };
+		A4B2CFF51BDA370200AC2E78 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
+		A4B2CFF61BDA370200AC2E78 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
+		A4B2CFF81BDA3D2700AC2E78 /* DetailTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailTableViewCell.h; sourceTree = "<group>"; };
+		A4B2CFF91BDA3D2700AC2E78 /* DetailTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailTableViewCell.m; sourceTree = "<group>"; };
 		A4BBC1C51BD0E825006331AC /* ProductBuyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductBuyViewController.h; sourceTree = "<group>"; };
 		A4BBC1C61BD0E825006331AC /* ProductBuyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductBuyViewController.m; sourceTree = "<group>"; };
 		A4BBC1C81BD0E871006331AC /* ProductBuyConfirmViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductBuyConfirmViewController.h; sourceTree = "<group>"; };
@@ -883,6 +892,8 @@
 				A431747C1BD4B04E0001FC53 /* WenjianEndedTableViewCell.m */,
 				A431747E1BD4B0620001FC53 /* ZongheEndedTableViewCell.h */,
 				A431747F1BD4B0620001FC53 /* ZongheEndedTableViewCell.m */,
+				A4B2CFF81BDA3D2700AC2E78 /* DetailTableViewCell.h */,
+				A4B2CFF91BDA3D2700AC2E78 /* DetailTableViewCell.m */,
 			);
 			name = cells;
 			sourceTree = "<group>";
@@ -953,6 +964,8 @@
 				A463EA981BD5FF7100CAF146 /* ProfitViewController.m */,
 				A463EA9A1BD5FF9600CAF146 /* AutoViewController.h */,
 				A463EA9B1BD5FF9600CAF146 /* AutoViewController.m */,
+				A4B2CFF51BDA370200AC2E78 /* DetailViewController.h */,
+				A4B2CFF61BDA370200AC2E78 /* DetailViewController.m */,
 				A4B2CFD11BD8B32B00AC2E78 /* SecurityViewController.h */,
 				A4B2CFD21BD8B32B00AC2E78 /* SecurityViewController.m */,
 				A4B2CFD51BD8E92A00AC2E78 /* RealNameViewController.h */,
@@ -986,6 +999,8 @@
 			children = (
 				A4B2CFE11BD9D26100AC2E78 /* HelpMainViewController.h */,
 				A4B2CFE21BD9D26100AC2E78 /* HelpMainViewController.m */,
+				A4B2CFF21BDA32EA00AC2E78 /* CommonQuestionViewController.h */,
+				A4B2CFF31BDA32EA00AC2E78 /* CommonQuestionViewController.m */,
 				A4B2CFEB1BD9E4F600AC2E78 /* FeedbackViewController.h */,
 				A4B2CFEC1BD9E4F600AC2E78 /* FeedbackViewController.m */,
 				A4B2CFEE1BD9E7A300AC2E78 /* AboutViewController.h */,
@@ -1393,15 +1408,18 @@
 				A4B2CFDD1BD8E96B00AC2E78 /* ResetTradePswdViewController.m in Sources */,
 				A431747D1BD4B04E0001FC53 /* WenjianEndedTableViewCell.m in Sources */,
 				A4E7F23F1BCE28DF00B20EC6 /* InformationViewController.m in Sources */,
+				A4B2CFFA1BDA3D2700AC2E78 /* DetailTableViewCell.m in Sources */,
 				A4BBC1C71BD0E825006331AC /* ProductBuyViewController.m in Sources */,
 				A44AFA4A1BCF481D002A8AC4 /* ZTTabBarViewController.m in Sources */,
 				A463EA941BD4E68D00CAF146 /* LaunchScreenViewController.m in Sources */,
+				A4B2CFF71BDA370200AC2E78 /* DetailViewController.m in Sources */,
 				A4E7F2561BCE54DD00B20EC6 /* KeychainItemWrapper.m in Sources */,
 				A4E7F2521BCE54DD00B20EC6 /* AliPayItem.m in Sources */,
 				A4E7F2531BCE54DD00B20EC6 /* AlipaySubItem.m in Sources */,
 				A43174831BD4C9FD0001FC53 /* HeadView.m in Sources */,
 				A4BBC1CA1BD0E871006331AC /* ProductBuyConfirmViewController.m in Sources */,
 				A4B2CFF01BD9E7A300AC2E78 /* AboutViewController.m in Sources */,
+				A4B2CFF41BDA32EA00AC2E78 /* CommonQuestionViewController.m in Sources */,
 				A431747A1BD4B0330001FC53 /* ZongheIngTableViewCell.m in Sources */,
 				A4B2CFED1BD9E4F600AC2E78 /* FeedbackViewController.m in Sources */,
 				A4E7F2591BCE552400B20EC6 /* SetpasswordViewController.m in Sources */,

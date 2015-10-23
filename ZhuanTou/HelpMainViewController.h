@@ -11,6 +11,7 @@
 #import "HelpDescriptionTableViewCell.h"
 #import "FeedbackViewController.h"
 #import "AboutViewController.h"
+#import "CommonQuestionViewController.h"
 
 @interface HelpMainViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 

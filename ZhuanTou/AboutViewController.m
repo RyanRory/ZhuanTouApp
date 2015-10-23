@@ -39,6 +39,8 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+#pragma TableViewDelegates
+
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return 0.01;
@@ -73,11 +75,11 @@
     cell.titleLabel.font = [UIFont systemFontOfSize:12.0];
     if (indexPath.row == 0)
     {
-        cell.titleLabel.text = @"网    站：www.zhuantouwang.com";
+        cell.titleLabel.text = @"网       站：www.zhuantouwang.com";
     }
     else if (indexPath.row == 1)
     {
-        cell.titleLabel.text = @"公 众 号：lovezhuantou";
+        cell.titleLabel.text = @"公  众  号：lovezhuantou";
     }
     else
     {
