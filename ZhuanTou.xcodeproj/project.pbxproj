@@ -156,6 +156,11 @@
 		A4B2CFD71BD8E92A00AC2E78 /* RealNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4B2CFD61BD8E92A00AC2E78 /* RealNameViewController.m */; settings = {ASSET_TAGS = (); }; };
 		A4B2CFDA1BD8E94B00AC2E78 /* SetTradePswdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4B2CFD91BD8E94B00AC2E78 /* SetTradePswdViewController.m */; settings = {ASSET_TAGS = (); }; };
 		A4B2CFDD1BD8E96B00AC2E78 /* ResetTradePswdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4B2CFDC1BD8E96B00AC2E78 /* ResetTradePswdViewController.m */; settings = {ASSET_TAGS = (); }; };
+		A4B2CFE31BD9D26100AC2E78 /* HelpMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4B2CFE21BD9D26100AC2E78 /* HelpMainViewController.m */; settings = {ASSET_TAGS = (); }; };
+		A4B2CFE71BD9D39F00AC2E78 /* HelpCommonTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A4B2CFE61BD9D39F00AC2E78 /* HelpCommonTableViewCell.m */; settings = {ASSET_TAGS = (); }; };
+		A4B2CFEA1BD9D3DD00AC2E78 /* HelpDescriptionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A4B2CFE91BD9D3DD00AC2E78 /* HelpDescriptionTableViewCell.m */; settings = {ASSET_TAGS = (); }; };
+		A4B2CFED1BD9E4F600AC2E78 /* FeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4B2CFEC1BD9E4F600AC2E78 /* FeedbackViewController.m */; settings = {ASSET_TAGS = (); }; };
+		A4B2CFF01BD9E7A300AC2E78 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4B2CFEF1BD9E7A300AC2E78 /* AboutViewController.m */; settings = {ASSET_TAGS = (); }; };
 		A4BBC1C71BD0E825006331AC /* ProductBuyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4BBC1C61BD0E825006331AC /* ProductBuyViewController.m */; settings = {ASSET_TAGS = (); }; };
 		A4BBC1CA1BD0E871006331AC /* ProductBuyConfirmViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4BBC1C91BD0E871006331AC /* ProductBuyConfirmViewController.m */; settings = {ASSET_TAGS = (); }; };
 		A4BBC1CD1BD0F009006331AC /* ProductBonusView.m in Sources */ = {isa = PBXBuildFile; fileRef = A4BBC1CC1BD0F009006331AC /* ProductBonusView.m */; settings = {ASSET_TAGS = (); }; };
@@ -448,6 +453,16 @@
 		A4B2CFD91BD8E94B00AC2E78 /* SetTradePswdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetTradePswdViewController.m; sourceTree = "<group>"; };
 		A4B2CFDB1BD8E96B00AC2E78 /* ResetTradePswdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResetTradePswdViewController.h; sourceTree = "<group>"; };
 		A4B2CFDC1BD8E96B00AC2E78 /* ResetTradePswdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResetTradePswdViewController.m; sourceTree = "<group>"; };
+		A4B2CFE11BD9D26100AC2E78 /* HelpMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelpMainViewController.h; sourceTree = "<group>"; };
+		A4B2CFE21BD9D26100AC2E78 /* HelpMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelpMainViewController.m; sourceTree = "<group>"; };
+		A4B2CFE51BD9D39F00AC2E78 /* HelpCommonTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelpCommonTableViewCell.h; sourceTree = "<group>"; };
+		A4B2CFE61BD9D39F00AC2E78 /* HelpCommonTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelpCommonTableViewCell.m; sourceTree = "<group>"; };
+		A4B2CFE81BD9D3DD00AC2E78 /* HelpDescriptionTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelpDescriptionTableViewCell.h; sourceTree = "<group>"; };
+		A4B2CFE91BD9D3DD00AC2E78 /* HelpDescriptionTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelpDescriptionTableViewCell.m; sourceTree = "<group>"; };
+		A4B2CFEB1BD9E4F600AC2E78 /* FeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedbackViewController.h; sourceTree = "<group>"; };
+		A4B2CFEC1BD9E4F600AC2E78 /* FeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedbackViewController.m; sourceTree = "<group>"; };
+		A4B2CFEE1BD9E7A300AC2E78 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
+		A4B2CFEF1BD9E7A300AC2E78 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
 		A4BBC1C51BD0E825006331AC /* ProductBuyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductBuyViewController.h; sourceTree = "<group>"; };
 		A4BBC1C61BD0E825006331AC /* ProductBuyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductBuyViewController.m; sourceTree = "<group>"; };
 		A4BBC1C81BD0E871006331AC /* ProductBuyConfirmViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductBuyConfirmViewController.h; sourceTree = "<group>"; };
@@ -600,6 +615,7 @@
 				A48347B81BBBBFC6002D6591 /* ZTViews */,
 				A44AFA571BCF4FA3002A8AC4 /* Product */,
 				A4B2277A1BD341E50020C4D5 /* UserCenter */,
+				A4B2CFE01BD9D24100AC2E78 /* Help */,
 				A41C6B621BBA6374006B731D /* Login_Register */,
 				A4B2277B1BD351440020C4D5 /* SimpleSwitch */,
 				A4E7F2461BCE54BE00B20EC6 /* GestureViews */,
@@ -963,6 +979,31 @@
 				A4B227831BD3516F0020C4D5 /* UIView+InnerShadow.m */,
 			);
 			name = SimpleSwitch;
+			sourceTree = "<group>";
+		};
+		A4B2CFE01BD9D24100AC2E78 /* Help */ = {
+			isa = PBXGroup;
+			children = (
+				A4B2CFE11BD9D26100AC2E78 /* HelpMainViewController.h */,
+				A4B2CFE21BD9D26100AC2E78 /* HelpMainViewController.m */,
+				A4B2CFEB1BD9E4F600AC2E78 /* FeedbackViewController.h */,
+				A4B2CFEC1BD9E4F600AC2E78 /* FeedbackViewController.m */,
+				A4B2CFEE1BD9E7A300AC2E78 /* AboutViewController.h */,
+				A4B2CFEF1BD9E7A300AC2E78 /* AboutViewController.m */,
+				A4B2CFE41BD9D27400AC2E78 /* cells */,
+			);
+			name = Help;
+			sourceTree = "<group>";
+		};
+		A4B2CFE41BD9D27400AC2E78 /* cells */ = {
+			isa = PBXGroup;
+			children = (
+				A4B2CFE51BD9D39F00AC2E78 /* HelpCommonTableViewCell.h */,
+				A4B2CFE61BD9D39F00AC2E78 /* HelpCommonTableViewCell.m */,
+				A4B2CFE81BD9D3DD00AC2E78 /* HelpDescriptionTableViewCell.h */,
+				A4B2CFE91BD9D3DD00AC2E78 /* HelpDescriptionTableViewCell.m */,
+			);
+			name = cells;
 			sourceTree = "<group>";
 		};
 		A4E7F2461BCE54BE00B20EC6 /* GestureViews */ = {
@@ -1330,8 +1371,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A4B2CFE31BD9D26100AC2E78 /* HelpMainViewController.m in Sources */,
 				A4B227851BD3516F0020C4D5 /* SimpleSwitch.m in Sources */,
 				A463EACA1BD6377700CAF146 /* WaveView.m in Sources */,
+				A4B2CFEA1BD9D3DD00AC2E78 /* HelpDescriptionTableViewCell.m in Sources */,
 				A4E7F1FD1BCDFDBD00B20EC6 /* RegisterViewController.m in Sources */,
 				A41C6B321BB9849E006B731D /* AppDelegate.m in Sources */,
 				A4E7F2541BCE54DD00B20EC6 /* AliPayViews.m in Sources */,
@@ -1342,6 +1385,7 @@
 				A4BBC1CD1BD0F009006331AC /* ProductBonusView.m in Sources */,
 				A41C6B2F1BB9849E006B731D /* main.m in Sources */,
 				A4E7F2551BCE54DD00B20EC6 /* KeychainData.m in Sources */,
+				A4B2CFE71BD9D39F00AC2E78 /* HelpCommonTableViewCell.m in Sources */,
 				A41C6B651BBA63B9006B731D /* LoginViewController.m in Sources */,
 				A431744B1BD394F70001FC53 /* DingqiViewController.m in Sources */,
 				A43174801BD4B0620001FC53 /* ZongheEndedTableViewCell.m in Sources */,
@@ -1357,7 +1401,9 @@
 				A4E7F2531BCE54DD00B20EC6 /* AlipaySubItem.m in Sources */,
 				A43174831BD4C9FD0001FC53 /* HeadView.m in Sources */,
 				A4BBC1CA1BD0E871006331AC /* ProductBuyConfirmViewController.m in Sources */,
+				A4B2CFF01BD9E7A300AC2E78 /* AboutViewController.m in Sources */,
 				A431747A1BD4B0330001FC53 /* ZongheIngTableViewCell.m in Sources */,
+				A4B2CFED1BD9E4F600AC2E78 /* FeedbackViewController.m in Sources */,
 				A4E7F2591BCE552400B20EC6 /* SetpasswordViewController.m in Sources */,
 				A4B227861BD3516F0020C4D5 /* TitleLayer.m in Sources */,
 				A4B227871BD3516F0020C4D5 /* UIView+InnerShadow.m in Sources */,

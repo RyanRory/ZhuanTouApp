@@ -1,20 +1,20 @@
 //
-//  RealNameViewController.m
+//  FeedbackViewController.m
 //  ZhuanTou
 //
-//  Created by 赵润声 on 15/10/22.
+//  Created by 赵润声 on 15/10/23.
 //  Copyright © 2015年 Shanghai Momu Financial Information Service  Shanghai Momu Financial Information Service Co., Ltd. All rights reserved.
 //
 
-#import "RealNameViewController.h"
+#import "FeedbackViewController.h"
 
-@interface RealNameViewController ()
+@interface FeedbackViewController ()
 
 @end
 
-@implementation RealNameViewController
+@implementation FeedbackViewController
 
-@synthesize realNameTextField, idNumTextField, confirmButton;
+@synthesize feedbackTextField, tellUsButton;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -24,11 +24,10 @@
     UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithCustomView:[UIButton buttonWithType:UIButtonTypeCustom]];
     self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:backItem, item, nil];
     
-    [confirmButton addTarget:self action:@selector(confirm:) forControlEvents:UIControlEventTouchUpInside];
-    
-    [confirmButton setUserInteractionEnabled:NO];
-    [confirmButton setAlpha:0.6f];
-    confirmButton.layer.cornerRadius = 3;
+    [tellUsButton setUserInteractionEnabled:NO];
+    [tellUsButton setAlpha:0.6f];
+    tellUsButton.layer.cornerRadius = 3;
+    [tellUsButton addTarget:self action:@selector(tellUs:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -41,37 +40,32 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)confirm:(id)sender
+- (void)tellUs:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(IBAction)textFiledReturnEditing:(id)sender {
-    if (sender == realNameTextField)
-    {
-        [idNumTextField becomeFirstResponder];
-        [realNameTextField resignFirstResponder];
-    }
-    else [idNumTextField resignFirstResponder];
+    [feedbackTextField resignFirstResponder];
 }
 
 - (IBAction)backgroundTap:(id)sender {
-    [realNameTextField resignFirstResponder];
-    [idNumTextField resignFirstResponder];
+    [feedbackTextField resignFirstResponder];
 }
 
 - (IBAction)buttonEnableListener:(id)sender
 {
-    if ((realNameTextField.text.length > 0) && (idNumTextField.text.length > 0))
+    if (feedbackTextField.text.length > 0)
     {
-        [confirmButton setUserInteractionEnabled:YES];
-        [confirmButton setAlpha:1.0f];
+        [tellUsButton setUserInteractionEnabled:YES];
+        [tellUsButton setAlpha:1.0f];
     }
     else
     {
-        [confirmButton setUserInteractionEnabled:NO];
-        [confirmButton setAlpha:0.6f];
+        [tellUsButton setUserInteractionEnabled:NO];
+        [tellUsButton setAlpha:0.6f];
     }
 }
+
 
 @end
