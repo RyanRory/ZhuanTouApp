@@ -48,7 +48,7 @@
     BOOL flag = [userDefault boolForKey:ISLOGIN];
     if (flag)
     {
-        UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithTitle:@"退出登录" style:UIBarButtonItemStylePlain target:self action:@selector(signOut:)];
+        UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithTitle:@"登出" style:UIBarButtonItemStylePlain target:self action:@selector(signOut:)];
         self.navigationItem.leftBarButtonItem = item;
         [self.navigationItem.leftBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont boldSystemFontOfSize:13], NSFontAttributeName,nil] forState:UIControlStateNormal];
     }
@@ -105,7 +105,8 @@
 
 - (void)toBonus:(id)sender
 {
-    
+    BonusViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"BonusViewController"];
+    [[self navigationController]pushViewController:vc animated:YES];
 }
 
 - (void)toSecurity:(id)sender
@@ -130,6 +131,8 @@
 
 - (void)signOut:(id)sender
 {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    [self.navigationController.view addSubview:hud];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSString *URL = [BASEURL stringByAppendingString:@"Account/SignOut"];
     [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
@@ -138,29 +141,36 @@
         int f1 = str.intValue;
         if (f1 == 0)
         {
-            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:[responseObject objectForKey:@"errorMessage"] message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-            [alert show];
+            hud.mode = MBProgressHUDModeCustomView;
+            hud.labelText = [responseObject objectForKey:@"errorMessage"];
+            [hud hide:YES afterDelay:1.5f];
         }
         else
         {
-            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"登出成功！" message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-            [alert show];
+            hud.mode = MBProgressHUDModeCustomView;
+            hud.labelText = @"登出成功";
+            [hud hide:YES afterDelay:1.0f];
             self.navigationItem.leftBarButtonItem = nil;
             NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
             [userDefault setBool:NO forKey:ISLOGIN];
             [userDefault synchronize];
-            [[self tabBarController]setSelectedIndex:0];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [[self tabBarController]setSelectedIndex:0];
+            });
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"登出成功!" message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-        [alert show];
+        hud.mode = MBProgressHUDModeCustomView;
+        hud.labelText = @"登出成功";
+        [hud hide:YES afterDelay:1.0f];
         self.navigationItem.leftBarButtonItem = nil;
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         [userDefault setBool:NO forKey:ISLOGIN];
         [userDefault synchronize];
-        [[self tabBarController]setSelectedIndex:0];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [[self tabBarController]setSelectedIndex:0];
+        });
     }];
     
 }

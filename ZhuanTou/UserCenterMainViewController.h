@@ -14,6 +14,7 @@
 #import "AutoViewController.h"
 #import "SecurityViewController.h"
 #import "DetailViewController.h"
+#import "BonusViewController.h"
 
 #import "SetpasswordViewController.h"
 #import "ZTTabBarViewController.h"

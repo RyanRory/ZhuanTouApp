@@ -8,6 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CommonQuestionViewController : UIViewController
+@interface CommonQuestionViewController : UIViewController<UIWebViewDelegate>
+{
+    MBProgressHUD *hud;
+    NSTimer *timer;
+}
+
+@property (strong, nonatomic) IBOutlet UIWebView *webView;
+@property (strong, nonatomic) IBOutlet UIButton *reloadButton;
 
 @end

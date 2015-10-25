@@ -149,11 +149,38 @@
     {
         if (indexPath.row == 0)
         {
-
+            if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"mqq://"]])
+            {
+                UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectZero];
+                NSURL *url = [NSURL URLWithString:@"mqq://im/chat?chat_type=wpa&uin=362236128&version=1&src_type=web"];
+                NSURLRequest *request = [NSURLRequest requestWithURL:url];
+                webView.delegate = self;
+                [webView loadRequest:request];
+                [self.view addSubview:webView];
+            }
+            else
+            {
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        
+                hud.mode = MBProgressHUDModeText;
+                hud.labelText = @"请安装QQ";
+                hud.margin = 10.f;
+                hud.removeFromSuperViewOnHide = YES;
+                
+                [hud hide:YES afterDelay:2];
+            }
+            
         }
         else
         {
-
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"工作时间：9:00 ~ 19:00" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+            UIAlertAction *callAction = [UIAlertAction actionWithTitle:@"呼叫  400-698-9861" style:UIAlertActionStyleDefault handler:^(UIAlertAction* call){
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"tel://4006989861"]];
+            }];
+            [alertController addAction:cancelAction];
+            [alertController addAction:callAction];
+            [self presentViewController:alertController animated:YES completion:nil];
         }
     }
     else
@@ -167,6 +194,12 @@
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma ActionSheet
+- (void)callUs
+{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"tel://18616950387"]];
 }
 
 @end

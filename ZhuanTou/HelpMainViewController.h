@@ -13,7 +13,7 @@
 #import "AboutViewController.h"
 #import "CommonQuestionViewController.h"
 
-@interface HelpMainViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+@interface HelpMainViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, UIWebViewDelegate>
 
 @property (strong, nonatomic) IBOutlet UITableView *tView;
 

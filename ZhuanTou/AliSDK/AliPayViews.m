@@ -67,7 +67,7 @@
     if (self) {
         
         [self initViews];
-        flag = 0;
+        flag = NO;
         
     }
     return self;
@@ -333,10 +333,9 @@
         [itemssss judegeDirectionActionx1:0 y1:0 x2:0 y2:0 isHidden:NO];
     }
     
-    
     // if (判断格式少于4个点) [处理密码数据]
 
-    if (flag == 0)
+    if (!flag)
     {
         if ([self judgeFormat]) [self setPswMethod:[self getResultPwd]] ;
     }
@@ -368,9 +367,13 @@
  */
 - (BOOL)judgeFormat
 {
+    NSLog(@"%d",self.btnArray.count);
     if (self.btnArray.count<=3) {
         //不合法
-        [KeychainData forgotPsw];
+        if (!flag)
+        {
+            [KeychainData forgotPsw];
+        }
         self.tfLabel.textColor = LABELWRONGCOLOR;
         self.tfLabel.text      = PSW_WRONG_NUMSTRING;
         [self shake:self.tfLabel];
@@ -416,7 +419,7 @@
         //第一次输入之后，显示的文字
         self.tfLabel.text = RESETPSWSTRING;
         self.tfLabel.textColor = [UIColor whiteColor];
-        flag++;
+        flag = YES;
         
     } else {
         //密码已经存在
@@ -489,6 +492,7 @@
             
             //如果验证成功
             [KeychainData forgotPsw];
+            flag = NO;
             self.tfLabel.text = INPUT_NEW_PSWSTRING;
             self.tfLabel.textColor = [UIColor whiteColor];
             _gestureModel = SetPwdModel;

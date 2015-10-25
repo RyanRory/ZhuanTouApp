@@ -51,26 +51,36 @@
 
 - (void)toNextPage:(id)sender
 {
+    [phoneTextField resignFirstResponder];
+    [vcodeTextField resignFirstResponder];
+    
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    [self.navigationController.view addSubview:hud];
     if (![[NSPredicate predicateWithFormat:@"SELF MATCHES %@",@"^[0-9]{11}$"] evaluateWithObject:phoneTextField.text])
     {
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"请检查手机号码是否正确" message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-        [alert show];
+        hud.mode = MBProgressHUDModeCustomView;
+        hud.labelText = @"请检查手机号码是否正确";
+        [hud hide:YES afterDelay:1.5f];
         [phoneTextField becomeFirstResponder];
     }
     else
     {
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [nextButton setUserInteractionEnabled:NO];
+        [nextButton setAlpha:0.6f];
+        
+        hud.mode = MBProgressHUDModeIndeterminate;
+        [hud show:YES];
         AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
         NSString *URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/checkVCode/%@",vcodeTextField.text]];
         [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
             NSLog(@"%@", responseObject);
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
             NSString *str = [responseObject objectForKey:@"isSuccess"];
             int f1 = str.intValue;
             if (f1 == 0)
             {
-                UIAlertView *alert = [[UIAlertView alloc]initWithTitle:[responseObject objectForKey:@"errorMessage"] message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-                [alert show];
+                hud.mode = MBProgressHUDModeCustomView;
+                hud.labelText = [responseObject objectForKey:@"errorMessage"];
+                [hud hide:YES afterDelay:1.5f];
                 [vcodeTextField becomeFirstResponder];
             }
             else
@@ -79,17 +89,18 @@
                 NSString *URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/checkMobile/%@",phoneTextField.text]];
                 [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject2) {
                     NSLog(@"%@", responseObject2);
-                    [MBProgressHUD hideHUDForView:self.view animated:YES];
                     NSString *str = [responseObject2 objectForKey:@"isSuccess"];
                     int f2 = str.intValue;
                     if (f2 == 0)
                     {
-                        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:[responseObject2 objectForKey:@"errorMessage"] message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-                        [alert show];
+                        hud.mode = MBProgressHUDModeCustomView;
+                        hud.labelText = [responseObject objectForKey:@"errorMessage"];
+                        [hud hide:YES afterDelay:1.5f];
                         [phoneTextField becomeFirstResponder];
                     }
                     else
                     {
+                        [hud hide:YES];
                         NSUserDefaults *userDefauts = [NSUserDefaults standardUserDefaults];
                         [userDefauts setObject:phoneTextField.text forKey:PHONENUM];
                         [userDefauts setObject:vcodeTextField.text forKey:VCODE];
@@ -101,18 +112,18 @@
                     
                 } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                     NSLog(@"Error: %@", error);
-                    [MBProgressHUD hideHUDForView:self.view animated:YES];
-                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"验证失败，请重试！" message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-                    [alert show];
+                    hud.mode = MBProgressHUDModeText;
+                    hud.labelText = @"当前网络状况不佳，请重试";
+                    [hud hide:YES afterDelay:1.5f];
                 }];
                 
             }
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"Error: %@", error);
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"验证失败，请重试！" message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-            [alert show];
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = @"当前网络状况不佳，请重试";
+            [hud hide:YES afterDelay:1.5f];
         }];
 
     }
