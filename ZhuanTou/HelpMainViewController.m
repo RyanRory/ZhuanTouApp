@@ -162,7 +162,7 @@
             {
                 MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         
-                hud.mode = MBProgressHUDModeText;
+                hud.mode = MBProgressHUDModeCustomView;
                 hud.labelText = @"请安装QQ";
                 hud.margin = 10.f;
                 hud.removeFromSuperViewOnHide = YES;

@@ -11,7 +11,7 @@
 
 #define BASEURL @"http://debug.pujintianxia.com/"
 
-#define SCREEN_WIDTH ([UIScreen mainScreen].bounds.size.width)
+#define SCREEN_WIDTH ([UIScreen mainScreen].bounds.size.width + 8)
 #define SCREEN_HEIGHT ([UIScreen mainScreen].bounds.size.height)
 
 #define ZTBLUE ([UIColor colorWithRed:59.0/255.0 green:148.0/255.0 blue:238.0/255.0 alpha:1.0f])

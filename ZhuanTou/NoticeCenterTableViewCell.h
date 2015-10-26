@@ -1,0 +1,16 @@
+//
+//  NoticeCenterTableViewCell.h
+//  ZhuanTou
+//
+//  Created by 赵润声 on 15/10/26.
+//  Copyright © 2015年 Shanghai Momu Financial Information Service  Shanghai Momu Financial Information Service Co., Ltd. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+@interface NoticeCenterTableViewCell : UITableViewCell
+@property (strong, nonatomic) IBOutlet UILabel *titleLabel;
+@property (strong, nonatomic) IBOutlet UILabel *timeLabel;
+@property (strong, nonatomic) IBOutlet UILabel *descriptionLabel;
+
+@end

@@ -1,23 +1,24 @@
 //
-//  CommonQuestionViewController.m
+//  NoticeDetailViewController.m
 //  ZhuanTou
 //
-//  Created by 赵润声 on 15/10/23.
+//  Created by 赵润声 on 15/10/26.
 //  Copyright © 2015年 Shanghai Momu Financial Information Service  Shanghai Momu Financial Information Service Co., Ltd. All rights reserved.
 //
 
-#import "CommonQuestionViewController.h"
+#import "NoticeDetailViewController.h"
 
-@interface CommonQuestionViewController ()
+@interface NoticeDetailViewController ()
 
 @end
 
-@implementation CommonQuestionViewController
+@implementation NoticeDetailViewController
 
 @synthesize webView, reloadButton;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor darkGrayColor],NSForegroundColorAttributeName,nil]];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"backIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(backToParent:)];
     backItem.tintColor = ZTBLUE;
@@ -38,6 +39,11 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)setURL:(NSString *)str
+{
+    url = str;
+}
+
 - (void)backToParent:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
@@ -45,7 +51,7 @@
 
 - (void)loadWebView
 {
-    NSURL *URL = [NSURL URLWithString:@"http://debug.pujintianxia.com/Mobile/Home/Questions"];
+    NSURL *URL = [NSURL URLWithString:url];
     NSURLRequest *request = [NSURLRequest requestWithURL:URL];
     [webView loadRequest:request];
 }
@@ -92,6 +98,4 @@
         reloadButton.hidden = NO;
     });
 }
-
-
 @end
