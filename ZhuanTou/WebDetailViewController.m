@@ -6,13 +6,13 @@
 //  Copyright © 2015年 Shanghai Momu Financial Information Service  Shanghai Momu Financial Information Service Co., Ltd. All rights reserved.
 //
 
-#import "NoticeDetailViewController.h"
+#import "WebDetailViewController.h"
 
-@interface NoticeDetailViewController ()
+@interface WebDetailViewController ()
 
 @end
 
-@implementation NoticeDetailViewController
+@implementation WebDetailViewController
 
 @synthesize webView, reloadButton;
 

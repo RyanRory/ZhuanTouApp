@@ -1,5 +1,5 @@
 //
-//  NoticeDetailViewController.h
+//  WebDetailViewController.h
 //  ZhuanTou
 //
 //  Created by 赵润声 on 15/10/26.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface NoticeDetailViewController : UIViewController<UIWebViewDelegate>
+@interface WebDetailViewController : UIViewController<UIWebViewDelegate>
 {
     NSString *url;
     MBProgressHUD *hud;

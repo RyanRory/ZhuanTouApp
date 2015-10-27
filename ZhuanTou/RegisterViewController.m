@@ -61,7 +61,9 @@
         hud.mode = MBProgressHUDModeCustomView;
         hud.labelText = @"请检查手机号码是否正确";
         [hud hide:YES afterDelay:1.5f];
-        [phoneTextField becomeFirstResponder];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [phoneTextField becomeFirstResponder];
+        });
     }
     else
     {
@@ -81,7 +83,9 @@
                 hud.mode = MBProgressHUDModeCustomView;
                 hud.labelText = [responseObject objectForKey:@"errorMessage"];
                 [hud hide:YES afterDelay:1.5f];
-                [vcodeTextField becomeFirstResponder];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [vcodeTextField becomeFirstResponder];
+                });
             }
             else
             {
@@ -96,7 +100,9 @@
                         hud.mode = MBProgressHUDModeCustomView;
                         hud.labelText = [responseObject objectForKey:@"errorMessage"];
                         [hud hide:YES afterDelay:1.5f];
-                        [phoneTextField becomeFirstResponder];
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                            [phoneTextField becomeFirstResponder];
+                        });
                     }
                     else
                     {

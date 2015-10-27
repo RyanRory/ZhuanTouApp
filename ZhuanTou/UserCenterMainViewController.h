@@ -21,8 +21,9 @@
 
 @interface UserCenterMainViewController : UIViewController
 {
-    SimpleSwitch *swith;
+    int t;
 }
+
 @property (strong, nonatomic) IBOutlet UILabel *propertyLabel;
 @property (strong, nonatomic) IBOutlet UIButton *chargeButton;
 @property (strong, nonatomic) IBOutlet UILabel *balanceLabel;

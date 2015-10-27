@@ -51,7 +51,7 @@
         [notices addObject:@{@"TITLE":@"专投网APP正式上线啦！",
                              @"DESCRIPTION":@"专投网APP正式上线啦！专投网APP正式上线啦！专投网APP正式上线啦！专投网APP正式上线啦！专投网APP正式上线啦！专投网APP正式上线啦！专投网APP正式上线啦！",
                              @"TIME":@"2015-12-25   11:11:11",
-                             @"URL":@"www.baidu.com"}];
+                             @"URL":@"http://debug.pujintianxia.com/Mobile/Home/MobileNews/cd5a2004-22a5-4acd-a27f-af5677a8bc71"}];
     }
     
     noticesNum = (int)notices.count;
@@ -97,7 +97,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NoticeDetailViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"NoticeDetailViewController"];
+    WebDetailViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"WebDetailViewController"];
+    vc.title = @"公告详情";
     [vc setURL:[[notices objectAtIndex:indexPath.row] objectForKey:@"URL"]];
     [[self navigationController]pushViewController:vc animated:YES];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];

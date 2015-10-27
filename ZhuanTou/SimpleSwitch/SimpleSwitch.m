@@ -31,17 +31,13 @@
 //
 #import "UIView+InnerShadow.h"
 #import "SimpleSwitch.h"
-#import "TitleLayer.h"
-#define kDefaultTitleOn @""
-#define kDefaultTitleOff @""
+
 @interface SimpleSwitch()
 -(void)setUpWithDefault;
 @end
 
 @implementation SimpleSwitch
 @synthesize on;
-@synthesize titleOn;
-@synthesize titleOff;
 @synthesize knobColor;
 @synthesize fillColor;
 #pragma mark -
@@ -84,21 +80,14 @@
     knobFrameOff = CGRectMake(1,1,self.bounds.size.width/2-2, self.bounds.size.height-2);
     knobFrameOn = CGRectMake(1+self.bounds.size.width/2,1,self.bounds.size.width/2-2, self.bounds.size.height-2);
    
-    self.titleOn = kDefaultTitleOn;
-    self.titleOff = kDefaultTitleOff;
     self.fillColor = ZTBLUE;
     self.knobColor = [UIColor whiteColor];
    
     on= NO;
     
-    titleLayer = [[TitleLayer alloc] initWithOnString:self.titleOn offString:self.titleOff];
-    titleLayer.frame = self.bounds;
-    [self.layer addSublayer:titleLayer];
-    [titleLayer setNeedsDisplay];
-    
     knobButton = [[KnobButton alloc] initWithFrame:CGRectMake(1, 1, self.bounds.size.width/2-2, self.bounds.size.height-2)];
     [knobButton setTitleColor:[UIColor colorWithRed:247.0/255.0 green:181.0/255.0 blue:44.0/255.0 alpha:100] forState:UIControlStateNormal];
-    [knobButton setTitle:titleOff forState:UIControlStateNormal];
+    [knobButton setTitle:@"" forState:UIControlStateNormal];
     [self addSubview:knobButton];
     
     UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
@@ -122,8 +111,6 @@
         CGRect frm =knobButton.frame;
         frm.origin.x += frm.size.width;
         [self valueChange];
-        [titleLayer setNeedsDisplay];
-        
         
         [self sendActionsForControlEvents:UIControlEventValueChanged];
         
@@ -139,9 +126,6 @@
         if (center.x  < self.bounds.size.width/2 + knobButton.frame.size.width/2 &&  center.x > knobButton.frame.size.width/2) {
             sender.view.center = center;
             [sender setTranslation:CGPointZero inView:self];
-            titleLayer.onString = @"";
-            titleLayer.offString = @"";
-            [ titleLayer setNeedsDisplay];
         }
         
     } else if (sender.state == UIGestureRecognizerStateEnded) {
@@ -154,20 +138,17 @@
 
 - (void)valueChange
 {
-    NSLog(@"value@%d",on);
     if (on) {
         knobButton.frame = knobFrameOff;
         on = !on;
         self.fillColor = ZTGRAY;
         [self setNeedsDisplay];
-        [knobButton setTitle:self.titleOff forState:UIControlStateNormal];
         [knobButton setTitleColor:[UIColor colorWithRed:247.0/255.0 green:181.0/255.0 blue:44.0/255.0 alpha:100] forState:UIControlStateNormal];
     }else{
         knobButton.frame = knobFrameOn;
         on = !on;
         self.fillColor = ZTBLUE;
         [self setNeedsDisplay];
-        [knobButton setTitle:self.titleOn forState:UIControlStateNormal];
         [knobButton setTitleColor:[UIColor colorWithRed:247.0/255.0 green:181.0/255.0 blue:44.0/255.0 alpha:100] forState:UIControlStateNormal];
     }
 }
@@ -182,9 +163,6 @@
 {
 	BOOL previousOn = self.on;
 	on = anewon;
-    titleLayer.onString = self.titleOn;
-    titleLayer.offString = self.titleOff;
-    [titleLayer setNeedsDisplay];
 	[CATransaction setAnimationDuration:0.01];
     
 	[CATransaction setCompletionBlock:^{
@@ -200,14 +178,12 @@
 		{
             self.fillColor = ZTBLUE;
 			knobButton.frame = knobFrameOn;
-            [knobButton setTitle:self.titleOn forState:UIControlStateNormal];
             [knobButton setTitleColor:[UIColor colorWithRed:247.0/255.0 green:181.0/255.0 blue:44.0/255.0 alpha:100] forState:UIControlStateNormal];
 		}
 		else
 		{
             self.fillColor = ZTGRAY;
 			knobButton.frame = knobFrameOff;
-            [knobButton setTitle:self.titleOff forState:UIControlStateNormal];
             [knobButton setTitleColor:[UIColor colorWithRed:247.0/255.0 green:181.0/255.0 blue:44.0/255.0 alpha:100] forState:UIControlStateNormal];
 		}
         
@@ -220,29 +196,7 @@
 		[CATransaction commit];
 	}];
 }
-- (void)setTitleOn:(NSString *)atitleOn
-{
-	if (atitleOn != titleOn)
-	{
-		titleOn = [atitleOn copy];
-		titleLayer.onString = titleOn;
-		[titleLayer setNeedsDisplay];
-        [knobButton setTitle:self.titleOn forState:UIControlStateNormal];
-        [knobButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-	}
-}
 
-- (void)setTitleOff:(NSString *)atitleOff
-{
-	if (atitleOff != titleOff)
-	{
-		titleOff = [atitleOff copy];
-		titleLayer.offString = titleOff;
-		[titleLayer setNeedsDisplay];
-        [knobButton setTitle:self.titleOff forState:UIControlStateNormal];
-        [knobButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-	}
-}
 -(void)setKnobColor:(UIColor *)aknobColor
 {
     knobColor =aknobColor;

@@ -19,9 +19,9 @@
     {
         self.backgroundColor = [UIColor whiteColor];
         
-        imageView = [[UIImageView alloc]initWithFrame:CGRectMake(15, 7, 20, 20)];
-        imageView.image = [UIImage imageNamed:@""];
-        label  = [[UILabel alloc]initWithFrame:CGRectMake(40, 0, frame.size.width-45, frame.size.height)];
+        imageView = [[UIImageView alloc]initWithFrame:CGRectMake(20, 9, 12, 16)];
+        imageView.image = [UIImage imageNamed:@"iNewsIcon.png"];
+        label  = [[UILabel alloc]initWithFrame:CGRectMake(37, 0, frame.size.width-45, frame.size.height)];
         label.font = [UIFont systemFontOfSize:14.0f];
         label.textColor = ZTGRAY;
         

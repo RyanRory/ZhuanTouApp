@@ -23,6 +23,8 @@
     
     chargeButton.layer.cornerRadius = 3;
     drawButton.layer.cornerRadius = 3;
+    
+    t = 0;
 
     [dingqiButton addTarget:self action:@selector(toDingqi:) forControlEvents:UIControlEventTouchUpInside];
     [huoqiButton addTarget:self action:@selector(toHuoqi:) forControlEvents:UIControlEventTouchUpInside];
@@ -33,6 +35,8 @@
     [bonusButton addTarget:self action:@selector(toBonus:) forControlEvents:UIControlEventTouchUpInside];
     [securityButton addTarget:self action:@selector(toSecurity:) forControlEvents:UIControlEventTouchUpInside];
     [gestureButton addTarget:self action:@selector(toGesture:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [autoSwitch addTarget:self action:@selector(valueChanged:) forControlEvents:UIControlEventValueChanged];
     
     [self setupData];
 }
@@ -49,8 +53,8 @@
     if (flag)
     {
         UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithTitle:@"登出" style:UIBarButtonItemStylePlain target:self action:@selector(signOut:)];
-        self.navigationItem.leftBarButtonItem = item;
-        [self.navigationItem.leftBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont boldSystemFontOfSize:13], NSFontAttributeName,nil] forState:UIControlStateNormal];
+        self.navigationItem.rightBarButtonItem = item;
+        [self.navigationItem.rightBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont boldSystemFontOfSize:13], NSFontAttributeName,nil] forState:UIControlStateNormal];
     }
 }
 
@@ -83,7 +87,16 @@
 - (void)setAuto:(id)sender
 {
     AutoViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"AutoViewController"];
+    [vc setSwitchOn:autoSwitch.on];
     [[self navigationController]pushViewController:vc animated:YES];
+}
+
+-(void)valueChanged:(id)sender
+{
+    if (t!=0)
+    {
+        NSLog(@"switch state: %d",((SimpleSwitch*)sender).on);
+    }
 }
 
 - (void)toProfit:(id)sender

@@ -42,6 +42,7 @@
 
 - (void)tellUs:(id)sender
 {
+    [feedbackTextField resignFirstResponder];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

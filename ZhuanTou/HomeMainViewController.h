@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "NoticeView.h"
 #import "NoticeCenterViewController.h"
+#import "WebDetailViewController.h"
 
 @interface HomeMainViewController : UIViewController<UIScrollViewDelegate>
 {
@@ -17,6 +18,7 @@
     int currentImage, currentNotice;
     NSTimer *timer, *noticeTimer;
     NoticeView *topView, *midView, *bottomView;
+    UIButton *midImageButton;
 }
 
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;

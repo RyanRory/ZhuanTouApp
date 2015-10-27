@@ -67,7 +67,6 @@
     if (self) {
         
         [self initViews];
-        flag = NO;
         
     }
     return self;
@@ -182,26 +181,20 @@
             
         case AlertPwdModel:
             //修改密码
+            flag = YES;
             self.tfLabel.text = INPUT_OLD_PSWSTRING; //请输入原始密码
             break;
             
         case SetPwdModel:
             //重置密码
+            flag = NO;
             self.tfLabel.text = SETPSWSTRING;        //请滑动设置密码
             break;
             
         case ValidatePwdModel:
             //验证密码
-        {
+            flag = YES;
             self.tfLabel.text = VALIDATE_PSWSTRING; //验证密码
-            self.subItemsss.hidden = YES;
-            UIImageView *imageView = [[UIImageView alloc]initWithFrame:self.subItemsss.frame];
-            imageView.layer.masksToBounds = YES;
-            imageView.layer.cornerRadius = imageView.frame.size.width/2;
-            imageView.image = [UIImage imageNamed:_imageName];
-            [self addSubview:imageView];
-        }
-            
             break;
             
         case DeletePwdModel:

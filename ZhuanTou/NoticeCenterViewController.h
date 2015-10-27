@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "NoticeCenterTableViewCell.h"
-#import "NoticeDetailViewController.h"
+#import "WebDetailViewController.h"
 
 @interface NoticeCenterViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 {

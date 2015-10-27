@@ -43,7 +43,74 @@
 
 - (void)confirm:(id)sender
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    [realNameTextField resignFirstResponder];
+    [idNumTextField resignFirstResponder];
+    
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    [self.navigationController.view addSubview:hud];
+    NSString *idReg = @"^[0-9]{17}[0-9X]$";
+    NSPredicate *regextestId = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", idReg];
+    
+    NSArray *weights = [[NSArray alloc]initWithObjects:@"7",@"9",@"10",@"5",@"8",@"4",@"2",@"1",@"6",@"3",@"7",@"9",@"10",@"5",@"8",@"4",@"2", nil];
+    NSArray *partityBits = [[NSArray alloc]initWithObjects:@"1",@"0",@"X",@"9",@"8",@"7",@"6",@"5",@"4",@"3",@"2", nil];
+    int power = 0;
+    const char *chars = [idNumTextField.text cStringUsingEncoding:NSUTF8StringEncoding];
+    for (int i=0; i<17; i++)
+    {
+        power += ((int)chars[i]-48) * ((NSString*)weights[i]).intValue;
+    }
+
+    if((![regextestId evaluateWithObject: idNumTextField.text]) || !([(NSString*)partityBits[power%11] isEqualToString:[NSString stringWithCString:&chars[17] encoding:NSUTF8StringEncoding]]))
+    {
+        hud.mode = MBProgressHUDModeCustomView;
+        hud.labelText = @"请检查您的身份证号码是否正确";
+        [hud hide:YES afterDelay:1.5f];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [idNumTextField becomeFirstResponder];
+        });
+    }
+    else
+    {
+        [confirmButton setUserInteractionEnabled:NO];
+        [confirmButton setAlpha:0.6f];
+        hud.mode = MBProgressHUDModeIndeterminate;
+        [hud show:YES];
+        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+        NSString *URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/setIdCard/%@/%@", idNumTextField.text, [realNameTextField.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+        [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+            NSLog(@"%@", responseObject);
+            NSString *str = [responseObject objectForKey:@"isSuccess"];
+            int f1 = str.intValue;
+            if (f1 == 0)
+            {
+                hud.mode = MBProgressHUDModeCustomView;
+                hud.labelText = [responseObject objectForKey:@"errorMessage"];
+                [hud hide:YES afterDelay:1.5f];
+            }
+            else
+            {
+                hud.mode = MBProgressHUDModeCustomView;
+                hud.labelText = @"认证成功";
+                [hud hide:YES afterDelay:1.0f];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [self.navigationController popViewControllerAnimated:YES];
+                });
+            }
+            
+            [confirmButton setUserInteractionEnabled:YES];
+            [confirmButton setAlpha:1.0f];
+            
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            NSLog(@"Error: %@", error);
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = @"当前网络状况不佳，请重试";
+            [hud hide:YES afterDelay:1.5f];
+            
+            [confirmButton setUserInteractionEnabled:YES];
+            [confirmButton setAlpha:1.0f];
+        }];
+
+    }
 }
 
 -(IBAction)textFiledReturnEditing:(id)sender {

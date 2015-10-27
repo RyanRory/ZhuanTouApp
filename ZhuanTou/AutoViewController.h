@@ -7,7 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AutoTableViewCell.h"
 
-@interface AutoViewController : UIViewController
+@interface AutoViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+{
+    BOOL switchOn;
+    int t;
+}
+
+@property (strong, nonatomic) IBOutlet UITableView *tView;
+
+- (void)setSwitchOn:(BOOL)flag;
 
 @end

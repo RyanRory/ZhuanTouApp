@@ -24,7 +24,7 @@
     
     [noticeButton addTarget:self action:@selector(toNotice:) forControlEvents:UIControlEventTouchUpInside];
     
-    images = [NSArray arrayWithObjects:[UIImage imageNamed:@"testPage1"],[UIImage imageNamed:@"testPage2"],[UIImage imageNamed:@"testPage3"],[UIImage imageNamed:@"testPage1"],[UIImage imageNamed:@"testPage2"],[UIImage imageNamed:@"testPage3"], nil];
+    images = [NSArray arrayWithObjects:[UIImage imageNamed:@"banner1.png"],[UIImage imageNamed:@"banner1.png"],[UIImage imageNamed:@"banner1.png"],[UIImage imageNamed:@"banner1.png"],[UIImage imageNamed:@"banner1.png"],[UIImage imageNamed:@"banner1.png"], nil];
     notices = [NSArray arrayWithObjects:@"专投网APP上线啦！",@"专投网APP上线啦，哈哈哈！",@"专投网APP上线啦，嘿嘿嘿！",@"专投网APP上线啦，啦啦啦！",@"专投网APP上线啦，哈哈哈哈！",@"专投网APP上线啦，嘿嘿嘿嘿！", nil];
     currentImage = 0;
     
@@ -42,17 +42,22 @@
     
     scrollView.contentSize = CGSizeMake(SCREEN_WIDTH * 3, 0);
     
-    leftImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_WIDTH*5/8)];
+    leftImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_WIDTH*11/15)];
     leftImage.image = [images objectAtIndex:images.count-1];
     
-    midImage = [[UIImageView alloc]initWithFrame:CGRectMake(SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_WIDTH*5/8)];
+    midImage = [[UIImageView alloc]initWithFrame:CGRectMake(SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_WIDTH*11/15)];
     midImage.image = [images objectAtIndex:0];
     
-    rightImage = [[UIImageView alloc]initWithFrame:CGRectMake(SCREEN_WIDTH * 2, 0, SCREEN_WIDTH, SCREEN_WIDTH*5/8)];
+    midImageButton = [[UIButton alloc]initWithFrame:midImage.frame];
+    midImageButton.titleLabel.text = @"";
+    [midImageButton addTarget:self action:@selector(toImageDetail:) forControlEvents:UIControlEventTouchUpInside];
+    
+    rightImage = [[UIImageView alloc]initWithFrame:CGRectMake(SCREEN_WIDTH * 2, 0, SCREEN_WIDTH, SCREEN_WIDTH*11/15)];
     rightImage.image = [images objectAtIndex:1];
     
     [scrollView addSubview:leftImage];
     [scrollView addSubview:midImage];
+    [scrollView addSubview:midImageButton];
     [scrollView addSubview:rightImage];
     [scrollView setContentOffset:CGPointMake(SCREEN_WIDTH, 0) animated:NO];
     
@@ -79,8 +84,9 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    timer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(scrollToNextPage:) userInfo:nil repeats:YES];
-    noticeTimer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(scrollToNextNotice:) userInfo:nil repeats:YES];
+    [[self navigationController]setNavigationBarHidden:YES animated:YES];
+    timer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(scrollToNextPage:) userInfo:nil repeats:YES];
+    noticeTimer = [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(scrollToNextNotice:) userInfo:nil repeats:YES];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -110,6 +116,14 @@
     [[self navigationController]pushViewController:vc animated:YES];
 }
 
+- (void)toImageDetail:(id)sender
+{
+    WebDetailViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"WebDetailViewController"];
+    vc.title = @"呵呵哒";
+    [vc setURL:@"http://debug.pujintianxia.com/Mobile/Home/Questions"];
+    [[self navigationController]pushViewController:vc animated:YES];
+}
+
 #pragma mark ScrollViewDelegate
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
@@ -119,7 +133,7 @@
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
-    timer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(scrollToNextPage:) userInfo:nil repeats:YES];
+    timer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(scrollToNextPage:) userInfo:nil repeats:YES];
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrView

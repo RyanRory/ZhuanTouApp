@@ -53,21 +53,27 @@
         hud.mode = MBProgressHUDModeCustomView;
         hud.labelText = @"两次输入的密码不一致";
         [hud hide:YES afterDelay:1.5f];
-        [pswdAgainTextFiled becomeFirstResponder];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [pswdAgainTextFiled becomeFirstResponder];
+        });
     }
     else if(![regextestpassword evaluateWithObject: passwordTextField.text])
     {
         hud.mode = MBProgressHUDModeCustomView;
         hud.labelText = @"密码至少6位，包括数字和字母";
         [hud hide:YES afterDelay:1.5f];
-        [passwordTextField becomeFirstResponder];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [passwordTextField becomeFirstResponder];
+        });
     }
     else if (!((recommendTextField.text.length == 0) || [[NSPredicate predicateWithFormat:@"SELF MATCHES %@",@"^[0-9]{11}$"] evaluateWithObject:recommendTextField.text]))
     {
         hud.mode = MBProgressHUDModeCustomView;
         hud.labelText = @"请检查推荐人手机号码是否正确";
         [hud hide:YES afterDelay:1.5f];
-        [recommendTextField becomeFirstResponder];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [recommendTextField becomeFirstResponder];
+        });
     }
     else
     {
@@ -102,6 +108,9 @@
             else
             {
                 [hud hide:YES];
+                hud.mode = MBProgressHUDModeCustomView;
+                hud.labelText = @"注册成功";
+                [hud hide:YES afterDelay:1.5f];
                 [userDefaults setObject:usernameTextField.text forKey:USERNAME];
                 [userDefaults setObject:passwordTextField.text forKey:PASSWORD];
                 [userDefaults setBool:YES forKey:ISLOGIN];
@@ -110,9 +119,9 @@
                 [KeychainData forgotPsw];
                 SetpasswordViewController *setpass = [[self storyboard]instantiateViewControllerWithIdentifier:@"SetpasswordViewController"];
                 setpass.string = @"重置密码";
-                [[self navigationController]pushViewController:setpass animated:YES];
-                
-                
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [[self navigationController]pushViewController:setpass animated:YES];
+                });
             }
             [nextButton setUserInteractionEnabled:YES];
             [nextButton setAlpha:1.0f];
