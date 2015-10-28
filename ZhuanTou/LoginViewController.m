@@ -83,9 +83,10 @@
             }
             else
             {
-                hud.mode = MBProgressHUDModeCustomView;
-                hud.labelText = @"登录成功";
-                [hud hide:YES afterDelay:1.0f];
+                //去掉成功提示
+                //hud.mode = MBProgressHUDModeCustomView;
+                //hud.labelText = @"登录成功";
+                //[hud hide:YES afterDelay:1.0f];
                 NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
                 [userDefault setBool:YES forKey:ISLOGIN];
                 [userDefault synchronize];

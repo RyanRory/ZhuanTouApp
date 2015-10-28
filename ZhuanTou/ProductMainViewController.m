@@ -31,6 +31,7 @@
     [huoqiButton addTarget:self action:@selector(clickHuoqi:) forControlEvents:UIControlEventTouchUpInside];
     
     [productsBeforeButton setTitle:[NSString stringWithFormat:@"查看\n往期产品"] forState:UIControlStateNormal];
+    [productsBeforeButton setHidden:YES];
     productsBeforeButton.titleLabel.numberOfLines = 0;
     productsBeforeButton.titleLabel.textAlignment = 1;
     [productsBeforeButton addTarget:self action:@selector(goToProductsBefore:) forControlEvents:UIControlEventTouchUpInside];
@@ -88,7 +89,7 @@
     [rightView setHidden:YES];
     [moryLabel setHidden:NO];
     [monthNumLabel setHidden:NO];
-    [productsBeforeButton setHidden:NO];
+    [productsBeforeButton setHidden:YES];
     [huoqiBgImageView1 setHidden:YES];
     [huoqiBgImageView1 setFrame:frame];
     [huoqiBgImageView2 setHidden:YES];
