@@ -19,6 +19,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor darkGrayColor],NSForegroundColorAttributeName,nil]];
+    self.navigationController.interactivePopGestureRecognizer.delegate = self;
     
     tView.showsVerticalScrollIndicator = NO;
 }

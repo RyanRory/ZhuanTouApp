@@ -50,6 +50,16 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)setStyle:(NSString *)str
+{
+    style = str;
+}
+
+- (NSString*)getStyle
+{
+    return style;
+}
+
 - (void)setSelectedIndex:(NSUInteger)selectedIndex
 {
     //判断是否相等,不同才设置
@@ -74,6 +84,10 @@
         {
             UINavigationController *nav = [[self storyboard]instantiateViewControllerWithIdentifier:@"LoginNav"];
             [self presentViewController:nav animated:YES completion:nil];
+        }
+        if (tabIndex == 1)
+        {
+            style = WENJIAN;
         }
     }
 }

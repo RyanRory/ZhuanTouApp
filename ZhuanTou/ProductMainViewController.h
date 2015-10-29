@@ -9,8 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "UICountingLabel.h"
 #import "ProductBuyViewController.h"
+#import "ZTTabBarViewController.h"
+#import "ProductsBeforeViewController.h"
 
-@interface ProductMainViewController : UIViewController
+@interface ProductMainViewController : UIViewController<UIGestureRecognizerDelegate>
 {
     CGRect frame;
     CGPoint bgPoint;

@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "ZTTabBarViewController.h"
+#import "ForgottenViewController.h"
 
-@interface LoginViewController : UIViewController
+@interface LoginViewController : UIViewController<UIGestureRecognizerDelegate>
 @property (strong, nonatomic) IBOutlet UIButton *forgottenButton;
 @property (strong, nonatomic) IBOutlet UIButton *loginButton;
 @property (strong, nonatomic) IBOutlet UITextField *usernameTextField;

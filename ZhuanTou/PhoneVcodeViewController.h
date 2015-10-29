@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "InformationViewController.h"
+#import "ForgottonResetViewController.h"
 
 @interface PhoneVcodeViewController : UIViewController
 {
@@ -15,11 +16,14 @@
     NSTimer *countDownTimer;
     NSString *phoneNum;
     NSString *vCode;
+    NSString *style;
 }
 @property (strong, nonatomic) IBOutlet UIView *textView;
 @property (strong, nonatomic) IBOutlet UITextField *phoneVcodeTextField;
 @property (strong, nonatomic) IBOutlet UIButton *getVcodeButton;
 @property (strong, nonatomic) IBOutlet UIButton *nextButton;
+
+- (void)setStyle:(NSString*)str;
 
 - (IBAction)textFiledReturnEditing:(id)sender;
 

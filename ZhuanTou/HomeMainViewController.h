@@ -10,8 +10,9 @@
 #import "NoticeView.h"
 #import "NoticeCenterViewController.h"
 #import "WebDetailViewController.h"
+#import "ZTTabBarViewController.h"
 
-@interface HomeMainViewController : UIViewController<UIScrollViewDelegate>
+@interface HomeMainViewController : UIViewController<UIScrollViewDelegate, UIGestureRecognizerDelegate>
 {
     UIImageView *leftImage, *midImage, *rightImage;
     NSArray *images, *notices;
@@ -25,5 +26,10 @@
 @property (strong, nonatomic) IBOutlet UIPageControl *pageControl;
 @property (strong, nonatomic) IBOutlet UIScrollView *noticeScrollView;
 @property (strong, nonatomic) IBOutlet UIButton *noticeButton;
+@property (strong, nonatomic) IBOutlet UIButton *wenjianButton;
+@property (strong, nonatomic) IBOutlet UIButton *huoqiButton;
+@property (strong, nonatomic) IBOutlet UIButton *zongheButton;
+@property (strong, nonatomic) IBOutlet UIButton *newerButton;
+@property (strong, nonatomic) IBOutlet UIButton *zhaiquanButton;
 
 @end

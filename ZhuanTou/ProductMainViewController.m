@@ -25,6 +25,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor darkGrayColor],NSForegroundColorAttributeName,nil]];
+    self.navigationController.interactivePopGestureRecognizer.delegate = self;
     
     [wenjianButton addTarget:self action:@selector(clickWenjianButton:) forControlEvents:UIControlEventTouchUpInside];
     [zongheButton addTarget:self action:@selector(clickZongheButton:) forControlEvents:UIControlEventTouchUpInside];
@@ -56,21 +57,41 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    ZTTabBarViewController *tabBarVC = (ZTTabBarViewController*)[self tabBarController];
+    style = [tabBarVC getStyle];
     if (frame.origin.x == 0) frame = huoqiBgImageView1.frame;
     if (bgPoint.x == 0) bgPoint = CGPointMake(bgCircleImageView.frame.origin.x + bgCircleImageView.frame.size.width/2+10, bgCircleImageView.frame.origin.y+bgCircleImageView.frame.size.height/2);
     if (point.x == 0) point = CGPointMake(bgCircleImageView.frame.origin.x - huoqiBgImageView1.frame.origin.x + 20, bgCircleImageView.frame.origin.y - frame.origin.y + 5);
 
-    if ([style isEqualToString:WENJIAN])
+    if ([style isEqualToString:HUOQI])
     {
-        [self setupWenjian];
+        huoqiButton.tintColor = ZTRED;
+        [huoqiButton setUserInteractionEnabled:NO];
+        [wenjianButton setUserInteractionEnabled:YES];
+        [zongheButton setUserInteractionEnabled:YES];
+        wenjianButton.tintColor = ZTGRAY;
+        zongheButton.tintColor = ZTGRAY;
+        [self setupHuoqi];
     }
     else if ([style isEqualToString:ZONGHE])
     {
+        zongheButton.tintColor = ZTBLUE;
+        [zongheButton setUserInteractionEnabled:NO];
+        [wenjianButton setUserInteractionEnabled:YES];
+        [huoqiButton setUserInteractionEnabled:YES];
+        wenjianButton.tintColor = ZTGRAY;
+        huoqiButton.tintColor = ZTGRAY;
         [self setupZonghe];
     }
     else
     {
-        [self setupHuoqi];
+        wenjianButton.tintColor = ZTLIGHTRED;
+        [wenjianButton setUserInteractionEnabled:NO];
+        [zongheButton setUserInteractionEnabled:YES];
+        [huoqiButton setUserInteractionEnabled:YES];
+        zongheButton.tintColor = ZTGRAY;
+        huoqiButton.tintColor = ZTGRAY;
+        [self setupWenjian];
     }
 }
 
@@ -183,7 +204,8 @@
     [huoqiButton setUserInteractionEnabled:YES];
     zongheButton.tintColor = ZTGRAY;
     huoqiButton.tintColor = ZTGRAY;
-    style = WENJIAN;
+    ZTTabBarViewController *tabBarVC = (ZTTabBarViewController*)[self tabBarController];
+    [tabBarVC setStyle:WENJIAN];
 }
 
 - (void)clickZongheButton:(id)sender
@@ -195,7 +217,8 @@
     [huoqiButton setUserInteractionEnabled:YES];
     wenjianButton.tintColor = ZTGRAY;
     huoqiButton.tintColor = ZTGRAY;
-    style = ZONGHE;
+    ZTTabBarViewController *tabBarVC = (ZTTabBarViewController*)[self tabBarController];
+    [tabBarVC setStyle:ZONGHE];
 }
 
 - (void)clickHuoqi:(id)sender
@@ -207,7 +230,8 @@
     [zongheButton setUserInteractionEnabled:YES];
     wenjianButton.tintColor = ZTGRAY;
     zongheButton.tintColor = ZTGRAY;
-    style = HUOQI;
+    ZTTabBarViewController *tabBarVC = (ZTTabBarViewController*)[self tabBarController];
+    [tabBarVC setStyle:HUOQI];
 }
 
 - (void)bgCircleAnimation
@@ -232,7 +256,8 @@
 
 - (void)goToProductsBefore:(id)sender
 {
-    
+    ProductsBeforeViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ProductsBeforeViewController"];
+    [[self navigationController]pushViewController:vc animated:YES];
 }
 
 - (void)buyNow:(id)sender

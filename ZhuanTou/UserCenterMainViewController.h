@@ -19,7 +19,7 @@
 #import "SetpasswordViewController.h"
 #import "ZTTabBarViewController.h"
 
-@interface UserCenterMainViewController : UIViewController
+@interface UserCenterMainViewController : UIViewController<UIGestureRecognizerDelegate>
 {
     int t;
 }

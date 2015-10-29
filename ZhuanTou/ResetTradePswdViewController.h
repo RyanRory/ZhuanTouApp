@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ForgottenViewController.h"
 
 @interface ResetTradePswdViewController : UIViewController
 {
@@ -17,6 +18,9 @@
 @property (strong, nonatomic) IBOutlet UITextField *nPswdAgainTextField;
 @property (strong, nonatomic) IBOutlet UIButton *confirmButton;
 @property (strong, nonatomic) IBOutlet UIButton *forgetButton;
+@property (strong, nonatomic) IBOutlet UIImageView *icon1;
+@property (strong, nonatomic) IBOutlet UIImageView *icon2;
+@property (strong, nonatomic) IBOutlet UIImageView *icon3;
 
 - (IBAction)textFiledReturnEditing:(id)sender;
 

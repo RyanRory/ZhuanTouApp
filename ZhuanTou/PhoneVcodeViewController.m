@@ -39,6 +39,15 @@
     phoneNum = [userDefaults objectForKey:PHONENUM];
     vCode = [userDefaults objectForKey:VCODE];
     [self getVcode];
+    
+    if ([style isEqualToString:RESETLOGINPSWD]||[style isEqualToString:RESETTRADEPSWD])
+    {
+        self.title = @"找回密码";
+    }
+    else
+    {
+        self.title = @"确认手机验证码";
+    }
 }
 
 - (void)backToParent:(id)sender
@@ -85,9 +94,17 @@
                 NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
                 [userDefaults setObject:phoneVcodeTextField.text forKey:SMSCODE];
                 [userDefaults synchronize];
-                
-                InformationViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"InformationViewController"];
-                [[self navigationController]pushViewController:vc animated:YES];
+                if ([style isEqualToString:RESETLOGINPSWD]||[style isEqualToString:RESETTRADEPSWD])
+                {
+                    ForgottonResetViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ForgottonResetViewController"];
+                    [vc setStyle:style];
+                    [[self navigationController]pushViewController:vc animated:YES];
+                }
+                else
+                {
+                    InformationViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"InformationViewController"];
+                    [[self navigationController]pushViewController:vc animated:YES];
+                }
             }
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -95,6 +112,8 @@
             hud.mode = MBProgressHUDModeText;
             hud.labelText = @"当前网络状况不佳，请重试";
             [hud hide:YES afterDelay:1.5f];
+            [nextButton setUserInteractionEnabled:YES];
+            [nextButton setAlpha:1.0f];
         }];
     }
 }
@@ -108,7 +127,19 @@
 {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    NSString *URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/registerSmsCode/%@/%@",phoneNum,vCode]];
+    NSString *URL;
+    if ([style isEqualToString:RESETLOGINPSWD])
+    {
+        URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/sendSmsCodeForResetPassword/%@/%@",phoneNum,vCode]];
+    }
+    else if ([style isEqualToString:RESETTRADEPSWD])
+    {
+        URL = [BASEURL stringByAppendingString:@"api/account/sendSmsCodeForResetWP"];
+    }
+    else
+    {
+        URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/registerSmsCode/%@/%@",phoneNum,vCode]];
+    }
     [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
         NSLog(@"%@", responseObject);
         NSString *str = [responseObject objectForKey:@"isSuccess"];
@@ -152,6 +183,10 @@
     }
 }
 
+- (void)setStyle:(NSString *)str
+{
+    style = str;
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

@@ -15,10 +15,12 @@
 @implementation HomeMainViewController
 
 @synthesize scrollView, noticeScrollView, noticeButton, pageControl;
+@synthesize wenjianButton, zongheButton, huoqiButton, zhaiquanButton, newerButton;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.navigationController setNavigationBarHidden:YES animated:NO];
+    self.navigationController.interactivePopGestureRecognizer.delegate = self;
     
     self.edgesForExtendedLayout = UIRectEdgeNone;
     
@@ -79,6 +81,12 @@
     [noticeScrollView addSubview:midView];
     [noticeScrollView addSubview:bottomView];
     [noticeScrollView setContentOffset:CGPointMake(0, noticeScrollView.frame.size.height) animated:NO];
+    
+    [wenjianButton addTarget:self action:@selector(toWenjian:) forControlEvents:UIControlEventTouchUpInside];
+    [zongheButton addTarget:self action:@selector(toZonghe:) forControlEvents:UIControlEventTouchUpInside];
+    [huoqiButton addTarget:self action:@selector(toHuoqi:) forControlEvents:UIControlEventTouchUpInside];
+    [zhaiquanButton addTarget:self action:@selector(toZhaiquan:) forControlEvents:UIControlEventTouchUpInside];
+    [newerButton addTarget:self action:@selector(toNewer:) forControlEvents:UIControlEventTouchUpInside];
 
 }
 
@@ -122,6 +130,41 @@
     vc.title = @"呵呵哒";
     [vc setURL:@"http://debug.pujintianxia.com/Mobile/Home/Questions"];
     [[self navigationController]pushViewController:vc animated:YES];
+}
+
+- (void)toWenjian:(id)sender
+{
+    ZTTabBarViewController *tabBarVC = (ZTTabBarViewController*)[self tabBarController];
+    [tabBarVC setStyle:WENJIAN];
+    [tabBarVC setSelectedIndex:1];
+}
+
+- (void)toZonghe:(id)sender
+{
+    ZTTabBarViewController *tabBarVC = (ZTTabBarViewController*)[self tabBarController];
+    [tabBarVC setStyle:ZONGHE];
+    [tabBarVC setSelectedIndex:1];
+}
+
+- (void)toHuoqi:(id)sender
+{
+    ZTTabBarViewController *tabBarVC = (ZTTabBarViewController*)[self tabBarController];
+    [tabBarVC setStyle:HUOQI];
+    [tabBarVC setSelectedIndex:1];
+}
+
+- (void)toZhaiquan:(id)sender
+{
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.mode = MBProgressHUDModeCustomView;
+    hud.labelText = @"建设中...";
+    hud.customView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"inbuilding.png"]];
+    [hud hide:YES afterDelay:1.5f];
+}
+
+- (void)toNewer:(id)sender
+{
+    
 }
 
 #pragma mark ScrollViewDelegate

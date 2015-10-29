@@ -25,14 +25,18 @@
     UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithCustomView:[UIButton buttonWithType:UIButtonTypeCustom]];
     self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:backItem, item, nil];
     
+    self.navigationController.interactivePopGestureRecognizer.delegate = self;
+    
     loginButton.layer.cornerRadius = 3;
     textView.layer.cornerRadius = 3;
     
     [loginButton addTarget:self action:@selector(Login:) forControlEvents:UIControlEventTouchUpInside];
     [forgottenButton addTarget:self action:@selector(ToForgotten:) forControlEvents:UIControlEventTouchUpInside];
     
-    
-    
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     usernameTextField.text = [userDefaults objectForKey:USERNAME];
     passwordTextField.text = [userDefaults objectForKey:PASSWORD];
@@ -83,16 +87,13 @@
             }
             else
             {
-                //去掉成功提示
-                //hud.mode = MBProgressHUDModeCustomView;
-                //hud.labelText = @"登录成功";
-                //[hud hide:YES afterDelay:1.0f];
+                [hud hide:YES];
                 NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
                 [userDefault setBool:YES forKey:ISLOGIN];
+                [userDefault setObject:usernameTextField.text forKey:USERNAME];
+                [userDefault setObject:passwordTextField.text forKey:PASSWORD];
                 [userDefault synchronize];
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    [self dismissViewControllerAnimated:YES completion:nil];
-                });
+                [self dismissViewControllerAnimated:YES completion:nil];
             }
             
             [loginButton setUserInteractionEnabled:YES];
@@ -114,11 +115,15 @@
 
 - (void)ToForgotten:(id)sender
 {
-    
+    ForgottenViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ForgottenViewController"];
+    [vc setStyle:RESETLOGINPSWD];
+    [[self navigationController]pushViewController:vc animated:YES];
 }
 
 - (void)backToParent:(id)sender
 {
+    [usernameTextField resignFirstResponder];
+    [passwordTextField resignFirstResponder];
     ZTTabBarViewController *vc = (ZTTabBarViewController*)[self presentingViewController];
     [vc setSelectedIndex:vc.lastSelectedIndex];
     [self dismissViewControllerAnimated:YES completion:nil];

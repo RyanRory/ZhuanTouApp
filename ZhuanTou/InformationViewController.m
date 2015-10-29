@@ -107,7 +107,6 @@
             }
             else
             {
-                [hud hide:YES];
                 hud.mode = MBProgressHUDModeCustomView;
                 hud.labelText = @"注册成功";
                 [hud hide:YES afterDelay:1.5f];

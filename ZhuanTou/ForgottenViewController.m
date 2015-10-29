@@ -1,46 +1,45 @@
 //
-//  RegisterViewController.m
+//  ForgottenViewController.m
 //  ZhuanTou
 //
-//  Created by 赵润声 on 15/10/14.
+//  Created by 赵润声 on 15/10/29.
 //  Copyright © 2015年 Shanghai Momu Financial Information Service  Shanghai Momu Financial Information Service Co., Ltd. All rights reserved.
 //
 
-#import "RegisterViewController.h"
+#import "ForgottenViewController.h"
 
-@interface RegisterViewController ()
+@interface ForgottenViewController ()
 
 @end
 
-@implementation RegisterViewController
+@implementation ForgottenViewController
 
-@synthesize phoneView, phoneTextField, vcodeView, vcodeImageView, vcodeTextField, changeButton, checkboxButton, nextButton, agreementButton;
+@synthesize phoneView, vcodeImageView, phoneTextField, vcodeTextField, vcodeView, nextButton, changeButton;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor darkGrayColor],NSForegroundColorAttributeName,nil]];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"backIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(backToParent:)];
     backItem.tintColor = ZTBLUE;
     UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithCustomView:[UIButton buttonWithType:UIButtonTypeCustom]];
     self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:backItem, item, nil];
-    
-    
+    [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor darkGrayColor],NSForegroundColorAttributeName,nil]];
     
     phoneView.layer.cornerRadius = 3;
     vcodeView.layer.cornerRadius = 3;
     nextButton.layer.cornerRadius = 3;
     [nextButton setUserInteractionEnabled:NO];
     [nextButton setAlpha:0.6f];
-    checkboxButton.selected = YES;
     
     [nextButton addTarget:self action:@selector(toNextPage:) forControlEvents:UIControlEventTouchUpInside];
-    [agreementButton addTarget:self action:@selector(toAgreemet:) forControlEvents:UIControlEventTouchUpInside];
-    [checkboxButton addTarget:self action:@selector(checkboxEnsure:) forControlEvents:UIControlEventTouchUpInside];
     [changeButton addTarget:self action:@selector(changeVcode:) forControlEvents:UIControlEventTouchUpInside];
     [vcodeImageView addTarget:self action:@selector(changeVcode:) forControlEvents:UIControlEventTouchUpInside];
     
     [NSThread detachNewThreadSelector:@selector(getVcode) toTarget:self withObject:nil];
-    
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 
 - (void)backToParent:(id)sender
@@ -94,10 +93,10 @@
                     NSLog(@"%@", responseObject2);
                     NSString *str = [responseObject2 objectForKey:@"isSuccess"];
                     int f2 = str.intValue;
-                    if (f2 == 0)
+                    if (f2 == 1)
                     {
                         hud.mode = MBProgressHUDModeCustomView;
-                        hud.labelText = [responseObject2 objectForKey:@"errorMessage"];
+                        hud.labelText = @"该手机号尚未注册";
                         [hud hide:YES afterDelay:1.5f];
                         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                             [phoneTextField becomeFirstResponder];
@@ -112,7 +111,7 @@
                         [userDefauts synchronize];
                         
                         PhoneVcodeViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"PhoneVcodeViewController"];
-                        [vc setStyle:@"REGISTER"];
+                        [vc setStyle:style];
                         [[self navigationController]pushViewController:vc animated:YES];
                     }
                     
@@ -133,38 +132,14 @@
             [nextButton setUserInteractionEnabled:YES];
             [nextButton setAlpha:1.0f];
         }];
-
+        
     }
     
 }
 
-- (void)toAgreemet:(id)sender
+- (void)setStyle:(NSString *)str
 {
-    WebDetailViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"WebDetailViewController"];
-    vc.title = @"专投网用户服务协议";
-    [vc setURL:@"http://debug.pujintianxia.com/Mobile/Home/RegisterStatement"];
-    [[self navigationController]pushViewController:vc animated:YES];
-}
-
-- (void)checkboxEnsure:(UIButton*)btn
-{
-    btn.selected = !btn.selected;
-    if (btn.selected)
-    {
-        [btn setImage:[UIImage imageNamed:@"checkIconActive.png"] forState:UIControlStateNormal];
-        if ((phoneTextField.text.length > 0) && (vcodeTextField.text.length > 0))
-        {
-            [nextButton setUserInteractionEnabled:YES];
-            [nextButton setAlpha:1.0f];
-        }
-    }
-    else
-    {
-        [btn setImage:[UIImage imageNamed:@"checkIcon.png"] forState:UIControlStateNormal];
-        [nextButton setUserInteractionEnabled:NO];
-        [nextButton setAlpha:0.6f];
-    }
-
+    style = str;
 }
 
 - (void)changeVcode:(id)sender
@@ -177,14 +152,8 @@
     NSString *URL = [BASEURL stringByAppendingString:@"Account/GetValidateCode"];
     imageData = [[NSData alloc]initWithContentsOfURL:[NSURL URLWithString:URL]];
     [vcodeImageView setBackgroundImage:[UIImage imageWithData:imageData] forState:UIControlStateNormal];
-
+    
 }
-
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
-
 -(IBAction)textFiledReturnEditing:(id)sender {
     if (sender == phoneTextField)
     {
@@ -200,7 +169,7 @@
 
 - (IBAction)buttonEnableListener:(id)sender
 {
-    if ((phoneTextField.text.length > 0) && (vcodeTextField.text.length > 0) && checkboxButton.selected)
+    if ((phoneTextField.text.length > 0) && (vcodeTextField.text.length > 0))
     {
         [nextButton setUserInteractionEnabled:YES];
         [nextButton setAlpha:1.0f];
@@ -210,7 +179,8 @@
         [nextButton setUserInteractionEnabled:NO];
         [nextButton setAlpha:0.6f];
     }
-
+    
 }
+
 
 @end
