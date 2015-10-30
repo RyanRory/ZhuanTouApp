@@ -44,5 +44,7 @@
 #define RESETLOGINPSWD @"RESETLOGINPSWD"
 #define RESETTRADEPSWD @"RESETTRADEPSWD"
 
+#define CHARGE @"CHARGE"
+#define DRAW @"DRAW"
 
 #endif /* Const_h */

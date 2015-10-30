@@ -165,7 +165,6 @@
         
                 hud.mode = MBProgressHUDModeCustomView;
                 hud.labelText = @"请安装QQ";
-                hud.margin = 10.f;
                 hud.removeFromSuperViewOnHide = YES;
                 
                 [hud hide:YES afterDelay:2];

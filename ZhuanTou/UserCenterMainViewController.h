@@ -15,6 +15,7 @@
 #import "SecurityViewController.h"
 #import "DetailViewController.h"
 #import "BonusViewController.h"
+#import "BankCardViewController.h"
 
 #import "SetpasswordViewController.h"
 #import "ZTTabBarViewController.h"

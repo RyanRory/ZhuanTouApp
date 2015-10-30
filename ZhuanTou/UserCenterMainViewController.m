@@ -36,6 +36,8 @@
     [bonusButton addTarget:self action:@selector(toBonus:) forControlEvents:UIControlEventTouchUpInside];
     [securityButton addTarget:self action:@selector(toSecurity:) forControlEvents:UIControlEventTouchUpInside];
     [gestureButton addTarget:self action:@selector(toGesture:) forControlEvents:UIControlEventTouchUpInside];
+    [chargeButton addTarget:self action:@selector(toCharge:) forControlEvents:UIControlEventTouchUpInside];
+    [drawButton addTarget:self action:@selector(toDraw:) forControlEvents:UIControlEventTouchUpInside];
     
     [autoSwitch addTarget:self action:@selector(valueChanged:) forControlEvents:UIControlEventValueChanged];
     
@@ -71,6 +73,16 @@
     bonusNumLabel.text = @"3张";
     securityLabel.text = @"高";
     autoSwitch.on = YES;
+}
+
+- (void)toCharge:(id)sender
+{
+    
+}
+
+- (void)toDraw:(id)sender
+{
+    
 }
 
 - (void)toDingqi:(id)sender
@@ -114,7 +126,8 @@
 
 - (void)toBankCard:(id)sender
 {
-    
+    BankCardViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"BankCardViewController"];
+    [[self navigationController]pushViewController:vc animated:YES];
 }
 
 - (void)toBonus:(id)sender

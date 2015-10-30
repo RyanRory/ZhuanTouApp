@@ -240,7 +240,7 @@
     pathAnimation.calculationMode = kCAAnimationPaced;
     pathAnimation.fillMode = kCAFillModeForwards;
     pathAnimation.removedOnCompletion = NO;
-    pathAnimation.duration = 0.8;
+    pathAnimation.duration = 1.5f;
     pathAnimation.repeatCount = 1;
     //设置运转动画的路径
     CGMutablePathRef curvedPath = CGPathCreateMutable();
