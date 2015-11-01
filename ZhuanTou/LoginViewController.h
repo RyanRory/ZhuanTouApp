@@ -16,6 +16,7 @@
 @property (strong, nonatomic) IBOutlet UITextField *usernameTextField;
 @property (strong, nonatomic) IBOutlet UITextField *passwordTextField;
 @property (strong, nonatomic) IBOutlet UIView *textView;
+@property (nonatomic, copy)NSString *style;
 
 
 - (IBAction)textFiledReturnEditing:(id)sender;

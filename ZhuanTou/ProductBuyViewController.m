@@ -120,7 +120,8 @@
 
 - (void)toCharge:(id)sender
 {
-    
+    ChargeViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ChargeViewController"];
+    [[self navigationController]pushViewController:vc animated:YES];
 }
 
 - (void)checkboxEnsure:(UIButton*)btn

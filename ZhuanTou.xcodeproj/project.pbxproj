@@ -43,6 +43,9 @@
 		A41C6B481BB9849E006B731D /* ZhuanTouTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A41C6B471BB9849E006B731D /* ZhuanTouTests.m */; };
 		A41C6B531BB9849E006B731D /* ZhuanTouUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = A41C6B521BB9849E006B731D /* ZhuanTouUITests.m */; };
 		A41C6B651BBA63B9006B731D /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A41C6B641BBA63B9006B731D /* LoginViewController.m */; };
+		A41E1DEA1BE5B60800641616 /* ChargeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A41E1DE91BE5B60800641616 /* ChargeViewController.m */; };
+		A41E1DED1BE5B63700641616 /* DrawViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A41E1DEC1BE5B63700641616 /* DrawViewController.m */; };
+		A41E1DF21BE5E27A00641616 /* bankCodeList.plist in Resources */ = {isa = PBXBuildFile; fileRef = A41E1DF11BE5E27A00641616 /* bankCodeList.plist */; };
 		A42EA2B81BDF82AE00E35F5F /* banner1.png in Resources */ = {isa = PBXBuildFile; fileRef = A42EA2B71BDF82AE00E35F5F /* banner1.png */; };
 		A42EA2C11BDF833F00E35F5F /* ifudong@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A42EA2B91BDF833F00E35F5F /* ifudong@3x.png */; };
 		A42EA2C21BDF833F00E35F5F /* iguding@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A42EA2BA1BDF833F00E35F5F /* iguding@3x.png */; };
@@ -184,6 +187,7 @@
 		A463EACA1BD6377700CAF146 /* WaveView.m in Sources */ = {isa = PBXBuildFile; fileRef = A463EAC91BD6377700CAF146 /* WaveView.m */; };
 		A463EACC1BD6434900CAF146 /* 方正硬笔楷书简体.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A463EACB1BD6434900CAF146 /* 方正硬笔楷书简体.ttf */; };
 		A4695DBC1BDF387600B59E44 /* AutoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A4695DBB1BDF387600B59E44 /* AutoTableViewCell.m */; };
+		A475498B1BE61889002E929C /* BaoFooPay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A475498A1BE61889002E929C /* BaoFooPay.framework */; };
 		A48347BB1BBBBFE4002D6591 /* LoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = A48347BA1BBBBFE4002D6591 /* LoadingView.m */; };
 		A49646DD1BE3285E006545C2 /* BankCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A49646DC1BE3285E006545C2 /* BankCardViewController.m */; };
 		A49646E01BE3287B006545C2 /* AddBankCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A49646DF1BE3287B006545C2 /* AddBankCardViewController.m */; };
@@ -377,6 +381,11 @@
 		A41C6B611BBA5F9F006B731D /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		A41C6B631BBA63B9006B731D /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		A41C6B641BBA63B9006B731D /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		A41E1DE81BE5B60800641616 /* ChargeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChargeViewController.h; sourceTree = "<group>"; };
+		A41E1DE91BE5B60800641616 /* ChargeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChargeViewController.m; sourceTree = "<group>"; };
+		A41E1DEB1BE5B63700641616 /* DrawViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawViewController.h; sourceTree = "<group>"; };
+		A41E1DEC1BE5B63700641616 /* DrawViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawViewController.m; sourceTree = "<group>"; };
+		A41E1DF11BE5E27A00641616 /* bankCodeList.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = bankCodeList.plist; sourceTree = "<group>"; };
 		A42EA2B71BDF82AE00E35F5F /* banner1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = banner1.png; sourceTree = "<group>"; };
 		A42EA2B91BDF833F00E35F5F /* ifudong@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ifudong@3x.png"; path = "images/@3x/ifudong@3x.png"; sourceTree = "<group>"; };
 		A42EA2BA1BDF833F00E35F5F /* iguding@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "iguding@3x.png"; path = "images/@3x/iguding@3x.png"; sourceTree = "<group>"; };
@@ -537,6 +546,7 @@
 		A463EACB1BD6434900CAF146 /* 方正硬笔楷书简体.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "方正硬笔楷书简体.ttf"; sourceTree = "<group>"; };
 		A4695DBA1BDF387600B59E44 /* AutoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoTableViewCell.h; sourceTree = "<group>"; };
 		A4695DBB1BDF387600B59E44 /* AutoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutoTableViewCell.m; sourceTree = "<group>"; };
+		A475498A1BE61889002E929C /* BaoFooPay.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaoFooPay.framework; path = ZhuanTou/BaoFooPay.framework; sourceTree = "<group>"; };
 		A48347B91BBBBFE4002D6591 /* LoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingView.h; sourceTree = "<group>"; };
 		A48347BA1BBBBFE4002D6591 /* LoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingView.m; sourceTree = "<group>"; };
 		A49646DB1BE3285E006545C2 /* BankCardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BankCardViewController.h; sourceTree = "<group>"; };
@@ -676,6 +686,7 @@
 			files = (
 				6960161C4D1F51521E05885E /* libPods.a in Frameworks */,
 				A463EAB31BD60FB300CAF146 /* Charts.framework in Frameworks */,
+				A475498B1BE61889002E929C /* BaoFooPay.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -726,6 +737,7 @@
 			isa = PBXGroup;
 			children = (
 				A42EA2B71BDF82AE00E35F5F /* banner1.png */,
+				A475498A1BE61889002E929C /* BaoFooPay.framework */,
 				A463EAAD1BD60FA100CAF146 /* Charts.xcodeproj */,
 				A41C6B661BBA642A006B731D /* images */,
 				A41C6B2C1BB9849E006B731D /* ZhuanTou */,
@@ -781,6 +793,7 @@
 				A41C6B601BB984E4006B731D /* Const.h */,
 				A41C6B611BBA5F9F006B731D /* PrefixHeader.pch */,
 				A49646E21BE3401A006545C2 /* bankList.plist */,
+				A41E1DF11BE5E27A00641616 /* bankCodeList.plist */,
 				A49646E41BE3402C006545C2 /* provinceList.plist */,
 				A49646E61BE3403A006545C2 /* cityList.plist */,
 			);
@@ -1174,6 +1187,10 @@
 				A49646DC1BE3285E006545C2 /* BankCardViewController.m */,
 				A49646DE1BE3287B006545C2 /* AddBankCardViewController.h */,
 				A49646DF1BE3287B006545C2 /* AddBankCardViewController.m */,
+				A41E1DE81BE5B60800641616 /* ChargeViewController.h */,
+				A41E1DE91BE5B60800641616 /* ChargeViewController.m */,
+				A41E1DEB1BE5B63700641616 /* DrawViewController.h */,
+				A41E1DEC1BE5B63700641616 /* DrawViewController.m */,
 				A43174741BD49EDA0001FC53 /* cells */,
 			);
 			name = UserCenter;
@@ -1510,6 +1527,7 @@
 				A4BBC2021BD10DA1006331AC /* uBankcard.png in Resources */,
 				A44AF9EF1BCF47E1002A8AC4 /* account@3x.png in Resources */,
 				A4E7F2211BCE052500B20EC6 /* loadingCircle@2x.png in Resources */,
+				A41E1DF21BE5E27A00641616 /* bankCodeList.plist in Resources */,
 				A42EA2EE1BE1D7F200E35F5F /* productStatus@3x.png in Resources */,
 				A44AFA191BCF47F1002A8AC4 /* huoqiTriangle@2x.png in Resources */,
 				A4E7F2091BCE050E00B20EC6 /* checkIconActive@3x.png in Resources */,
@@ -1677,6 +1695,7 @@
 				A44AFA4A1BCF481D002A8AC4 /* ZTTabBarViewController.m in Sources */,
 				A463EA941BD4E68D00CAF146 /* LaunchScreenViewController.m in Sources */,
 				A42EA3011BE1FE7500E35F5F /* ForgottenViewController.m in Sources */,
+				A41E1DED1BE5B63700641616 /* DrawViewController.m in Sources */,
 				A4B2CFF71BDA370200AC2E78 /* DetailViewController.m in Sources */,
 				A4E7F2561BCE54DD00B20EC6 /* KeychainItemWrapper.m in Sources */,
 				A4E7F2521BCE54DD00B20EC6 /* AliPayItem.m in Sources */,
@@ -1691,6 +1710,7 @@
 				A4B2CFED1BD9E4F600AC2E78 /* FeedbackViewController.m in Sources */,
 				A4E7F2591BCE552400B20EC6 /* SetpasswordViewController.m in Sources */,
 				A4B227871BD3516F0020C4D5 /* UIView+InnerShadow.m in Sources */,
+				A41E1DEA1BE5B60800641616 /* ChargeViewController.m in Sources */,
 				A4B2CFD31BD8B32B00AC2E78 /* SecurityViewController.m in Sources */,
 				A4B227841BD3516F0020C4D5 /* KnobButton.m in Sources */,
 				A4B2CFDA1BD8E94B00AC2E78 /* SetTradePswdViewController.m in Sources */,
@@ -1849,6 +1869,11 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/ZhuanTou",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/ZhuanTou/PrefixHeader.pch";
 				INFOPLIST_FILE = ZhuanTou/Info.plist;
@@ -1859,6 +1884,7 @@
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "ZhuanTou/ZhuanTou-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -1871,6 +1897,11 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/ZhuanTou",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/ZhuanTou/PrefixHeader.pch";
 				INFOPLIST_FILE = ZhuanTou/Info.plist;
@@ -1880,6 +1911,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "ZhuanTou/ZhuanTou-Bridging-Header.h";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

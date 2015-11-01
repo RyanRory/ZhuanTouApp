@@ -25,7 +25,6 @@ typedef void (^PasswordBlock) (NSString *pswString);
 }
 @property(nonatomic , assign)GestureModel gestureModel;
 @property(nonatomic , strong)PasswordBlock block;
-@property(nonatomic , strong)NSString *imageName;
 
 
 

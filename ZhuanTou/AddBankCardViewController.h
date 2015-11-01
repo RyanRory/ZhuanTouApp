@@ -20,7 +20,7 @@
 }
 
 @property (strong, nonatomic) IBOutlet UIButton *confirmButton;
-@property (strong, nonatomic) IBOutlet UITextField *nameTextField;
+@property (strong, nonatomic) IBOutlet UILabel *nameLabel;
 @property (strong, nonatomic) IBOutlet UITextField *accountNumTextField;
 @property (strong, nonatomic) IBOutlet UITextField *bankTextField;
 @property (strong, nonatomic) IBOutlet UILabel *bankLabel;
@@ -29,6 +29,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *bankButton;
 @property (strong, nonatomic) IBOutlet UIButton *provinceButton;
 @property (strong, nonatomic) IBOutlet UIButton *cityButton;
+@property (strong, nonatomic) IBOutlet UITextField *phoneNumTextField;
 
 - (IBAction)textFiledReturnEditing:(id)sender;
 

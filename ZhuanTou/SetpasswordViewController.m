@@ -14,19 +14,28 @@
 
 @implementation SetpasswordViewController
 
+@synthesize forgottenButton;
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"backIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(backToParent:)];
-    backItem.tintColor = ZTBLUE;
-    UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithCustomView:[UIButton buttonWithType:UIButtonTypeCustom]];
-    self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:backItem, item, nil];
+    if ([self.string isEqualToString:@"验证密码"])
+    {
+        self.navigationItem.hidesBackButton = YES;
+    }
+    else
+    {
+        UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"backIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(backToParent:)];
+        backItem.tintColor = ZTBLUE;
+        UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithCustomView:[UIButton buttonWithType:UIButtonTypeCustom]];
+        self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:backItem, item, nil];
+    }
+    
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor darkGrayColor],NSForegroundColorAttributeName,nil]];
     
-    
+    [forgottenButton addTarget:self action:@selector(toLogin:) forControlEvents:UIControlEventTouchUpInside];
     
     AliPayViews *alipay = [[AliPayViews alloc] initWithFrame:self.view.bounds];
     if ([self.string isEqualToString:@"验证密码"]) {
-        alipay.imageName = @"";
         alipay.gestureModel = ValidatePwdModel;
     } else if ([self.string isEqualToString:@"修改密码"]) {
         alipay.gestureModel = AlertPwdModel;
@@ -39,16 +48,42 @@
         NSLog(@"设置密码成功-----你的密码为 = 【%@】\n\n", pswString);
         if ([self.string isEqualToString:@"重置密码"])
         {
-            RegisterSuccessViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"RegisterSuccessVC"];
-            [[self navigationController]pushViewController:vc animated:YES];
+            if ([self.style isEqualToString:@"REGISTER"])
+            {
+                RegisterSuccessViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"RegisterSuccessVC"];
+                [[self navigationController]pushViewController:vc animated:YES];
+            }
+            else if ([self.style isEqualToString:@"FORGOTTEN"])
+            {
+                ZTTabBarViewController *tabvc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ZTTabBarViewController"];
+                [self presentViewController:tabvc animated:YES completion:nil];
+            }
+            else
+            {
+                [self dismissViewControllerAnimated:YES completion:nil];
+            }
+        }
+        else if ([self.string isEqualToString:@"修改密码"])
+        {
+            [[self navigationController]popViewControllerAnimated:YES];
         }
         else
         {
-            [[self navigationController]popViewControllerAnimated:YES];
+            ZTTabBarViewController *tabvc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ZTTabBarViewController"];
+            [self presentViewController:tabvc animated:YES completion:nil];
         }
     };
     
     [self.view addSubview:alipay];
+    
+    if ([self.string isEqualToString:@"验证密码"])
+    {
+        [self.view bringSubviewToFront:forgottenButton];
+    }
+    else
+    {
+        [forgottenButton setHidden:YES];
+    }
 
 }
 
@@ -60,6 +95,17 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)toLogin:(id)sender
+{
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    [userDefault removeObjectForKey:PASSWORD];
+    [userDefault synchronize];
+    [KeychainData forgotPsw];
+    LoginViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"LoginViewController"];
+    vc.style = @"FORGOTTEN";
+    [[self navigationController]pushViewController:vc animated:YES];
 }
 
 

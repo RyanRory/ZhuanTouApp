@@ -18,6 +18,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    
     NSArray *items = self.tabBar.items;
     UITabBarItem *homeItem = items[0];
     homeItem.image = [[UIImage imageNamed:@"home.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
@@ -43,6 +46,40 @@
     [helpItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:ZTLIGHTGRAY,NSForegroundColorAttributeName, nil] forState:UIControlStateNormal];//正常
     [helpItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:ZTBLUE,NSForegroundColorAttributeName, nil]forState:UIControlStateSelected];//被选中
 
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    NSString *password = [userDefault objectForKey:PASSWORD];
+    if ((password.length > 0) && (![userDefault boolForKey:ISLOGIN]))
+    {
+        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+        NSDictionary *parameters = @{@"login":[userDefault objectForKey:USERNAME],
+                                     @"password":[userDefault objectForKey:PASSWORD]};
+        NSString *URL = [BASEURL stringByAppendingString:@"api/auth/signIn"];
+        [manager POST:URL parameters:parameters success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+            NSLog(@"%@", responseObject);
+            NSString *str = [responseObject objectForKey:@"isAuthenticated"];
+            int f1 = str.intValue;
+            if (f1 == 0)
+            {
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                hud.mode = MBProgressHUDModeCustomView;
+                hud.labelText = [responseObject objectForKey:@"errorMessage"];
+                [hud hide:YES afterDelay:1.5f];
+            }
+            else
+            {
+                [userDefault setBool:YES forKey:ISLOGIN];
+                [userDefault synchronize];
+            }
+            
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            NSLog(@"Error: %@", error);
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = @"登录失败";
+            [hud hide:YES afterDelay:1.5f];
+            
+        }];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

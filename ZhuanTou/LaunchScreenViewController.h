@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ZTTabBarViewController.h"
 #import "WaveView.h"
+#import "SetpasswordViewController.h"
 
 @interface LaunchScreenViewController : UIViewController
 

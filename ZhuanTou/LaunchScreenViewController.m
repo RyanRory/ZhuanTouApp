@@ -18,6 +18,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [[self navigationController] setNavigationBarHidden:YES animated:NO];
     
     bgView.layer.cornerRadius = 20;
     
@@ -47,11 +48,22 @@
     });
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        ZTTabBarViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ZTTabBarViewController"];
-        [self presentViewController:vc animated:NO completion:nil];
+        
+        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+        NSString *username = [userDefault objectForKey:USERNAME];
+        if (username.length > 0)
+        {
+            SetpasswordViewController *setpass = [[self storyboard]instantiateViewControllerWithIdentifier:@"SetpasswordViewController"];
+            setpass.string = @"验证密码";
+            [[self navigationController]pushViewController:setpass animated:NO];
+        }
+        else
+        {
+            ZTTabBarViewController *tabvc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ZTTabBarViewController"];
+            [self presentViewController:tabvc animated:NO completion:nil];
+        }
     });
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

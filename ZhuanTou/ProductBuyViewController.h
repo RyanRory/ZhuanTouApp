@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ProductBonusView.h"
 #import "ProductBuyConfirmViewController.h"
+#import "ChargeViewController.h"
 
 @interface ProductBuyViewController : UIViewController
 {

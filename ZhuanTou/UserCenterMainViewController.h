@@ -16,6 +16,8 @@
 #import "DetailViewController.h"
 #import "BonusViewController.h"
 #import "BankCardViewController.h"
+#import "ChargeViewController.h"
+#import "DrawViewController.h"
 
 #import "SetpasswordViewController.h"
 #import "ZTTabBarViewController.h"
@@ -37,7 +39,6 @@
 @property (strong, nonatomic) IBOutlet UIButton *autoButton;
 @property (strong, nonatomic) IBOutlet UIButton *detailButton;
 @property (strong, nonatomic) IBOutlet UIButton *profitButton;
-@property (strong, nonatomic) IBOutlet UILabel *bankCardNumLabel;
 @property (strong, nonatomic) IBOutlet UIButton *bankCardButton;
 @property (strong, nonatomic) IBOutlet UILabel *bonusNumLabel;
 @property (strong, nonatomic) IBOutlet UIButton *bonusButton;

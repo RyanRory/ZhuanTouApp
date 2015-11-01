@@ -93,7 +93,11 @@
                 [userDefault setObject:usernameTextField.text forKey:USERNAME];
                 [userDefault setObject:passwordTextField.text forKey:PASSWORD];
                 [userDefault synchronize];
-                [self dismissViewControllerAnimated:YES completion:nil];
+                [KeychainData forgotPsw];
+                SetpasswordViewController *setpass = [[self storyboard]instantiateViewControllerWithIdentifier:@"SetpasswordViewController"];
+                setpass.string = @"重置密码";
+                setpass.style = self.style;
+                [[self navigationController]pushViewController:setpass animated:YES];
             }
             
             [loginButton setUserInteractionEnabled:YES];
@@ -124,9 +128,17 @@
 {
     [usernameTextField resignFirstResponder];
     [passwordTextField resignFirstResponder];
-    ZTTabBarViewController *vc = (ZTTabBarViewController*)[self presentingViewController];
-    [vc setSelectedIndex:vc.lastSelectedIndex];
-    [self dismissViewControllerAnimated:YES completion:nil];
+    if (![self.style isEqualToString:@"FORGOTTEN"])
+    {
+        ZTTabBarViewController *vc = (ZTTabBarViewController*)[self presentingViewController];
+        [vc setSelectedIndex:vc.lastSelectedIndex];
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+    else
+    {
+        ZTTabBarViewController *tabvc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ZTTabBarViewController"];
+        [self presentViewController:tabvc animated:YES completion:nil];
+    }
 }
 
 -(IBAction)textFiledReturnEditing:(id)sender {

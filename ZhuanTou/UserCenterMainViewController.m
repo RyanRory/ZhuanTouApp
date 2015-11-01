@@ -15,7 +15,7 @@
 @implementation UserCenterMainViewController
 
 @synthesize propertyLabel, balanceLabel, chargeButton, drawButton;
-@synthesize dingqiNumLabel, dingqiButton, huoqiNumLabel, huoqiButton, autoSwitch, autoButton, profitButton, detailButton, bankCardNumLabel, bankCardButton, bonusNumLabel, bonusButton, securityLabel, securityButton, gestureButton;
+@synthesize dingqiNumLabel, dingqiButton, huoqiNumLabel, huoqiButton, autoSwitch, autoButton, profitButton, detailButton, bankCardButton, bonusNumLabel, bonusButton, securityLabel, securityButton, gestureButton;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -69,7 +69,6 @@
     balanceLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:1111001.11]]];
     dingqiNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:1111001.11]]];
     huoqiNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:1111001.11]]];
-    bankCardNumLabel.text = @"3张";
     bonusNumLabel.text = @"3张";
     securityLabel.text = @"高";
     autoSwitch.on = YES;
@@ -77,12 +76,14 @@
 
 - (void)toCharge:(id)sender
 {
-    
+    ChargeViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ChargeViewController"];
+    [[self navigationController]pushViewController:vc animated:YES];
 }
 
 - (void)toDraw:(id)sender
 {
-    
+    DrawViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"DrawViewController"];
+    [[self navigationController]pushViewController:vc animated:YES];
 }
 
 - (void)toDingqi:(id)sender
