@@ -176,6 +176,7 @@
 {
     _gestureModel = gestureModel;
     self.tfLabel.textColor = [UIColor whiteColor];
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
 
     switch (gestureModel) {
             
@@ -194,7 +195,7 @@
         case ValidatePwdModel:
             //验证密码
             flag = YES;
-            self.tfLabel.text = VALIDATE_PSWSTRING; //验证密码
+            self.tfLabel.text = [userDefault objectForKey:USERNAME]; //验证密码
             break;
             
         case DeletePwdModel:
@@ -360,7 +361,6 @@
  */
 - (BOOL)judgeFormat
 {
-    NSLog(@"%d",self.btnArray.count);
     if (self.btnArray.count<=3) {
         //不合法
         if (!flag)

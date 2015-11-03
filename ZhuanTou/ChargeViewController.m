@@ -56,7 +56,7 @@
 {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    NSString *URL = [BASEURL stringByAppendingString:@"api/withdraw/accountBankCards"];
+    NSString *URL = [BASEURL stringByAppendingString:@"api/account/getAppBankCards"];
     [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
         NSLog(@"%@", responseObject);
         NSString *str = [responseObject objectForKey:@"isSuccess"];
@@ -64,15 +64,17 @@
         if (f1 == 1)
         {
             [hud hide:YES];
+            bankCardView.hidden = NO;
             addBankCardButton.hidden = YES;
             noBankCardView.hidden = YES;
-            editView.hidden = NO;
-            confirmButton.hidden = NO;
             bankNameLabel.text = [responseObject objectForKey:@"bankName"];
-            branchLabel.text = [responseObject objectForKey:@"subbranchBankName"];
+            branchLabel.text = [[responseObject objectForKey:@"subBankName"] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
             cardNumLabel.text = [responseObject objectForKey:@"cardCode"];
             oneLimitLabel.text = [responseObject objectForKey:@"limitAmount"];
             dayLimitLabel.text = [responseObject objectForKey:@"dailyLimit"];
+            bankImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[responseObject objectForKey:@"imgUrl"]]]];
+            confirmButton.hidden = NO;
+            editView.hidden = NO;
         }
         else
         {
@@ -80,8 +82,8 @@
             bankCardView.hidden = YES;
             noBankCardView.hidden = NO;
             addBankCardButton.hidden = NO;
-            editView.hidden = YES;
             confirmButton.hidden = YES;
+            editView.hidden = YES;
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

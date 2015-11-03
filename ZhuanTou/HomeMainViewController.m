@@ -26,8 +26,8 @@
     
     [noticeButton addTarget:self action:@selector(toNotice:) forControlEvents:UIControlEventTouchUpInside];
     
-    images = [NSArray arrayWithObjects:[UIImage imageNamed:@"banner1.png"],[UIImage imageNamed:@"banner1.png"],[UIImage imageNamed:@"banner1.png"],[UIImage imageNamed:@"banner1.png"],[UIImage imageNamed:@"banner1.png"],[UIImage imageNamed:@"banner1.png"], nil];
-    notices = [NSArray arrayWithObjects:@"专投网APP上线啦！",@"专投网APP上线啦，哈哈哈！",@"专投网APP上线啦，嘿嘿嘿！",@"专投网APP上线啦，啦啦啦！",@"专投网APP上线啦，哈哈哈哈！",@"专投网APP上线啦，嘿嘿嘿嘿！", nil];
+    images = [NSArray arrayWithObjects:[UIImage imageNamed:@"banner1.png"],[UIImage imageNamed:@"banner1.png"],[UIImage imageNamed:@"banner1.png"], nil];
+    notices = [NSArray arrayWithObjects:@"专投网APP上线啦！",@"专投网APP上线啦！",@"专投网APP上线啦！", nil];
     currentImage = 0;
     
     scrollView.delegate = self;
@@ -120,16 +120,16 @@
 
 - (void)toNotice:(id)sender
 {
-    NoticeCenterViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"NoticeCenterViewController"];
-    [[self navigationController]pushViewController:vc animated:YES];
+//    NoticeCenterViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"NoticeCenterViewController"];
+//    [[self navigationController]pushViewController:vc animated:YES];
 }
 
 - (void)toImageDetail:(id)sender
 {
-    WebDetailViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"WebDetailViewController"];
-    vc.title = @"呵呵哒";
-    [vc setURL:@"http://debug.pujintianxia.com/Mobile/Home/Questions"];
-    [[self navigationController]pushViewController:vc animated:YES];
+//    WebDetailViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"WebDetailViewController"];
+//    vc.title = @"呵呵哒";
+//    [vc setURL:@"http://debug.pujintianxia.com/Mobile/Home/Questions"];
+//    [[self navigationController]pushViewController:vc animated:YES];
 }
 
 - (void)toWenjian:(id)sender
@@ -164,7 +164,11 @@
 
 - (void)toNewer:(id)sender
 {
-    
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.mode = MBProgressHUDModeCustomView;
+    hud.labelText = @"建设中...";
+    hud.customView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"inbuilding.png"]];
+    [hud hide:YES afterDelay:1.5f];
 }
 
 #pragma mark ScrollViewDelegate

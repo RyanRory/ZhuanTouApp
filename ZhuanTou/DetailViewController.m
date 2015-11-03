@@ -14,7 +14,7 @@
 
 @implementation DetailViewController
 
-@synthesize dingqiButton, huoqiButton, inAndOutButton, allButton, tView, headView;
+@synthesize dingqiButton, huoqiButton, inAndOutButton, allButton, tView, headView, noRecordLabel;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -108,95 +108,99 @@
 
 - (void)setupDingqi
 {
-    datas = [[NSMutableArray alloc]init];
-    
-    for (int i=0; i<10; i++)
-    {
-        [datas addObject:@{@"TYPE":@"稳健型",
-                           @"AMOUNT":@"10000.12",
-                           @"STATUS":@(i%3),
-                           @"TIME":@"2015-12-25   11:11:11"}];
-        
-        [datas addObject:@{@"TYPE":@"综合型",
-                           @"AMOUNT":@"10000.12",
-                           @"STATUS":@(i%3),
-                           @"TIME":@"2015-12-25   11:11:11"}];
-    }
-    
-    detailNum = (int)datas.count;
-    [tView reloadData];
-    [tView setContentOffset:CGPointMake(0, 0) animated:NO];
+//    datas = [[NSMutableArray alloc]init];
+//    
+//    for (int i=0; i<10; i++)
+//    {
+//        [datas addObject:@{@"TYPE":@"稳健型",
+//                           @"AMOUNT":@"10000.12",
+//                           @"STATUS":@(i%3),
+//                           @"TIME":@"2015-12-25   11:11:11"}];
+//        
+//        [datas addObject:@{@"TYPE":@"综合型",
+//                           @"AMOUNT":@"10000.12",
+//                           @"STATUS":@(i%3),
+//                           @"TIME":@"2015-12-25   11:11:11"}];
+//    }
+//    
+//    detailNum = (int)datas.count;
+//    [tView reloadData];
+//    [tView setContentOffset:CGPointMake(0, 0) animated:NO];
+    tView.hidden = YES;
 }
 
 - (void)setupHuoqi
 {
-    datas = [[NSMutableArray alloc]init];
-    
-    for (int i=0; i<20; i++)
-    {
-        [datas addObject:@{@"TYPE":@"专投宝",
-                           @"AMOUNT":@"10000.12",
-                           @"STATUS":@(i%3),
-                           @"TIME":@"2015-12-25   11:11:11"}];
-    }
-    
-    detailNum = (int)datas.count;
-    [tView reloadData];
-    [tView setContentOffset:CGPointMake(0, 0) animated:NO];
+//    datas = [[NSMutableArray alloc]init];
+//    
+//    for (int i=0; i<20; i++)
+//    {
+//        [datas addObject:@{@"TYPE":@"专投宝",
+//                           @"AMOUNT":@"10000.12",
+//                           @"STATUS":@(i%3),
+//                           @"TIME":@"2015-12-25   11:11:11"}];
+//    }
+//    
+//    detailNum = (int)datas.count;
+//    [tView reloadData];
+//    [tView setContentOffset:CGPointMake(0, 0) animated:NO];
+    tView.hidden = YES;
 }
 
 - (void)setupInAndOut
 {
-    datas = [[NSMutableArray alloc]init];
-    
-    for (int i=0; i<10; i++)
-    {
-        [datas addObject:@{@"TYPE":@"充值",
-                           @"AMOUNT":@"10000.12",
-                           @"STATUS":@(i%3),
-                           @"TIME":@"2015-12-25   11:11:11"}];
-        
-        [datas addObject:@{@"TYPE":@"提现",
-                           @"AMOUNT":@"10000.12",
-                           @"STATUS":@(i%3),
-                           @"TIME":@"2015-12-25   11:11:11"}];
-    }
-    
-    detailNum = (int)datas.count;
-    [tView reloadData];
-    [tView setContentOffset:CGPointMake(0, 0) animated:NO];
+//    datas = [[NSMutableArray alloc]init];
+//    
+//    for (int i=0; i<10; i++)
+//    {
+//        [datas addObject:@{@"TYPE":@"充值",
+//                           @"AMOUNT":@"10000.12",
+//                           @"STATUS":@(i%3),
+//                           @"TIME":@"2015-12-25   11:11:11"}];
+//        
+//        [datas addObject:@{@"TYPE":@"提现",
+//                           @"AMOUNT":@"10000.12",
+//                           @"STATUS":@(i%3),
+//                           @"TIME":@"2015-12-25   11:11:11"}];
+//    }
+//    
+//    detailNum = (int)datas.count;
+//    [tView reloadData];
+//    [tView setContentOffset:CGPointMake(0, 0) animated:NO];
+    tView.hidden = YES;
 }
 
 - (void)setupAll
 {
-    datas = [[NSMutableArray alloc]init];
-    
-    for (int i=0; i<10; i++)
-    {
-        [datas addObject:@{@"TYPE":@"充值",
-                           @"AMOUNT":@"10000.12",
-                           @"STATUS":@(i%3),
-                           @"TIME":@"2015-12-25   11:11:11"}];
-        
-        [datas addObject:@{@"TYPE":@"提现",
-                           @"AMOUNT":@"10000.12",
-                           @"STATUS":@(i%3),
-                           @"TIME":@"2015-12-25   11:11:11"}];
-        
-        [datas addObject:@{@"TYPE":@"稳健型",
-                           @"AMOUNT":@"10000.12",
-                           @"STATUS":@(i%3),
-                           @"TIME":@"2015-12-25   11:11:11"}];
-        
-        [datas addObject:@{@"TYPE":@"综合型",
-                           @"AMOUNT":@"10000.12",
-                           @"STATUS":@(i%3),
-                           @"TIME":@"2015-12-25   11:11:11"}];
-    }
-    
-    detailNum = (int)datas.count;
-    [tView reloadData];
-    [tView setContentOffset:CGPointMake(0, 0) animated:NO];
+//    datas = [[NSMutableArray alloc]init];
+//    
+//    for (int i=0; i<10; i++)
+//    {
+//        [datas addObject:@{@"TYPE":@"充值",
+//                           @"AMOUNT":@"10000.12",
+//                           @"STATUS":@(i%3),
+//                           @"TIME":@"2015-12-25   11:11:11"}];
+//        
+//        [datas addObject:@{@"TYPE":@"提现",
+//                           @"AMOUNT":@"10000.12",
+//                           @"STATUS":@(i%3),
+//                           @"TIME":@"2015-12-25   11:11:11"}];
+//        
+//        [datas addObject:@{@"TYPE":@"稳健型",
+//                           @"AMOUNT":@"10000.12",
+//                           @"STATUS":@(i%3),
+//                           @"TIME":@"2015-12-25   11:11:11"}];
+//        
+//        [datas addObject:@{@"TYPE":@"综合型",
+//                           @"AMOUNT":@"10000.12",
+//                           @"STATUS":@(i%3),
+//                           @"TIME":@"2015-12-25   11:11:11"}];
+//    }
+//    
+//    detailNum = (int)datas.count;
+//    [tView reloadData];
+//    [tView setContentOffset:CGPointMake(0, 0) animated:NO];
+    tView.hidden = YES;
 }
 
 #pragma TableViewDelegates

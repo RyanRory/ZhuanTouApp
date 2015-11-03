@@ -165,7 +165,6 @@
 		A44AFA5F1BCFA565002A8AC4 /* RegisterSuccessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A44AFA5E1BCFA565002A8AC4 /* RegisterSuccessViewController.m */; };
 		A463EA791BD4D25600CAF146 /* accountActive@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A463EA751BD4D25600CAF146 /* accountActive@3x.png */; };
 		A463EA7A1BD4D25600CAF146 /* helpActive@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A463EA761BD4D25600CAF146 /* helpActive@3x.png */; };
-		A463EA7B1BD4D25600CAF146 /* homeAcitve@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A463EA771BD4D25600CAF146 /* homeAcitve@3x.png */; };
 		A463EA7C1BD4D25600CAF146 /* product@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A463EA781BD4D25600CAF146 /* product@3x.png */; };
 		A463EA811BD4D26200CAF146 /* accountActive@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A463EA7D1BD4D26200CAF146 /* accountActive@2x.png */; };
 		A463EA821BD4D26200CAF146 /* helpActive@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A463EA7E1BD4D26200CAF146 /* helpActive@2x.png */; };
@@ -185,7 +184,6 @@
 		A463EAC51BD6358400CAF146 /* wave@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A463EAC41BD6358400CAF146 /* wave@2x.png */; };
 		A463EAC71BD6359100CAF146 /* wave.png in Resources */ = {isa = PBXBuildFile; fileRef = A463EAC61BD6359100CAF146 /* wave.png */; };
 		A463EACA1BD6377700CAF146 /* WaveView.m in Sources */ = {isa = PBXBuildFile; fileRef = A463EAC91BD6377700CAF146 /* WaveView.m */; };
-		A463EACC1BD6434900CAF146 /* 方正硬笔楷书简体.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A463EACB1BD6434900CAF146 /* 方正硬笔楷书简体.ttf */; };
 		A4695DBC1BDF387600B59E44 /* AutoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A4695DBB1BDF387600B59E44 /* AutoTableViewCell.m */; };
 		A475498B1BE61889002E929C /* BaoFooPay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A475498A1BE61889002E929C /* BaoFooPay.framework */; };
 		A48347BB1BBBBFE4002D6591 /* LoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = A48347BA1BBBBFE4002D6591 /* LoadingView.m */; };
@@ -194,6 +192,8 @@
 		A49646E31BE3401A006545C2 /* bankList.plist in Resources */ = {isa = PBXBuildFile; fileRef = A49646E21BE3401A006545C2 /* bankList.plist */; };
 		A49646E51BE3402C006545C2 /* provinceList.plist in Resources */ = {isa = PBXBuildFile; fileRef = A49646E41BE3402C006545C2 /* provinceList.plist */; };
 		A49646E71BE3403A006545C2 /* cityList.plist in Resources */ = {isa = PBXBuildFile; fileRef = A49646E61BE3403A006545C2 /* cityList.plist */; };
+		A4AE22061BE7655200101B89 /* 方正楷体简体.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A4AE22051BE7655200101B89 /* 方正楷体简体.ttf */; };
+		A4AE22131BE777EF00101B89 /* homeActive@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4AE22121BE777EF00101B89 /* homeActive@3x.png */; };
 		A4B227841BD3516F0020C4D5 /* KnobButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A4B2277D1BD3516F0020C4D5 /* KnobButton.m */; };
 		A4B227851BD3516F0020C4D5 /* SimpleSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = A4B2277F1BD3516F0020C4D5 /* SimpleSwitch.m */; };
 		A4B227871BD3516F0020C4D5 /* UIView+InnerShadow.m in Sources */ = {isa = PBXBuildFile; fileRef = A4B227831BD3516F0020C4D5 /* UIView+InnerShadow.m */; };
@@ -519,7 +519,6 @@
 		A44AFA5E1BCFA565002A8AC4 /* RegisterSuccessViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterSuccessViewController.m; sourceTree = "<group>"; };
 		A463EA751BD4D25600CAF146 /* accountActive@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "accountActive@3x.png"; path = "images/@3x/accountActive@3x.png"; sourceTree = "<group>"; };
 		A463EA761BD4D25600CAF146 /* helpActive@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "helpActive@3x.png"; path = "images/@3x/helpActive@3x.png"; sourceTree = "<group>"; };
-		A463EA771BD4D25600CAF146 /* homeAcitve@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "homeAcitve@3x.png"; path = "images/@3x/homeAcitve@3x.png"; sourceTree = "<group>"; };
 		A463EA781BD4D25600CAF146 /* product@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "product@3x.png"; path = "images/@3x/product@3x.png"; sourceTree = "<group>"; };
 		A463EA7D1BD4D26200CAF146 /* accountActive@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "accountActive@2x.png"; path = "images/@2x/accountActive@2x.png"; sourceTree = "<group>"; };
 		A463EA7E1BD4D26200CAF146 /* helpActive@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "helpActive@2x.png"; path = "images/@2x/helpActive@2x.png"; sourceTree = "<group>"; };
@@ -543,7 +542,6 @@
 		A463EAC61BD6359100CAF146 /* wave.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = wave.png; path = "images/@1x/wave.png"; sourceTree = "<group>"; };
 		A463EAC81BD6377700CAF146 /* WaveView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveView.h; sourceTree = "<group>"; };
 		A463EAC91BD6377700CAF146 /* WaveView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaveView.m; sourceTree = "<group>"; };
-		A463EACB1BD6434900CAF146 /* 方正硬笔楷书简体.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "方正硬笔楷书简体.ttf"; sourceTree = "<group>"; };
 		A4695DBA1BDF387600B59E44 /* AutoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoTableViewCell.h; sourceTree = "<group>"; };
 		A4695DBB1BDF387600B59E44 /* AutoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutoTableViewCell.m; sourceTree = "<group>"; };
 		A475498A1BE61889002E929C /* BaoFooPay.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaoFooPay.framework; path = ZhuanTou/BaoFooPay.framework; sourceTree = "<group>"; };
@@ -556,6 +554,8 @@
 		A49646E21BE3401A006545C2 /* bankList.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = bankList.plist; sourceTree = "<group>"; };
 		A49646E41BE3402C006545C2 /* provinceList.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = provinceList.plist; sourceTree = "<group>"; };
 		A49646E61BE3403A006545C2 /* cityList.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = cityList.plist; sourceTree = "<group>"; };
+		A4AE22051BE7655200101B89 /* 方正楷体简体.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "方正楷体简体.ttf"; sourceTree = "<group>"; };
+		A4AE22121BE777EF00101B89 /* homeActive@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "homeActive@3x.png"; path = "images/@3x/homeActive@3x.png"; sourceTree = "<group>"; };
 		A4B2277C1BD3516F0020C4D5 /* KnobButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KnobButton.h; path = SimpleSwitch/KnobButton.h; sourceTree = "<group>"; };
 		A4B2277D1BD3516F0020C4D5 /* KnobButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KnobButton.m; path = SimpleSwitch/KnobButton.m; sourceTree = "<group>"; };
 		A4B2277E1BD3516F0020C4D5 /* SimpleSwitch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SimpleSwitch.h; path = SimpleSwitch/SimpleSwitch.h; sourceTree = "<group>"; };
@@ -1000,6 +1000,7 @@
 		A41C6B731BBAAFC0006B731D /* @3x */ = {
 			isa = PBXGroup;
 			children = (
+				A4AE22121BE777EF00101B89 /* homeActive@3x.png */,
 				A42EA2EC1BE1D7F200E35F5F /* productStatus@3x.png */,
 				A42EA2ED1BE1D7F200E35F5F /* tradePwIcon@3x.png */,
 				A42EA2B91BDF833F00E35F5F /* ifudong@3x.png */,
@@ -1019,7 +1020,6 @@
 				A463EAC21BD6354F00CAF146 /* wave@3x.png */,
 				A463EA751BD4D25600CAF146 /* accountActive@3x.png */,
 				A463EA761BD4D25600CAF146 /* helpActive@3x.png */,
-				A463EA771BD4D25600CAF146 /* homeAcitve@3x.png */,
 				A463EA781BD4D25600CAF146 /* product@3x.png */,
 				A43174501BD4927A0001FC53 /* pAmount@3x.png */,
 				A43174511BD4927A0001FC53 /* pDeadline@3x.png */,
@@ -1138,7 +1138,7 @@
 		A463EACD1BD6435300CAF146 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				A463EACB1BD6434900CAF146 /* 方正硬笔楷书简体.ttf */,
+				A4AE22051BE7655200101B89 /* 方正楷体简体.ttf */,
 			);
 			name = Fonts;
 			sourceTree = "<group>";
@@ -1401,6 +1401,7 @@
 				A49646E31BE3401A006545C2 /* bankList.plist in Resources */,
 				A44AFA161BCF47F1002A8AC4 /* dispersionIcon@2x.png in Resources */,
 				A4BBC1F01BD10D61006331AC /* uDetail@2x.png in Resources */,
+				A4AE22061BE7655200101B89 /* 方正楷体简体.ttf in Resources */,
 				A4B2CFC01BD8ACF800AC2E78 /* pointer@3x.png in Resources */,
 				A43174731BD492940001FC53 /* pNoProduct.png in Resources */,
 				A4BBC2061BD10DA1006331AC /* uHuoqi.png in Resources */,
@@ -1434,6 +1435,7 @@
 				A4BBC1F51BD10D61006331AC /* uWenjian@2x.png in Resources */,
 				A463EA901BD4E50B00CAF146 /* launchCenter@2x.png in Resources */,
 				A44AF9FB1BCF47E1002A8AC4 /* quickIcon@3x.png in Resources */,
+				A4AE22131BE777EF00101B89 /* homeActive@3x.png in Resources */,
 				A4BBC2031BD10DA1006331AC /* uBonus.png in Resources */,
 				A41ACC871BDDFCC900755C96 /* bonus@3x.png in Resources */,
 				A42EA2E31BDF835500E35F5F /* inbuilding.png in Resources */,
@@ -1550,7 +1552,6 @@
 				A4E7F2301BCE053200B20EC6 /* checkIcon.png in Resources */,
 				A431746F1BD492940001FC53 /* pDeadline.png in Resources */,
 				A44AF9F61BCF47E1002A8AC4 /* otherLeft@3x.png in Resources */,
-				A463EA7B1BD4D25600CAF146 /* homeAcitve@3x.png in Resources */,
 				A44AFA151BCF47F1002A8AC4 /* detailIcon@2x.png in Resources */,
 				A4BBC2011BD10DA1006331AC /* uAuto.png in Resources */,
 				A42EA2B81BDF82AE00E35F5F /* banner1.png in Resources */,
@@ -1566,7 +1567,6 @@
 				A405AC691BC91210002BFCE9 /* loginLogo@2x.png in Resources */,
 				A44AFA371BCF4801002A8AC4 /* account.png in Resources */,
 				A44AFA3C1BCF4801002A8AC4 /* huoqi.png in Resources */,
-				A463EACC1BD6434900CAF146 /* 方正硬笔楷书简体.ttf in Resources */,
 				A42EA2EF1BE1D7F200E35F5F /* tradePwIcon@3x.png in Resources */,
 				A43174621BD492880001FC53 /* pAmount@2x.png in Resources */,
 				A41ACC941BDE064900755C96 /* launchCenter.png in Resources */,
@@ -1795,6 +1795,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jiawei Dong (MDG832WVAX)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -1815,7 +1816,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1839,6 +1840,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jiawei Dong (MDG832WVAX)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -1853,8 +1855,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1879,12 +1882,12 @@
 				INFOPLIST_FILE = ZhuanTou/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "Shanghai-Momu-Financial-Information-Service-Co.--Ltd..ZhuanTou";
+				PRODUCT_BUNDLE_IDENTIFIER = com.momu.zhuantouwang.ZhuanTou;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "ZhuanTou/ZhuanTou-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1907,11 +1910,11 @@
 				INFOPLIST_FILE = ZhuanTou/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "Shanghai-Momu-Financial-Information-Service-Co.--Ltd..ZhuanTou";
+				PRODUCT_BUNDLE_IDENTIFIER = com.momu.zhuantouwang.ZhuanTou;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "ZhuanTou/ZhuanTou-Bridging-Header.h";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -1963,6 +1966,96 @@
 			};
 			name = Release;
 		};
+		A475498E1BE738A9002E929C /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jiawei Dong (MDG832WVAX)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Distribution;
+		};
+		A475498F1BE738A9002E929C /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/ZhuanTou",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/ZhuanTou/PrefixHeader.pch";
+				INFOPLIST_FILE = ZhuanTou/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.momu.zhuantouwang.ZhuanTou;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "ZhuanTou/ZhuanTou-Bridging-Header.h";
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Distribution;
+		};
+		A47549901BE738A9002E929C /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = ZhuanTouTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Shanghai-Momu-Financial-Information-Service-Co.--Ltd..ZhuanTouTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ZhuanTou.app/ZhuanTou";
+			};
+			name = Distribution;
+		};
+		A47549911BE738A9002E929C /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = ZhuanTouUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Shanghai-Momu-Financial-Information-Service-Co.--Ltd..ZhuanTouUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = ZhuanTou;
+				USES_XCTRUNNER = YES;
+			};
+			name = Distribution;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1971,6 +2064,7 @@
 			buildConfigurations = (
 				A41C6B551BB9849E006B731D /* Debug */,
 				A41C6B561BB9849E006B731D /* Release */,
+				A475498E1BE738A9002E929C /* Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1980,6 +2074,7 @@
 			buildConfigurations = (
 				A41C6B581BB9849E006B731D /* Debug */,
 				A41C6B591BB9849E006B731D /* Release */,
+				A475498F1BE738A9002E929C /* Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1989,6 +2084,7 @@
 			buildConfigurations = (
 				A41C6B5B1BB9849E006B731D /* Debug */,
 				A41C6B5C1BB9849E006B731D /* Release */,
+				A47549901BE738A9002E929C /* Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1998,6 +2094,7 @@
 			buildConfigurations = (
 				A41C6B5E1BB9849E006B731D /* Debug */,
 				A41C6B5F1BB9849E006B731D /* Release */,
+				A47549911BE738A9002E929C /* Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -69,6 +69,10 @@
     
     
     [self setupData];
+    
+    //啊啊啊啊啊啊啊啊啊
+    [buyButton setHidden:YES];
+    [drawButton setHidden:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -83,11 +87,11 @@
 
 - (void)setupData
 {
-    [yesterdayProfitLabel countFromZeroTo:5.00 withDuration:0.8f];
+    [yesterdayProfitLabel countFromZeroTo:0.00 withDuration:0.8f];
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
     [formatter setPositiveFormat:@"###,##0.00"];
-    myPortionLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:1111001.11]]];
-    totalProfitLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:1001.11]]];
+    myPortionLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:0.00]]];
+    totalProfitLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:0.00]]];
     profitPercentLabel.text = @"6.832%";
 
     [self setDataCount:10 range:8.00];
@@ -107,9 +111,9 @@
     
     for (int i = 0; i < count; i++)
     {
-        double mult = range;
-        double val = (double) (arc4random_uniform(mult)) +2;
-        [yVals addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i]];
+//        double mult = range;
+//        double val = (double) (arc4random_uniform(mult)) +2;
+        [yVals addObject:[[ChartDataEntry alloc] initWithValue:6.832 xIndex:i]];
     }
     
     LineChartDataSet *set1 = [[LineChartDataSet alloc] initWithYVals:yVals label:@"DataSet 1"];

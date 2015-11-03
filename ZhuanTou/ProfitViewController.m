@@ -44,7 +44,9 @@
     [pieChartView setUserInteractionEnabled:NO];
     
     [self setupData];
+    
 }
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -58,36 +60,67 @@
 
 - (void)setupData
 {
-    dingqiPercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",25.00];
-    huoqiPercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",25.00];
-    balancePercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",25.00];
-    frozenPercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",25.00];
-    bonusPercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",25.00];
-    
-    NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
-    [formatter setPositiveFormat:@"###,##0.00元"];
-    dingqiNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:10000.00]]];
-    huoqiNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:10000.00]]];
-    balanceNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:10000.00]]];
-    frozenNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:10000.00]]];
-    bonusNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:10000.00]]];
-    totalNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:40000.00]]];
-    
-    [self setDataCount:5 range:100];
-    [pieChartView animateWithXAxisDuration:1.5 yAxisDuration:1.5 easingOption:ChartEasingOptionEaseOutBack];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSString *URL = [BASEURL stringByAppendingString:@"api/account/getUserInfoInAPP"];
+    [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+        NSLog(@"%@", responseObject);
+        NSString *str = [responseObject objectForKey:@"isSuccess"];
+        int f1 = str.intValue;
+        if (f1 == 1)
+        {
+            [hud hide:YES];
+            dingqi = ((NSString*)[responseObject objectForKey:@"activeInvestTotalAmount"]).doubleValue;
+            huoqi = ((NSString*)[responseObject objectForKey:@"ztbBalance"]).doubleValue;
+            balance = ((NSString*)[responseObject objectForKey:@"fundsAvailable"]).doubleValue;
+            frozen = ((NSString*)[responseObject objectForKey:@"activeInvestTotalAmount"]).doubleValue;
+            bonus = ((NSString*)[responseObject objectForKey:@"couponAmount"]).doubleValue;
+            total = ((NSString*)[responseObject objectForKey:@"totalAsset"]).doubleValue;
+            
+            dingqiPercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",dingqi*100/total];
+            huoqiPercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",huoqi*100/total];
+            balancePercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",balance*100/total];
+            frozenPercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",frozen*100/total];
+            bonusPercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",bonus*100/total];
+            
+            NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
+            [formatter setPositiveFormat:@"###,##0.00元"];
+            dingqiNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:dingqi]]];
+            huoqiNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:huoqi]]];
+            balanceNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:balance]]];
+            frozenNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:frozen]]];
+            bonusNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:bonus]]];
+            totalNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:total]]];
+            
+            [self setDataCount:5 range:100];
+            [pieChartView animateWithXAxisDuration:1.5 yAxisDuration:1.5 easingOption:ChartEasingOptionEaseOutBack];
+        }
+        else
+        {
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = [responseObject objectForKey:@"errorMessage"];
+            [hud hide:YES afterDelay:1.5f];
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = @"当前网络状况不佳，请重试";
+        [hud hide:YES afterDelay:1.5f];
+    }];
 }
 
 - (void)setDataCount:(int)count range:(double)range
 {
-    double mult = range;
     
     NSMutableArray *yVals1 = [[NSMutableArray alloc] init];
     
     // IMPORTANT: In a PieChart, no values (Entry) should have the same xIndex (even if from different DataSets), since no values can be drawn above each other.
-    for (int i = 0; i < count; i++)
-    {
-        [yVals1 addObject:[[BarChartDataEntry alloc] initWithValue:(arc4random_uniform(mult) + mult / 5) xIndex:i]];
-    }
+    [yVals1 addObject:[[BarChartDataEntry alloc] initWithValue:dingqi/total xIndex:0]];
+    [yVals1 addObject:[[BarChartDataEntry alloc] initWithValue:huoqi/total xIndex:1]];
+    [yVals1 addObject:[[BarChartDataEntry alloc] initWithValue:balance/total xIndex:2]];
+    [yVals1 addObject:[[BarChartDataEntry alloc] initWithValue:frozen/total xIndex:4]];
+    [yVals1 addObject:[[BarChartDataEntry alloc] initWithValue:bonus/total xIndex:3]];
     
     NSMutableArray *xVals = [[NSMutableArray alloc] init];
     
@@ -103,11 +136,29 @@
     // add a lot of colors
     
     NSMutableArray *colors = [[NSMutableArray alloc] init];
-    [colors addObject:ZTPIECHARTGREEN];
-    [colors addObject:ZTPIECHARTYELLOW];
-    [colors addObject:ZTPIECHARTPURPLE];
-    [colors addObject:ZTPIECHARTBLUE];
-    [colors addObject:ZTPIECHARTRED];
+    if (dingqi > 0)
+    {
+        [colors addObject:ZTPIECHARTPURPLE];
+    }
+    if (huoqi > 0)
+    {
+        [colors addObject:ZTPIECHARTBLUE];
+    }
+    if (balance > 0)
+    {
+        [colors addObject:ZTPIECHARTRED];
+    }
+    if (bonus > 0)
+    {
+        [colors addObject:ZTPIECHARTGREEN];
+    }
+    if (frozen > 0)
+    {
+        [colors addObject:ZTPIECHARTYELLOW];
+    }
+    
+    
+    
     
     dataSet.colors = colors;
     

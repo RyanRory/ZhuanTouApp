@@ -47,22 +47,22 @@
 
 - (void)setupData
 {
-    datas = [[NSMutableArray alloc]init];
-    for (int i=0; i<10; i++)
-    {
-        [datas addObject:@{@"RULE":@"新手投标可用",
-                           @"AMOUNT":@"1000",
-                           @"STATUS":@"可使用",
-                           @"DEADLINE":@"2015年12月12日"}];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSString *URL = [BASEURL stringByAppendingString:@"api/account/getCouponsInApp"];
+    [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSArray *responseObject) {
+        NSLog(@"%@", responseObject);
+        [hud hide:YES];
+        datas = [NSMutableArray arrayWithArray:responseObject];
         
-        [datas addObject:@{@"RULE":@"新手投标可用",
-                           @"AMOUNT":@"100",
-                           @"STATUS":@"已失效",
-                           @"DEADLINE":@"2015年10月12日"}];
-    }
-    
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = @"当前网络状况不佳，请重试";
+        [hud hide:YES afterDelay:1.5f];
+    }];
+
     bonusNum = datas.count;
-    
     [tView reloadData];
 }
 
@@ -96,10 +96,10 @@
     {
         cell = [[BonusTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
-    cell.amountLabel.text = [data objectForKey:@"AMOUNT"];
-    cell.statusLabel.text = [data objectForKey:@"STATUS"];
-    cell.ddlLabel.text = [data objectForKey:@"DEADLINE"];
-    cell.ruleLabel.text = [data objectForKey:@"RULE"];
+    cell.amountLabel.text = [data objectForKey:@"money"];
+    cell.ddlLabel.text = [data objectForKey:@"expireTime"];
+    cell.ruleLabel.text = [data objectForKey:@"comments"];
+    cell.statusLabel.text = [data objectForKey:@"status"];
     if ([cell.statusLabel.text isEqualToString:@"可使用"])
     {
         cell.bgImageView.image = [UIImage imageNamed:@"bonusActive.png"];

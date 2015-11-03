@@ -17,6 +17,7 @@
     UIToolbar *toolBar;
     int buttonTag;
     int bankTemp, provinceTemp, cityTemp;
+    NSString *fullName;
 }
 
 @property (strong, nonatomic) IBOutlet UIButton *confirmButton;
@@ -36,5 +37,7 @@
 - (IBAction)backgroundTap:(id)sender;
 
 - (IBAction)buttonEnableListener:(id)sender;
+
+- (void)setFullName:(NSString*)str;
 
 @end

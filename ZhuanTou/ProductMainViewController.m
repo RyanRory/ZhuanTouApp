@@ -126,11 +126,15 @@
     productsBeforeButton.tintColor = ZTLIGHTRED;
     [featureButton1 setImage:[UIImage imageNamed:@"profitIcon.png"] forState:UIControlStateNormal];
     [featureButton1 setTitle:@"较高收益" forState:UIControlStateNormal];
-    [buyButton setBackgroundColor:ZTLIGHTRED];
+    //[buyButton setBackgroundColor:ZTLIGHTRED];
     
     [self bgCircleAnimation];
     
     [bigRateLabel countFromZeroTo:12 withDuration:0.8f];
+    
+    //假数据！！！！！！！！！！！！！！
+    [buyButton setUserInteractionEnabled:NO];
+    timeLabel.hidden = YES;
     
 }
 
@@ -156,11 +160,15 @@
     productsBeforeButton.tintColor = ZTBLUE;
     [featureButton1 setImage:[UIImage imageNamed:@"profitIcon.png"] forState:UIControlStateNormal];
     [featureButton1 setTitle:@"超高收益" forState:UIControlStateNormal];
-    [buyButton setBackgroundColor:ZTBLUE];
+    //[buyButton setBackgroundColor:ZTBLUE];
     
     [self bgCircleAnimation];
     
     [bigRateLabel countFromZeroTo:14 withDuration:0.8f];
+    
+    //假数据！！！！！！！！！！！！！！
+    [buyButton setUserInteractionEnabled:NO];
+    timeLabel.hidden = YES;
 }
 
 - (void)setupHuoqi
@@ -182,7 +190,7 @@
     productsBeforeButton.tintColor = ZTRED;
     [featureButton1 setImage:[UIImage imageNamed:@"quickIcon.png"] forState:UIControlStateNormal];
     [featureButton1 setTitle:@"随存随取" forState:UIControlStateNormal];
-    [buyButton setBackgroundColor:ZTRED];
+    //[buyButton setBackgroundColor:ZTRED];
     
     //动画效果
     [UIView beginAnimations:nil context:UIGraphicsGetCurrentContext()];
@@ -191,6 +199,10 @@
     [huoqiBgImageView2 setFrame:CGRectMake(frame.origin.x - point.x, frame.origin.y - point.y, frame.size.width, frame.size.height)];
     [bigRateLabel countFromZeroTo:6 withDuration:0.8f];
     [UIView commitAnimations];
+    
+    //假数据！！！！！！！！！！！！！！
+    [buyButton setUserInteractionEnabled:NO];
+    timeLabel.hidden = YES;
     
     
 }
@@ -251,13 +263,21 @@
 
 - (void)goToDetail:(id)sender
 {
-    
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.mode = MBProgressHUDModeCustomView;
+    hud.labelText = @"建设中...";
+    hud.customView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"inbuilding.png"]];
+    [hud hide:YES afterDelay:1.5f];
 }
 
 - (void)goToProductsBefore:(id)sender
 {
-    ProductsBeforeViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ProductsBeforeViewController"];
-    [[self navigationController]pushViewController:vc animated:YES];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.mode = MBProgressHUDModeCustomView;
+    hud.labelText = @"无往期产品";
+    [hud hide:YES afterDelay:1.5f];
+//    ProductsBeforeViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ProductsBeforeViewController"];
+//    [[self navigationController]pushViewController:vc animated:YES];
 }
 
 - (void)buyNow:(id)sender

@@ -11,6 +11,9 @@
 #import "ZhuanTou-Bridging-Header.h"
 
 @interface ProfitViewController : UIViewController<ChartViewDelegate>
+{
+    double dingqi, huoqi, balance, bonus, total, frozen;
+}
 @property (strong, nonatomic) IBOutlet UIView *contentView;
 @property (strong, nonatomic) IBOutlet UILabel *dingqiPercentLabel;
 @property (strong, nonatomic) IBOutlet UILabel *huoqiPercentLabel;

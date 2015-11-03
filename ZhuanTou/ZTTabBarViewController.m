@@ -60,7 +60,7 @@
             int f1 = str.intValue;
             if (f1 == 0)
             {
-                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
                 hud.mode = MBProgressHUDModeCustomView;
                 hud.labelText = [responseObject objectForKey:@"errorMessage"];
                 [hud hide:YES afterDelay:1.5f];
@@ -73,7 +73,7 @@
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"Error: %@", error);
-            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             hud.mode = MBProgressHUDModeText;
             hud.labelText = @"登录失败";
             [hud hide:YES afterDelay:1.5f];

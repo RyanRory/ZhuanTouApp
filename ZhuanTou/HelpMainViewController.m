@@ -84,7 +84,7 @@
             cell = [[HelpDescriptionTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier1];
         }
         cell.titleLabel.text = @"版本号";
-        cell.descriptionLabel.text = @"1.0.0";
+        cell.descriptionLabel.text = @"1.0.0.1102_alpha";
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         return cell;

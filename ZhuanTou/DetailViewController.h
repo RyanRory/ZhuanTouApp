@@ -20,5 +20,6 @@
 @property (strong, nonatomic) IBOutlet UIButton *inAndOutButton;
 @property (strong, nonatomic) IBOutlet UIButton *allButton;
 @property (strong, nonatomic) IBOutlet UITableView *tView;
+@property (strong, nonatomic) IBOutlet UILabel *noRecordLabel;
 
 @end

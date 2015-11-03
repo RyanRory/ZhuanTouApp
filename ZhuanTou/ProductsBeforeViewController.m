@@ -48,16 +48,13 @@
 {
     datas = [[NSMutableArray alloc]init];
     
-    for (int i=0; i<10; i++)
+    for (int i=10; i>=0; i--)
     {
         [datas addObject:@{@"STATUS":@"0",
                            @"ID":[NSString stringWithFormat:@"1510%02d",i],
                            @"PERCENT":@"15.00"}];
     }
     
-    [datas addObject:@{@"STATUS":@"1",
-                       @"ID":[NSString stringWithFormat:@"1510%02d",11],
-                       @"PERCENT":@"15.00"}];
     
     productsNum = (int)datas.count;
     [tView reloadData];

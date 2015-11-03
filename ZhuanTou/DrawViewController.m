@@ -59,7 +59,7 @@
 {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    NSString *URL = [BASEURL stringByAppendingString:@"api/withdraw/accountBankCards"];
+    NSString *URL = [BASEURL stringByAppendingString:@"api/account/getAppBankCards"];
     [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
         NSLog(@"%@", responseObject);
         NSString *str = [responseObject objectForKey:@"isSuccess"];
@@ -67,15 +67,17 @@
         if (f1 == 1)
         {
             [hud hide:YES];
+            bankCardView.hidden = NO;
             addBankCardButton.hidden = YES;
             noBankCardView.hidden = YES;
+            bankNameLabel.text = [responseObject objectForKey:@"bankName"];
+            branchLabel.text = [[responseObject objectForKey:@"subBankName"] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            cardNumLabel.text = [responseObject objectForKey:@"cardCode"];
+            bankImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[responseObject objectForKey:@"imgUrl"]]]];
+            confirmButton.hidden = NO;
             descriptionLabel.hidden = NO;
             drawNumLabel.hidden = NO;
             editView.hidden = NO;
-            confirmButton.hidden = NO;
-            bankNameLabel.text = [responseObject objectForKey:@"bankName"];
-            branchLabel.text = [responseObject objectForKey:@"subbranchBankName"];
-            cardNumLabel.text = [responseObject objectForKey:@"cardCode"];
         }
         else
         {
@@ -83,10 +85,10 @@
             bankCardView.hidden = YES;
             noBankCardView.hidden = NO;
             addBankCardButton.hidden = NO;
+            confirmButton.hidden = YES;
             descriptionLabel.hidden = YES;
             drawNumLabel.hidden = YES;
             editView.hidden = YES;
-            confirmButton.hidden = YES;
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

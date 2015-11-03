@@ -35,13 +35,21 @@
     [forgottenButton addTarget:self action:@selector(toLogin:) forControlEvents:UIControlEventTouchUpInside];
     
     AliPayViews *alipay = [[AliPayViews alloc] initWithFrame:self.view.bounds];
-    if ([self.string isEqualToString:@"验证密码"]) {
+    if ([self.string isEqualToString:@"验证密码"])
+    {
         alipay.gestureModel = ValidatePwdModel;
-    } else if ([self.string isEqualToString:@"修改密码"]) {
+        [alipay setFrame:CGRectMake(0, 32, self.view.frame.size.width, self.view.frame.size.height)];
+    }
+    else if ([self.string isEqualToString:@"修改密码"])
+    {
         alipay.gestureModel = AlertPwdModel;
-    } else if ([self.string isEqualToString:@"重置密码"]) {
+    }
+    else if ([self.string isEqualToString:@"重置密码"])
+    {
         alipay.gestureModel = SetPwdModel;
-    } else {
+    }
+    else
+    {
         alipay.gestureModel = NoneModel;
     }
     alipay.block = ^(NSString *pswString) {

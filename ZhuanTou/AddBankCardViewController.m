@@ -63,21 +63,8 @@
     
     bankArray = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"bankList" ofType:@"plist"]];
     provinceArray = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"provinceList" ofType:@"plist"]];
-
-    hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    NSString *URL = [BASEURL stringByAppendingString:@"api/account/getFullName"];
-    [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"%@", responseObject);
-        [hud hide:YES];
-        nameLabel.text = responseObject;
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Error: %@", error);
-        hud.mode = MBProgressHUDModeText;
-        hud.labelText = @"当前网络状况不佳，请重试";
-        [hud hide:YES afterDelay:1.5f];
-    }];
+    
+    nameLabel.text = fullName;
 
 }
 
@@ -89,6 +76,11 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)setFullName:(NSString*)str
+{
+    fullName = str;
 }
 
 - (void)showChooseDetail:(UIButton*)sender

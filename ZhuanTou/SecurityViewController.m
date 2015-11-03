@@ -53,13 +53,13 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void)setLevel:(int)temp
+{
+    i = temp;
+}
+
 - (void)setupData
 {
-    realNameStatusLabel.text = @"未认证";
-    tradePswdStatusLabel.text = @"未设置";
-    
-    int i = rand()%3;
-    
     if (i == 0)
     {
         levelLabel.text = @"低";
@@ -87,6 +87,48 @@
         
         [self rotateAnimation:2];
     }
+    
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSString *URL = [BASEURL stringByAppendingString:@"api/account/getUserSecurityStatus"];
+    [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+        NSLog(@"%@", responseObject);
+        [hud hide:YES];
+        NSString *str = [responseObject objectForKey:@"isSuccess"];
+        int f1 = str.intValue;
+        if (f1 == 1)
+        {
+            if (((NSString*)[responseObject objectForKey:@"isIdentified"]).intValue == 0)
+            {
+                realNameStatusLabel.text = @"未认证";
+            }
+            else
+            {
+                realNameStatusLabel.text = @"已认证";
+            }
+            if (((NSString*)[responseObject objectForKey:@"isTradePwSetted"]).intValue == 0)
+            {
+                tradePswdStatusLabel.text = @"未设置";
+            }
+            else
+            {
+                tradePswdStatusLabel.text = @"修改";
+            }
+        }
+        else
+        {
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = [responseObject objectForKey:@"errorMessage"];
+            [hud hide:YES afterDelay:1.5f];
+        }
+
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = @"当前网络状况不佳，请重试";
+        [hud hide:YES afterDelay:1.5f];
+    }];
+    
 }
 
 - (void)rotateAnimation:(int)angle
@@ -100,16 +142,16 @@
     
     CGFloat distance = M_PI/20;
     
-    int i = -4;
-    for(;i<=(10*angle);i++){
-        [values addObject:[NSValue valueWithCATransform3D:CATransform3DRotate(CATransform3DIdentity, distance*i, 0, 0, 1)]];
+    int j = -4;
+    for(;j<=(10*angle);j++){
+        [values addObject:[NSValue valueWithCATransform3D:CATransform3DRotate(CATransform3DIdentity, distance*j, 0, 0, 1)]];
     }
     
     //添加缓动效果
-    [values addObject:[NSValue valueWithCATransform3D:CATransform3DRotate(CATransform3DIdentity, distance*i, 0, 0, 1)]];
-    [values addObject:[NSValue valueWithCATransform3D:CATransform3DRotate(CATransform3DIdentity, distance*(i+1), 0, 0, 1)]];
-    [values addObject:[NSValue valueWithCATransform3D:CATransform3DRotate(CATransform3DIdentity, distance*i, 0, 0, 1)]];
-    [values addObject:[NSValue valueWithCATransform3D:CATransform3DRotate(CATransform3DIdentity, distance*(i-1), 0, 0, 1)]];
+    [values addObject:[NSValue valueWithCATransform3D:CATransform3DRotate(CATransform3DIdentity, distance*j, 0, 0, 1)]];
+    [values addObject:[NSValue valueWithCATransform3D:CATransform3DRotate(CATransform3DIdentity, distance*(j+1), 0, 0, 1)]];
+    [values addObject:[NSValue valueWithCATransform3D:CATransform3DRotate(CATransform3DIdentity, distance*j, 0, 0, 1)]];
+    [values addObject:[NSValue valueWithCATransform3D:CATransform3DRotate(CATransform3DIdentity, distance*(j-1), 0, 0, 1)]];
     
     anim.values=values; ;
     [pointerImageView.layer addAnimation:anim forKey:@"cubeIn"];

@@ -41,7 +41,9 @@
     
     [autoSwitch addTarget:self action:@selector(valueChanged:) forControlEvents:UIControlEventValueChanged];
     
-    [self setupData];
+    chargeButton.hidden = YES;
+    drawButton.hidden = YES;
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -58,20 +60,47 @@
         UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithTitle:@"登出" style:UIBarButtonItemStylePlain target:self action:@selector(signOut:)];
         self.navigationItem.rightBarButtonItem = item;
         [self.navigationItem.rightBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont boldSystemFontOfSize:13], NSFontAttributeName,nil] forState:UIControlStateNormal];
+        [self setupData];
     }
 }
 
 - (void)setupData
 {
-    NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
-    [formatter setPositiveFormat:@"###,##0.00"];
-    propertyLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:1111001.11]]];
-    balanceLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:1111001.11]]];
-    dingqiNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:1111001.11]]];
-    huoqiNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:1111001.11]]];
-    bonusNumLabel.text = @"3张";
-    securityLabel.text = @"高";
-    autoSwitch.on = YES;
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSString *URL = [BASEURL stringByAppendingString:@"api/account/getUserInfoInAPP"];
+    [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+        NSLog(@"%@", responseObject);
+        NSString *str = [responseObject objectForKey:@"isSuccess"];
+        int f1 = str.intValue;
+        if (f1 == 1)
+        {
+            [hud hide:YES];
+            NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
+            [formatter setPositiveFormat:@"###,##0.00"];
+            propertyLabel.text = [NSString stringWithString:[formatter stringFromNumber:[responseObject objectForKey:@"totalAsset"]]];
+            balanceLabel.text = [NSString stringWithString:[formatter stringFromNumber:[responseObject objectForKey:@"fundsAvailable"]]];
+            dingqiNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:0.00]]];
+            huoqiNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[responseObject objectForKey:@"ztbBalance"]]];
+            bonusNumLabel.text = [NSString stringWithFormat:@"%@张",[responseObject objectForKey:@"acitveCouponsAmount"]];
+            securityLabel.text = [responseObject objectForKey:@"levelStr"];
+        }
+        else
+        {
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = [responseObject objectForKey:@"errorMessage"];
+            [hud hide:YES afterDelay:1.5f];
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = @"当前网络状况不佳，请重试";
+        [hud hide:YES afterDelay:1.5f];
+    }];
+
+    
+    autoSwitch.on = NO;
 }
 
 - (void)toCharge:(id)sender
@@ -88,8 +117,12 @@
 
 - (void)toDingqi:(id)sender
 {
-    DingqiViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"DingqiViewController"];
-    [[self navigationController]pushViewController:vc animated:YES];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.mode = MBProgressHUDModeCustomView;
+    hud.labelText = @"暂无产品";
+    [hud hide:YES afterDelay:1.5f];
+//    DingqiViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"DingqiViewController"];
+//    [[self navigationController]pushViewController:vc animated:YES];
 }
 
 - (void)toHuoqi:(id)sender
@@ -100,9 +133,14 @@
 
 - (void)setAuto:(id)sender
 {
-    AutoViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"AutoViewController"];
-    [vc setSwitchOn:autoSwitch.on];
-    [[self navigationController]pushViewController:vc animated:YES];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.mode = MBProgressHUDModeCustomView;
+    hud.labelText = @"建设中...";
+    hud.customView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"inbuilding.png"]];
+    [hud hide:YES afterDelay:1.5f];
+//    AutoViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"AutoViewController"];
+//    [vc setSwitchOn:autoSwitch.on];
+//    [[self navigationController]pushViewController:vc animated:YES];
 }
 
 -(void)valueChanged:(id)sender
@@ -140,6 +178,19 @@
 - (void)toSecurity:(id)sender
 {
     SecurityViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"SecurityViewController"];
+    if ([securityLabel.text isEqualToString:@"低"])
+    {
+        [vc setLevel:0];
+    }
+    else if ([securityLabel.text isEqualToString:@"中"])
+    {
+        [vc setLevel:1];
+    }
+    else
+    {
+        [vc setLevel:2];
+    }
+    
     [[self navigationController]pushViewController:vc animated:YES];
 }
 
