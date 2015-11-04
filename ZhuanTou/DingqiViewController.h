@@ -16,6 +16,7 @@
 {
     int productsNum;
     NSMutableArray *datas;
+    int buttonTag;
 }
 
 @property (strong, nonatomic) IBOutlet UIView *noneProductView;

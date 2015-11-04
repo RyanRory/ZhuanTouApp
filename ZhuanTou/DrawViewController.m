@@ -39,12 +39,12 @@
     [addBankCardButton addTarget:self action:@selector(toAddBankCard:) forControlEvents:UIControlEventTouchUpInside];
     
     bankCardView.hidden = YES;
-    noBankCardView.hidden = NO;
-    addBankCardButton.hidden = NO;
     descriptionLabel.hidden = YES;
     drawNumLabel.hidden = YES;
     editView.hidden = YES;
     confirmButton.hidden = YES;
+    noBankCardView.hidden = YES;
+    addBankCardButton.hidden = YES;
     
     [self setupData];
     
@@ -57,23 +57,22 @@
 
 - (void)setupData
 {
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSString *URL = [BASEURL stringByAppendingString:@"api/account/getAppBankCards"];
-    [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+    [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSArray *responseObject) {
         NSLog(@"%@", responseObject);
-        NSString *str = [responseObject objectForKey:@"isSuccess"];
-        int f1 = str.intValue;
-        if (f1 == 1)
+//        NSString *str = [responseObject objectForKey:@"isSuccess"];
+//        int f1 = str.intValue;
+        if (responseObject.count > 0)
         {
-            [hud hide:YES];
             bankCardView.hidden = NO;
             addBankCardButton.hidden = YES;
             noBankCardView.hidden = YES;
-            bankNameLabel.text = [responseObject objectForKey:@"bankName"];
-            branchLabel.text = [[responseObject objectForKey:@"subBankName"] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-            cardNumLabel.text = [responseObject objectForKey:@"cardCode"];
-            bankImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[responseObject objectForKey:@"imgUrl"]]]];
+            bankNameLabel.text = [responseObject[0] objectForKey:@"bankName"];
+            branchLabel.text = [[responseObject[0] objectForKey:@"subBankName"] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            cardNumLabel.text = [responseObject[0] objectForKey:@"cardCode"];
+            bankImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[responseObject[0] objectForKey:@"imgUrl"]]]];
             confirmButton.hidden = NO;
             descriptionLabel.hidden = NO;
             drawNumLabel.hidden = NO;
@@ -81,7 +80,6 @@
         }
         else
         {
-            [hud hide:YES];
             bankCardView.hidden = YES;
             noBankCardView.hidden = NO;
             addBankCardButton.hidden = NO;
@@ -93,6 +91,7 @@
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.mode = MBProgressHUDModeText;
         hud.labelText = @"当前网络状况不佳，请重试";
         [hud hide:YES afterDelay:1.5f];

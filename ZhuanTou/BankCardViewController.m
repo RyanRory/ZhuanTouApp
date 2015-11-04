@@ -31,8 +31,10 @@
     
     bankCardView.hidden = YES;
     descriptionLabel.hidden = YES;
+    noBankCardView.hidden = YES;
     addBankCardButton.layer.cornerRadius = 3;
     [addBankCardButton addTarget:self action:@selector(toAddBankCard:) forControlEvents:UIControlEventTouchUpInside];
+    addBankCardButton.hidden = YES;
     
 }
 
@@ -56,23 +58,23 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSString *URL = [BASEURL stringByAppendingString:@"api/account/getAppBankCards"];
-    [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+    [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSArray *responseObject) {
         NSLog(@"%@", responseObject);
-        NSString *str = [responseObject objectForKey:@"isSuccess"];
-        int f1 = str.intValue;
-        if (f1 == 1)
+//        NSString *str = [responseObject objectForKey:@"isSuccess"];
+//        int f1 = str.intValue;
+        if (responseObject.count > 0)
         {
             [hud hide:YES];
             bankCardView.hidden = NO;
             addBankCardButton.hidden = YES;
             noBankCardView.hidden = YES;
             descriptionLabel.hidden = NO;
-            bankNameLabel.text = [responseObject objectForKey:@"bankName"];
-            branchLabel.text = [[responseObject objectForKey:@"subBankName"] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-            cardNumLabel.text = [responseObject objectForKey:@"cardCode"];
-            oneLimitLabel.text = [responseObject objectForKey:@"limitAmount"];
-            dayLimitLabel.text = [responseObject objectForKey:@"dailyLimit"];
-            bankImage.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[responseObject objectForKey:@"imgUrl"]]]];
+            bankNameLabel.text = [responseObject[0] objectForKey:@"bankName"];
+            branchLabel.text = [[responseObject[0] objectForKey:@"subBankName"] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            cardNumLabel.text = [responseObject[0] objectForKey:@"cardCode"];
+            oneLimitLabel.text = [responseObject[0] objectForKey:@"limitAmount"];
+            dayLimitLabel.text = [responseObject[0] objectForKey:@"dailyLimit"];
+            bankImage.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[responseObject[0] objectForKey:@"imgUrl"]]]];
         }
         else
         {

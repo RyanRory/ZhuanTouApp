@@ -27,11 +27,11 @@
     tView.showsHorizontalScrollIndicator = NO;
     tView.showsVerticalScrollIndicator = NO;
     tView.separatorStyle = UITableViewCellSeparatorStyleNone;
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [self setupData];
+    
+    tView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        [self setupData];
+    }];
+    [tView.header beginRefreshing];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -58,6 +58,7 @@
     
     productsNum = (int)datas.count;
     [tView reloadData];
+    [tView.header endRefreshing];
 }
 
 #pragma TableViewDelegates

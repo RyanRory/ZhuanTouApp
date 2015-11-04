@@ -22,6 +22,7 @@ typedef void (^PasswordBlock) (NSString *pswString);
 @interface AliPayViews : UIView
 {
     BOOL flag;
+    int reTryTimes;
 }
 @property(nonatomic , assign)GestureModel gestureModel;
 @property(nonatomic , strong)PasswordBlock block;

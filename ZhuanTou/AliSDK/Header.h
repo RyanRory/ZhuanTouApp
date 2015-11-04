@@ -84,12 +84,10 @@
 #define SETPSWSTRING          @"请滑动设置密码"
 #define RESETPSWSTRING        @"请再次滑动确认密码"
 #define PSWSUCCESSSTRING      @"设置密码成功"
-#define PSWFAILTSTRING        @"密码错误"
+#define PSWFAILTSTRING        [NSString stringWithFormat:@"密码错误，还可以再输入%d次",reTryTimes]
 #define PSW_WRONG_NUMSTRING   @"请至少设置4个点"
 #define INPUT_OLD_PSWSTRING   @"请输入原始密码"
 #define INPUT_NEW_PSWSTRING   @"请输入新密码"
-#define VALIDATE_PSWSTRING    @"验证密码"
-#define VALIDATE_PSWSTRING_SUCCESS    @"登录成功"
 
 
 

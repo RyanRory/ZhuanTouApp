@@ -124,7 +124,7 @@
         }
         if (tabIndex == 1)
         {
-            style = WENJIAN;
+            style = ZONGHE;
         }
     }
 }

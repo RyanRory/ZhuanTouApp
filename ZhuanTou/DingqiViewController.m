@@ -37,8 +37,26 @@
     [endedButton addTarget:self action:@selector(loadEndedTableViewData:) forControlEvents:UIControlEventTouchUpInside];
     [findProductButton addTarget:self action:@selector(toProducts:) forControlEvents:UIControlEventTouchUpInside];
     
-    [self loadIngTableViewData];
+    noneProductView.hidden = YES;
+    findProductButton.hidden = YES;
     
+    buttonTag = 0;
+    
+    tView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        switch (buttonTag) {
+            case 0:
+                [self loadIngTableViewData];
+                break;
+                
+            case 1:
+                [self loadEndedTableViewData];
+                break;
+                
+            default:
+                break;
+        }
+    }];
+    [tView.header beginRefreshing];
 }
 
 
@@ -59,11 +77,12 @@
 
 - (void)loadIngTableViewData:(id)sender
 {
+    buttonTag = 0;
+    [tView.header beginRefreshing];
     ingButton.tintColor = ZTBLUE;
     endedButton.tintColor = ZTGRAY;
     [ingButton setUserInteractionEnabled:NO];
     [endedButton setUserInteractionEnabled:YES];
-    [self loadIngTableViewData];
 }
 
 - (void)loadIngTableViewData
@@ -101,19 +120,22 @@
     }
     [tView reloadData];
     [tView setContentOffset:CGPointMake(0, 0) animated:NO];
+    [tView.header endRefreshing];
 }
 
 - (void)loadEndedTableViewData:(id)sender
 {
+    buttonTag = 1;
+    [tView.header beginRefreshing];
     endedButton.tintColor = ZTBLUE;
     ingButton.tintColor = ZTGRAY;
     [endedButton setUserInteractionEnabled:NO];
     [ingButton setUserInteractionEnabled:YES];
-    [self loadEndedTableViewData];
 }
 
 - (void)loadEndedTableViewData
 {
+    NSLog(@"%d",buttonTag);
     datas = [[NSMutableArray alloc]init];
     
     for (int i=0; i<5; i++)
@@ -145,6 +167,7 @@
     [findProductButton setHidden:YES];
     [tView reloadData];
     [tView setContentOffset:CGPointMake(0, 0) animated:NO];
+    [tView.header endRefreshing];
 }
 
 #pragma TableViewDelegates

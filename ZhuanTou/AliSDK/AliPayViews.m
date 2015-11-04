@@ -66,6 +66,8 @@
     self = [super initWithFrame:frame];
     if (self) {
         
+        reTryTimes = 5;
+        
         [self initViews];
         
     }
@@ -361,7 +363,7 @@
  */
 - (BOOL)judgeFormat
 {
-    if (self.btnArray.count<=3) {
+    if ((self.btnArray.count <= 3) && (self.btnArray.count > 0)) {
         //不合法
         if (!flag)
         {
@@ -407,7 +409,7 @@
     //默认为蓝色
     UIColor *color = SELECTCOLOR;
     
-    if (isSaveBool) {
+    if (isSaveBool && (self.btnArray.count > 0)) {
         
         //第一次输入之后，显示的文字
         self.tfLabel.text = RESETPSWSTRING;
@@ -460,10 +462,13 @@
         } else {
             
             // 失败
-            self.tfLabel.text = PSWFAILTSTRING;
-            self.tfLabel.textColor = LABELWRONGCOLOR;
-            [self shake:self.tfLabel];
-            color = LABELWRONGCOLOR;
+            if (self.btnArray.count > 0)
+            {
+                self.tfLabel.text = @"密码错误，请重新输入";
+                self.tfLabel.textColor = LABELWRONGCOLOR;
+                [self shake:self.tfLabel];
+                color = LABELWRONGCOLOR;
+            }
             [KeychainData forgotPsw];
             _gestureModel = SetPwdModel;
         }
@@ -492,10 +497,14 @@
             
         } else {
             //验证失败
-            self.tfLabel.text = PSWFAILTSTRING;
-            self.tfLabel.textColor = LABELWRONGCOLOR;
-            [self shake:self.tfLabel];
-            color = LABELWRONGCOLOR;
+            if (self.btnArray.count > 0)
+            {
+                reTryTimes--;
+                self.tfLabel.text = PSWFAILTSTRING;
+                self.tfLabel.textColor = LABELWRONGCOLOR;
+                [self shake:self.tfLabel];
+                color = LABELWRONGCOLOR;
+            }
         }
     }
     return color;
@@ -512,16 +521,18 @@
         BOOL isValidate = [KeychainData isSecondInputRight:resultStr];
         if (isValidate) {
             //如果验证成功
-            self.tfLabel.text = VALIDATE_PSWSTRING_SUCCESS;
-            self.tfLabel.textColor = [UIColor whiteColor];
             [self performSelector:@selector(blockAction:) withObject:resultStr afterDelay:.8];
             
         } else {
             //失败
-            self.tfLabel.text = PSWFAILTSTRING;
-            self.tfLabel.textColor = LABELWRONGCOLOR;
-            [self shake:self.tfLabel];
-            color = LABELWRONGCOLOR;
+            if (self.btnArray.count > 0)
+            {
+                reTryTimes--;
+                self.tfLabel.text = PSWFAILTSTRING;
+                self.tfLabel.textColor = LABELWRONGCOLOR;
+                [self shake:self.tfLabel];
+                color = LABELWRONGCOLOR;
+            }
 
         }
     }

@@ -42,6 +42,8 @@
     pieChartView.rotationEnabled = YES;
     pieChartView.legend.enabled = NO;
     [pieChartView setUserInteractionEnabled:NO];
+    pieChartView.noDataText = @"";
+    pieChartView.holeColor = [UIColor clearColor];
     
     [self setupData];
     
@@ -73,7 +75,7 @@
             dingqi = ((NSString*)[responseObject objectForKey:@"activeInvestTotalAmount"]).doubleValue;
             huoqi = ((NSString*)[responseObject objectForKey:@"ztbBalance"]).doubleValue;
             balance = ((NSString*)[responseObject objectForKey:@"fundsAvailable"]).doubleValue;
-            frozen = ((NSString*)[responseObject objectForKey:@"activeInvestTotalAmount"]).doubleValue;
+            frozen = ((NSString*)[responseObject objectForKey:@"frozenAmount"]).doubleValue;
             bonus = ((NSString*)[responseObject objectForKey:@"couponAmount"]).doubleValue;
             total = ((NSString*)[responseObject objectForKey:@"totalAsset"]).doubleValue;
             
@@ -116,11 +118,11 @@
     NSMutableArray *yVals1 = [[NSMutableArray alloc] init];
     
     // IMPORTANT: In a PieChart, no values (Entry) should have the same xIndex (even if from different DataSets), since no values can be drawn above each other.
-    [yVals1 addObject:[[BarChartDataEntry alloc] initWithValue:dingqi/total xIndex:0]];
-    [yVals1 addObject:[[BarChartDataEntry alloc] initWithValue:huoqi/total xIndex:1]];
+    [yVals1 addObject:[[BarChartDataEntry alloc] initWithValue:huoqi/total xIndex:0]];
+    [yVals1 addObject:[[BarChartDataEntry alloc] initWithValue:dingqi/total xIndex:1]];
     [yVals1 addObject:[[BarChartDataEntry alloc] initWithValue:balance/total xIndex:2]];
-    [yVals1 addObject:[[BarChartDataEntry alloc] initWithValue:frozen/total xIndex:4]];
     [yVals1 addObject:[[BarChartDataEntry alloc] initWithValue:bonus/total xIndex:3]];
+    [yVals1 addObject:[[BarChartDataEntry alloc] initWithValue:frozen/total xIndex:4]];
     
     NSMutableArray *xVals = [[NSMutableArray alloc] init];
     
@@ -136,26 +138,32 @@
     // add a lot of colors
     
     NSMutableArray *colors = [[NSMutableArray alloc] init];
-    if (dingqi > 0)
-    {
-        [colors addObject:ZTPIECHARTPURPLE];
-    }
-    if (huoqi > 0)
-    {
-        [colors addObject:ZTPIECHARTBLUE];
-    }
-    if (balance > 0)
-    {
-        [colors addObject:ZTPIECHARTRED];
-    }
-    if (bonus > 0)
-    {
-        [colors addObject:ZTPIECHARTGREEN];
-    }
-    if (frozen > 0)
-    {
-        [colors addObject:ZTPIECHARTYELLOW];
-    }
+//    if (dingqi > 0)
+//    {
+//        [colors addObject:ZTPIECHARTPURPLE];
+//    }
+//    if (huoqi > 0)
+//    {
+//        [colors addObject:ZTPIECHARTBLUE];
+//    }
+//    if (balance > 0)
+//    {
+//        [colors addObject:ZTPIECHARTRED];
+//    }
+//    if (bonus > 0)
+//    {
+//        [colors addObject:ZTPIECHARTGREEN];
+//    }
+//    if (frozen > 0)
+//    {
+//        [colors addObject:ZTPIECHARTYELLOW];
+//    }
+    
+    [colors addObject:ZTPIECHARTPURPLE];
+    [colors addObject:ZTPIECHARTBLUE];
+    [colors addObject:ZTPIECHARTRED];
+    [colors addObject:ZTPIECHARTGREEN];
+    [colors addObject:ZTPIECHARTYELLOW];
     
     
     

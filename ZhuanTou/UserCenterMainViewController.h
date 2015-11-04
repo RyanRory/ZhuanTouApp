@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SimpleSwitch.h"
 #import "HuoqiViewController.h"
 #import "DingqiViewController.h"
 #import "ProfitViewController.h"
@@ -35,7 +34,6 @@
 @property (strong, nonatomic) IBOutlet UIButton *dingqiButton;
 @property (strong, nonatomic) IBOutlet UILabel *huoqiNumLabel;
 @property (strong, nonatomic) IBOutlet UIButton *huoqiButton;
-@property (strong, nonatomic) IBOutlet SimpleSwitch *autoSwitch;
 @property (strong, nonatomic) IBOutlet UIButton *autoButton;
 @property (strong, nonatomic) IBOutlet UIButton *detailButton;
 @property (strong, nonatomic) IBOutlet UIButton *profitButton;

@@ -12,9 +12,6 @@
 #import "ResetTradePswdViewController.h"
 
 @interface SecurityViewController : UIViewController
-{
-    int i;
-}
 @property (strong, nonatomic) IBOutlet UIImageView *pointerImageView;
 @property (strong, nonatomic) IBOutlet UILabel *levelLabel;
 @property (strong, nonatomic) IBOutlet UILabel *realNameStatusLabel;
@@ -22,7 +19,5 @@
 @property (strong, nonatomic) IBOutlet UIButton *realNameButton;
 @property (strong, nonatomic) IBOutlet UIButton *tradePswdButton;
 @property (strong, nonatomic) IBOutlet UIButton *loginPswdButton;
-
-- (void)setLevel:(int)temp;
 
 @end

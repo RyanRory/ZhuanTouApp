@@ -47,12 +47,12 @@
     buyButton.layer.cornerRadius = 3;
     [buyButton addTarget:self action:@selector(buyNow:) forControlEvents:UIControlEventTouchUpInside];
     
-    [wenjianButton setUserInteractionEnabled:NO];
-    wenjianButton.tintColor = ZTLIGHTRED;
-    zongheButton.tintColor = ZTGRAY;
+    [zongheButton setUserInteractionEnabled:NO];
+    wenjianButton.tintColor = ZTGRAY;
+    zongheButton.tintColor = ZTBLUE;
     huoqiButton.tintColor = ZTGRAY;
     
-    style = WENJIAN;
+    style = ZONGHE;
 }
 
 - (void)viewDidAppear:(BOOL)animated

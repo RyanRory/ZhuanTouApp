@@ -53,47 +53,14 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)setLevel:(int)temp
-{
-    i = temp;
-}
 
 - (void)setupData
 {
-    if (i == 0)
-    {
-        levelLabel.text = @"低";
-        levelLabel.textColor = ZTSECURITYRED;
-        [self rotateAnimation:0];
-    }
-    else if (i == 1)
-    {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            levelLabel.text = @"中";
-            levelLabel.textColor = ZTSECURITYYELLOW;
-        });
-        [self rotateAnimation:1];
-    }
-    else
-    {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            levelLabel.text = @"中";
-            levelLabel.textColor = ZTSECURITYYELLOW;
-        });
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            levelLabel.text = @"高";
-            levelLabel.textColor = ZTSECURITYGREEN;
-        });
-        
-        [self rotateAnimation:2];
-    }
     
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSString *URL = [BASEURL stringByAppendingString:@"api/account/getUserSecurityStatus"];
     [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
         NSLog(@"%@", responseObject);
-        [hud hide:YES];
         NSString *str = [responseObject objectForKey:@"isSuccess"];
         int f1 = str.intValue;
         if (f1 == 1)
@@ -114,9 +81,52 @@
             {
                 tradePswdStatusLabel.text = @"修改";
             }
+            
+            if ([[responseObject objectForKey:@"securityLevelStr"] isEqualToString:@"低"])
+            {
+                levelLabel.text = @"低";
+                levelLabel.textColor = ZTSECURITYRED;
+                [self rotateAnimation:0 start:0];
+            }
+            else if ([[responseObject objectForKey:@"securityLevelStr"] isEqualToString:@"中"])
+            {
+                if ([levelLabel.text isEqualToString:@"低"])
+                {
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        levelLabel.text = @"中";
+                        levelLabel.textColor = ZTSECURITYYELLOW;
+                    });
+                    [self rotateAnimation:1 start:0];
+                }
+            }
+            else
+            {
+                if ([levelLabel.text isEqualToString:@"低"])
+                {
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        levelLabel.text = @"中";
+                        levelLabel.textColor = ZTSECURITYYELLOW;
+                    });
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        levelLabel.text = @"高";
+                        levelLabel.textColor = ZTSECURITYGREEN;
+                    });
+                    [self rotateAnimation:2 start:0];
+                }
+                else if ([levelLabel.text isEqualToString:@"中"])
+                {
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        levelLabel.text = @"高";
+                        levelLabel.textColor = ZTSECURITYGREEN;
+                    });
+                    [self rotateAnimation:1 start:M_PI/2];
+                }
+                
+            }
         }
         else
         {
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
             hud.mode = MBProgressHUDModeText;
             hud.labelText = [responseObject objectForKey:@"errorMessage"];
             [hud hide:YES afterDelay:1.5f];
@@ -124,6 +134,7 @@
 
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.mode = MBProgressHUDModeText;
         hud.labelText = @"当前网络状况不佳，请重试";
         [hud hide:YES afterDelay:1.5f];
@@ -131,7 +142,7 @@
     
 }
 
-- (void)rotateAnimation:(int)angle
+- (void)rotateAnimation:(int)angle start:(CGFloat)start
 {
     CAKeyframeAnimation *anim=[CAKeyframeAnimation animationWithKeyPath:@"transform"];
     NSMutableArray *values=[NSMutableArray array];
@@ -144,14 +155,14 @@
     
     int j = -4;
     for(;j<=(10*angle);j++){
-        [values addObject:[NSValue valueWithCATransform3D:CATransform3DRotate(CATransform3DIdentity, distance*j, 0, 0, 1)]];
+        [values addObject:[NSValue valueWithCATransform3D:CATransform3DRotate(CATransform3DIdentity, start+distance*j, 0, 0, 1)]];
     }
     
     //添加缓动效果
-    [values addObject:[NSValue valueWithCATransform3D:CATransform3DRotate(CATransform3DIdentity, distance*j, 0, 0, 1)]];
-    [values addObject:[NSValue valueWithCATransform3D:CATransform3DRotate(CATransform3DIdentity, distance*(j+1), 0, 0, 1)]];
-    [values addObject:[NSValue valueWithCATransform3D:CATransform3DRotate(CATransform3DIdentity, distance*j, 0, 0, 1)]];
-    [values addObject:[NSValue valueWithCATransform3D:CATransform3DRotate(CATransform3DIdentity, distance*(j-1), 0, 0, 1)]];
+    [values addObject:[NSValue valueWithCATransform3D:CATransform3DRotate(CATransform3DIdentity, start+distance*j, 0, 0, 1)]];
+    [values addObject:[NSValue valueWithCATransform3D:CATransform3DRotate(CATransform3DIdentity, start+distance*(j+1), 0, 0, 1)]];
+    [values addObject:[NSValue valueWithCATransform3D:CATransform3DRotate(CATransform3DIdentity, start+distance*j, 0, 0, 1)]];
+    [values addObject:[NSValue valueWithCATransform3D:CATransform3DRotate(CATransform3DIdentity, start+distance*(j-1), 0, 0, 1)]];
     
     anim.values=values; ;
     [pointerImageView.layer addAnimation:anim forKey:@"cubeIn"];
@@ -159,8 +170,18 @@
 
 - (void)toRealName:(id)sender
 {
-    RealNameViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"RealNameViewController"];
-    [[self navigationController]pushViewController:vc animated:YES];
+    if ([realNameStatusLabel.text isEqualToString:@"未认证"])
+    {
+        RealNameViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"RealNameViewController"];
+        [[self navigationController]pushViewController:vc animated:YES];
+    }
+    else
+    {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.mode = MBProgressHUDModeCustomView;
+        hud.labelText = @"您已认证，不可更改";
+        [hud hide:YES afterDelay:1.5f];
+    }
 }
 
 - (void)toTradePswd:(id)sender

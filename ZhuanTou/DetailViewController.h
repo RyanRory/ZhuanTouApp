@@ -11,8 +11,10 @@
 
 @interface DetailViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 {
-    int detailNum;
+    int detailNum, dingqiPageNum, huoqiPageNum, inAndOutPageNum, allPageNum;
+    //NSMutableArray *dingqiDatas, *huoqiDatas, *inAndOutDatas, *allDatas;
     NSMutableArray *datas;
+    int buttonTag, currentNum;
 }
 @property (strong, nonatomic) IBOutlet UIView *headView;
 @property (strong, nonatomic) IBOutlet UIButton *dingqiButton;

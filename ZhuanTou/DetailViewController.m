@@ -40,7 +40,75 @@
     huoqiButton.tintColor = ZTGRAY;
     inAndOutButton.tintColor = ZTGRAY;
     allButton.tintColor = ZTGRAY;
-    [self setupDingqi];
+    
+    noRecordLabel.hidden = YES;
+    dingqiPageNum = 0;
+    huoqiPageNum = 0;
+    inAndOutPageNum = 0;
+    allPageNum = 0;
+    currentNum = 0;
+//    dingqiDatas = [[NSMutableArray alloc]init];
+//    huoqiDatas = [[NSMutableArray alloc]init];
+//    inAndOutDatas = [[NSMutableArray alloc]init];
+//    allDatas = [[NSMutableArray alloc]init];
+    datas = [[NSMutableArray alloc]init];
+    buttonTag = 0;
+    tView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        switch (buttonTag) {
+            case 0:
+                dingqiPageNum = 1;
+                //[dingqiDatas removeAllObjects];
+                [self setupDingqi];
+                break;
+                
+            case 1:
+                huoqiPageNum = 1;
+                //[huoqiDatas removeAllObjects];
+                [self setupHuoqi];
+                break;
+            
+            case 2:
+                inAndOutPageNum = 1;
+                //[inAndOutDatas removeAllObjects];
+                [self setupInAndOut];
+                break;
+                
+            case 3:
+                allPageNum = 1;
+                //[allDatas removeAllObjects];
+                [self setupAll];
+                break;
+                
+            default:
+                break;
+        }
+        
+    }];
+    [tView.header beginRefreshing];
+    tView.footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
+        switch (buttonTag) {
+            case 0:
+                [self setupDingqi];
+                break;
+                
+            case 1:
+                [self setupHuoqi];
+                break;
+                
+            case 2:
+                [self setupInAndOut];
+                break;
+                
+            case 3:
+                [self setupAll];
+                break;
+                
+            default:
+                break;
+        }
+    }];
+
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -55,9 +123,12 @@
 
 - (void)Dingqi:(id)sender
 {
+    currentNum = 0;
+    noRecordLabel.hidden = YES;
+    buttonTag = 0;
+    [tView.header beginRefreshing];
     dingqiButton.tintColor = ZTBLUE;
     [dingqiButton setUserInteractionEnabled:NO];
-    [self setupDingqi];
     huoqiButton.tintColor = ZTGRAY;
     inAndOutButton.tintColor = ZTGRAY;
     allButton.tintColor = ZTGRAY;
@@ -69,9 +140,12 @@
 
 - (void)Huoqi:(id)sender
 {
+    currentNum = 0;
+    noRecordLabel.hidden = YES;
+    buttonTag = 1;
+    [tView.header beginRefreshing];
     huoqiButton.tintColor = ZTBLUE;
     [huoqiButton setUserInteractionEnabled:NO];
-    [self setupHuoqi];
     dingqiButton.tintColor = ZTGRAY;
     inAndOutButton.tintColor = ZTGRAY;
     allButton.tintColor = ZTGRAY;
@@ -82,9 +156,12 @@
 
 - (void)InAndOut:(id)sender
 {
+    currentNum = 0;
+    noRecordLabel.hidden = YES;
+    buttonTag = 2;
+    [tView.header beginRefreshing];
     inAndOutButton.tintColor = ZTBLUE;
     [inAndOutButton setUserInteractionEnabled:NO];
-    [self setupInAndOut];
     dingqiButton.tintColor = ZTGRAY;
     huoqiButton.tintColor = ZTGRAY;
     allButton.tintColor = ZTGRAY;
@@ -95,9 +172,12 @@
 
 - (void)All:(id)sender
 {
+    currentNum = 0;
+    noRecordLabel.hidden = YES;
+    buttonTag = 3;
+    [tView.header beginRefreshing];
     allButton.tintColor = ZTBLUE;
     [allButton setUserInteractionEnabled:NO];
-    [self setupAll];
     dingqiButton.tintColor = ZTGRAY;
     inAndOutButton.tintColor = ZTGRAY;
     huoqiButton.tintColor = ZTGRAY;
@@ -108,99 +188,170 @@
 
 - (void)setupDingqi
 {
-//    datas = [[NSMutableArray alloc]init];
-//    
-//    for (int i=0; i<10; i++)
-//    {
-//        [datas addObject:@{@"TYPE":@"稳健型",
-//                           @"AMOUNT":@"10000.12",
-//                           @"STATUS":@(i%3),
-//                           @"TIME":@"2015-12-25   11:11:11"}];
-//        
-//        [datas addObject:@{@"TYPE":@"综合型",
-//                           @"AMOUNT":@"10000.12",
-//                           @"STATUS":@(i%3),
-//                           @"TIME":@"2015-12-25   11:11:11"}];
-//    }
-//    
-//    detailNum = (int)datas.count;
-//    [tView reloadData];
-//    [tView setContentOffset:CGPointMake(0, 0) animated:NO];
-    tView.hidden = YES;
+    if (dingqiPageNum == 1)
+    {
+        [datas removeAllObjects];
+    }
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSString *URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/catetoryTransaction4M/4/%d",dingqiPageNum]];
+    [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSArray *responseObject) {
+        NSLog(@"%@", responseObject);
+        [datas addObjectsFromArray:responseObject];
+        detailNum = (int)datas.count;
+        dingqiPageNum++;
+        if (datas.count > 0)
+        {
+            noRecordLabel.hidden = YES;
+        }
+        else
+        {
+            noRecordLabel.hidden = NO;
+        }
+        if (dingqiPageNum == 2)
+        {
+            [tView reloadData];
+            [tView.header endRefreshing];
+        }
+        else
+        {
+            [tView reloadData];
+            [tView.footer endRefreshing];
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+        [tView.header endRefreshing];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = @"当前网络状况不佳，请重试";
+        [hud hide:YES afterDelay:1.5f];
+    }];
 }
 
 - (void)setupHuoqi
 {
-//    datas = [[NSMutableArray alloc]init];
-//    
-//    for (int i=0; i<20; i++)
-//    {
-//        [datas addObject:@{@"TYPE":@"专投宝",
-//                           @"AMOUNT":@"10000.12",
-//                           @"STATUS":@(i%3),
-//                           @"TIME":@"2015-12-25   11:11:11"}];
-//    }
-//    
-//    detailNum = (int)datas.count;
-//    [tView reloadData];
-//    [tView setContentOffset:CGPointMake(0, 0) animated:NO];
-    tView.hidden = YES;
+    if (huoqiPageNum == 1)
+    {
+        [datas removeAllObjects];
+    }
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSString *URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/catetoryTransaction4M/5/%d",huoqiPageNum]];
+    [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSArray *responseObject) {
+        NSLog(@"%@", responseObject);
+        [datas addObjectsFromArray:responseObject];
+        detailNum = (int)datas.count;
+        huoqiPageNum++;
+        if (datas.count > 0)
+        {
+            noRecordLabel.hidden = YES;
+        }
+        else
+        {
+            noRecordLabel.hidden = NO;
+        }
+        if (huoqiPageNum == 2)
+        {
+            [tView reloadData];
+            [tView.header endRefreshing];
+        }
+        else
+        {
+            [tView reloadData];
+            [tView.footer endRefreshing];
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+        [tView.header endRefreshing];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = @"当前网络状况不佳，请重试";
+        [hud hide:YES afterDelay:1.5f];
+    }];
 }
 
 - (void)setupInAndOut
 {
-//    datas = [[NSMutableArray alloc]init];
-//    
-//    for (int i=0; i<10; i++)
-//    {
-//        [datas addObject:@{@"TYPE":@"充值",
-//                           @"AMOUNT":@"10000.12",
-//                           @"STATUS":@(i%3),
-//                           @"TIME":@"2015-12-25   11:11:11"}];
-//        
-//        [datas addObject:@{@"TYPE":@"提现",
-//                           @"AMOUNT":@"10000.12",
-//                           @"STATUS":@(i%3),
-//                           @"TIME":@"2015-12-25   11:11:11"}];
-//    }
-//    
-//    detailNum = (int)datas.count;
-//    [tView reloadData];
-//    [tView setContentOffset:CGPointMake(0, 0) animated:NO];
-    tView.hidden = YES;
+    if (inAndOutPageNum == 1)
+    {
+        [datas removeAllObjects];
+    }
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSString *URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/catetoryTransaction4M/1/%d",inAndOutPageNum]];
+    [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSArray *responseObject) {
+        NSLog(@"%@", responseObject);
+        [datas addObjectsFromArray:responseObject];
+        detailNum = (int)datas.count;
+        inAndOutPageNum++;
+        if (datas.count > 0)
+        {
+            noRecordLabel.hidden = YES;
+        }
+        else
+        {
+            noRecordLabel.hidden = NO;
+        }
+        if (inAndOutPageNum == 2)
+        {
+            [tView reloadData];
+            [tView.header endRefreshing];
+        }
+        else
+        {
+            [tView reloadData];
+            [tView.footer endRefreshing];
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+        [tView.header endRefreshing];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = @"当前网络状况不佳，请重试";
+        [hud hide:YES afterDelay:1.5f];
+    }];
 }
 
 - (void)setupAll
 {
-//    datas = [[NSMutableArray alloc]init];
-//    
-//    for (int i=0; i<10; i++)
-//    {
-//        [datas addObject:@{@"TYPE":@"充值",
-//                           @"AMOUNT":@"10000.12",
-//                           @"STATUS":@(i%3),
-//                           @"TIME":@"2015-12-25   11:11:11"}];
-//        
-//        [datas addObject:@{@"TYPE":@"提现",
-//                           @"AMOUNT":@"10000.12",
-//                           @"STATUS":@(i%3),
-//                           @"TIME":@"2015-12-25   11:11:11"}];
-//        
-//        [datas addObject:@{@"TYPE":@"稳健型",
-//                           @"AMOUNT":@"10000.12",
-//                           @"STATUS":@(i%3),
-//                           @"TIME":@"2015-12-25   11:11:11"}];
-//        
-//        [datas addObject:@{@"TYPE":@"综合型",
-//                           @"AMOUNT":@"10000.12",
-//                           @"STATUS":@(i%3),
-//                           @"TIME":@"2015-12-25   11:11:11"}];
-//    }
-//    
-//    detailNum = (int)datas.count;
-//    [tView reloadData];
-//    [tView setContentOffset:CGPointMake(0, 0) animated:NO];
-    tView.hidden = YES;
+    if (allPageNum == 1)
+    {
+        [datas removeAllObjects];
+    }
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSString *URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/transactions4M/%d",allPageNum]];
+    [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSArray *responseObject) {
+        NSLog(@"%@", responseObject);
+        [datas addObjectsFromArray:responseObject];
+        detailNum = (int)datas.count;
+        allPageNum++;
+        if (datas.count > 0)
+        {
+            noRecordLabel.hidden = YES;
+        }
+        else
+        {
+            noRecordLabel.hidden = NO;
+        }
+        if (allPageNum == 2)
+        {
+            [tView reloadData];
+            [tView.header endRefreshing];
+        }
+        else
+        {
+            [tView reloadData];
+            [tView.footer endRefreshing];
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+        [tView.header endRefreshing];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = @"当前网络状况不佳，请重试";
+        [hud hide:YES afterDelay:1.5f];
+    }];
 }
 
 #pragma TableViewDelegates
@@ -226,7 +377,29 @@
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSLog(@"%d",currentNum);
+    NSLog(@"index%d",indexPath.row);
     id data = datas[indexPath.row];
+//    switch (buttonTag) {
+//        case 0:
+//            data = dingqiDatas[indexPath.row];
+//            break;
+//        
+//        case 1:
+//            data = huoqiDatas[indexPath.row];
+//            break;
+//            
+//        case 2:
+//            data = inAndOutDatas[indexPath.row];
+//            break;
+//            
+//        case 3:
+//            data = allDatas[indexPath.row];
+//            break;
+//            
+//        default:
+//            break;
+//    }
     static NSString *identifier = @"DetailTableViewCell";
     DetailTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (!cell)
@@ -234,26 +407,26 @@
         cell = [[DetailTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
     
-    if ([(NSNumber*)[data valueForKey:@"STATUS"] integerValue] == 0)
-    {
-        cell.statusLabel.text = @"√";
-    }
-    else if ([(NSNumber*)[data valueForKey:@"STATUS"] integerValue] == 1)
-    {
-        cell.statusLabel.text = @"×";
-    }
-    else
-    {
-        cell.statusLabel.text = @"?";
-    }
+    cell.statusLabel.hidden = YES;
     
-    cell.titleLabel.text = [data valueForKey:@"TYPE"];
-    cell.timeLabel.text = [data valueForKey:@"TIME"];
+    cell.titleLabel.text = [data valueForKey:@"type"];
+    cell.timeLabel.text = [data valueForKey:@"createdOn"];
     
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
     [formatter setPositiveFormat:@"###,##0.00"];
-    cell.numLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"AMOUNT"]).doubleValue]]];
-    
+    if ([[data objectForKey:@"itemType"] isEqualToString:@"收入"])
+    {
+        cell.numLabel.text = [NSString stringWithFormat:@"+%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"money"]).doubleValue]]];
+    }
+    else if ([[data objectForKey:@"itemType"] isEqualToString:@"支出"])
+    {
+        cell.numLabel.text = [NSString stringWithFormat:@"-%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"money"]).doubleValue]]];
+    }
+    else
+    {
+        cell.numLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"money"]).doubleValue]]];
+    }
+    currentNum++;
     return cell;
 }
 

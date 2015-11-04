@@ -66,6 +66,7 @@
     leftAxis.axisLineColor = ZTCHARTSGRAY;
     
     lineChartView.rightAxis.enabled = NO;
+    lineChartView.noDataText = @"";
     
     
     [self setupData];

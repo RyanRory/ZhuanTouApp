@@ -26,13 +26,10 @@
     
     tView.showsHorizontalScrollIndicator = NO;
     tView.showsVerticalScrollIndicator = NO;
-    
-    [self setupData];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [self setupData];
+    tView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+           [self setupData];
+    }];
+    [tView.header beginRefreshing];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -47,23 +44,24 @@
 
 - (void)setupData
 {
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSString *URL = [BASEURL stringByAppendingString:@"api/account/getCouponsInApp"];
     [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSArray *responseObject) {
         NSLog(@"%@", responseObject);
-        [hud hide:YES];
         datas = [NSMutableArray arrayWithArray:responseObject];
+        bonusNum = (int)datas.count;
+        [tView.header endRefreshing];
+        [tView reloadData];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
+        [tView.header endRefreshing];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.mode = MBProgressHUDModeText;
         hud.labelText = @"当前网络状况不佳，请重试";
         [hud hide:YES afterDelay:1.5f];
     }];
 
-    bonusNum = datas.count;
-    [tView reloadData];
 }
 
 #pragma TableViewDelegates
