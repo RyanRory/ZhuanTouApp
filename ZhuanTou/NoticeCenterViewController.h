@@ -13,7 +13,7 @@
 @interface NoticeCenterViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 {
     NSMutableArray *notices;
-    int noticesNum;
+    int noticesNum, pageNum;
 }
 
 @property (strong, nonatomic) IBOutlet UITableView *tView;

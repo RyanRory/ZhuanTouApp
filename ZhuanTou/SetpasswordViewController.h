@@ -14,6 +14,10 @@
 #import "ZTTabBarViewController.h"
 
 @interface SetpasswordViewController : UIViewController
+{
+    AliPayViews *alipay;
+    NSString *oldPSW;
+}
 @property (strong, nonatomic) IBOutlet UIButton *forgottenButton;
 
 @property(nonatomic, copy)NSString *string;

@@ -19,6 +19,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.clipsToBounds = YES;
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor darkGrayColor],NSForegroundColorAttributeName,nil]];
     self.navigationController.interactivePopGestureRecognizer.delegate = self;
     
@@ -60,6 +61,18 @@
         [self.navigationItem.rightBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont boldSystemFontOfSize:13], NSFontAttributeName,nil] forState:UIControlStateNormal];
         [self setupData];
     }
+    else
+    {
+        self.navigationItem.rightBarButtonItem = nil;
+        dingqiNumLabel.text = @"0";
+        huoqiNumLabel.text = @"0";
+        propertyLabel.text = @"0";
+        balanceLabel.text = @"0";
+        bonusNumLabel.text = @"0";
+        securityLabel.text = @"低";
+        UINavigationController *nav = [[self storyboard]instantiateViewControllerWithIdentifier:@"LoginNav"];
+        [[self tabBarController] presentViewController:nav animated:YES completion:nil];
+    }
 }
 
 - (void)setupData
@@ -79,8 +92,6 @@
             huoqiNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[responseObject objectForKey:@"ztbBalance"]]];
             propertyLabel.text = [NSString stringWithString:[formatter stringFromNumber:[responseObject objectForKey:@"totalAsset"]]];
             balanceLabel.text = [NSString stringWithString:[formatter stringFromNumber:[responseObject objectForKey:@"fundsAvailable"]]];
-            dingqiNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:0.00]]];
-            huoqiNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[responseObject objectForKey:@"ztbBalance"]]];
             bonusNumLabel.text = [NSString stringWithFormat:@"%@",[responseObject objectForKey:@"acitveCouponsAmount"]];
             securityLabel.text = [responseObject objectForKey:@"levelStr"];
         }
@@ -115,12 +126,12 @@
 
 - (void)toDingqi:(id)sender
 {
-//    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-//    hud.mode = MBProgressHUDModeCustomView;
-//    hud.labelText = @"暂无产品";
-//    [hud hide:YES afterDelay:1.5f];
-    DingqiViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"DingqiViewController"];
-    [[self navigationController]pushViewController:vc animated:YES];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.mode = MBProgressHUDModeCustomView;
+    hud.labelText = @"暂无记录";
+    [hud hide:YES afterDelay:1.5f];
+//    DingqiViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"DingqiViewController"];
+//    [[self navigationController]pushViewController:vc animated:YES];
 }
 
 - (void)toHuoqi:(id)sender
@@ -131,14 +142,8 @@
 
 - (void)setAuto:(id)sender
 {
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    hud.mode = MBProgressHUDModeCustomView;
-    hud.labelText = @"建设中...";
-    hud.customView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"inbuilding.png"]];
-    [hud hide:YES afterDelay:1.5f];
-//    AutoViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"AutoViewController"];
-//    [vc setSwitchOn:autoSwitch.on];
-//    [[self navigationController]pushViewController:vc animated:YES];
+    AutoViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"AutoViewController"];
+    [[self navigationController]pushViewController:vc animated:YES];
 }
 
 

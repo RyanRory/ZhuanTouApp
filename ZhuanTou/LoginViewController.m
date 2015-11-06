@@ -18,6 +18,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.clipsToBounds = YES;
     if ([self.style isEqualToString:@"FORGOTTEN"])
     {
         [self.navigationController setNavigationBarHidden:NO animated:YES];

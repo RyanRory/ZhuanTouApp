@@ -46,6 +46,7 @@
 @property(assign,nonatomic) BOOL on;
 @property(retain,nonatomic) UIColor *knobColor;
 @property(retain,nonatomic) UIColor *fillColor;
+@property(retain,nonatomic) UIColor *onColor;
 - (void)setOn:(BOOL)on animated:(BOOL)animated;
 
 @end

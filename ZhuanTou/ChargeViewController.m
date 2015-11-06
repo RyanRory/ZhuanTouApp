@@ -20,6 +20,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.clipsToBounds = YES;
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor darkGrayColor],NSForegroundColorAttributeName,nil]];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"backIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(backToParent:)];
     backItem.tintColor = ZTBLUE;
@@ -137,7 +138,7 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     NSString *str = oneLimitLabel.text;
     [str stringByReplacingOccurrencesOfString:@"," withString:@""];
-    if (str.intValue < editTextField.text.intValue)
+    if (str.doubleValue < editTextField.text.doubleValue)
     {
         hud.mode = MBProgressHUDModeCustomView;
         hud.labelText = @"超过单笔限额";
@@ -145,6 +146,38 @@
     }
     else
     {
+        NSURL*url = [NSURL URLWithString:[BASEURL stringByAppendingString:@"account/BaoFooRenzhengSDKCharge"]];
+        NSMutableURLRequest*request = [NSMutableURLRequest requestWithURL:url];
+        [request setHTTPMethod:@"POST"];
+        NSString *para = [NSString stringWithFormat:@"txn_amt=%d",(int)(editTextField.text.doubleValue * 100)];
+        //添加请求数据
+        [request setHTTPBody:[para dataUsingEncoding:NSUTF8StringEncoding]];
+        NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+        [NSURLConnection sendAsynchronousRequest:request queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+                if ([[dict objectForKey:@"retCode"] isEqualToString:@"0000"]) {
+                    [hud hide:YES];
+                    BaoFooPayController*web = [[BaoFooPayController alloc] init];
+                    web.PAY_TOKEN = [dict objectForKey:@"tradeNo"];
+                    web.delegate = self;
+                    web.PAY_BUSINESS = @"fals";
+                    [self presentViewController:web animated:YES completion:nil];
+                }
+                else
+                {
+                    NSString *errorMsg = [dict objectForKey:@"retMsg"];
+                    if (!errorMsg) {
+                        errorMsg = @"创建订单号失败";
+                    }
+                    hud.mode = MBProgressHUDModeCustomView;
+                    hud.labelText = errorMsg;
+                    [hud hide:YES afterDelay:1.5f];
+                }
+            });
+        }];
+
     }
 }
 
@@ -173,12 +206,11 @@
 #pragma mark - BaofooDelegate
 -(void)callBack:(NSString*)params
 {
-    NSLog(@"返回的参数是：%@",params);
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:params message:nil preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
-    [alertController addAction:cancelAction];
-    [self presentViewController:alertController animated:YES completion:nil];
-    
+    NSString *str = [params substringToIndex:1];
+    if ([str isEqualToString:@"1"])
+    {
+        [[self navigationController] popViewControllerAnimated:YES];
+    }
 }
 
 @end

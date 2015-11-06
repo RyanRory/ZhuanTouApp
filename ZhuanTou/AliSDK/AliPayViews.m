@@ -457,7 +457,7 @@
             
             self.tfLabel.text = PSWSUCCESSSTRING;
             self.tfLabel.textColor =  [UIColor whiteColor];
-            [self performSelector:@selector(blockAction:) withObject:resultStr afterDelay:.8];
+            [self performSelector:@selector(blockAction:) withObject:resultStr afterDelay:.5];
             
         } else {
             
@@ -500,10 +500,17 @@
             if (self.btnArray.count > 0)
             {
                 reTryTimes--;
-                self.tfLabel.text = PSWFAILTSTRING;
-                self.tfLabel.textColor = LABELWRONGCOLOR;
-                [self shake:self.tfLabel];
-                color = LABELWRONGCOLOR;
+                if (reTryTimes <= 0)
+                {
+                    [self performSelector:@selector(failureBlock:) withObject:@"RESET" afterDelay:0];
+                }
+                else
+                {
+                    self.tfLabel.text = PSWFAILTSTRING;
+                    self.tfLabel.textColor = LABELWRONGCOLOR;
+                    [self shake:self.tfLabel];
+                    color = LABELWRONGCOLOR;
+                }
             }
         }
     }
@@ -521,17 +528,24 @@
         BOOL isValidate = [KeychainData isSecondInputRight:resultStr];
         if (isValidate) {
             //如果验证成功
-            [self performSelector:@selector(blockAction:) withObject:resultStr afterDelay:.8];
+            [self performSelector:@selector(blockAction:) withObject:resultStr afterDelay:.5];
             
         } else {
             //失败
             if (self.btnArray.count > 0)
             {
                 reTryTimes--;
-                self.tfLabel.text = PSWFAILTSTRING;
-                self.tfLabel.textColor = LABELWRONGCOLOR;
-                [self shake:self.tfLabel];
-                color = LABELWRONGCOLOR;
+                if (reTryTimes <= 0)
+                {
+                    [self performSelector:@selector(failureBlock:) withObject:@"LOGIN" afterDelay:0];
+                }
+                else
+                {
+                    self.tfLabel.text = PSWFAILTSTRING;
+                    self.tfLabel.textColor = LABELWRONGCOLOR;
+                    [self shake:self.tfLabel];
+                    color = LABELWRONGCOLOR;
+                }
             }
 
         }
@@ -549,6 +563,15 @@
     {
         _gestureModel = NoneModel;
         self.block([resultStr stringByReplacingOccurrencesOfString:@"A" withString:@"__"]);
+    }
+}
+
+- (void)failureBlock:(NSString *)str
+{
+    if (self.failBlock)
+    {
+        _gestureModel = NoneModel;
+        self.failBlock(str);
     }
 }
 

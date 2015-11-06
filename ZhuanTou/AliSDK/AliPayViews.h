@@ -17,6 +17,7 @@ typedef enum {
 
 
 typedef void (^PasswordBlock) (NSString *pswString);
+typedef void (^FailBlock)(NSString *str);
 
 
 @interface AliPayViews : UIView
@@ -26,6 +27,7 @@ typedef void (^PasswordBlock) (NSString *pswString);
 }
 @property(nonatomic , assign)GestureModel gestureModel;
 @property(nonatomic , strong)PasswordBlock block;
+@property(nonatomic , strong)FailBlock failBlock;
 
 
 

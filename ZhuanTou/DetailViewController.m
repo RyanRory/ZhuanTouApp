@@ -18,6 +18,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.clipsToBounds = YES;
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor darkGrayColor],NSForegroundColorAttributeName,nil]];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"backIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(backToParent:)];
     backItem.tintColor = ZTBLUE;
@@ -191,6 +192,7 @@
     if (dingqiPageNum == 1)
     {
         [datas removeAllObjects];
+        [tView.footer resetNoMoreData];
     }
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSString *URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/catetoryTransaction4M/4/%d",dingqiPageNum]];
@@ -217,6 +219,10 @@
             [tView reloadData];
             [tView.footer endRefreshing];
         }
+        if (responseObject.count == 0)
+        {
+            [tView.footer noticeNoMoreData];
+        }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
@@ -233,6 +239,7 @@
     if (huoqiPageNum == 1)
     {
         [datas removeAllObjects];
+        [tView.footer resetNoMoreData];
     }
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSString *URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/catetoryTransaction4M/5/%d",huoqiPageNum]];
@@ -259,6 +266,10 @@
             [tView reloadData];
             [tView.footer endRefreshing];
         }
+        if (responseObject.count == 0)
+        {
+            [tView.footer noticeNoMoreData];
+        }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
@@ -275,6 +286,7 @@
     if (inAndOutPageNum == 1)
     {
         [datas removeAllObjects];
+        [tView.footer resetNoMoreData];
     }
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSString *URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/catetoryTransaction4M/1/%d",inAndOutPageNum]];
@@ -301,6 +313,10 @@
             [tView reloadData];
             [tView.footer endRefreshing];
         }
+        if (responseObject.count == 0)
+        {
+            [tView.footer noticeNoMoreData];
+        }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
@@ -317,6 +333,7 @@
     if (allPageNum == 1)
     {
         [datas removeAllObjects];
+        [tView.footer resetNoMoreData];
     }
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSString *URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/transactions4M/%d",allPageNum]];
@@ -342,6 +359,10 @@
         {
             [tView reloadData];
             [tView.footer endRefreshing];
+        }
+        if (responseObject.count == 0)
+        {
+            [tView.footer noticeNoMoreData];
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -380,26 +401,6 @@
     NSLog(@"%d",currentNum);
     NSLog(@"index%d",indexPath.row);
     id data = datas[indexPath.row];
-//    switch (buttonTag) {
-//        case 0:
-//            data = dingqiDatas[indexPath.row];
-//            break;
-//        
-//        case 1:
-//            data = huoqiDatas[indexPath.row];
-//            break;
-//            
-//        case 2:
-//            data = inAndOutDatas[indexPath.row];
-//            break;
-//            
-//        case 3:
-//            data = allDatas[indexPath.row];
-//            break;
-//            
-//        default:
-//            break;
-//    }
     static NSString *identifier = @"DetailTableViewCell";
     DetailTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (!cell)

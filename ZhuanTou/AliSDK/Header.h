@@ -31,10 +31,10 @@
 
 /******************* ITEM *********************/
 
-#define ITEMRADIUS_OUTTER    55  //item的外圆直径
-#define ITEMRADIUS_INNER     18  //item的内圆直径
+#define ITEMRADIUS_OUTTER    60  //item的外圆直径
+#define ITEMRADIUS_INNER     20  //item的内圆直径
 #define ITEMRADIUS_LINEWIDTH 1   //item的线宽
-#define ITEMWH               50  //item的宽高
+#define ITEMWH               60  //item的宽高
 #define ITEM_TOTAL_POSITION  170  // 整个item的顶点位置
 
 

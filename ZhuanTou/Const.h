@@ -47,4 +47,6 @@
 #define CHARGE @"CHARGE"
 #define DRAW @"DRAW"
 
+#define KEYCHAIN_KEY  @"password_slider"
+
 #endif /* Const_h */

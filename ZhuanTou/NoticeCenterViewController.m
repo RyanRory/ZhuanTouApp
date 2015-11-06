@@ -18,17 +18,22 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.clipsToBounds = YES;
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor darkGrayColor],NSForegroundColorAttributeName,nil]];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"backIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(backToParent:)];
     backItem.tintColor = ZTBLUE;
     UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithCustomView:[UIButton buttonWithType:UIButtonTypeCustom]];
     self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:backItem, item, nil];
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [self setupData];
+    notices = [[NSMutableArray alloc]init];
+    tView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        pageNum = 1;
+        [self setupData];
+    }];
+    [tView.header beginRefreshing];
+    tView.footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
+        [self setupData];
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -44,18 +49,41 @@
 
 - (void)setupData
 {
-    notices = [[NSMutableArray alloc]init];
-    
-    for (int i=0; i<10; i++)
+    if (pageNum == 1)
     {
-        [notices addObject:@{@"TITLE":@"专投网APP正式上线啦！",
-                             @"DESCRIPTION":@"专投网APP正式上线啦！专投网APP正式上线啦！专投网APP正式上线啦！专投网APP正式上线啦！专投网APP正式上线啦！专投网APP正式上线啦！专投网APP正式上线啦！",
-                             @"TIME":@"2015-12-25   11:11:11",
-                             @"URL":@"http://debug.pujintianxia.com/Mobile/Home/MobileNews/cd5a2004-22a5-4acd-a27f-af5677a8bc71"}];
+        [notices removeAllObjects];
+        [tView.footer resetNoMoreData];
     }
-    
-    noticesNum = (int)notices.count;
-    [tView reloadData];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSString *URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/article/byCategory4M/0/%d", pageNum]];
+    [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+        NSLog(@"%@", responseObject);
+        [notices addObjectsFromArray:[responseObject objectForKey:@"dataList"]];
+        noticesNum = (int)notices.count;
+        pageNum++;
+        if (pageNum == 2)
+        {
+            [tView reloadData];
+            [tView.header endRefreshing];
+        }
+        else
+        {
+            [tView reloadData];
+            [tView.footer endRefreshing];
+        }
+        if ([NSArray arrayWithArray:[responseObject objectForKey:@"dataList"]].count == 0)
+        {
+            [tView.footer noticeNoMoreData];
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+        [tView.header endRefreshing];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = @"当前网络状况不佳，请重试";
+        [hud hide:YES afterDelay:1.5f];
+    }];
 }
 
 #pragma TableViewDelegates
@@ -88,9 +116,9 @@
     {
         cell = [[NoticeCenterTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
-    cell.titleLabel.text = [notice objectForKey:@"TITLE"];
-    cell.timeLabel.text = [notice objectForKey:@"TIME"];
-    cell.descriptionLabel.text = [notice objectForKey:@"DESCRIPTION"];
+    cell.titleLabel.text = [notice objectForKey:@"title"];
+    cell.timeLabel.text = [notice objectForKey:@"createOn"];
+    cell.descriptionLabel.text = [notice objectForKey:@"comments"];
     
     return cell;
 }
@@ -99,7 +127,7 @@
 {
     WebDetailViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"WebDetailViewController"];
     vc.title = @"公告详情";
-    [vc setURL:[[notices objectAtIndex:indexPath.row] objectForKey:@"URL"]];
+    [vc setURL:[NSString stringWithFormat:@"http://debug.pujintianxia.com/Mobile/Home/MobileNews/%@",[[notices objectAtIndex:indexPath.row] objectForKey:@"id"]]];
     [[self navigationController]pushViewController:vc animated:YES];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

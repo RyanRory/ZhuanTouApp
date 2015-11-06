@@ -115,13 +115,6 @@
     if (tabIndex != self.selectedIndex) {
         //设置最近一次变更
         lastSelectedIndex = self.selectedIndex;
-        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-        BOOL flag = [userDefault boolForKey:ISLOGIN];
-        if ((tabIndex == 2) && (!flag))
-        {
-            UINavigationController *nav = [[self storyboard]instantiateViewControllerWithIdentifier:@"LoginNav"];
-            [self presentViewController:nav animated:YES completion:nil];
-        }
         if (tabIndex == 1)
         {
             style = ZONGHE;

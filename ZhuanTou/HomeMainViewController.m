@@ -19,6 +19,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.clipsToBounds = YES;
     [self.navigationController setNavigationBarHidden:YES animated:NO];
     self.navigationController.interactivePopGestureRecognizer.delegate = self;
     
@@ -27,7 +28,6 @@
     [noticeButton addTarget:self action:@selector(toNotice:) forControlEvents:UIControlEventTouchUpInside];
     
     images = [NSArray arrayWithObjects:[UIImage imageNamed:@"banner1.png"],[UIImage imageNamed:@"banner1.png"],[UIImage imageNamed:@"banner1.png"], nil];
-    notices = [NSArray arrayWithObjects:@"专投网APP上线啦！",@"专投网APP上线啦！",@"专投网APP上线啦！", nil];
     currentImage = 0;
     
     scrollView.delegate = self;
@@ -69,13 +69,8 @@
     noticeScrollView.contentSize = CGSizeMake(0, noticeScrollView.frame.size.height * 3);
     
     topView = [[NoticeView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, noticeScrollView.frame.size.height)];
-    topView.label.text = [notices objectAtIndex:notices.count-1];
-    
     midView = [[NoticeView alloc]initWithFrame:CGRectMake(0, noticeScrollView.frame.size.height, SCREEN_WIDTH, noticeScrollView.frame.size.height)];
-    midView.label.text = [notices objectAtIndex:0];
-    
     bottomView = [[NoticeView alloc]initWithFrame:CGRectMake(0, noticeScrollView.frame.size.height * 2, SCREEN_WIDTH, noticeScrollView.frame.size.height)];
-    bottomView.label.text = [notices objectAtIndex:1];
     
     [noticeScrollView addSubview:topView];
     [noticeScrollView addSubview:midView];
@@ -87,14 +82,42 @@
     [huoqiButton addTarget:self action:@selector(toHuoqi:) forControlEvents:UIControlEventTouchUpInside];
     [zhaiquanButton addTarget:self action:@selector(toZhaiquan:) forControlEvents:UIControlEventTouchUpInside];
     [newerButton addTarget:self action:@selector(toNewer:) forControlEvents:UIControlEventTouchUpInside];
+    
+    flag = false;
+    [self setupData];
 
+}
+
+- (void)setupData
+{
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSString *URL = [BASEURL stringByAppendingString:@"api/article/getTopShowArticles"];
+    [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSArray *responseObject) {
+        NSLog(@"%@", responseObject);
+        notices = [NSArray arrayWithArray:responseObject];
+        topView.label.text = [[notices objectAtIndex:notices.count-1] objectForKey:@"title"];
+        midView.label.text = [[notices objectAtIndex:0] objectForKey:@"title"];
+        bottomView.label.text = [[notices objectAtIndex:1] objectForKey:@"title"];
+        flag = true;
+        noticeTimer = [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(scrollToNextNotice:) userInfo:nil repeats:YES];
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = @"当前网络状况不佳";
+        [hud hide:YES afterDelay:1.5f];
+    }];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [[self navigationController]setNavigationBarHidden:YES animated:YES];
     timer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(scrollToNextPage:) userInfo:nil repeats:YES];
-    noticeTimer = [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(scrollToNextNotice:) userInfo:nil repeats:YES];
+    if (flag)
+    {
+        noticeTimer = [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(scrollToNextNotice:) userInfo:nil repeats:YES];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -120,8 +143,8 @@
 
 - (void)toNotice:(id)sender
 {
-//    NoticeCenterViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"NoticeCenterViewController"];
-//    [[self navigationController]pushViewController:vc animated:YES];
+    NoticeCenterViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"NoticeCenterViewController"];
+    [[self navigationController]pushViewController:vc animated:YES];
 }
 
 - (void)toImageDetail:(id)sender
@@ -243,9 +266,9 @@
     topNoticeIndex = (currentNotice-1)%notices.count;
     bottomNoticeIndex = (currentNotice+1)%notices.count;
     
-    midView.label.text = [notices objectAtIndex:currentNotice];
-    topView.label.text = [notices objectAtIndex:topNoticeIndex];
-    bottomView.label.text = [notices objectAtIndex:bottomNoticeIndex];
+    midView.label.text = [[notices objectAtIndex:currentNotice] objectForKey:@"title"];
+    topView.label.text = [[notices objectAtIndex:topNoticeIndex] objectForKey:@"title"];
+    bottomView.label.text = [[notices objectAtIndex:bottomNoticeIndex] objectForKey:@"title"];
 }
 
 @end

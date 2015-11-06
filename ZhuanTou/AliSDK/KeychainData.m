@@ -10,9 +10,6 @@
 #import "KeychainItemWrapper.h"
 
 
-
-#define KEYCHAIN_KEY  @"password_slider"
-
 @implementation KeychainData
 
 

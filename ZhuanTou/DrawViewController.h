@@ -24,6 +24,8 @@
 @property (strong, nonatomic) IBOutlet UITextField *editTextField;
 @property (strong, nonatomic) IBOutlet UIView *noBankCardView;
 @property (strong, nonatomic) IBOutlet UIButton *addBankCardButton;
+@property (strong, nonatomic) IBOutlet UILabel *noFeeDescriptionLabel;
+@property (strong, nonatomic) IBOutlet UILabel *noFeeNumLabel;
 
 - (IBAction)textFiledReturnEditing:(id)sender;
 

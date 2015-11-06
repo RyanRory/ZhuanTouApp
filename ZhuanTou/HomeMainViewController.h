@@ -20,6 +20,7 @@
     NSTimer *timer, *noticeTimer;
     NoticeView *topView, *midView, *bottomView;
     UIButton *midImageButton;
+    BOOL flag;
 }
 
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;

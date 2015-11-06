@@ -24,6 +24,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.clipsToBounds = YES;
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor darkGrayColor],NSForegroundColorAttributeName,nil]];
     self.navigationController.interactivePopGestureRecognizer.delegate = self;
     
@@ -272,12 +273,8 @@
 
 - (void)goToProductsBefore:(id)sender
 {
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    hud.mode = MBProgressHUDModeCustomView;
-    hud.labelText = @"无往期产品";
-    [hud hide:YES afterDelay:1.5f];
-//    ProductsBeforeViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ProductsBeforeViewController"];
-//    [[self navigationController]pushViewController:vc animated:YES];
+    ProductsBeforeViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ProductsBeforeViewController"];
+    [[self navigationController]pushViewController:vc animated:YES];
 }
 
 - (void)buyNow:(id)sender

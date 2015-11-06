@@ -18,6 +18,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.clipsToBounds = YES;
     if ([self.string isEqualToString:@"验证密码"])
     {
         self.navigationItem.hidesBackButton = YES;
@@ -34,11 +35,11 @@
     
     [forgottenButton addTarget:self action:@selector(toLogin:) forControlEvents:UIControlEventTouchUpInside];
     
-    AliPayViews *alipay = [[AliPayViews alloc] initWithFrame:self.view.bounds];
+    alipay = [[AliPayViews alloc] initWithFrame:self.view.bounds];
+    oldPSW = [KeychainData objectForKey:KEYCHAIN_KEY];
     if ([self.string isEqualToString:@"验证密码"])
     {
         alipay.gestureModel = ValidatePwdModel;
-        [alipay setFrame:CGRectMake(0, 32, self.view.frame.size.width, self.view.frame.size.height)];
     }
     else if ([self.string isEqualToString:@"修改密码"])
     {
@@ -52,33 +53,75 @@
     {
         alipay.gestureModel = NoneModel;
     }
+    
+    __weak NSString *weakStyle = self.style;
+    __weak NSString *weakString = self.string;
+    __weak SetpasswordViewController *weakSelf = self;
+    
     alipay.block = ^(NSString *pswString) {
-        NSLog(@"设置密码成功-----你的密码为 = 【%@】\n\n", pswString);
-        if ([self.string isEqualToString:@"重置密码"])
+        if ([weakString isEqualToString:@"重置密码"])
         {
-            if ([self.style isEqualToString:@"REGISTER"])
+            if ([weakStyle isEqualToString:@"REGISTER"])
             {
-                RegisterSuccessViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"RegisterSuccessVC"];
-                [[self navigationController]pushViewController:vc animated:YES];
+                RegisterSuccessViewController *vc = [[weakSelf storyboard]instantiateViewControllerWithIdentifier:@"RegisterSuccessVC"];
+                [[weakSelf navigationController]pushViewController:vc animated:YES];
             }
-            else if ([self.style isEqualToString:@"FORGOTTEN"])
+            else if ([weakStyle isEqualToString:@"FORGOTTEN"])
             {
-                ZTTabBarViewController *tabvc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ZTTabBarViewController"];
-                [self presentViewController:tabvc animated:YES completion:nil];
+                ZTTabBarViewController *tabvc = [[weakSelf storyboard]instantiateViewControllerWithIdentifier:@"ZTTabBarViewController"];
+                [weakSelf presentViewController:tabvc animated:YES completion:nil];
             }
             else
             {
-                [self dismissViewControllerAnimated:YES completion:nil];
+                [weakSelf dismissViewControllerAnimated:YES completion:nil];
             }
         }
-        else if ([self.string isEqualToString:@"修改密码"])
+        else if ([weakString isEqualToString:@"修改密码"])
         {
-            [[self navigationController]popViewControllerAnimated:YES];
+            [[weakSelf navigationController]popViewControllerAnimated:YES];
         }
         else
         {
-            ZTTabBarViewController *tabvc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ZTTabBarViewController"];
-            [self presentViewController:tabvc animated:YES completion:nil];
+            ZTTabBarViewController *tabvc = [[weakSelf storyboard]instantiateViewControllerWithIdentifier:@"ZTTabBarViewController"];
+            [weakSelf presentViewController:tabvc animated:YES completion:nil];
+        }
+    };
+    
+    alipay.failBlock = ^(NSString *str){
+        if ([str isEqualToString:@"LOGIN"])
+        {
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"您已连续5次输错手势，请重新登录" message:nil preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction* call){
+                [weakSelf performSelector:@selector(toLogin:) withObject:nil afterDelay:0];
+            }];
+            [alertController addAction:confirmAction];
+            [weakSelf presentViewController:alertController animated:YES completion:nil];
+        }
+        else
+        {
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"手势密码已失效，请重新登录" message:nil preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction* call){
+                AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+                NSString *URL = [BASEURL stringByAppendingString:@"Account/SignOut"];
+                [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+                    NSLog(@"%@", responseObject);
+                    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+                    [userDefault setBool:NO forKey:ISLOGIN];
+                    [userDefault removeObjectForKey:PASSWORD];
+                    [userDefault synchronize];
+                    [[weakSelf navigationController]popViewControllerAnimated:NO];
+    
+                } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+                    [userDefault setBool:NO forKey:ISLOGIN];
+                    [userDefault removeObjectForKey:PASSWORD];
+                    [userDefault synchronize];
+                    [[weakSelf navigationController]popViewControllerAnimated:NO];
+                }];
+
+            }];
+            [alertController addAction:confirmAction];
+            [weakSelf presentViewController:alertController animated:YES completion:nil];
         }
     };
     
@@ -95,8 +138,17 @@
 
 }
 
+- (void)viewDidLayoutSubviews
+{
+    [alipay setFrame:CGRectMake(0, (self.view.frame.size.height-480)/2, self.view.frame.size.width, 480)];
+}
+
 - (void)backToParent:(id)sender
 {
+    if ((![KeychainData isSave]) && (oldPSW.length > 0))
+    {
+        [KeychainData setPSW:oldPSW];
+    }
     [self.navigationController popViewControllerAnimated:YES];
 }
 
