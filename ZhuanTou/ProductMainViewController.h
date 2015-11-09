@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "UICountingLabel.h"
 #import "ProductBuyViewController.h"
-#import "ZTTabBarViewController.h"
 #import "ProductsBeforeViewController.h"
 
 @interface ProductMainViewController : UIViewController<UIGestureRecognizerDelegate>
@@ -18,6 +17,9 @@
     CGPoint bgPoint;
     CGPoint point;
     NSString *style;
+    NSString *idCode, *bidableAmount;
+    BOOL wenjianFlag, zongheFlag, huoqiFlag;
+    NSDictionary *wenjianData, *zongheData, *huoqiData;
 }
 @property (strong, nonatomic) IBOutlet UIButton *wenjianButton;
 @property (strong, nonatomic) IBOutlet UIButton *zongheButton;

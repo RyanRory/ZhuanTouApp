@@ -18,6 +18,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [[self navigationController] setNavigationBarHidden:NO animated:YES];
     self.view.clipsToBounds = YES;
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor darkGrayColor],NSForegroundColorAttributeName,nil]];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"backIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(backToParent:)];
@@ -106,7 +107,7 @@
     {
         cell.headView.backgroundColor = ZTGRAY;
         cell.percentNumLabel.textColor = ZTGRAY;
-        cell.percentTitleLabel.text = @"年化收益率";
+        cell.percentTitleLabel.text = @"投资人到手年化收益";
         cell.statusLabel.text = @"已到期";
     }
     

@@ -71,10 +71,6 @@
     
     
     [self setupData];
-    
-    //啊啊啊啊啊啊啊啊啊
-    [buyButton setHidden:YES];
-    [drawButton setHidden:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -142,12 +138,15 @@
 
 - (void)toBuyHuoqi:(id)sender
 {
-    
+    ProductBuyViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ProductBuyViewController"];
+    vc.style = HUOQI;
+    [[self navigationController]pushViewController:vc animated:YES];
 }
 
 - (void)toDrawHuoqi:(id)sender
 {
-    
+    DrawZtbViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"DrawZtbViewController"];
+    [[self navigationController]pushViewController:vc animated:YES];
 }
 
 @end

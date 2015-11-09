@@ -15,7 +15,7 @@
 @implementation HomeMainViewController
 
 @synthesize scrollView, noticeScrollView, noticeButton, pageControl;
-@synthesize wenjianButton, zongheButton, huoqiButton, zhaiquanButton, newerButton;
+@synthesize bgImageView, productBeforeButton, buyButton, profitPercentLabel, monthNumLabel, moryLabel, timeLabel, newerButton;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -44,17 +44,17 @@
     
     scrollView.contentSize = CGSizeMake(SCREEN_WIDTH * 3, 0);
     
-    leftImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_WIDTH*11/15)];
+    leftImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_WIDTH*16/25)];
     leftImage.image = [images objectAtIndex:images.count-1];
     
-    midImage = [[UIImageView alloc]initWithFrame:CGRectMake(SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_WIDTH*11/15)];
+    midImage = [[UIImageView alloc]initWithFrame:CGRectMake(SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_WIDTH*16/25)];
     midImage.image = [images objectAtIndex:0];
     
     midImageButton = [[UIButton alloc]initWithFrame:midImage.frame];
     midImageButton.titleLabel.text = @"";
     [midImageButton addTarget:self action:@selector(toImageDetail:) forControlEvents:UIControlEventTouchUpInside];
     
-    rightImage = [[UIImageView alloc]initWithFrame:CGRectMake(SCREEN_WIDTH * 2, 0, SCREEN_WIDTH, SCREEN_WIDTH*11/15)];
+    rightImage = [[UIImageView alloc]initWithFrame:CGRectMake(SCREEN_WIDTH * 2, 0, SCREEN_WIDTH, SCREEN_WIDTH*16/25)];
     rightImage.image = [images objectAtIndex:1];
     
     [scrollView addSubview:leftImage];
@@ -77,15 +77,44 @@
     [noticeScrollView addSubview:bottomView];
     [noticeScrollView setContentOffset:CGPointMake(0, noticeScrollView.frame.size.height) animated:NO];
     
-    [wenjianButton addTarget:self action:@selector(toWenjian:) forControlEvents:UIControlEventTouchUpInside];
-    [zongheButton addTarget:self action:@selector(toZonghe:) forControlEvents:UIControlEventTouchUpInside];
-    [huoqiButton addTarget:self action:@selector(toHuoqi:) forControlEvents:UIControlEventTouchUpInside];
-    [zhaiquanButton addTarget:self action:@selector(toZhaiquan:) forControlEvents:UIControlEventTouchUpInside];
-    [newerButton addTarget:self action:@selector(toNewer:) forControlEvents:UIControlEventTouchUpInside];
+    buyButton.layer.cornerRadius = 3;
+    [buyButton addTarget:self action:@selector(toBuy:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [productBeforeButton setTitle:[NSString stringWithFormat:@"查看\n往期收益"] forState:UIControlStateNormal];
+    [productBeforeButton addTarget:self action:@selector(toProductsBefore:) forControlEvents:UIControlEventTouchUpInside];
+    productBeforeButton.titleLabel.numberOfLines = 0;
+    productBeforeButton.titleLabel.textAlignment = 1;
     
     flag = false;
+    animationFlag = false;
     [self setupData];
 
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    if (bgPoint.x == 0) bgPoint = CGPointMake(bgImageView.frame.origin.x + bgImageView.frame.size.width/2+10, bgImageView.frame.origin.y+bgImageView.frame.size.height/2);
+    if (!animationFlag)
+    {
+        CAKeyframeAnimation *pathAnimation = [CAKeyframeAnimation animationWithKeyPath:@"position"];
+        pathAnimation.calculationMode = kCAAnimationPaced;
+        pathAnimation.fillMode = kCAFillModeForwards;
+        pathAnimation.removedOnCompletion = NO;
+        pathAnimation.duration = 1.5f;
+        pathAnimation.repeatCount = 1;
+        //设置运转动画的路径
+        CGMutablePathRef curvedPath = CGPathCreateMutable();
+        CGPathAddArc(curvedPath, NULL, bgPoint.x, bgPoint.y, 10, M_PI, 3 * M_PI, 0);
+        pathAnimation.path = curvedPath;
+        [bgImageView.layer addAnimation:pathAnimation forKey:@"moveTheCircleOne"];
+        animationFlag = true;
+    }
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [timer invalidate];
+    [noticeTimer invalidate];
 }
 
 - (void)setupData
@@ -108,6 +137,36 @@
         hud.labelText = @"当前网络状况不佳";
         [hud hide:YES afterDelay:1.5f];
     }];
+    
+    AFHTTPRequestOperationManager *manager1 = [AFHTTPRequestOperationManager manager];
+    NSString *URL1 = [BASEURL stringByAppendingString:@"api/fofProd/1"];
+    [manager1 GET:URL1 parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+        NSLog(@"%@", responseObject);
+        idCode = [responseObject objectForKey:@"id"];
+        NSString *numStr = [NSString stringWithFormat:@"%@",[responseObject objectForKey:@"expectedReturn"]];
+        if ([numStr rangeOfString:@"."].location != NSNotFound)
+        {
+            profitPercentLabel.font = [UIFont fontWithName:@"EuphemiaUCAS-Bold" size:26.0f];
+        }
+        else
+        {
+            profitPercentLabel.font = [UIFont fontWithName:@"EuphemiaUCAS-Bold" size:50.0f];
+        }
+        profitPercentLabel.text = numStr;
+
+        monthNumLabel.text = [NSString stringWithFormat:@"%d",(((NSString*)[responseObject objectForKey:@"noOfDays"]).intValue / 30)];
+        timeLabel.text = [NSString stringWithFormat:@"%@开始抢购",[responseObject objectForKey:@"startRaisingDate"]];
+        bidableAmount = [NSString stringWithFormat:@"%@", [responseObject objectForKey:@"bidableAmount"]];
+
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = @"当前网络状况不佳，请重试";
+        [hud hide:YES afterDelay:1.5f];
+    }];
+
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -118,12 +177,6 @@
     {
         noticeTimer = [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(scrollToNextNotice:) userInfo:nil repeats:YES];
     }
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [timer invalidate];
-    [noticeTimer invalidate];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -155,44 +208,21 @@
 //    [[self navigationController]pushViewController:vc animated:YES];
 }
 
-- (void)toWenjian:(id)sender
+- (void)toProductsBefore:(id)sender
 {
-    ZTTabBarViewController *tabBarVC = (ZTTabBarViewController*)[self tabBarController];
-    [tabBarVC setStyle:WENJIAN];
-    [tabBarVC setSelectedIndex:1];
+    ProductsBeforeViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ProductsBeforeViewController"];
+    [[self navigationController]pushViewController:vc animated:YES];
 }
 
-- (void)toZonghe:(id)sender
+- (void)toBuy:(id)sender
 {
-    ZTTabBarViewController *tabBarVC = (ZTTabBarViewController*)[self tabBarController];
-    [tabBarVC setStyle:ZONGHE];
-    [tabBarVC setSelectedIndex:1];
+    ProductBuyViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ProductBuyViewController"];
+    vc.style = ZONGHE;
+    vc.idOrCode = idCode;
+    vc.bidableAmount = bidableAmount;
+    [[self navigationController]pushViewController:vc animated:YES];
 }
 
-- (void)toHuoqi:(id)sender
-{
-    ZTTabBarViewController *tabBarVC = (ZTTabBarViewController*)[self tabBarController];
-    [tabBarVC setStyle:HUOQI];
-    [tabBarVC setSelectedIndex:1];
-}
-
-- (void)toZhaiquan:(id)sender
-{
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    hud.mode = MBProgressHUDModeCustomView;
-    hud.labelText = @"建设中...";
-    hud.customView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"inbuilding.png"]];
-    [hud hide:YES afterDelay:1.5f];
-}
-
-- (void)toNewer:(id)sender
-{
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    hud.mode = MBProgressHUDModeCustomView;
-    hud.labelText = @"建设中...";
-    hud.customView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"inbuilding.png"]];
-    [hud hide:YES afterDelay:1.5f];
-}
 
 #pragma mark ScrollViewDelegate
 

@@ -7,26 +7,32 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ProductBonusView.h"
 #import "ProductBuyConfirmViewController.h"
 #import "ChargeViewController.h"
+#import "ProductBonusTableViewCell.h"
 
-@interface ProductBuyViewController : UIViewController
+@interface ProductBuyViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 {
-    NSString *style;
+    NSString *coupons;
+    NSMutableArray *datas;
+    int bonusNum;
 }
 @property (strong, nonatomic) IBOutlet UIView *headBgView;
 @property (strong, nonatomic) IBOutlet UILabel *balanceLabel;
 @property (strong, nonatomic) IBOutlet UIButton *chargeButton;
 @property (strong, nonatomic) IBOutlet UIView *bgView;
 @property (strong, nonatomic) IBOutlet UITextField *amountTextField;
-@property (strong, nonatomic) IBOutlet UITextField *tradePswdTextField;
 @property (strong, nonatomic) IBOutlet UILabel *restLabel;
 @property (strong, nonatomic) IBOutlet UILabel *noBonusLabel;
 @property (strong, nonatomic) IBOutlet UIButton *checkboxButton;
 @property (strong, nonatomic) IBOutlet UIButton *agreementButton;
 @property (strong, nonatomic) IBOutlet UIButton *confirmButton;
 @property (strong, nonatomic) IBOutlet UIView *contentView;
+@property (strong, nonatomic) NSString *style;
+@property (strong, nonatomic) IBOutlet UITableView *tView;
+
+@property (strong, nonatomic) NSString *idOrCode;
+@property (strong, nonatomic) NSString *bidableAmount;
 
 - (void)setStyle:(NSString*)str;
 

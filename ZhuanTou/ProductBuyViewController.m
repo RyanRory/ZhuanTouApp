@@ -15,11 +15,15 @@
 @implementation ProductBuyViewController
 
 @synthesize headBgView, balanceLabel, chargeButton;
-@synthesize bgView, amountTextField, tradePswdTextField, restLabel, contentView;
+@synthesize bgView, amountTextField, restLabel, contentView;
 @synthesize noBonusLabel, checkboxButton, agreementButton, confirmButton;
+@synthesize style;
+@synthesize tView;
+@synthesize idOrCode, bidableAmount;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [[self navigationController] setNavigationBarHidden:NO animated:YES];
     self.view.clipsToBounds = YES;
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor darkGrayColor],NSForegroundColorAttributeName,nil]];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"backIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(backToParent:)];
@@ -39,6 +43,11 @@
     [confirmButton addTarget:self action:@selector(confirm:) forControlEvents:UIControlEventTouchUpInside];
     [agreementButton addTarget:self action:@selector(toAgreemet:) forControlEvents:UIControlEventTouchUpInside];
     [chargeButton addTarget:self action:@selector(toCharge:) forControlEvents:UIControlEventTouchUpInside];
+    
+    tView.showsVerticalScrollIndicator = NO;
+    tView.scrollEnabled = NO;
+    tView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    tView.backgroundColor = [UIColor clearColor];
         
     if ([style isEqualToString:WENJIAN])
     {
@@ -52,7 +61,30 @@
     {
         [self setupHuoqi];
     }
+    
+    restLabel.text = bidableAmount;
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSString *URL = [BASEURL stringByAppendingString:@"api/account/couponInfo4M"];
+    [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+        NSLog(@"%@", responseObject);
+        NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
+        [formatter setPositiveFormat:@"###,##0.00"];
+        balanceLabel.text = [NSString stringWithString:[formatter stringFromNumber:[responseObject objectForKey:@"fundsAvailable"]]];
+        datas = [NSMutableArray arrayWithArray:[responseObject objectForKey:@"coupons"]];
+        bonusNum = (int)datas.count;
+        [tView reloadData];
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = @"当前网络状况不佳";
+        [hud hide:YES afterDelay:1.5f];
+    }];
+
 }
+
 
 - (void)viewDidAppear:(BOOL)animated
 {
@@ -81,7 +113,7 @@
 
 -(void)setupWenjian
 {
-    self.title = @"购买固定收益产品";
+    self.title = @"购买分红宝";
     bgView.backgroundColor = ZTLIGHTRED;
     headBgView.backgroundColor = ZTLIGHTRED;
     confirmButton.backgroundColor = ZTLIGHTRED;
@@ -90,7 +122,7 @@
 
 - (void)setupZonghe
 {
-    self.title = @"购买浮动收益产品";
+    self.title = @"购买稳赢宝";
     bgView.backgroundColor = ZTBLUE;
     headBgView.backgroundColor = ZTBLUE;
     confirmButton.backgroundColor = ZTBLUE;
@@ -99,11 +131,13 @@
 
 - (void)setupHuoqi
 {
-    self.title = @"购买专投宝产品";
+    self.title = @"转入专投宝";
     bgView.backgroundColor = ZTRED;
     headBgView.backgroundColor = ZTRED;
     confirmButton.backgroundColor = ZTRED;
     chargeButton.tintColor = ZTRED;
+    tView.hidden = YES;
+    noBonusLabel.hidden = YES;
 }
 
 - (void)toAgreemet:(id)sender
@@ -113,10 +147,90 @@
 
 - (void)confirm:(id)sender
 {
-    ProductBuyConfirmViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ProductBuyConfirmViewController"];
-    [vc setStyle:style];
-    vc.title = self.title;
-    [[self navigationController]pushViewController:vc animated:YES];
+    if (amountTextField.text.doubleValue > [balanceLabel.text stringByReplacingOccurrencesOfString:@"," withString:@""].doubleValue)
+    {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.mode = MBProgressHUDModeCustomView;
+        hud.labelText = @"可用余额不足";
+        [hud hide:YES afterDelay:1.5];
+    }
+    else
+    {
+        if ([style isEqualToString:HUOQI])
+        {
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"请输入交易密码" message:nil preferredStyle:UIAlertControllerStyleAlert];
+            [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField){
+                textField.secureTextEntry = YES;
+                textField.returnKeyType = UIReturnKeyDone;
+                [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(alertTextFieldDidChange:) name:UITextFieldTextDidChangeNotification object:textField];
+            }];
+            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+            UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
+                UITextField *tradePswdTextField = alertController.textFields.firstObject;
+                [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextFieldTextDidChangeNotification object:nil];
+                [self buy:tradePswdTextField.text];
+            }];
+            [alertController addAction:cancelAction];
+            [alertController addAction:confirmAction];
+            confirmAction.enabled = NO;
+            [self presentViewController:alertController animated:YES completion:nil];
+        }
+        else
+        {
+            ProductBuyConfirmViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ProductBuyConfirmViewController"];
+            [vc setStyle:style];
+            vc.title = self.title;
+            vc.investAmount = amountTextField.text;
+            vc.coupons = coupons;
+            vc.idOrCode = idOrCode;
+            [[self navigationController]pushViewController:vc animated:YES];
+        }
+    }
+}
+
+- (void)alertTextFieldDidChange:(NSNotification *)notification{
+    UIAlertController *alertController = (UIAlertController *)self.presentedViewController;
+    if (alertController) {
+        UITextField *tradePswdTextField = alertController.textFields.firstObject;
+        UIAlertAction *confirmAction = alertController.actions.lastObject;
+        confirmAction.enabled = tradePswdTextField.text.length > 8;
+    }
+}
+
+- (void)buy:(NSString*)tradePswd
+{
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSString *URL = [BASEURL stringByAppendingString:@"api/account/transferIntoZtb4M"];
+    NSDictionary *parameter = @{@"amount":amountTextField.text,
+                                @"tradePassword":tradePswd};
+    [manager POST:URL parameters:parameter success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+        NSLog(@"%@",responseObject);
+        NSString *str = [responseObject objectForKey:@"isSuccess"];
+        int f1 = str.intValue;
+        if (f1 == 0)
+        {
+            hud.mode = MBProgressHUDModeCustomView;
+            hud.labelText = [responseObject objectForKey:@"errorMessage"];
+            [hud hide:YES afterDelay:1.5f];
+        }
+        else
+        {
+            hud.mode = MBProgressHUDModeCustomView;
+            hud.labelText = @"转入成功";
+            [hud hide:YES afterDelay:1.5f];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [[self navigationController]popViewControllerAnimated:YES];
+            });
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = @"当前网络状况不佳，请重试";
+        [hud hide:YES afterDelay:1.5f];
+    }];
+
 }
 
 - (void)toCharge:(id)sender
@@ -131,7 +245,7 @@
     if (btn.selected)
     {
         [btn setImage:[UIImage imageNamed:@"checkIconActive.png"] forState:UIControlStateNormal];
-        if ((amountTextField.text.length > 0) && (tradePswdTextField.text.length > 0))
+        if (amountTextField.text.length > 0)
         {
             [confirmButton setUserInteractionEnabled:YES];
             [confirmButton setAlpha:1.0f];
@@ -147,22 +261,16 @@
 }
 
 -(IBAction)textFiledReturnEditing:(id)sender {
-    if (sender == amountTextField)
-    {
-        [tradePswdTextField becomeFirstResponder];
-        [amountTextField resignFirstResponder];
-    }
-    else [tradePswdTextField resignFirstResponder];
+    [amountTextField resignFirstResponder];
 }
 
 - (IBAction)backgroundTap:(id)sender {
     [amountTextField resignFirstResponder];
-    [tradePswdTextField resignFirstResponder];
 }
 
 - (IBAction)buttonEnableListener:(id)sender
 {
-    if ((amountTextField.text.length > 0) && (tradePswdTextField.text.length > 0))
+    if (amountTextField.text.length > 0)
     {
         [confirmButton setUserInteractionEnabled:YES];
         [confirmButton setAlpha:1.0f];
@@ -173,6 +281,52 @@
         [confirmButton setAlpha:0.6f];
     }
 }
+
+#pragma TableViewDelegate
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return bonusNum;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 21;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    id data = [datas objectAtIndex:indexPath.row];
+    static NSString *identifier = @"ProductBonusTableViewCell";
+    ProductBonusTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    if (!cell)
+    {
+        cell = [[ProductBonusTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+    }
+    cell.checkboxButton.selected = NO;
+    cell.checkboxButton.tag = indexPath.row;
+    [cell.checkboxButton addTarget:self action:@selector(bonusCheckboxEnsure:) forControlEvents:UIControlEventTouchUpInside];
+    cell.titleLabel.text = [NSString stringWithFormat:@"%@-%@元", [data objectForKey:@"comments"], [data objectForKey:@"faceValue"]];
+    
+    return cell;
+}
+
+- (void)bonusCheckboxEnsure:(UIButton*)btn
+{
+    btn.selected = !btn.selected;
+    if (btn.selected)
+    {
+        [btn setImage:[UIImage imageNamed:@"checkIconActive.png"] forState:UIControlStateNormal];
+        [coupons stringByAppendingString:[NSString stringWithFormat:@",%@",[[datas objectAtIndex:btn.tag] objectForKey:@"couponCode"]]];
+    }
+    else
+    {
+        [btn setImage:[UIImage imageNamed:@"checkIcon.png"] forState:UIControlStateNormal];
+        [coupons stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@",%@",[[datas objectAtIndex:btn.tag] objectForKey:@"couponCode"]] withString:@""];
+    }
+    
+}
+
 
 
 @end

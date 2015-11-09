@@ -10,7 +10,8 @@
 #import "NoticeView.h"
 #import "NoticeCenterViewController.h"
 #import "WebDetailViewController.h"
-#import "ZTTabBarViewController.h"
+#import "ProductsBeforeViewController.h"
+#import "ProductBuyViewController.h"
 
 @interface HomeMainViewController : UIViewController<UIScrollViewDelegate, UIGestureRecognizerDelegate>
 {
@@ -20,17 +21,22 @@
     NSTimer *timer, *noticeTimer;
     NoticeView *topView, *midView, *bottomView;
     UIButton *midImageButton;
-    BOOL flag;
+    BOOL flag, animationFlag;
+    CGPoint bgPoint;
+    NSString *idCode, *bidableAmount;
 }
 
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) IBOutlet UIPageControl *pageControl;
 @property (strong, nonatomic) IBOutlet UIScrollView *noticeScrollView;
 @property (strong, nonatomic) IBOutlet UIButton *noticeButton;
-@property (strong, nonatomic) IBOutlet UIButton *wenjianButton;
-@property (strong, nonatomic) IBOutlet UIButton *huoqiButton;
-@property (strong, nonatomic) IBOutlet UIButton *zongheButton;
+@property (strong, nonatomic) IBOutlet UIButton *buyButton;
+@property (strong, nonatomic) IBOutlet UILabel *timeLabel;
+@property (strong, nonatomic) IBOutlet UIButton *productBeforeButton;
+@property (strong, nonatomic) IBOutlet UIImageView *bgImageView;
+@property (strong, nonatomic) IBOutlet UILabel *profitPercentLabel;
+@property (strong, nonatomic) IBOutlet UILabel *monthNumLabel;
+@property (strong, nonatomic) IBOutlet UILabel *moryLabel;
 @property (strong, nonatomic) IBOutlet UIButton *newerButton;
-@property (strong, nonatomic) IBOutlet UIButton *zhaiquanButton;
 
 @end

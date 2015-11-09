@@ -87,15 +87,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)setStyle:(NSString *)str
-{
-    style = str;
-}
-
-- (NSString*)getStyle
-{
-    return style;
-}
 
 - (void)setSelectedIndex:(NSUInteger)selectedIndex
 {
@@ -115,10 +106,6 @@
     if (tabIndex != self.selectedIndex) {
         //设置最近一次变更
         lastSelectedIndex = self.selectedIndex;
-        if (tabIndex == 1)
-        {
-            style = ZONGHE;
-        }
     }
 }
 

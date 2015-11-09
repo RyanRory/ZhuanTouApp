@@ -9,14 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface ZTTabBarViewController : UITabBarController<UITabBarControllerDelegate, UITabBarDelegate>
-{
-    NSString *style;
-}
 
 @property(readonly, nonatomic)NSUInteger lastSelectedIndex;
-
-- (void)setStyle:(NSString*)str;
-
-- (NSString*)getStyle;
 
 @end

@@ -35,4 +35,8 @@
 @property (strong, nonatomic) IBOutlet UILabel *wenjianPTNumLabel;
 @property (strong, nonatomic) IBOutlet UILabel *wenjianAmountNumLabel;
 
+@property (strong, nonatomic) NSString *investAmount;
+@property (strong, nonatomic) NSString *coupons;
+@property (strong, nonatomic) NSString *idOrCode;
+
 @end
