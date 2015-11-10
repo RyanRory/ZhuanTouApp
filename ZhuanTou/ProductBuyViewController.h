@@ -10,6 +10,7 @@
 #import "ProductBuyConfirmViewController.h"
 #import "ChargeViewController.h"
 #import "ProductBonusTableViewCell.h"
+#import "WebDetailViewController.h"
 
 @interface ProductBuyViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 {
@@ -33,6 +34,7 @@
 
 @property (strong, nonatomic) NSString *idOrCode;
 @property (strong, nonatomic) NSString *bidableAmount;
+@property (strong, nonatomic) NSDictionary *productInfo;
 
 - (void)setStyle:(NSString*)str;
 

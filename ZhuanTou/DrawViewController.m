@@ -192,7 +192,7 @@
     if (alertController) {
         UITextField *tradePswdTextField = alertController.textFields.firstObject;
         UIAlertAction *confirmAction = alertController.actions.lastObject;
-        confirmAction.enabled = tradePswdTextField.text.length > 8;
+        confirmAction.enabled = tradePswdTextField.text.length >= 6;
     }
 }
 

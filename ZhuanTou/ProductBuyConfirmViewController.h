@@ -38,5 +38,6 @@
 @property (strong, nonatomic) NSString *investAmount;
 @property (strong, nonatomic) NSString *coupons;
 @property (strong, nonatomic) NSString *idOrCode;
+@property (strong, nonatomic) NSDictionary *productInfo;
 
 @end

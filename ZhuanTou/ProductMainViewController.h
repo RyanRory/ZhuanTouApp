@@ -20,6 +20,8 @@
     NSString *idCode, *bidableAmount;
     BOOL wenjianFlag, zongheFlag, huoqiFlag;
     NSDictionary *wenjianData, *zongheData, *huoqiData;
+    AFHTTPRequestOperationManager *manager;
+    NSTimer *timer;
 }
 @property (strong, nonatomic) IBOutlet UIButton *wenjianButton;
 @property (strong, nonatomic) IBOutlet UIButton *zongheButton;

@@ -18,7 +18,7 @@
 @synthesize bgView;
 @synthesize preIncomeLabel, preIncomeNumLabel, productTimeLabel, productTimeNumLabel, lowestIncomeLabel, lowestIncomeNumLabel, amountNumLabel, amoutLabel;
 @synthesize wenjianBgView, wenjianAmountLabel, wenjianAmountNumLabel, wenjianPILabel, wenjianPINumLabel, wenjianPTLabel, wenjianPTNumLabel;
-@synthesize investAmount, coupons, idOrCode;
+@synthesize investAmount, coupons, idOrCode, productInfo;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -71,6 +71,11 @@
     wenjianPTNumLabel.textColor = ZTLIGHTRED;
     wenjianAmountLabel.textColor = ZTLIGHTRED;
     wenjianAmountNumLabel.textColor = ZTLIGHTRED;
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
+    [formatter setPositiveFormat:@"###,##0"];
+    wenjianPINumLabel.text = [NSString stringWithFormat:@"%@%%",[productInfo objectForKey:@"interestRate"]];
+    wenjianPTNumLabel.text = [NSString stringWithFormat:@"%d个月",((NSString*)[productInfo objectForKey:@"noOfDays"]).intValue/30];
+    wenjianAmountNumLabel.text = [NSString stringWithFormat:@"%@元",[NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithInt:investAmount.intValue]]]];
     
 }
 
@@ -87,6 +92,12 @@
     lowestIncomeNumLabel.textColor = ZTBLUE;
     amoutLabel.textColor = ZTBLUE;
     amountNumLabel.textColor = ZTBLUE;
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
+    [formatter setPositiveFormat:@"###,##0"];
+    preIncomeNumLabel.text = [NSString stringWithFormat:@"%@%%",[productInfo objectForKey:@"expectedReturn"]];
+    lowestIncomeNumLabel.text = [NSString stringWithFormat:@"%@%%",[productInfo objectForKey:@"interestRate"]];
+    productTimeNumLabel.text = [NSString stringWithFormat:@"%d个月",((NSString*)[productInfo objectForKey:@"noOfDays"]).intValue/30];
+    amountNumLabel.text = [NSString stringWithFormat:@"%@元",[NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithInt:investAmount.intValue]]]];
 }
 
 - (void)confirm:(id)sender
@@ -115,13 +126,13 @@
     if (alertController) {
         UITextField *tradePswdTextField = alertController.textFields.firstObject;
         UIAlertAction *confirmAction = alertController.actions.lastObject;
-        confirmAction.enabled = tradePswdTextField.text.length > 8;
+        confirmAction.enabled = tradePswdTextField.text.length >= 6;
     }
 }
 
 - (void)buy:(NSString*)tradePswd
 {
-    NSLog(investAmount);
+    if (coupons.length == 0) coupons = @"";
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSString *URL = [BASEURL stringByAppendingString:@"api/fofProd/purchase"];
@@ -147,7 +158,7 @@
             hud.labelText = @"抢购成功";
             [hud hide:YES afterDelay:1.5f];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [[self navigationController]popViewControllerAnimated:YES];
+                [[self navigationController]popToRootViewControllerAnimated:YES];
             });
         }
         

@@ -93,6 +93,7 @@
     UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
     panGesture.delegate = self;
     [knobButton addGestureRecognizer:panGesture];
+    [knobButton addTarget:self action:@selector(change:) forControlEvents:UIControlEventTouchUpInside];
     
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(handleTap:)];
     [self addGestureRecognizer:tapGesture];
@@ -106,7 +107,14 @@
 }
 #pragma mark -
 #pragma mark UIGestureRecognizer
--(void) handleTap: (UITapGestureRecognizer *) sender {
+- (void)change:(id)sender
+{
+    [self valueChange];
+    
+    [self sendActionsForControlEvents:UIControlEventValueChanged];
+}
+
+- (void) handleTap: (UITapGestureRecognizer *) sender {
     if(CGRectContainsPoint(knobButton.frame,[sender locationInView:self]) !=YES){
         CGRect frm =knobButton.frame;
         frm.origin.x += frm.size.width;

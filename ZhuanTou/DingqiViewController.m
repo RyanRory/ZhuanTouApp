@@ -73,7 +73,7 @@
 
 - (void)toProducts:(id)sender
 {
-    
+    [[self tabBarController] setSelectedIndex:1];
 }
 
 - (void)loadIngTableViewData:(id)sender
@@ -172,6 +172,17 @@
 }
 
 #pragma TableViewDelegates
+
+- (UIView*)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    UILabel *footer = [[UILabel alloc]init];
+    footer.text = @"更多信息请查看zhuantouwang.com";
+    footer.font = [UIFont systemFontOfSize:12.0f];
+    footer.textColor = [UIColor darkGrayColor];
+    footer.textAlignment = 1;
+    
+    return footer;
+}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
@@ -303,10 +314,6 @@
     }
 }
 
-- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
-}
 
 
 @end

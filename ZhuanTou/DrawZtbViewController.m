@@ -15,6 +15,7 @@
 @implementation DrawZtbViewController
 
 @synthesize balanceLabel, bgView, drawNumTextField, tradePswdTextField, confirmButton;
+@synthesize balance;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -27,6 +28,7 @@
     
     bgView.layer.cornerRadius = 3;
     bgView.clipsToBounds = YES;
+    balanceLabel.text = [NSString stringWithFormat:@"%@元",balance];
     
     confirmButton.layer.cornerRadius = 3;
     [confirmButton addTarget:self action:@selector(confirm:) forControlEvents:UIControlEventTouchUpInside];
@@ -57,10 +59,8 @@
     else
     {
         AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-        NSString *URL = [BASEURL stringByAppendingString:@"api/account/transferIntoZtb4M"];
-        NSDictionary *parameter = @{@"amount":drawNumTextField.text,
-                                    @"tradePassword":tradePswdTextField.text};
-        [manager POST:URL parameters:parameter success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+        NSString *URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/transferOutZtb4M?amount=%@&tradePassword=%@",drawNumTextField.text,tradePswdTextField.text]];
+        [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
             NSLog(@"%@",responseObject);
             NSString *str = [responseObject objectForKey:@"isSuccess"];
             int f1 = str.intValue;

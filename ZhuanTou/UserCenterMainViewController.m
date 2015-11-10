@@ -126,12 +126,8 @@
 
 - (void)toDingqi:(id)sender
 {
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    hud.mode = MBProgressHUDModeCustomView;
-    hud.labelText = @"暂无记录";
-    [hud hide:YES afterDelay:1.5f];
-//    DingqiViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"DingqiViewController"];
-//    [[self navigationController]pushViewController:vc animated:YES];
+    DingqiViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"DingqiViewController"];
+    [[self navigationController]pushViewController:vc animated:YES];
 }
 
 - (void)toHuoqi:(id)sender

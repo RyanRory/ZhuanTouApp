@@ -14,6 +14,9 @@
 #import "DrawZtbViewController.h"
 
 @interface HuoqiViewController : UIViewController<ChartViewDelegate>
+{
+    NSMutableArray *datas;
+}
 
 @property (strong, nonatomic) IBOutlet UICountingLabel *yesterdayProfitLabel;
 @property (strong, nonatomic) IBOutlet UILabel *myPortionLabel;

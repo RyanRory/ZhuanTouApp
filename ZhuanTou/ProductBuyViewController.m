@@ -19,7 +19,7 @@
 @synthesize noBonusLabel, checkboxButton, agreementButton, confirmButton;
 @synthesize style;
 @synthesize tView;
-@synthesize idOrCode, bidableAmount;
+@synthesize idOrCode, bidableAmount, productInfo;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -113,7 +113,7 @@
 
 -(void)setupWenjian
 {
-    self.title = @"购买分红宝";
+    self.title = @"购买稳赢宝";
     bgView.backgroundColor = ZTLIGHTRED;
     headBgView.backgroundColor = ZTLIGHTRED;
     confirmButton.backgroundColor = ZTLIGHTRED;
@@ -122,7 +122,7 @@
 
 - (void)setupZonghe
 {
-    self.title = @"购买稳赢宝";
+    self.title = @"购买分红宝";
     bgView.backgroundColor = ZTBLUE;
     headBgView.backgroundColor = ZTBLUE;
     confirmButton.backgroundColor = ZTBLUE;
@@ -142,7 +142,10 @@
 
 - (void)toAgreemet:(id)sender
 {
-    
+    WebDetailViewController *vc = [[self storyboard] instantiateViewControllerWithIdentifier:@"WebDetailViewController"];
+    [vc setURL:@"http://debug.pujintianxia.com/Mobile/Home/InvestAgreement4M?productCode=201507270914478"];
+    vc.title = @"专投网购买协议";
+    [[self navigationController]pushViewController:vc animated:YES];
 }
 
 - (void)confirm:(id)sender
@@ -153,6 +156,39 @@
         hud.mode = MBProgressHUDModeCustomView;
         hud.labelText = @"可用余额不足";
         [hud hide:YES afterDelay:1.5];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [amountTextField becomeFirstResponder];
+        });
+    }
+    else if ((![style isEqualToString:HUOQI]) && (amountTextField.text.intValue < ((NSString*)[productInfo objectForKey:@"minPurchaseAmount"]).intValue))
+    {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.mode = MBProgressHUDModeCustomView;
+        hud.labelText = [NSString stringWithFormat:@"最低投资额度为%@元",[productInfo objectForKey:@"minPurchaseAmount"]];
+        [hud hide:YES afterDelay:1.5];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [amountTextField becomeFirstResponder];
+        });
+    }
+    else if ((![style isEqualToString:HUOQI]) && (amountTextField.text.intValue > ((NSString*)[productInfo objectForKey:@"maxPurchaseAmount"]).intValue))
+    {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.mode = MBProgressHUDModeCustomView;
+        hud.labelText = [NSString stringWithFormat:@"最高投资额度为%@元",[productInfo objectForKey:@"maxPurchaseAmount"]];
+        [hud hide:YES afterDelay:1.5];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [amountTextField becomeFirstResponder];
+        });
+    }
+    else if ((![style isEqualToString:HUOQI]) && (amountTextField.text.intValue % 100 != 0))
+    {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.mode = MBProgressHUDModeCustomView;
+        hud.labelText = @"投资额度必须为100的整数倍";
+        [hud hide:YES afterDelay:1.5];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [amountTextField becomeFirstResponder];
+        });
     }
     else
     {
@@ -183,6 +219,7 @@
             vc.investAmount = amountTextField.text;
             vc.coupons = coupons;
             vc.idOrCode = idOrCode;
+            vc.productInfo = productInfo;
             [[self navigationController]pushViewController:vc animated:YES];
         }
     }
@@ -193,7 +230,7 @@
     if (alertController) {
         UITextField *tradePswdTextField = alertController.textFields.firstObject;
         UIAlertAction *confirmAction = alertController.actions.lastObject;
-        confirmAction.enabled = tradePswdTextField.text.length > 8;
+        confirmAction.enabled = tradePswdTextField.text.length >= 6;
     }
 }
 
@@ -201,10 +238,8 @@
 {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    NSString *URL = [BASEURL stringByAppendingString:@"api/account/transferIntoZtb4M"];
-    NSDictionary *parameter = @{@"amount":amountTextField.text,
-                                @"tradePassword":tradePswd};
-    [manager POST:URL parameters:parameter success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+    NSString *URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/transferIntoZtb4M?amount=%@&tradePassword=%@",amountTextField.text,tradePswd]];
+    [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
         NSLog(@"%@",responseObject);
         NSString *str = [responseObject objectForKey:@"isSuccess"];
         int f1 = str.intValue;

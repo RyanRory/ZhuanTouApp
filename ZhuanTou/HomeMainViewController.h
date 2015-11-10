@@ -16,14 +16,17 @@
 @interface HomeMainViewController : UIViewController<UIScrollViewDelegate, UIGestureRecognizerDelegate>
 {
     UIImageView *leftImage, *midImage, *rightImage;
-    NSArray *images, *notices;
+    NSArray *notices, *bannerInfo;
+    NSMutableArray *images;
     int currentImage, currentNotice;
-    NSTimer *timer, *noticeTimer;
+    NSTimer *timer, *noticeTimer, *canBuyTimer;
     NoticeView *topView, *midView, *bottomView;
     UIButton *midImageButton;
-    BOOL flag, animationFlag;
+    BOOL flag, animationFlag, imageFlag;
+    int setupDataFlag;
     CGPoint bgPoint;
     NSString *idCode, *bidableAmount;
+    NSDictionary *productInfo;
 }
 
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -38,5 +41,6 @@
 @property (strong, nonatomic) IBOutlet UILabel *monthNumLabel;
 @property (strong, nonatomic) IBOutlet UILabel *moryLabel;
 @property (strong, nonatomic) IBOutlet UIButton *newerButton;
+@property (strong, nonatomic) IBOutlet UIImageView *inUpImageView;
 
 @end

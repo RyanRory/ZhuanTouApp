@@ -58,8 +58,8 @@
     
     ChartYAxis *leftAxis = lineChartView.leftAxis;
     leftAxis.labelTextColor = ZTCHARTSGRAY;
-    leftAxis.customAxisMax = 10.00;
-    leftAxis.customAxisMin = 0.00;
+    leftAxis.customAxisMax = 8.00;
+    leftAxis.customAxisMin = 4.00;
     leftAxis.startAtZeroEnabled = NO;
     leftAxis.gridColor = ZTCHARTSGRAY;
     leftAxis.drawLimitLinesBehindDataEnabled = YES;
@@ -85,15 +85,27 @@
 
 - (void)setupData
 {
-    [yesterdayProfitLabel countFromZeroTo:0.00 withDuration:0.8f];
-    NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
-    [formatter setPositiveFormat:@"###,##0.00"];
-    myPortionLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:0.00]]];
-    totalProfitLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:0.00]]];
-    profitPercentLabel.text = @"6.832%";
-
-    [self setDataCount:10 range:8.00];
-    [lineChartView animateWithXAxisDuration:0.8];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSString *URL = [BASEURL stringByAppendingString:@"api/account/yesterdayZtb"];
+    [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+        NSLog(@"%@", responseObject);
+        [yesterdayProfitLabel countFromZeroTo:((NSString*)[responseObject objectForKey:@"interestAmount"]).floatValue withDuration:0.8f];
+        NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
+        [formatter setPositiveFormat:@"###,##0.00"];
+        myPortionLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[responseObject objectForKey:@"ztbBalance"]).doubleValue]]];
+        totalProfitLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[responseObject objectForKey:@"sumReturnAmount"]).doubleValue]]];
+        profitPercentLabel.text = [NSString stringWithFormat:@"%@%%",[responseObject objectForKey:@"last5DaysReturn"]];
+        datas = [NSMutableArray arrayWithArray:[responseObject objectForKey:@"last7DaysCurv"]];
+        [self setDataCount:7 range:8.00];
+        [lineChartView animateWithXAxisDuration:0.8];
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = @"当前网络状况不佳，请重试";
+        [hud hide:YES afterDelay:1.5f];
+    }];
 }
 
 - (void)setDataCount:(int)count range:(double)range
@@ -102,16 +114,14 @@
     
     for (int i = 0; i < count; i++)
     {
-        [xVals addObject:[@(i) stringValue]];
+        [xVals addObject:(NSString*)[datas[i] objectForKey:@"date"]];
     }
     
     NSMutableArray *yVals = [[NSMutableArray alloc] init];
     
     for (int i = 0; i < count; i++)
     {
-//        double mult = range;
-//        double val = (double) (arc4random_uniform(mult)) +2;
-        [yVals addObject:[[ChartDataEntry alloc] initWithValue:6.832 xIndex:i]];
+        [yVals addObject:[[ChartDataEntry alloc] initWithValue:((NSString*)[datas[i] objectForKey:@"date"]).doubleValue xIndex:i]];
     }
     
     LineChartDataSet *set1 = [[LineChartDataSet alloc] initWithYVals:yVals label:@"DataSet 1"];
@@ -146,6 +156,7 @@
 - (void)toDrawHuoqi:(id)sender
 {
     DrawZtbViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"DrawZtbViewController"];
+    vc.balance = myPortionLabel.text;
     [[self navigationController]pushViewController:vc animated:YES];
 }
 

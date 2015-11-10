@@ -15,7 +15,7 @@
 @implementation HomeMainViewController
 
 @synthesize scrollView, noticeScrollView, noticeButton, pageControl;
-@synthesize bgImageView, productBeforeButton, buyButton, profitPercentLabel, monthNumLabel, moryLabel, timeLabel, newerButton;
+@synthesize bgImageView, productBeforeButton, buyButton, profitPercentLabel, monthNumLabel, moryLabel, timeLabel, newerButton, inUpImageView;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -27,7 +27,7 @@
     
     [noticeButton addTarget:self action:@selector(toNotice:) forControlEvents:UIControlEventTouchUpInside];
     
-    images = [NSArray arrayWithObjects:[UIImage imageNamed:@"banner1.png"],[UIImage imageNamed:@"banner1.png"],[UIImage imageNamed:@"banner1.png"], nil];
+    images = [[NSMutableArray alloc]init];
     currentImage = 0;
     
     scrollView.delegate = self;
@@ -45,17 +45,14 @@
     scrollView.contentSize = CGSizeMake(SCREEN_WIDTH * 3, 0);
     
     leftImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_WIDTH*16/25)];
-    leftImage.image = [images objectAtIndex:images.count-1];
     
     midImage = [[UIImageView alloc]initWithFrame:CGRectMake(SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_WIDTH*16/25)];
-    midImage.image = [images objectAtIndex:0];
     
     midImageButton = [[UIButton alloc]initWithFrame:midImage.frame];
     midImageButton.titleLabel.text = @"";
     [midImageButton addTarget:self action:@selector(toImageDetail:) forControlEvents:UIControlEventTouchUpInside];
     
     rightImage = [[UIImageView alloc]initWithFrame:CGRectMake(SCREEN_WIDTH * 2, 0, SCREEN_WIDTH, SCREEN_WIDTH*16/25)];
-    rightImage.image = [images objectAtIndex:1];
     
     [scrollView addSubview:leftImage];
     [scrollView addSubview:midImage];
@@ -63,8 +60,7 @@
     [scrollView addSubview:rightImage];
     [scrollView setContentOffset:CGPointMake(SCREEN_WIDTH, 0) animated:NO];
     
-    [pageControl setNumberOfPages:images.count];
-    [pageControl setCurrentPage:currentImage];
+    pageControl.hidden = YES;
     
     noticeScrollView.contentSize = CGSizeMake(0, noticeScrollView.frame.size.height * 3);
     
@@ -79,6 +75,10 @@
     
     buyButton.layer.cornerRadius = 3;
     [buyButton addTarget:self action:@selector(toBuy:) forControlEvents:UIControlEventTouchUpInside];
+    [buyButton setUserInteractionEnabled:NO];
+    [buyButton setAlpha:0.6f];
+    [inUpImageView setAlpha:0.6f];
+    
     
     [productBeforeButton setTitle:[NSString stringWithFormat:@"查看\n往期收益"] forState:UIControlStateNormal];
     [productBeforeButton addTarget:self action:@selector(toProductsBefore:) forControlEvents:UIControlEventTouchUpInside];
@@ -87,12 +87,19 @@
     
     flag = false;
     animationFlag = false;
+    setupDataFlag = 3;
     [self setupData];
 
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    if (setupDataFlag < 3)
+    {
+        setupDataFlag = 0;
+        [self setupData];
+    }
+    [self setupProduct];
     if (bgPoint.x == 0) bgPoint = CGPointMake(bgImageView.frame.origin.x + bgImageView.frame.size.width/2+10, bgImageView.frame.origin.y+bgImageView.frame.size.height/2);
     if (!animationFlag)
     {
@@ -115,6 +122,7 @@
 {
     [timer invalidate];
     [noticeTimer invalidate];
+    [canBuyTimer invalidate];
 }
 
 - (void)setupData
@@ -129,6 +137,7 @@
         bottomView.label.text = [[notices objectAtIndex:1] objectForKey:@"title"];
         flag = true;
         noticeTimer = [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(scrollToNextNotice:) userInfo:nil repeats:YES];
+        setupDataFlag++;
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
@@ -136,8 +145,29 @@
         hud.mode = MBProgressHUDModeText;
         hud.labelText = @"当前网络状况不佳";
         [hud hide:YES afterDelay:1.5f];
+        setupDataFlag = 0;
     }];
     
+    AFHTTPRequestOperationManager *manager2 = [AFHTTPRequestOperationManager manager];
+    NSString *URL2 = [BASEURL stringByAppendingString:@"api/article/getAppBannerInfo"];
+    [manager2 GET:URL2 parameters:nil success:^(AFHTTPRequestOperation *operation, NSArray *responseObject) {
+        NSLog(@"%@", responseObject);
+        bannerInfo = [NSArray arrayWithArray:responseObject];
+        [NSThread detachNewThreadSelector:@selector(setImages) toTarget:self withObject:nil];
+        setupDataFlag++;
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = @"当前网络状况不佳";
+        [hud hide:YES afterDelay:1.5f];
+        setupDataFlag = 0;
+    }];
+}
+
+- (void)setupProduct
+{
     AFHTTPRequestOperationManager *manager1 = [AFHTTPRequestOperationManager manager];
     NSString *URL1 = [BASEURL stringByAppendingString:@"api/fofProd/1"];
     [manager1 GET:URL1 parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
@@ -153,10 +183,31 @@
             profitPercentLabel.font = [UIFont fontWithName:@"EuphemiaUCAS-Bold" size:50.0f];
         }
         profitPercentLabel.text = numStr;
-
+        
         monthNumLabel.text = [NSString stringWithFormat:@"%d",(((NSString*)[responseObject objectForKey:@"noOfDays"]).intValue / 30)];
         timeLabel.text = [NSString stringWithFormat:@"%@开始抢购",[responseObject objectForKey:@"startRaisingDate"]];
-        bidableAmount = [NSString stringWithFormat:@"%@", [responseObject objectForKey:@"bidableAmount"]];
+        NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
+        [formatter setPositiveFormat:@"###,##0"];
+        bidableAmount = [NSString stringWithFormat:@"%@元",[NSString stringWithString:[formatter stringFromNumber:[responseObject objectForKey:@"bidableAmount"]]]];
+        productInfo = [NSDictionary dictionaryWithDictionary:responseObject];
+        setupDataFlag++;
+        if (((NSString*)[responseObject objectForKey:@"bidableAmount"]).intValue == 0)
+        {
+            [buyButton setUserInteractionEnabled:NO];
+            [buyButton setAlpha:1.0f];
+            [buyButton setTitle:@"已售完" forState:UIControlStateNormal];
+            buyButton.backgroundColor = ZTLIGHTGRAY;
+            [inUpImageView setAlpha:1.0f];
+            UIImage *image = [UIImage imageNamed:@"inUpIcon.png"];
+            image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            inUpImageView.image = image;
+            inUpImageView.tintColor = ZTLIGHTGRAY;
+            
+        }
+        else
+        {
+            canBuyTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(canBuy) userInfo:nil repeats:YES];
+        }
 
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
@@ -164,18 +215,52 @@
         hud.mode = MBProgressHUDModeText;
         hud.labelText = @"当前网络状况不佳，请重试";
         [hud hide:YES afterDelay:1.5f];
+        setupDataFlag = 0;
     }];
 
-    
+}
+
+- (void)setImages
+{
+    for (int i = 0; i < bannerInfo.count; i++)
+    {
+        UIImage *img = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[bannerInfo[i] objectForKey:@"imgUrl"]]]];
+        if (img)
+        {
+            [images addObject:img];
+            NSLog(@"ttttttttt");
+        }
+        else
+        {
+            i--;
+        }
+    }
+    leftImage.image = [images objectAtIndex:images.count-1];
+    midImage.image = [images objectAtIndex:0];
+    rightImage.image = [images objectAtIndex:1];
+    imageFlag = true;
+    [self performSelectorOnMainThread:@selector(setupTimer) withObject:nil waitUntilDone:YES];
+    pageControl.hidden = NO;
+    [pageControl setNumberOfPages:images.count];
+    [pageControl setCurrentPage:currentImage];
+
+}
+
+- (void)setupTimer
+{
+    timer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(scrollToNextPage:) userInfo:nil repeats:YES];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [[self navigationController]setNavigationBarHidden:YES animated:YES];
-    timer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(scrollToNextPage:) userInfo:nil repeats:YES];
     if (flag)
     {
         noticeTimer = [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(scrollToNextNotice:) userInfo:nil repeats:YES];
+    }
+    if (imageFlag)
+    {
+        timer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(scrollToNextPage:) userInfo:nil repeats:YES];
     }
 }
 
@@ -202,10 +287,10 @@
 
 - (void)toImageDetail:(id)sender
 {
-//    WebDetailViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"WebDetailViewController"];
-//    vc.title = @"呵呵哒";
-//    [vc setURL:@"http://debug.pujintianxia.com/Mobile/Home/Questions"];
-//    [[self navigationController]pushViewController:vc animated:YES];
+    WebDetailViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"WebDetailViewController"];
+    vc.title = @"专投新闻";
+    [vc setURL:[bannerInfo[currentImage] objectForKey:@"linkUrl"]];
+    [[self navigationController]pushViewController:vc animated:YES];
 }
 
 - (void)toProductsBefore:(id)sender
@@ -220,6 +305,7 @@
     vc.style = ZONGHE;
     vc.idOrCode = idCode;
     vc.bidableAmount = bidableAmount;
+    vc.productInfo = productInfo;
     [[self navigationController]pushViewController:vc animated:YES];
 }
 
@@ -299,6 +385,27 @@
     midView.label.text = [[notices objectAtIndex:currentNotice] objectForKey:@"title"];
     topView.label.text = [[notices objectAtIndex:topNoticeIndex] objectForKey:@"title"];
     bottomView.label.text = [[notices objectAtIndex:bottomNoticeIndex] objectForKey:@"title"];
+}
+
+- (void)canBuy
+{
+    NSDate *date = [NSDate date];
+    NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSDate *wenjianDate = [dateFormat dateFromString:[productInfo objectForKey:@"startRaisingDateTime"]];
+    if ([date timeIntervalSinceDate:wenjianDate] < 0.0)
+    {
+        [buyButton setUserInteractionEnabled:NO];
+        [buyButton setAlpha:0.6f];
+        [inUpImageView setAlpha:0.6f];
+    }
+    else
+    {
+        [buyButton setUserInteractionEnabled:YES];
+        [buyButton setAlpha:1.0f];
+        [inUpImageView setAlpha:1.0f];
+    }
+    
 }
 
 @end

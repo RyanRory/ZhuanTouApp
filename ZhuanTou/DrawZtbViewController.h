@@ -15,6 +15,7 @@
 @property (strong, nonatomic) IBOutlet UITextField *drawNumTextField;
 @property (strong, nonatomic) IBOutlet UITextField *tradePswdTextField;
 @property (strong, nonatomic) IBOutlet UIButton *confirmButton;
+@property (strong, nonatomic) NSString *balance;
 
 - (IBAction)textFiledReturnEditing:(id)sender;
 

@@ -170,73 +170,154 @@
 {
     flag = false;
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    if (wenjianSwitch.on)
+    if (wenjianTextField.text.length > 0)
     {
-        if (wenjianAllSwitch.on)
+        hud.mode = MBProgressHUDModeCustomView;
+        hud.labelText = @"投资额度必须为100的整数倍";
+        [hud hide:YES afterDelay:1.5];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [wenjianTextField becomeFirstResponder];
+        });
+    }
+    else if (zongheTextField.text.length > 0)
+    {
+        hud.mode = MBProgressHUDModeCustomView;
+        hud.labelText = @"投资额度必须为100的整数倍";
+        [hud hide:YES afterDelay:1.5];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [zongheTextField becomeFirstResponder];
+        });
+    }
+    else
+    {
+        if (wenjianSwitch.on)
         {
-            AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-            NSString *URL = [BASEURL stringByAppendingString:@"api/queue/enable/0"];
-            [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
-                NSLog(@"%@", responseObject);
-                NSString *str = [responseObject objectForKey:@"isSuccess"];
-                int f1 = str.intValue;
-                if (f1 == 0)
-                {
-                    hud.mode = MBProgressHUDModeCustomView;
-                    hud.labelText = [responseObject objectForKey:@"errorMessage"];
-                    [hud hide:YES afterDelay:1.5f];
-                }
-                else
-                {
-                    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-                    NSString *URL = [BASEURL stringByAppendingString:@"api/queue/changeQAmount/0/true"];
-                    [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
-                        NSLog(@"%@", responseObject);
-                        NSString *str = [responseObject objectForKey:@"isSuccess"];
-                        int f1 = str.intValue;
-                        if (f1 == 0)
-                        {
-                            hud.mode = MBProgressHUDModeCustomView;
-                            hud.labelText = [responseObject objectForKey:@"errorMessage"];
-                            [hud hide:YES afterDelay:1.5f];
-                        }
-                        else
-                        {
-                            if (flag)
+            if (wenjianAllSwitch.on)
+            {
+                AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+                NSString *URL = [BASEURL stringByAppendingString:@"api/queue/enable/0"];
+                [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+                    NSLog(@"%@", responseObject);
+                    NSString *str = [responseObject objectForKey:@"isSuccess"];
+                    int f1 = str.intValue;
+                    if (f1 == 0)
+                    {
+                        hud.mode = MBProgressHUDModeCustomView;
+                        hud.labelText = [responseObject objectForKey:@"errorMessage"];
+                        [hud hide:YES afterDelay:1.5f];
+                    }
+                    else
+                    {
+                        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+                        NSString *URL = [BASEURL stringByAppendingString:@"api/queue/changeQAmount/0/true"];
+                        [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+                            NSLog(@"%@", responseObject);
+                            NSString *str = [responseObject objectForKey:@"isSuccess"];
+                            int f1 = str.intValue;
+                            if (f1 == 0)
                             {
                                 hud.mode = MBProgressHUDModeCustomView;
-                                hud.labelText = @"设置成功";
+                                hud.labelText = [responseObject objectForKey:@"errorMessage"];
                                 [hud hide:YES afterDelay:1.5f];
-                                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                                    [[self navigationController]popViewControllerAnimated:YES];
-                                });
                             }
                             else
                             {
-                                flag = true;
+                                if (flag)
+                                {
+                                    hud.mode = MBProgressHUDModeCustomView;
+                                    hud.labelText = @"设置成功";
+                                    [hud hide:YES afterDelay:1.5f];
+                                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                                        [[self navigationController]popViewControllerAnimated:YES];
+                                    });
+                                }
+                                else
+                                {
+                                    flag = true;
+                                }
                             }
-                        }
+                            
+                        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                            NSLog(@"Error: %@", error);
+                            hud.mode = MBProgressHUDModeText;
+                            hud.labelText = @"当前网络状况不佳，请重试";
+                            [hud hide:YES afterDelay:1.5f];
+                        }];
                         
-                    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                        NSLog(@"Error: %@", error);
-                        hud.mode = MBProgressHUDModeText;
-                        hud.labelText = @"当前网络状况不佳，请重试";
+                    }
+                    
+                } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                    NSLog(@"Error: %@", error);
+                    hud.mode = MBProgressHUDModeText;
+                    hud.labelText = @"当前网络状况不佳，请重试";
+                    [hud hide:YES afterDelay:1.5f];
+                }];
+            }
+            else
+            {
+                AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+                NSString *URL = [BASEURL stringByAppendingString:@"api/queue/enable/0"];
+                [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+                    NSLog(@"%@", responseObject);
+                    NSString *str = [responseObject objectForKey:@"isSuccess"];
+                    int f1 = str.intValue;
+                    if (f1 == 0)
+                    {
+                        hud.mode = MBProgressHUDModeCustomView;
+                        hud.labelText = [responseObject objectForKey:@"errorMessage"];
                         [hud hide:YES afterDelay:1.5f];
-                    }];
-
-                }
+                    }
+                    else
+                    {
+                        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+                        NSString *URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/queue/changeQAmount/0/false/%@",wenjianTextField.text]];
+                        [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+                            NSLog(@"%@", responseObject);
+                            NSString *str = [responseObject objectForKey:@"isSuccess"];
+                            int f1 = str.intValue;
+                            if (f1 == 0)
+                            {
+                                hud.mode = MBProgressHUDModeCustomView;
+                                hud.labelText = [responseObject objectForKey:@"errorMessage"];
+                                [hud hide:YES afterDelay:1.5f];
+                            }
+                            else
+                            {
+                                if (flag)
+                                {
+                                    hud.mode = MBProgressHUDModeCustomView;
+                                    hud.labelText = @"设置成功";
+                                    [hud hide:YES afterDelay:1.5f];
+                                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                                        [[self navigationController]popViewControllerAnimated:YES];
+                                    });
+                                }
+                                else
+                                {
+                                    flag = true;
+                                }
+                            }
+                        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                            NSLog(@"Error: %@", error);
+                            hud.mode = MBProgressHUDModeText;
+                            hud.labelText = @"当前网络状况不佳，请重试";
+                            [hud hide:YES afterDelay:1.5f];
+                        }];
+                    }
+                    
+                } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                    NSLog(@"Error: %@", error);
+                    hud.mode = MBProgressHUDModeText;
+                    hud.labelText = @"当前网络状况不佳，请重试";
+                    [hud hide:YES afterDelay:1.5f];
+                }];
                 
-            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                NSLog(@"Error: %@", error);
-                hud.mode = MBProgressHUDModeText;
-                hud.labelText = @"当前网络状况不佳，请重试";
-                [hud hide:YES afterDelay:1.5f];
-            }];
+            }
         }
         else
         {
             AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-            NSString *URL = [BASEURL stringByAppendingString:@"api/queue/enable/0"];
+            NSString *URL = [BASEURL stringByAppendingString:@"api/queue/disable/0"];
             [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
                 NSLog(@"%@", responseObject);
                 NSString *str = [responseObject objectForKey:@"isSuccess"];
@@ -249,40 +330,19 @@
                 }
                 else
                 {
-                    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-                    NSString *URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/queue/changeQAmount/0/false/%@",wenjianTextField.text]];
-                    [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
-                        NSLog(@"%@", responseObject);
-                        NSString *str = [responseObject objectForKey:@"isSuccess"];
-                        int f1 = str.intValue;
-                        if (f1 == 0)
-                        {
-                            hud.mode = MBProgressHUDModeCustomView;
-                            hud.labelText = [responseObject objectForKey:@"errorMessage"];
-                            [hud hide:YES afterDelay:1.5f];
-                        }
-                        else
-                        {
-                            if (flag)
-                            {
-                                hud.mode = MBProgressHUDModeCustomView;
-                                hud.labelText = @"设置成功";
-                                [hud hide:YES afterDelay:1.5f];
-                                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                                    [[self navigationController]popViewControllerAnimated:YES];
-                                });
-                            }
-                            else
-                            {
-                                flag = true;
-                            }
-                        }
-                    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                        NSLog(@"Error: %@", error);
-                        hud.mode = MBProgressHUDModeText;
-                        hud.labelText = @"当前网络状况不佳，请重试";
+                    if (flag)
+                    {
+                        hud.mode = MBProgressHUDModeCustomView;
+                        hud.labelText = @"设置成功";
                         [hud hide:YES afterDelay:1.5f];
-                    }];
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                            [[self navigationController]popViewControllerAnimated:YES];
+                        });
+                    }
+                    else
+                    {
+                        flag = true;
+                    }
                 }
                 
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -291,114 +351,137 @@
                 hud.labelText = @"当前网络状况不佳，请重试";
                 [hud hide:YES afterDelay:1.5f];
             }];
-
         }
-    }
-    else
-    {
-        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-        NSString *URL = [BASEURL stringByAppendingString:@"api/queue/disable/0"];
-        [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
-            NSLog(@"%@", responseObject);
-            NSString *str = [responseObject objectForKey:@"isSuccess"];
-            int f1 = str.intValue;
-            if (f1 == 0)
+        
+        if (zongheSwitch.on)
+        {
+            if (zongheAllSwitch.on)
             {
-                hud.mode = MBProgressHUDModeCustomView;
-                hud.labelText = [responseObject objectForKey:@"errorMessage"];
-                [hud hide:YES afterDelay:1.5f];
+                AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+                NSString *URL = [BASEURL stringByAppendingString:@"api/queue/enable/1"];
+                [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+                    NSLog(@"%@", responseObject);
+                    NSString *str = [responseObject objectForKey:@"isSuccess"];
+                    int f1 = str.intValue;
+                    if (f1 == 0)
+                    {
+                        hud.mode = MBProgressHUDModeCustomView;
+                        hud.labelText = [responseObject objectForKey:@"errorMessage"];
+                        [hud hide:YES afterDelay:1.5f];
+                    }
+                    else
+                    {
+                        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+                        NSString *URL = [BASEURL stringByAppendingString:@"api/queue/changeQAmount/1/true"];
+                        [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+                            NSLog(@"%@", responseObject);
+                            NSString *str = [responseObject objectForKey:@"isSuccess"];
+                            int f1 = str.intValue;
+                            if (f1 == 0)
+                            {
+                                hud.mode = MBProgressHUDModeCustomView;
+                                hud.labelText = [responseObject objectForKey:@"errorMessage"];
+                                [hud hide:YES afterDelay:1.5f];
+                            }
+                            else
+                            {
+                                if (flag)
+                                {
+                                    hud.mode = MBProgressHUDModeCustomView;
+                                    hud.labelText = @"设置成功";
+                                    [hud hide:YES afterDelay:1.5f];
+                                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                                        [[self navigationController]popViewControllerAnimated:YES];
+                                    });
+                                }
+                                else
+                                {
+                                    flag = true;
+                                }
+                            }
+                            
+                        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                            NSLog(@"Error: %@", error);
+                            hud.mode = MBProgressHUDModeText;
+                            hud.labelText = @"当前网络状况不佳，请重试";
+                            [hud hide:YES afterDelay:1.5f];
+                        }];
+                    }
+                    
+                } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                    NSLog(@"Error: %@", error);
+                    hud.mode = MBProgressHUDModeText;
+                    hud.labelText = @"当前网络状况不佳，请重试";
+                    [hud hide:YES afterDelay:1.5f];
+                }];
             }
             else
             {
-                if (flag)
-                {
-                    hud.mode = MBProgressHUDModeCustomView;
-                    hud.labelText = @"设置成功";
-                    [hud hide:YES afterDelay:1.5f];
-                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                        [[self navigationController]popViewControllerAnimated:YES];
-                    });
-                }
-                else
-                {
-                    flag = true;
-                }
-            }
-            
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            NSLog(@"Error: %@", error);
-            hud.mode = MBProgressHUDModeText;
-            hud.labelText = @"当前网络状况不佳，请重试";
-            [hud hide:YES afterDelay:1.5f];
-        }];
-    }
-    
-    if (zongheSwitch.on)
-    {
-        if (zongheAllSwitch.on)
-        {
-            AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-            NSString *URL = [BASEURL stringByAppendingString:@"api/queue/enable/1"];
-            [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
-                NSLog(@"%@", responseObject);
-                NSString *str = [responseObject objectForKey:@"isSuccess"];
-                int f1 = str.intValue;
-                if (f1 == 0)
-                {
-                    hud.mode = MBProgressHUDModeCustomView;
-                    hud.labelText = [responseObject objectForKey:@"errorMessage"];
-                    [hud hide:YES afterDelay:1.5f];
-                }
-                else
-                {
-                    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-                    NSString *URL = [BASEURL stringByAppendingString:@"api/queue/changeQAmount/1/true"];
-                    [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
-                        NSLog(@"%@", responseObject);
-                        NSString *str = [responseObject objectForKey:@"isSuccess"];
-                        int f1 = str.intValue;
-                        if (f1 == 0)
-                        {
-                            hud.mode = MBProgressHUDModeCustomView;
-                            hud.labelText = [responseObject objectForKey:@"errorMessage"];
-                            [hud hide:YES afterDelay:1.5f];
-                        }
-                        else
-                        {
-                            if (flag)
+                AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+                NSString *URL = [BASEURL stringByAppendingString:@"api/queue/enable/1"];
+                [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+                    NSLog(@"%@", responseObject);
+                    NSString *str = [responseObject objectForKey:@"isSuccess"];
+                    int f1 = str.intValue;
+                    if (f1 == 0)
+                    {
+                        hud.mode = MBProgressHUDModeCustomView;
+                        hud.labelText = [responseObject objectForKey:@"errorMessage"];
+                        [hud hide:YES afterDelay:1.5f];
+                    }
+                    else
+                    {
+                        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+                        NSString *URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/queue/changeQAmount/1/false/%@",zongheTextField.text]];
+                        [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+                            NSLog(@"%@", responseObject);
+                            NSString *str = [responseObject objectForKey:@"isSuccess"];
+                            int f1 = str.intValue;
+                            if (f1 == 0)
                             {
                                 hud.mode = MBProgressHUDModeCustomView;
-                                hud.labelText = @"设置成功";
+                                hud.labelText = [responseObject objectForKey:@"errorMessage"];
                                 [hud hide:YES afterDelay:1.5f];
-                                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                                    [[self navigationController]popViewControllerAnimated:YES];
-                                });
                             }
                             else
                             {
-                                flag = true;
+                                if (flag)
+                                {
+                                    hud.mode = MBProgressHUDModeCustomView;
+                                    hud.labelText = @"设置成功";
+                                    [hud hide:YES afterDelay:1.5f];
+                                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                                        [[self navigationController]popViewControllerAnimated:YES];
+                                    });
+                                }
+                                else
+                                {
+                                    flag = true;
+                                }
                             }
-                        }
-                        
-                    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                        NSLog(@"Error: %@", error);
-                        hud.mode = MBProgressHUDModeText;
-                        hud.labelText = @"当前网络状况不佳，请重试";
-                        [hud hide:YES afterDelay:1.5f];
-                    }];
-                }
+                            
+                        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                            NSLog(@"Error: %@", error);
+                            hud.mode = MBProgressHUDModeText;
+                            hud.labelText = @"当前网络状况不佳，请重试";
+                            [hud hide:YES afterDelay:1.5f];
+                        }];
+                    }
+                    
+                } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                    NSLog(@"Error: %@", error);
+                    hud.mode = MBProgressHUDModeText;
+                    hud.labelText = @"当前网络状况不佳，请重试";
+                    [hud hide:YES afterDelay:1.5f];
+                }];
                 
-            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                NSLog(@"Error: %@", error);
-                hud.mode = MBProgressHUDModeText;
-                hud.labelText = @"当前网络状况不佳，请重试";
-                [hud hide:YES afterDelay:1.5f];
-            }];
+            }
+            
         }
         else
         {
             AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-            NSString *URL = [BASEURL stringByAppendingString:@"api/queue/enable/1"];
+            NSString *URL = [BASEURL stringByAppendingString:@"api/queue/disable/1"];
             [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
                 NSLog(@"%@", responseObject);
                 NSString *str = [responseObject objectForKey:@"isSuccess"];
@@ -411,41 +494,19 @@
                 }
                 else
                 {
-                    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-                    NSString *URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/queue/changeQAmount/1/false/%@",zongheTextField.text]];
-                    [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
-                        NSLog(@"%@", responseObject);
-                        NSString *str = [responseObject objectForKey:@"isSuccess"];
-                        int f1 = str.intValue;
-                        if (f1 == 0)
-                        {
-                            hud.mode = MBProgressHUDModeCustomView;
-                            hud.labelText = [responseObject objectForKey:@"errorMessage"];
-                            [hud hide:YES afterDelay:1.5f];
-                        }
-                        else
-                        {
-                            if (flag)
-                            {
-                                hud.mode = MBProgressHUDModeCustomView;
-                                hud.labelText = @"设置成功";
-                                [hud hide:YES afterDelay:1.5f];
-                                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                                    [[self navigationController]popViewControllerAnimated:YES];
-                                });
-                            }
-                            else
-                            {
-                                flag = true;
-                            }
-                        }
-                        
-                    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                        NSLog(@"Error: %@", error);
-                        hud.mode = MBProgressHUDModeText;
-                        hud.labelText = @"当前网络状况不佳，请重试";
+                    if (flag)
+                    {
+                        hud.mode = MBProgressHUDModeCustomView;
+                        hud.labelText = @"设置成功";
                         [hud hide:YES afterDelay:1.5f];
-                    }];
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                            [[self navigationController]popViewControllerAnimated:YES];
+                        });
+                    }
+                    else
+                    {
+                        flag = true;
+                    }
                 }
                 
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -454,49 +515,8 @@
                 hud.labelText = @"当前网络状况不佳，请重试";
                 [hud hide:YES afterDelay:1.5f];
             }];
-            
         }
-
     }
-    else
-    {
-        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-        NSString *URL = [BASEURL stringByAppendingString:@"api/queue/disable/1"];
-        [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
-            NSLog(@"%@", responseObject);
-            NSString *str = [responseObject objectForKey:@"isSuccess"];
-            int f1 = str.intValue;
-            if (f1 == 0)
-            {
-                hud.mode = MBProgressHUDModeCustomView;
-                hud.labelText = [responseObject objectForKey:@"errorMessage"];
-                [hud hide:YES afterDelay:1.5f];
-            }
-            else
-            {
-                if (flag)
-                {
-                    hud.mode = MBProgressHUDModeCustomView;
-                    hud.labelText = @"设置成功";
-                    [hud hide:YES afterDelay:1.5f];
-                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                        [[self navigationController]popViewControllerAnimated:YES];
-                    });
-                }
-                else
-                {
-                    flag = true;
-                }
-            }
-            
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            NSLog(@"Error: %@", error);
-            hud.mode = MBProgressHUDModeText;
-            hud.labelText = @"当前网络状况不佳，请重试";
-            [hud hide:YES afterDelay:1.5f];
-        }];
-    }
-    
 }
 
 -(IBAction)textFiledReturnEditing:(id)sender {
