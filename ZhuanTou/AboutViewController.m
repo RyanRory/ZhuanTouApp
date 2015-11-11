@@ -80,7 +80,7 @@
     }
     else if (indexPath.row == 1)
     {
-        cell.titleLabel.text = @"公  众  号：lovezhuantou";
+        cell.titleLabel.text = @"公  众  号：ilovezhuantou";
     }
     else
     {
