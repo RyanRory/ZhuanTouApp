@@ -59,6 +59,7 @@
     [scrollView addSubview:midImageButton];
     [scrollView addSubview:rightImage];
     [scrollView setContentOffset:CGPointMake(SCREEN_WIDTH, 0) animated:NO];
+    [scrollView setUserInteractionEnabled:NO];
     
     pageControl.hidden = YES;
     
@@ -131,7 +132,11 @@
     NSString *URL = [BASEURL stringByAppendingString:@"api/article/getTopShowArticles"];
     [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSArray *responseObject) {
         NSLog(@"%@", responseObject);
-        notices = [NSArray arrayWithArray:responseObject];
+        notices = [NSMutableArray arrayWithArray:responseObject];
+        if (notices.count < 2)
+        {
+            [notices addObject:notices[0]];
+        }
         topView.label.text = [[notices objectAtIndex:notices.count-1] objectForKey:@"title"];
         midView.label.text = [[notices objectAtIndex:0] objectForKey:@"title"];
         bottomView.label.text = [[notices objectAtIndex:1] objectForKey:@"title"];
@@ -176,15 +181,15 @@
         NSString *numStr = [NSString stringWithFormat:@"%@",[responseObject objectForKey:@"expectedReturn"]];
         if ([numStr rangeOfString:@"."].location != NSNotFound)
         {
-            profitPercentLabel.font = [UIFont fontWithName:@"EuphemiaUCAS-Bold" size:26.0f];
+            profitPercentLabel.font = [UIFont fontWithName:@"EuphemiaUCAS-Bold" size:24.0f];
         }
         else
         {
-            profitPercentLabel.font = [UIFont fontWithName:@"EuphemiaUCAS-Bold" size:50.0f];
+            profitPercentLabel.font = [UIFont fontWithName:@"EuphemiaUCAS-Bold" size:43.0f];
         }
         profitPercentLabel.text = numStr;
         
-        monthNumLabel.text = [NSString stringWithFormat:@"%d",(((NSString*)[responseObject objectForKey:@"noOfDays"]).intValue / 30)];
+        monthNumLabel.text = [NSString stringWithFormat:@"%d",(int)round((((NSString*)[responseObject objectForKey:@"noOfDays"]).doubleValue / 30))];
         timeLabel.text = [NSString stringWithFormat:@"%@开始抢购",[responseObject objectForKey:@"startRaisingDate"]];
         NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
         [formatter setPositiveFormat:@"###,##0"];
@@ -206,6 +211,9 @@
         }
         else
         {
+            inUpImageView.tintColor = ZTBLUE;
+            buyButton.backgroundColor = ZTBLUE;
+            [buyButton setTitle:@"立即购买" forState:UIControlStateNormal];
             canBuyTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(canBuy) userInfo:nil repeats:YES];
         }
 
@@ -243,6 +251,7 @@
     pageControl.hidden = NO;
     [pageControl setNumberOfPages:images.count];
     [pageControl setCurrentPage:currentImage];
+    [scrollView setUserInteractionEnabled:YES];
 
 }
 

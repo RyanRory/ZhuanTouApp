@@ -58,8 +58,8 @@
     
     ChartYAxis *leftAxis = lineChartView.leftAxis;
     leftAxis.labelTextColor = ZTCHARTSGRAY;
-    leftAxis.customAxisMax = 8.00;
-    leftAxis.customAxisMin = 4.00;
+    leftAxis.customAxisMax = 10.00;
+    leftAxis.customAxisMin = 0.00;
     leftAxis.startAtZeroEnabled = NO;
     leftAxis.gridColor = ZTCHARTSGRAY;
     leftAxis.drawLimitLinesBehindDataEnabled = YES;
@@ -68,8 +68,10 @@
     
     lineChartView.rightAxis.enabled = NO;
     lineChartView.noDataText = @"";
-    
-    
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
     [self setupData];
 }
 
@@ -96,8 +98,8 @@
         totalProfitLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[responseObject objectForKey:@"sumReturnAmount"]).doubleValue]]];
         profitPercentLabel.text = [NSString stringWithFormat:@"%@%%",[responseObject objectForKey:@"last5DaysReturn"]];
         datas = [NSMutableArray arrayWithArray:[responseObject objectForKey:@"last7DaysCurv"]];
-        [self setDataCount:7 range:8.00];
-        [lineChartView animateWithXAxisDuration:0.8];
+        [self setDataCount:7 range:((NSString*)[responseObject objectForKey:@"last5DaysReturn"]).doubleValue];
+        [lineChartView animateWithXAxisDuration:0.8f];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
@@ -112,16 +114,16 @@
 {
     NSMutableArray *xVals = [[NSMutableArray alloc] init];
     
-    for (int i = 0; i < count; i++)
+    for (int i = datas.count-1; i >=0 ; i--)
     {
         [xVals addObject:(NSString*)[datas[i] objectForKey:@"date"]];
     }
     
     NSMutableArray *yVals = [[NSMutableArray alloc] init];
     
-    for (int i = 0; i < count; i++)
+    for (int i = datas.count-1; i >=0 ; i--)
     {
-        [yVals addObject:[[ChartDataEntry alloc] initWithValue:((NSString*)[datas[i] objectForKey:@"date"]).doubleValue xIndex:i]];
+        [yVals addObject:[[ChartDataEntry alloc] initWithValue:((NSString*)[datas[i] objectForKey:@"interestRate"]).doubleValue xIndex:datas.count-1-i]];
     }
     
     LineChartDataSet *set1 = [[LineChartDataSet alloc] initWithYVals:yVals label:@"DataSet 1"];

@@ -16,8 +16,8 @@
 @interface HomeMainViewController : UIViewController<UIScrollViewDelegate, UIGestureRecognizerDelegate>
 {
     UIImageView *leftImage, *midImage, *rightImage;
-    NSArray *notices, *bannerInfo;
-    NSMutableArray *images;
+    NSArray *bannerInfo;
+    NSMutableArray *notices, *images;
     int currentImage, currentNotice;
     NSTimer *timer, *noticeTimer, *canBuyTimer;
     NoticeView *topView, *midView, *bottomView;

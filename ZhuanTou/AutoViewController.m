@@ -35,23 +35,67 @@
     wenjianAllView.hidden = YES;
     wenjianEditView.hidden = YES;
     wenjianSwitch.on = NO;
-    wenjianAllSwitch.on = NO;
+    wenjianAllSwitch.on = YES;
     wenjianSwitch.onColor = ZTLIGHTRED;
     wenjianAllSwitch.onColor = ZTLIGHTRED;
     
     zongheAllView.hidden = YES;
     zongheEditView.hidden = YES;
     zongheSwitch.on = NO;
-    zongheAllSwitch.on = NO;
+    zongheAllSwitch.on =YES;
     zongheSwitch.onColor = ZTBLUE;
     zongheAllSwitch.onColor = ZTBLUE;
+    
+    [self setupData];
     
     [wenjianSwitch addTarget:self action:@selector(valueChanged:) forControlEvents:UIControlEventValueChanged];
     [wenjianAllSwitch addTarget:self action:@selector(valueChanged:) forControlEvents:UIControlEventValueChanged];
     [zongheSwitch addTarget:self action:@selector(valueChanged:) forControlEvents:UIControlEventValueChanged];
     [zongheAllSwitch addTarget:self action:@selector(valueChanged:) forControlEvents:UIControlEventValueChanged];
     
-    [self setupData];
+    __weak SimpleSwitch *weakWenjianAllSwitch = wenjianAllSwitch;
+    __weak SimpleSwitch *weakZongheAllSwitch = zongheAllSwitch;
+    __weak UIView *weakWenjianAllView = wenjianAllView;
+    __weak UIView *weakWenjianEditView = wenjianEditView;
+    __weak UIView *weakZongheAllView = zongheAllView;
+    __weak UIView *weakZongheEditView = zongheEditView;
+    
+    wenjianSwitch.block = ^(BOOL f){
+        if (f)
+        {
+            weakWenjianAllView.hidden = NO;
+            weakWenjianAllSwitch.on = NO;
+        }
+        else
+        {
+            weakWenjianAllView.hidden = YES;
+            weakWenjianAllSwitch.on = YES;
+        }
+
+    };
+    
+    zongheSwitch.block = ^(BOOL f){
+        if (f)
+        {
+            weakZongheAllView.hidden = NO;
+            weakZongheAllSwitch.on = NO;
+        }
+        else
+        {
+            weakZongheAllView.hidden = YES;
+            weakZongheAllSwitch.on = YES;
+        }
+
+    };
+    
+    wenjianAllSwitch.block = ^(BOOL f){
+        weakWenjianEditView.hidden = f;
+    };
+    
+    zongheAllSwitch.block = ^(BOOL f){
+        weakZongheEditView.hidden = f;
+    };
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -61,7 +105,6 @@
 
 - (void)setupData
 {
-    NSLog(@"%d",zongheAllSwitch.on);
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSString *URL = [BASEURL stringByAppendingString:@"api/queue/myq4m"];
@@ -122,38 +165,6 @@
 
 - (void)valueChanged:(SimpleSwitch*)sender
 {
-    if (sender == wenjianSwitch)
-    {
-        if (sender.on)
-        {
-            wenjianAllView.hidden = NO;
-        }
-        else
-        {
-            wenjianAllView.hidden = YES;
-            wenjianAllSwitch.on = YES;
-        }
-    }
-    else if (sender == wenjianAllSwitch)
-    {
-        wenjianEditView.hidden = sender.on;
-    }
-    else if (sender == zongheSwitch)
-    {
-        if (sender.on)
-        {
-            zongheAllView.hidden = NO;
-        }
-        else
-        {
-            zongheAllView.hidden = YES;
-            zongheAllSwitch.on = YES;
-        }
-    }
-    else
-    {
-        zongheEditView.hidden = sender.on;
-    }
     if (!((wenjianSwitch.on && (!wenjianAllSwitch.on) && (wenjianTextField.text.length == 0)) || (zongheSwitch.on && (!zongheAllSwitch.on) && (zongheTextField.text.length == 0))))
     {
         [confirmButton setUserInteractionEnabled:YES];
@@ -170,7 +181,7 @@
 {
     flag = false;
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    if (wenjianTextField.text.length > 0)
+    if ((wenjianTextField.text.length > 0) && (wenjianTextField.text.intValue % 100 !=0))
     {
         hud.mode = MBProgressHUDModeCustomView;
         hud.labelText = @"投资额度必须为100的整数倍";
@@ -179,7 +190,7 @@
             [wenjianTextField becomeFirstResponder];
         });
     }
-    else if (zongheTextField.text.length > 0)
+    else if ((zongheTextField.text.length > 0) && (wenjianTextField.text.intValue % 100 !=0))
     {
         hud.mode = MBProgressHUDModeCustomView;
         hud.labelText = @"投资额度必须为100的整数倍";

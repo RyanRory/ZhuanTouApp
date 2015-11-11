@@ -43,6 +43,8 @@
     
     buttonTag = 0;
     
+    datas = [[NSMutableArray alloc]init];
+    
     tView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         switch (buttonTag) {
             case 0:
@@ -88,40 +90,42 @@
 
 - (void)loadIngTableViewData
 {
-    datas = [[NSMutableArray alloc]init];
     
-    for (int i=0; i<5; i++)
-    {
-        [datas addObject:@{@"TYPE":WENJIAN,
-                           @"ID":[NSString stringWithFormat:@"1510%02d",i],
-                           @"AMOUNT":@"10000.12",
-                           @"PROFIT":@"34.12",
-                           @"TIME":@"2015年12月25日"}];
-        
-        [datas addObject:@{@"TYPE":ZONGHE,
-                           @"ID":[NSString stringWithFormat:@"1510%02d",i],
-                           @"AMOUNT":@"10000.12",
-                           @"GUIDE":@"34.12",
-                           @"FLOAT":@"2762.11",
-                           @"TIME":@"2015年12月25日"}];
-    }
-    
-    productsNum = (int)datas.count;
-    if (productsNum == 0)
-    {
-        [noneProductView setHidden:NO];
-        [findProductButton setHidden:NO];
-        [tView setHidden:YES];
-    }
-    else
-    {
-        [noneProductView setHidden:YES];
-        [findProductButton setHidden:YES];
-        [tView setHidden:NO];
-    }
-    [tView reloadData];
-    [tView setContentOffset:CGPointMake(0, 0) animated:NO];
-    [tView.header endRefreshing];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSString *URL = [BASEURL stringByAppendingString:@"api/product/myInvestsLite/0"];
+    [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSArray *responseObject) {
+        NSLog(@"%@", responseObject);
+        [datas removeAllObjects];
+        for (int i = 0; i < responseObject.count; i++)
+        {
+            if ([[responseObject[i] objectForKey:@"productType"] isEqualToString:@"组合产品"])
+            {
+                [datas addObject:responseObject[i]];
+            }
+        }
+        productsNum = (int)datas.count;
+        if (productsNum == 0)
+        {
+            [noneProductView setHidden:NO];
+            [findProductButton setHidden:NO];
+            [tView setHidden:YES];
+            [tView reloadData];
+            [tView setContentOffset:CGPointMake(0, 0) animated:NO];
+            [tView.header endRefreshing];
+        }
+        else
+        {
+            [noneProductView setHidden:YES];
+            [findProductButton setHidden:YES];
+            [tView setHidden:NO];
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = @"当前网络状况不佳，请重试";
+        [hud hide:YES afterDelay:1.5f];
+    }];
 }
 
 - (void)loadEndedTableViewData:(id)sender
@@ -136,39 +140,40 @@
 
 - (void)loadEndedTableViewData
 {
-    NSLog(@"%d",buttonTag);
-    datas = [[NSMutableArray alloc]init];
-    
-    for (int i=0; i<5; i++)
-    {
-        [datas addObject:@{@"TYPE":WENJIAN,
-                           @"ID":[NSString stringWithFormat:@"1510%02d",i],
-                           @"AMOUNT":@"10000.12",
-                           @"PROFIT":@"34.12"}];
-        
-        [datas addObject:@{@"TYPE":ZONGHE,
-                           @"ID":[NSString stringWithFormat:@"1510%02d",i],
-                           @"AMOUNT":@"10000.12",
-                           @"GUIDE":@"34.12",
-                           @"FLOAT":@"2762.11"}];
-    }
-    
-    productsNum = (int)datas.count;
-    
-    if (productsNum == 0)
-    {
-        [noneProductView setHidden:NO];
-        [tView setHidden:YES];
-    }
-    else
-    {
-        [noneProductView setHidden:YES];
-        [tView setHidden:NO];
-    }
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSString *URL = [BASEURL stringByAppendingString:@"api/product/myInvestsLite/4"];
+    [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSArray *responseObject) {
+        NSLog(@"%@", responseObject);
+        [datas removeAllObjects];
+        for (int i = 0; i < responseObject.count; i++)
+        {
+            if ([[responseObject[i] objectForKey:@"productType"] isEqualToString:@"组合产品"])
+            {
+                [datas addObject:responseObject[i]];
+            }
+        }
+        productsNum = (int)datas.count;
+        if (productsNum == 0)
+        {
+            [noneProductView setHidden:NO];
+            [tView setHidden:YES];
+            [tView reloadData];
+            [tView setContentOffset:CGPointMake(0, 0) animated:NO];
+            [tView.header endRefreshing];
+        }
+        else
+        {
+            [noneProductView setHidden:YES];
+            [tView setHidden:NO];
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = @"当前网络状况不佳，请重试";
+        [hud hide:YES afterDelay:1.5f];
+    }];
     [findProductButton setHidden:YES];
-    [tView reloadData];
-    [tView setContentOffset:CGPointMake(0, 0) animated:NO];
-    [tView.header endRefreshing];
 }
 
 #pragma TableViewDelegates
@@ -231,10 +236,10 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     id data = datas[indexPath.row];
-    NSString *str = [data valueForKey:@"TYPE"];
+    NSString *str = [data valueForKey:@"productStyle"];
     if (ingButton.userInteractionEnabled)
     {
-        if ([str isEqualToString:WENJIAN])
+        if ([str isEqualToString:@"稳健型"])
         {
             NSString *identifier = @"WenjianEndedTableViewCell";
             WenjianEndedTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
@@ -243,11 +248,11 @@
                 cell = [[WenjianEndedTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
             }
             
-            cell.idLabel.text = [NSString stringWithFormat:@"%@期",[data valueForKey:@"ID"]];
+            cell.idLabel.text = [data objectForKey:@"productName"];
             NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
             [formatter setPositiveFormat:@"###,##0.00"];
-            cell.amountLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"AMOUNT"]).doubleValue]]];
-            cell.profitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"PROFIT"]).doubleValue]]];
+            cell.amountLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"amount"]).doubleValue]]];
+            cell.profitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"totalInterestAmount"]).doubleValue]]];
 
             return cell;
         }
@@ -260,12 +265,12 @@
                 cell = [[ZongheEndedTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
             }
             
-            cell.idLabel.text = [NSString stringWithFormat:@"%@期",[data valueForKey:@"ID"]];
+            cell.idLabel.text = [data objectForKey:@"productName"];
             NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
             [formatter setPositiveFormat:@"###,##0.00"];
-            cell.amountLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"AMOUNT"]).doubleValue]]];
-            cell.guideProfitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"GUIDE"]).doubleValue]]];
-            cell.floatProfitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"FLOAT"]).doubleValue]]];
+            cell.amountLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"amount"]).doubleValue]]];
+            cell.guideProfitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"totalInterestAmount"]).doubleValue]]];
+            cell.floatProfitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"paidSharePl"]).doubleValue]]];
             
             return cell;
         }
@@ -273,7 +278,7 @@
     }
     else
     {
-        if ([str isEqualToString:WENJIAN])
+        if ([str isEqualToString:@"稳健型"])
         {
             NSString *identifier = @"WenjianIngTableViewCell";
             WenjianIngTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
@@ -282,12 +287,12 @@
                 cell = [[WenjianIngTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
             }
             
-            cell.idLabel.text = [NSString stringWithFormat:@"%@期",[data valueForKey:@"ID"]];
+            cell.idLabel.text = [data objectForKey:@"productName"];
             NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
             [formatter setPositiveFormat:@"###,##0.00"];
-            cell.amountLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"AMOUNT"]).doubleValue]]];
-            cell.profitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"PROFIT"]).doubleValue]]];
-            cell.timeLabel.text = [data valueForKey:@"TIME"];
+            cell.amountLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"amount"]).doubleValue]]];
+            cell.profitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"totalInterestAmount"]).doubleValue]]];
+            cell.timeLabel.text = [data valueForKey:@"endDate"];
             
             return cell;
         }
@@ -300,13 +305,13 @@
                 cell = [[ZongheIngTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
             }
             
-            cell.idLabel.text = [NSString stringWithFormat:@"%@期",[data valueForKey:@"ID"]];
+            cell.idLabel.text = [data objectForKey:@"productName"];
             NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
             [formatter setPositiveFormat:@"###,##0.00"];
-            cell.amountLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"AMOUNT"]).doubleValue]]];
-            cell.guideProfitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"GUIDE"]).doubleValue]]];
-            cell.floatProfitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"FLOAT"]).doubleValue]]];
-            cell.timeLabel.text = [data valueForKey:@"TIME"];
+            cell.amountLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"amount"]).doubleValue]]];
+            cell.guideProfitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"totalInterestAmount"]).doubleValue]]];
+            cell.floatProfitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"floatingSharePl"]).doubleValue]]];
+            cell.timeLabel.text = [data valueForKey:@"endDate"];
             
             return cell;
         }

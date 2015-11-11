@@ -118,6 +118,7 @@
 
 - (void)setupWenjian
 {
+    [buyButton setTitle:@"立即购买" forState:UIControlStateNormal];
     [timer invalidate];
     [buyButton setUserInteractionEnabled:NO];
     [buyButton setAlpha:0.6f];
@@ -166,7 +167,7 @@
                 bigRateLabel.font = [UIFont fontWithName:@"EuphemiaUCAS-Bold" size:65.0f];
                 [bigRateLabel countFromZeroTo:numStr.intValue withDuration:0.8f];
             }
-            monthNumLabel.text = [NSString stringWithFormat:@"%d",(((NSString*)[wenjianData objectForKey:@"noOfDays"]).intValue / 30)];
+            monthNumLabel.text = [NSString stringWithFormat:@"%d",(int)round((((NSString*)[wenjianData objectForKey:@"noOfDays"]).doubleValue / 30))];
             NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
             [formatter setPositiveFormat:@"###,##0"];
             amountLabel.text = [NSString stringWithFormat:@"产品规模：%@元",[NSString stringWithString:[formatter stringFromNumber:[wenjianData objectForKey:@"targetPurchaseAmount"]]]];
@@ -210,7 +211,7 @@
             bigRateLabel.font = [UIFont fontWithName:@"EuphemiaUCAS-Bold" size:65.0f];
             [bigRateLabel countFromZeroTo:numStr.intValue withDuration:0.8f];
         }
-        monthNumLabel.text = [NSString stringWithFormat:@"%d",(((NSString*)[wenjianData objectForKey:@"noOfDays"]).intValue / 30)];
+        monthNumLabel.text = [NSString stringWithFormat:@"%d",(int)round((((NSString*)[wenjianData objectForKey:@"noOfDays"]).doubleValue / 30))];
         NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
         [formatter setPositiveFormat:@"###,##0"];
         amountLabel.text = [NSString stringWithFormat:@"产品规模：%@元",[NSString stringWithString:[formatter stringFromNumber:[wenjianData objectForKey:@"targetPurchaseAmount"]]]];
@@ -233,6 +234,7 @@
 
 - (void)setupZonghe
 {
+    [buyButton setTitle:@"立即购买" forState:UIControlStateNormal];
     [timer invalidate];
     [buyButton setUserInteractionEnabled:NO];
     [buyButton setAlpha:0.6f];
@@ -283,7 +285,7 @@
                 bigRateLabel.font = [UIFont fontWithName:@"EuphemiaUCAS-Bold" size:65.0f];
                 [bigRateLabel countFromZeroTo:numStr.intValue withDuration:0.8f];
             }
-            monthNumLabel.text = [NSString stringWithFormat:@"%d",(((NSString*)[zongheData objectForKey:@"noOfDays"]).intValue / 30)];
+            monthNumLabel.text = [NSString stringWithFormat:@"%d",(int)round((((NSString*)[zongheData objectForKey:@"noOfDays"]).doubleValue / 30))];
             NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
             [formatter setPositiveFormat:@"###,##0"];
             amountLabel.text = [NSString stringWithFormat:@"产品规模：%@元",[NSString stringWithString:[formatter stringFromNumber:[zongheData objectForKey:@"targetPurchaseAmount"]]]];
@@ -328,7 +330,7 @@
             bigRateLabel.font = [UIFont fontWithName:@"EuphemiaUCAS-Bold" size:65.0f];
             [bigRateLabel countFromZeroTo:numStr.intValue withDuration:0.8f];
         }
-        monthNumLabel.text = [NSString stringWithFormat:@"%d",(((NSString*)[zongheData objectForKey:@"noOfDays"]).intValue / 30)];
+        monthNumLabel.text = [NSString stringWithFormat:@"%d",(int)round((((NSString*)[zongheData objectForKey:@"noOfDays"]).doubleValue / 30))];
         NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
         [formatter setPositiveFormat:@"###,##0"];
         amountLabel.text = [NSString stringWithFormat:@"产品规模：%@元",[NSString stringWithString:[formatter stringFromNumber:[zongheData objectForKey:@"targetPurchaseAmount"]]]];
@@ -353,6 +355,7 @@
 
 - (void)setupHuoqi
 {
+    [buyButton setTitle:@"立即购买" forState:UIControlStateNormal];
     [buyButton setUserInteractionEnabled:NO];
     [buyButton setAlpha:0.6f];
     bigRateLabel.font = [UIFont fontWithName:@"EuphemiaUCAS-Bold" size:65.0f];

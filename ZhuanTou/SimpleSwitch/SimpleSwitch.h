@@ -34,6 +34,8 @@
 #import "KnobButton.h"
 #import <QuartzCore/QuartzCore.h>
 
+typedef void (^SetValueBlock) (BOOL flag);
+
 @interface SimpleSwitch : UIControl<UIGestureRecognizerDelegate>
 {
     KnobButton *knobButton;
@@ -43,10 +45,13 @@
     UIColor *knobColor;
     UIColor *fillColor;
 }
+
+
 @property(assign,nonatomic) BOOL on;
 @property(retain,nonatomic) UIColor *knobColor;
 @property(retain,nonatomic) UIColor *fillColor;
 @property(retain,nonatomic) UIColor *onColor;
+@property(strong, nonatomic) SetValueBlock block;
 - (void)setOn:(BOOL)on animated:(BOOL)animated;
 
 @end

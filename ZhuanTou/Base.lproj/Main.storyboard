@@ -315,17 +315,17 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="49" height="48"/>
                                                 <animations/>
                                             </imageView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="8" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LAA-Gb-o6b">
-                                                <rect key="frame" x="14" y="6" width="13" height="21"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="10" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LAA-Gb-o6b">
+                                                <rect key="frame" x="12" y="7" width="19" height="21"/>
                                                 <animations/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                 <color key="textColor" red="0.21960784310000001" green="0.58039215690000001" blue="0.93333333330000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="%" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s3U-r7-Nug">
-                                                <rect key="frame" x="25" y="12" width="10" height="16"/>
+                                                <rect key="frame" x="31" y="12" width="10" height="16"/>
                                                 <animations/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                 <color key="textColor" red="0.21960784310000001" green="0.58039215690000001" blue="0.93333333330000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
@@ -1819,7 +1819,7 @@
                                             <constraint firstAttribute="width" constant="54" id="TW6-6P-hPM"/>
                                             <constraint firstAttribute="height" constant="54" id="mao-aY-HE2"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="EuphemiaUCAS-Bold" family="Euphemia UCAS" pointSize="50"/>
+                                        <fontDescription key="fontDescription" name="EuphemiaUCAS-Bold" family="Euphemia UCAS" pointSize="44"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -3940,7 +3940,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TLl-ZI-gQs" customClass="LineChartView" customModule="Charts">
-                                <rect key="frame" x="5" y="266" width="590" height="165"/>
+                                <rect key="frame" x="10" y="266" width="580" height="165"/>
                                 <animations/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
@@ -3954,12 +3954,12 @@
                             <constraint firstItem="8CM-y8-G5b" firstAttribute="top" secondItem="LKH-2I-GNj" secondAttribute="bottom" constant="18" id="70z-ev-jaB"/>
                             <constraint firstItem="LKH-2I-GNj" firstAttribute="trailing" secondItem="meD-FU-lnU" secondAttribute="trailingMargin" id="9G1-Nh-aIA"/>
                             <constraint firstItem="RzE-gy-g0g" firstAttribute="top" secondItem="INq-Ba-emx" secondAttribute="bottom" constant="8" id="D34-dA-hob"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="TLl-ZI-gQs" secondAttribute="trailing" constant="-15" id="Epm-uF-usl"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="TLl-ZI-gQs" secondAttribute="trailing" constant="-10" id="Epm-uF-usl"/>
                             <constraint firstAttribute="trailingMargin" secondItem="d8e-M8-K7O" secondAttribute="trailing" constant="-20" id="F4o-XJ-sLS"/>
                             <constraint firstItem="d8e-M8-K7O" firstAttribute="top" secondItem="npf-cf-oSa" secondAttribute="bottom" id="PeR-kB-wjT"/>
                             <constraint firstItem="4Ia-ZN-dic" firstAttribute="top" secondItem="INq-Ba-emx" secondAttribute="bottom" constant="8" id="WIS-qt-uwd"/>
                             <constraint firstItem="HJm-Ig-rxf" firstAttribute="top" secondItem="INq-Ba-emx" secondAttribute="bottom" constant="8" id="Wl7-jb-IJS"/>
-                            <constraint firstItem="TLl-ZI-gQs" firstAttribute="leading" secondItem="meD-FU-lnU" secondAttribute="leadingMargin" constant="-15" id="ZBz-sb-aTM"/>
+                            <constraint firstItem="TLl-ZI-gQs" firstAttribute="leading" secondItem="meD-FU-lnU" secondAttribute="leadingMargin" constant="-10" id="ZBz-sb-aTM"/>
                             <constraint firstItem="LKH-2I-GNj" firstAttribute="top" secondItem="TLl-ZI-gQs" secondAttribute="bottom" constant="8" id="Zgv-N8-86H"/>
                             <constraint firstItem="LKH-2I-GNj" firstAttribute="leading" secondItem="JoI-Mh-BZr" secondAttribute="trailing" constant="20" id="dBK-ZE-sG6"/>
                             <constraint firstItem="8CM-y8-G5b" firstAttribute="top" secondItem="JoI-Mh-BZr" secondAttribute="bottom" constant="18" id="gp7-ch-Qir"/>

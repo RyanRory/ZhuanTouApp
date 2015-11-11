@@ -118,7 +118,14 @@
     }
     cell.titleLabel.text = [notice objectForKey:@"title"];
     cell.timeLabel.text = [notice objectForKey:@"createOn"];
-    cell.descriptionLabel.text = [notice objectForKey:@"comments"];
+    if (![[notice objectForKey:@"comments"] isKindOfClass:[NSNull class]])
+    {
+        cell.descriptionLabel.text = [notice objectForKey:@"comments"];
+    }
+    else
+    {
+        cell.descriptionLabel.text = @"";
+    }
     
     return cell;
 }

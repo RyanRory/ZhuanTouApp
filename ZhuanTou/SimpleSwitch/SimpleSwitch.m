@@ -159,6 +159,10 @@
         [self setNeedsDisplay];
         [knobButton setTitleColor:[UIColor colorWithRed:247.0/255.0 green:181.0/255.0 blue:44.0/255.0 alpha:100] forState:UIControlStateNormal];
     }
+    if (self.block)
+    {
+        self.block(on);
+    }
 }
 
 #pragma mark -
@@ -203,6 +207,11 @@
         
 		[CATransaction commit];
 	}];
+    
+    if (self.block)
+    {
+        self.block(on);
+    }
 }
 
 -(void)setKnobColor:(UIColor *)aknobColor
