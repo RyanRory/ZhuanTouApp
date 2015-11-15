@@ -90,6 +90,7 @@
     
     outterScrollView.delegate = self;
     innerScrollView.delegate = self;
+    innerScrollView.clipsToBounds = NO;
     innerScrollView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         [self setupProduct];
     }];
@@ -105,7 +106,7 @@
 - (void)updateViewConstraints
 {
     [super updateViewConstraints];
-    outterViewHeight.constant = CGRectGetHeight(self.view.frame);
+    outterViewHeight.constant = SCREEN_WIDTH*16/25+34;
     innerViewHeight.constant = CGRectGetHeight(self.view.frame)-SCREEN_WIDTH*16/25-34;
 }
 
@@ -363,6 +364,7 @@
     {
         if (scrView.contentOffset.y > 0)
         {
+            [outterScrollView setContentOffset:scrView.contentOffset animated:NO];
         }
     }
 }

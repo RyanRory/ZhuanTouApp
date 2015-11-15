@@ -26,6 +26,8 @@
     UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithCustomView:[UIButton buttonWithType:UIButtonTypeCustom]];
     self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:backItem, item, nil];
     
+    datas = [[NSMutableArray alloc]init];
+    
     tView.showsHorizontalScrollIndicator = NO;
     tView.showsVerticalScrollIndicator = NO;
     tView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -48,19 +50,24 @@
 
 - (void)setupData
 {
-    datas = [[NSMutableArray alloc]init];
-    
-    for (int i=10; i>=0; i--)
-    {
-        [datas addObject:@{@"STATUS":@"0",
-                           @"ID":[NSString stringWithFormat:@"1510%02d",i],
-                           @"PERCENT":@"15.00"}];
-    }
-    
-    
-    productsNum = (int)datas.count;
-    [tView reloadData];
-    [tView.header endRefreshing];
+    [datas removeAllObjects];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSString *URL = [BASEURL stringByAppendingString:@"api/fofProd/PreviousProducts"];
+    [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSArray *responseObject) {
+        NSLog(@"%@", responseObject);
+        datas = [NSMutableArray arrayWithArray:responseObject];
+        productsNum = (int)datas.count;
+        [tView.header endRefreshing];
+        [tView reloadData];
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+        [tView.header endRefreshing];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = @"当前网络状况不佳，请重试";
+        [hud hide:YES afterDelay:1.5f];
+    }];
 }
 
 #pragma TableViewDelegates
@@ -94,21 +101,20 @@
     {
         cell = [[ProductsBeforeTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
-    cell.idLabel.text = [data objectForKey:@"ID"];
-    cell.percentNumLabel.text = [NSString stringWithFormat:@"%@%%",[data objectForKey:@"PERCENT"]];
-    if (((NSString*)[data objectForKey:@"STATUS"]).boolValue)
+    cell.idLabel.text = [NSString stringWithFormat:@"%@期",[data objectForKey:@"time"]];
+    cell.percentNumLabel.text = [NSString stringWithFormat:@"%@%%",[data objectForKey:@"profit"]];
+    cell.statusLabel.text = [data objectForKey:@"status"];
+    if ([cell.statusLabel.text isEqualToString:@"操盘中"])
     {
         cell.headView.backgroundColor = ZTBLUE;
         cell.percentNumLabel.textColor = ZTLIGHTRED;
         cell.percentTitleLabel.text = @"预期年化收益率";
-        cell.statusLabel.text = @"运行中";
     }
     else
     {
         cell.headView.backgroundColor = ZTGRAY;
         cell.percentNumLabel.textColor = ZTGRAY;
         cell.percentTitleLabel.text = @"投资人到手年化收益";
-        cell.statusLabel.text = @"已到期";
     }
     
     return cell;
