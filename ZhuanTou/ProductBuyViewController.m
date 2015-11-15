@@ -113,7 +113,7 @@
 
 -(void)setupWenjian
 {
-    self.title = @"购买稳赢宝";
+    self.title = @"购买稳盈宝";
     bgView.backgroundColor = ZTLIGHTRED;
     headBgView.backgroundColor = ZTLIGHTRED;
     confirmButton.backgroundColor = ZTLIGHTRED;
@@ -344,6 +344,12 @@
     cell.titleLabel.text = [NSString stringWithFormat:@"%@-%@元", [data objectForKey:@"comments"], [data objectForKey:@"faceValue"]];
     
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    ProductBonusTableViewCell *cell = [tView cellForRowAtIndexPath:indexPath];
+    [self performSelector:@selector(bonusCheckboxEnsure:) withObject:cell.checkboxButton afterDelay:0];
 }
 
 - (void)bonusCheckboxEnsure:(UIButton*)btn

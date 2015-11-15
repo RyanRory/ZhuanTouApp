@@ -14,6 +14,7 @@
 
 @implementation UserCenterMainViewController
 
+@synthesize scrollView, viewHeight;
 @synthesize propertyLabel, balanceLabel, chargeButton, drawButton;
 @synthesize dingqiNumLabel, dingqiButton, huoqiNumLabel, huoqiButton, autoButton, profitButton, detailButton, bankCardButton, bonusNumLabel, bonusButton, securityLabel, securityButton, gestureButton;
 
@@ -40,9 +41,15 @@
     [chargeButton addTarget:self action:@selector(toCharge:) forControlEvents:UIControlEventTouchUpInside];
     [drawButton addTarget:self action:@selector(toDraw:) forControlEvents:UIControlEventTouchUpInside];
     
-//    chargeButton.hidden = YES;
-//    drawButton.hidden = YES;
-//    
+    scrollView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        [self setupData];
+    }];
+}
+
+- (void)updateViewConstraints
+{
+    [super updateViewConstraints];
+    viewHeight.constant = CGRectGetHeight(self.view.frame);
 }
 
 - (void)didReceiveMemoryWarning {
@@ -102,6 +109,10 @@
             hud.labelText = [responseObject objectForKey:@"errorMessage"];
             [hud hide:YES afterDelay:1.5f];
         }
+        if ([scrollView.header isRefreshing])
+        {
+            [scrollView.header endRefreshing];
+        }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
@@ -109,6 +120,10 @@
         hud.mode = MBProgressHUDModeText;
         hud.labelText = @"当前网络状况不佳，请重试";
         [hud hide:YES afterDelay:1.5f];
+        if ([scrollView.header isRefreshing])
+        {
+            [scrollView.header endRefreshing];
+        }
     }];
 }
 

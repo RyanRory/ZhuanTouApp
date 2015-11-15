@@ -36,8 +36,11 @@
     [provinceButton addTarget:self action:@selector(showChooseDetail:) forControlEvents:UIControlEventTouchUpInside];
     [cityButton addTarget:self action:@selector(showChooseDetail:) forControlEvents:UIControlEventTouchUpInside];
     
-    view = [[UIView alloc]initWithFrame:CGRectMake(0, self.navigationController.view.frame.size.height, self.navigationController.view.frame.size.width, self.navigationController.view.frame.size.height)];
-    view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.3];
+    view = [[UIView alloc]initWithFrame:CGRectMake(0, self.navigationController.view.frame.size.height, self.navigationController.view.frame.size.width, 224)];
+    bgView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.navigationController.view.frame.size.width, self.navigationController.view.frame.size.height)];
+    bgView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.3];
+    bgView.hidden = YES;
+    bgView.alpha = 0;
     
     picker = [[UIPickerView alloc] init];
     picker.backgroundColor = [UIColor whiteColor];
@@ -59,7 +62,7 @@
     
     bankTemp = provinceTemp = cityTemp = 0;
     
-    
+    [self.navigationController.view addSubview:bgView];
     [self.navigationController.view addSubview:view];
     
     bankArray = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"bankList" ofType:@"plist"]];
@@ -72,6 +75,7 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [view removeFromSuperview];
+    [bgView removeFromSuperview];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -94,9 +98,11 @@
     {
         buttonTag = 0;
         NSTimeInterval animationDuration = 0.30f;
+        bgView.hidden = NO;
         [UIView beginAnimations:@"ResizeForPickerView" context:nil];
         [UIView setAnimationDuration:animationDuration];
-        view.frame = CGRectMake(0, 0, self.navigationController.view.frame.size.width, self.navigationController.view.frame.size.height);
+        bgView.alpha = 1.0;
+        view.frame = CGRectMake(0, self.navigationController.view.frame.size.height-224, self.navigationController.view.frame.size.width, 224);
         [UIView commitAnimations];
         
         [picker selectRow:bankTemp inComponent:0 animated:NO];
@@ -107,9 +113,11 @@
     {
         buttonTag = 1;
         NSTimeInterval animationDuration = 0.30f;
+        bgView.hidden = NO;
         [UIView beginAnimations:@"ResizeForPickerView" context:nil];
         [UIView setAnimationDuration:animationDuration];
-        view.frame = CGRectMake(0, 0, self.navigationController.view.frame.size.width, self.navigationController.view.frame.size.height);
+        bgView.alpha = 1.0;
+        view.frame = CGRectMake(0, self.navigationController.view.frame.size.height-224, self.navigationController.view.frame.size.width, 224);
         [UIView commitAnimations];
         NSLog(@"%d",provinceTemp);
         
@@ -130,9 +138,11 @@
         {
             buttonTag = 2;
             NSTimeInterval animationDuration = 0.30f;
+            bgView.hidden = NO;
             [UIView beginAnimations:@"ResizeForPickerView" context:nil];
             [UIView setAnimationDuration:animationDuration];
-            view.frame = CGRectMake(0, 0, self.navigationController.view.frame.size.width, self.navigationController.view.frame.size.height);
+            bgView.alpha = 1.0;
+            view.frame = CGRectMake(0, self.navigationController.view.frame.size.height-224, self.navigationController.view.frame.size.width, 224);
             [UIView commitAnimations];
             cityArray = [[NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"cityList" ofType:@"plist"]] objectForKey:provinceLabel.text];
             [picker selectRow:cityTemp inComponent:0 animated:NO];
@@ -312,8 +322,12 @@
     NSTimeInterval animationDuration = 0.30f;
     [UIView beginAnimations:@"ResizeForPickerView" context:nil];
     [UIView setAnimationDuration:animationDuration];
-    view.frame = CGRectMake(0, self.navigationController.view.frame.size.height, self.navigationController.view.frame.size.width, self.navigationController.view.frame.size.height);
+    bgView.alpha = 0;
+    view.frame = CGRectMake(0, self.navigationController.view.frame.size.height, self.navigationController.view.frame.size.width, 224);
     [UIView commitAnimations];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        bgView.hidden = YES;
+    });
     if (buttonTag == 0)
     {
         bankLabel.text = [bankArray objectAtIndex:bankTemp];
@@ -342,8 +356,12 @@
     NSTimeInterval animationDuration = 0.30f;
     [UIView beginAnimations:@"ResizeForPickerView" context:nil];
     [UIView setAnimationDuration:animationDuration];
-    view.frame = CGRectMake(0, self.navigationController.view.frame.size.height, self.navigationController.view.frame.size.width, self.navigationController.view.frame.size.height);
+    bgView.alpha = 0;
+    view.frame = CGRectMake(0, self.navigationController.view.frame.size.height, self.navigationController.view.frame.size.width, 224);
     [UIView commitAnimations];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        bgView.hidden = YES;
+    });
 }
 
 @end

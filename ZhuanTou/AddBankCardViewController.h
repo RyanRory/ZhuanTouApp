@@ -13,7 +13,7 @@
     MBProgressHUD *hud;
     NSArray *bankArray, *provinceArray, *cityArray;
     UIPickerView *picker;
-    UIView *view;
+    UIView *view, *bgView;
     UIToolbar *toolBar;
     int buttonTag;
     int bankTemp, provinceTemp, cityTemp;

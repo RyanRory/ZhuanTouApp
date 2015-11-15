@@ -26,6 +26,8 @@
     int t;
 }
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *viewHeight;
+@property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) IBOutlet UILabel *propertyLabel;
 @property (strong, nonatomic) IBOutlet UIButton *chargeButton;
 @property (strong, nonatomic) IBOutlet UILabel *balanceLabel;

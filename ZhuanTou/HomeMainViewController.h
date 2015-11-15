@@ -19,20 +19,27 @@
     NSArray *bannerInfo;
     NSMutableArray *notices, *images;
     int currentImage, currentNotice;
-    NSTimer *timer, *noticeTimer, *canBuyTimer;
+    NSTimer *timer, *noticeTimer;
     NoticeView *topView, *midView, *bottomView;
     UIButton *midImageButton;
-    BOOL flag, animationFlag, imageFlag;
+    BOOL flag, imageFlag;
     int setupDataFlag;
     CGPoint bgPoint;
     NSString *idCode, *bidableAmount;
     NSDictionary *productInfo;
 }
 
+@property (strong, nonatomic) IBOutlet UIScrollView *outterScrollView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *outterViewHeight;
+
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) IBOutlet UIPageControl *pageControl;
 @property (strong, nonatomic) IBOutlet UIScrollView *noticeScrollView;
 @property (strong, nonatomic) IBOutlet UIButton *noticeButton;
+
+@property (strong, nonatomic) IBOutlet UIScrollView *innerScrollView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *innerViewHeight;
+
 @property (strong, nonatomic) IBOutlet UIButton *buyButton;
 @property (strong, nonatomic) IBOutlet UILabel *timeLabel;
 @property (strong, nonatomic) IBOutlet UIButton *productBeforeButton;

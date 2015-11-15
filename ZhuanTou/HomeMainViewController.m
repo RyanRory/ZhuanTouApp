@@ -16,6 +16,8 @@
 
 @synthesize scrollView, noticeScrollView, noticeButton, pageControl;
 @synthesize bgImageView, productBeforeButton, buyButton, profitPercentLabel, monthNumLabel, moryLabel, timeLabel, newerButton, inUpImageView;
+@synthesize outterScrollView, outterViewHeight;
+@synthesize innerScrollView, innerViewHeight;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -86,44 +88,58 @@
     productBeforeButton.titleLabel.numberOfLines = 0;
     productBeforeButton.titleLabel.textAlignment = 1;
     
+    outterScrollView.delegate = self;
+    innerScrollView.delegate = self;
+    innerScrollView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        [self setupProduct];
+    }];
+
+    
     flag = false;
-    animationFlag = false;
     setupDataFlag = 3;
     [self setupData];
+    [self setupProduct];
 
+}
+
+- (void)updateViewConstraints
+{
+    [super updateViewConstraints];
+    outterViewHeight.constant = CGRectGetHeight(self.view.frame);
+    innerViewHeight.constant = CGRectGetHeight(self.view.frame)-SCREEN_WIDTH*16/25-34;
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    if (setupDataFlag < 3)
+    if (setupDataFlag < 2)
     {
         setupDataFlag = 0;
         [self setupData];
     }
-    [self setupProduct];
+
     if (bgPoint.x == 0) bgPoint = CGPointMake(bgImageView.frame.origin.x + bgImageView.frame.size.width/2+10, bgImageView.frame.origin.y+bgImageView.frame.size.height/2);
-    if (!animationFlag)
-    {
-        CAKeyframeAnimation *pathAnimation = [CAKeyframeAnimation animationWithKeyPath:@"position"];
-        pathAnimation.calculationMode = kCAAnimationPaced;
-        pathAnimation.fillMode = kCAFillModeForwards;
-        pathAnimation.removedOnCompletion = NO;
-        pathAnimation.duration = 1.5f;
-        pathAnimation.repeatCount = 1;
-        //设置运转动画的路径
-        CGMutablePathRef curvedPath = CGPathCreateMutable();
-        CGPathAddArc(curvedPath, NULL, bgPoint.x, bgPoint.y, 10, M_PI, 3 * M_PI, 0);
-        pathAnimation.path = curvedPath;
-        [bgImageView.layer addAnimation:pathAnimation forKey:@"moveTheCircleOne"];
-        animationFlag = true;
-    }
+    [self bgCircleAnimation];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [timer invalidate];
     [noticeTimer invalidate];
-    [canBuyTimer invalidate];
+}
+
+- (void)bgCircleAnimation
+{
+    CAKeyframeAnimation *pathAnimation = [CAKeyframeAnimation animationWithKeyPath:@"position"];
+    pathAnimation.calculationMode = kCAAnimationPaced;
+    pathAnimation.fillMode = kCAFillModeForwards;
+    pathAnimation.removedOnCompletion = NO;
+    pathAnimation.duration = 1.5f;
+    pathAnimation.repeatCount = 1;
+    //设置运转动画的路径
+    CGMutablePathRef curvedPath = CGPathCreateMutable();
+    CGPathAddArc(curvedPath, NULL, bgPoint.x, bgPoint.y, 10, M_PI, 3 * M_PI, 0);
+    pathAnimation.path = curvedPath;
+    [bgImageView.layer addAnimation:pathAnimation forKey:@"moveTheCircleOne"];
 }
 
 - (void)setupData
@@ -188,14 +204,12 @@
             profitPercentLabel.font = [UIFont fontWithName:@"EuphemiaUCAS-Bold" size:43.0f];
         }
         profitPercentLabel.text = numStr;
-        
         monthNumLabel.text = [NSString stringWithFormat:@"%d",(int)round((((NSString*)[responseObject objectForKey:@"noOfDays"]).doubleValue / 30))];
         timeLabel.text = [NSString stringWithFormat:@"%@开始抢购",[responseObject objectForKey:@"startRaisingDate"]];
         NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
         [formatter setPositiveFormat:@"###,##0"];
         bidableAmount = [NSString stringWithFormat:@"%@元",[NSString stringWithString:[formatter stringFromNumber:[responseObject objectForKey:@"bidableAmount"]]]];
         productInfo = [NSDictionary dictionaryWithDictionary:responseObject];
-        setupDataFlag++;
         if (((NSString*)[responseObject objectForKey:@"bidableAmount"]).intValue == 0)
         {
             [buyButton setUserInteractionEnabled:NO];
@@ -214,7 +228,27 @@
             inUpImageView.tintColor = ZTBLUE;
             buyButton.backgroundColor = ZTBLUE;
             [buyButton setTitle:@"立即购买" forState:UIControlStateNormal];
-            canBuyTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(canBuy) userInfo:nil repeats:YES];
+            NSDate *date = [NSDate date];
+            NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];
+            [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+            NSDate *wenjianDate = [dateFormat dateFromString:[productInfo objectForKey:@"startRaisingDateTime"]];
+            if ([date timeIntervalSinceDate:wenjianDate] < 0.0)
+            {
+                [buyButton setUserInteractionEnabled:NO];
+                [buyButton setAlpha:0.6f];
+                [inUpImageView setAlpha:0.6f];
+            }
+            else
+            {
+                [buyButton setUserInteractionEnabled:YES];
+                [buyButton setAlpha:1.0f];
+                [inUpImageView setAlpha:1.0f];
+            }
+        }
+        if ([innerScrollView.header isRefreshing])
+        {
+            [innerScrollView.header endRefreshing];
+            [self bgCircleAnimation];
         }
 
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -223,7 +257,10 @@
         hud.mode = MBProgressHUDModeText;
         hud.labelText = @"当前网络状况不佳，请重试";
         [hud hide:YES afterDelay:1.5f];
-        setupDataFlag = 0;
+        if ([innerScrollView.header isRefreshing])
+        {
+            [innerScrollView.header endRefreshing];
+        }
     }];
 
 }
@@ -236,7 +273,6 @@
         if (img)
         {
             [images addObject:img];
-            NSLog(@"ttttttttt");
         }
         else
         {
@@ -321,14 +357,30 @@
 
 #pragma mark ScrollViewDelegate
 
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+- (void)scrollViewDidScroll:(UIScrollView *)scrView
 {
-    [timer invalidate];
+    if (scrView == innerScrollView)
+    {
+        if (scrView.contentOffset.y > 0)
+        {
+        }
+    }
 }
 
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrView
 {
-    timer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(scrollToNextPage:) userInfo:nil repeats:YES];
+    if (scrView == scrollView)
+    {
+        [timer invalidate];
+    }
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrView willDecelerate:(BOOL)decelerate
+{
+    if (scrView == scrollView)
+    {
+        timer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(scrollToNextPage:) userInfo:nil repeats:YES];
+    }
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrView
@@ -340,7 +392,6 @@
         [noticeScrollView setContentOffset:CGPointMake(0, noticeScrollView.frame.size.height) animated:NO];
         pageControl.currentPage=currentImage;
     }
-    
 }
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrView
@@ -394,27 +445,6 @@
     midView.label.text = [[notices objectAtIndex:currentNotice] objectForKey:@"title"];
     topView.label.text = [[notices objectAtIndex:topNoticeIndex] objectForKey:@"title"];
     bottomView.label.text = [[notices objectAtIndex:bottomNoticeIndex] objectForKey:@"title"];
-}
-
-- (void)canBuy
-{
-    NSDate *date = [NSDate date];
-    NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-    NSDate *wenjianDate = [dateFormat dateFromString:[productInfo objectForKey:@"startRaisingDateTime"]];
-    if ([date timeIntervalSinceDate:wenjianDate] < 0.0)
-    {
-        [buyButton setUserInteractionEnabled:NO];
-        [buyButton setAlpha:0.6f];
-        [inUpImageView setAlpha:0.6f];
-    }
-    else
-    {
-        [buyButton setUserInteractionEnabled:YES];
-        [buyButton setAlpha:1.0f];
-        [inUpImageView setAlpha:1.0f];
-    }
-    
 }
 
 @end

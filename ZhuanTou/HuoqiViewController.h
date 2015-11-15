@@ -18,6 +18,8 @@
     NSMutableArray *datas;
 }
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *viewHeight;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) IBOutlet UICountingLabel *yesterdayProfitLabel;
 @property (strong, nonatomic) IBOutlet UILabel *myPortionLabel;
 @property (strong, nonatomic) IBOutlet UILabel *totalProfitLabel;

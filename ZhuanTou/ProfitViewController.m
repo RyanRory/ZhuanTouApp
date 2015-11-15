@@ -17,6 +17,7 @@
 @synthesize dingqiPercentLabel, huoqiPercentLabel, balancePercentLabel, frozenPercentLabel, bonusPercentLabel;
 @synthesize dingqiNumLabel, huoqiNumLabel, balanceNumLabel, frozenNumLabel, bonusNumLabel;
 @synthesize contentView, pieChartView, totalNumLabel;
+@synthesize scrollView, viewHeight;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -48,6 +49,15 @@
     
     [self setupData];
     
+    scrollView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        [self setupData];
+    }];
+}
+
+- (void)updateViewConstraints
+{
+    [super updateViewConstraints];
+    viewHeight.constant = CGRectGetHeight(self.view.frame);
 }
 
 
@@ -63,7 +73,6 @@
 
 - (void)setupData
 {
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSString *URL = [BASEURL stringByAppendingString:@"api/account/getUserInfoInAPP"];
     [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
@@ -72,7 +81,6 @@
         int f1 = str.intValue;
         if (f1 == 1)
         {
-            [hud hide:YES];
             dingqi = ((NSString*)[responseObject objectForKey:@"activeInvestTotalAmount"]).doubleValue;
             huoqi = ((NSString*)[responseObject objectForKey:@"ztbBalance"]).doubleValue;
             balance = ((NSString*)[responseObject objectForKey:@"fundsAvailable"]).doubleValue;
@@ -100,16 +108,26 @@
         }
         else
         {
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
             hud.mode = MBProgressHUDModeText;
             hud.labelText = [responseObject objectForKey:@"errorMessage"];
             [hud hide:YES afterDelay:1.5f];
         }
+        if ([scrollView.header isRefreshing])
+        {
+            [scrollView.header endRefreshing];
+        }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.mode = MBProgressHUDModeText;
         hud.labelText = @"当前网络状况不佳，请重试";
         [hud hide:YES afterDelay:1.5f];
+        if ([scrollView.header isRefreshing])
+        {
+            [scrollView.header endRefreshing];
+        }
     }];
 }
 
@@ -139,26 +157,6 @@
     // add a lot of colors
     
     NSMutableArray *colors = [[NSMutableArray alloc] init];
-//    if (dingqi > 0)
-//    {
-//        [colors addObject:ZTPIECHARTPURPLE];
-//    }
-//    if (huoqi > 0)
-//    {
-//        [colors addObject:ZTPIECHARTBLUE];
-//    }
-//    if (balance > 0)
-//    {
-//        [colors addObject:ZTPIECHARTRED];
-//    }
-//    if (bonus > 0)
-//    {
-//        [colors addObject:ZTPIECHARTGREEN];
-//    }
-//    if (frozen > 0)
-//    {
-//        [colors addObject:ZTPIECHARTYELLOW];
-//    }
     
     [colors addObject:ZTPIECHARTPURPLE];
     [colors addObject:ZTPIECHARTBLUE];

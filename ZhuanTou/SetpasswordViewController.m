@@ -140,7 +140,7 @@
 
 - (void)viewDidLayoutSubviews
 {
-    [alipay setFrame:CGRectMake(0, (self.view.frame.size.height-480)/2, self.view.frame.size.width, 480)];
+    [alipay setFrame:CGRectMake(0, (self.view.frame.size.height-480)/2-10, self.view.frame.size.width, 480)];
 }
 
 - (void)backToParent:(id)sender
