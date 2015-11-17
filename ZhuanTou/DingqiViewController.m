@@ -98,7 +98,7 @@
         [datas removeAllObjects];
         for (int i = 0; i < responseObject.count; i++)
         {
-            if ([[responseObject[i] objectForKey:@"productType"] isEqualToString:@"组合产品"])
+            if ([[responseObject[i] objectForKey:@"productStyle"] isEqualToString:@"稳健分红"])
             {
                 [datas addObject:responseObject[i]];
             }
@@ -108,23 +108,22 @@
         {
             [noneProductView setHidden:NO];
             [findProductButton setHidden:NO];
-            [tView setHidden:YES];
-            [tView reloadData];
             [tView setContentOffset:CGPointMake(0, 0) animated:NO];
-            [tView.header endRefreshing];
         }
         else
         {
             [noneProductView setHidden:YES];
             [findProductButton setHidden:YES];
-            [tView setHidden:NO];
         }
+        [tView reloadData];
+        [tView.header endRefreshing];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.mode = MBProgressHUDModeText;
         hud.labelText = @"当前网络状况不佳，请重试";
         [hud hide:YES afterDelay:1.5f];
+        [tView.header endRefreshing];
     }];
 }
 
@@ -147,7 +146,7 @@
         [datas removeAllObjects];
         for (int i = 0; i < responseObject.count; i++)
         {
-            if ([[responseObject[i] objectForKey:@"productType"] isEqualToString:@"组合产品"])
+            if ([[responseObject[i] objectForKey:@"productStyle"] isEqualToString:@"稳健分红"])
             {
                 [datas addObject:responseObject[i]];
             }
@@ -156,38 +155,38 @@
         if (productsNum == 0)
         {
             [noneProductView setHidden:NO];
-            [tView setHidden:YES];
-            [tView reloadData];
             [tView setContentOffset:CGPointMake(0, 0) animated:NO];
-            [tView.header endRefreshing];
         }
         else
         {
             [noneProductView setHidden:YES];
             [tView setHidden:NO];
         }
+        [tView reloadData];
+        [tView.header endRefreshing];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.mode = MBProgressHUDModeText;
         hud.labelText = @"当前网络状况不佳，请重试";
         [hud hide:YES afterDelay:1.5f];
+        [tView.header endRefreshing];
     }];
     [findProductButton setHidden:YES];
 }
 
 #pragma TableViewDelegates
 
-- (UIView*)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
-{
-    UILabel *footer = [[UILabel alloc]init];
-    footer.text = @"更多信息请查看zhuantouwang.com";
-    footer.font = [UIFont systemFontOfSize:12.0f];
-    footer.textColor = [UIColor darkGrayColor];
-    footer.textAlignment = 1;
-    
-    return footer;
-}
+//- (UIView*)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+//{
+//    UILabel *footer = [[UILabel alloc]init];
+//    footer.text = @"更多信息请查看zhuantouwang.com";
+//    footer.font = [UIFont systemFontOfSize:12.0f];
+//    footer.textColor = [UIColor darkGrayColor];
+//    footer.textAlignment = 1;
+//    
+//    return footer;
+//}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
@@ -207,10 +206,10 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     id data = datas[indexPath.row];
-    NSString *str = [data valueForKey:@"TYPE"];
+    NSString *str = [data valueForKey:@"productType"];
     if (ingButton.userInteractionEnabled)
     {
-        if ([str isEqualToString:WENJIAN])
+        if ([str isEqualToString:@"固定收益"])
         {
             return 143;
         }
@@ -221,7 +220,7 @@
     }
     else
     {
-        if ([str isEqualToString:WENJIAN])
+        if ([str isEqualToString:@"固定收益"])
         {
             return 184;
         }
@@ -236,10 +235,10 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     id data = datas[indexPath.row];
-    NSString *str = [data valueForKey:@"productStyle"];
+    NSString *str = [data valueForKey:@"productType"];
     if (ingButton.userInteractionEnabled)
     {
-        if ([str isEqualToString:@"稳健型"])
+        if ([str isEqualToString:@"固定收益"])
         {
             NSString *identifier = @"WenjianEndedTableViewCell";
             WenjianEndedTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
@@ -248,7 +247,7 @@
                 cell = [[WenjianEndedTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
             }
             
-            cell.idLabel.text = [data objectForKey:@"productName"];
+            cell.idLabel.text = [((NSString*)[data objectForKey:@"productName"]) substringFromIndex:3];
             NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
             [formatter setPositiveFormat:@"###,##0.00"];
             cell.amountLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"amount"]).doubleValue]]];
@@ -265,7 +264,7 @@
                 cell = [[ZongheEndedTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
             }
             
-            cell.idLabel.text = [data objectForKey:@"productName"];
+            cell.idLabel.text =[((NSString*)[data objectForKey:@"productName"]) substringFromIndex:3];
             NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
             [formatter setPositiveFormat:@"###,##0.00"];
             cell.amountLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"amount"]).doubleValue]]];
@@ -278,7 +277,7 @@
     }
     else
     {
-        if ([str isEqualToString:@"稳健型"])
+        if ([str isEqualToString:@"固定收益"])
         {
             NSString *identifier = @"WenjianIngTableViewCell";
             WenjianIngTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
@@ -287,7 +286,7 @@
                 cell = [[WenjianIngTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
             }
             
-            cell.idLabel.text = [data objectForKey:@"productName"];
+            cell.idLabel.text = [((NSString*)[data objectForKey:@"productName"]) substringFromIndex:3];
             NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
             [formatter setPositiveFormat:@"###,##0.00"];
             cell.amountLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"amount"]).doubleValue]]];
@@ -305,7 +304,7 @@
                 cell = [[ZongheIngTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
             }
             
-            cell.idLabel.text = [data objectForKey:@"productName"];
+            cell.idLabel.text = [((NSString*)[data objectForKey:@"productName"]) substringFromIndex:3];
             NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
             [formatter setPositiveFormat:@"###,##0.00"];
             cell.amountLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"amount"]).doubleValue]]];

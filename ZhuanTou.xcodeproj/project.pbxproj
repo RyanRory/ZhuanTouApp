@@ -46,7 +46,6 @@
 		A41E1DEA1BE5B60800641616 /* ChargeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A41E1DE91BE5B60800641616 /* ChargeViewController.m */; };
 		A41E1DED1BE5B63700641616 /* DrawViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A41E1DEC1BE5B63700641616 /* DrawViewController.m */; };
 		A41E1DF21BE5E27A00641616 /* bankCodeList.plist in Resources */ = {isa = PBXBuildFile; fileRef = A41E1DF11BE5E27A00641616 /* bankCodeList.plist */; };
-		A42EA2B81BDF82AE00E35F5F /* banner1.png in Resources */ = {isa = PBXBuildFile; fileRef = A42EA2B71BDF82AE00E35F5F /* banner1.png */; };
 		A42EA2C11BDF833F00E35F5F /* ifudong@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A42EA2B91BDF833F00E35F5F /* ifudong@3x.png */; };
 		A42EA2C21BDF833F00E35F5F /* iguding@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A42EA2BA1BDF833F00E35F5F /* iguding@3x.png */; };
 		A42EA2C31BDF833F00E35F5F /* inbuilding@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A42EA2BB1BDF833F00E35F5F /* inbuilding@3x.png */; };
@@ -407,7 +406,6 @@
 		A41E1DEB1BE5B63700641616 /* DrawViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawViewController.h; sourceTree = "<group>"; };
 		A41E1DEC1BE5B63700641616 /* DrawViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawViewController.m; sourceTree = "<group>"; };
 		A41E1DF11BE5E27A00641616 /* bankCodeList.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = bankCodeList.plist; sourceTree = "<group>"; };
-		A42EA2B71BDF82AE00E35F5F /* banner1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = banner1.png; sourceTree = "<group>"; };
 		A42EA2B91BDF833F00E35F5F /* ifudong@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ifudong@3x.png"; path = "images/@3x/ifudong@3x.png"; sourceTree = "<group>"; };
 		A42EA2BA1BDF833F00E35F5F /* iguding@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "iguding@3x.png"; path = "images/@3x/iguding@3x.png"; sourceTree = "<group>"; };
 		A42EA2BB1BDF833F00E35F5F /* inbuilding@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "inbuilding@3x.png"; path = "images/@3x/inbuilding@3x.png"; sourceTree = "<group>"; };
@@ -780,7 +778,6 @@
 		A41C6B211BB9849E006B731D = {
 			isa = PBXGroup;
 			children = (
-				A42EA2B71BDF82AE00E35F5F /* banner1.png */,
 				A475498A1BE61889002E929C /* BaoFooPay.framework */,
 				A463EAAD1BD60FA100CAF146 /* Charts.xcodeproj */,
 				A41C6B661BBA642A006B731D /* images */,
@@ -1634,7 +1631,6 @@
 				A44A9C101BF06ACE00FE6F2E /* indexSurprise.png in Resources */,
 				A44AFA151BCF47F1002A8AC4 /* detailIcon@2x.png in Resources */,
 				A4BBC2011BD10DA1006331AC /* uAuto.png in Resources */,
-				A42EA2B81BDF82AE00E35F5F /* banner1.png in Resources */,
 				A4BBC1DA1BD10D52006331AC /* uBankcard@3x.png in Resources */,
 				A49646E71BE3403A006545C2 /* cityList.plist in Resources */,
 				A44A9C051BF03F4D00FE6F2E /* inProductBg.png in Resources */,
