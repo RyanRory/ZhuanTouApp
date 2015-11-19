@@ -362,7 +362,7 @@
 {
     if (scrView == innerScrollView)
     {
-        if (scrView.contentOffset.y > 0)
+        if (scrView.contentOffset.y >= 0)
         {
             [outterScrollView setContentOffset:scrView.contentOffset animated:NO];
         }

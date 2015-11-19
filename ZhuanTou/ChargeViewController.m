@@ -43,9 +43,14 @@
     confirmButton.hidden = YES;
     noBankCardView.hidden = YES;
     addBankCardButton.hidden = YES;
-    
-    [self setupData];
-    
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    if (bankCardView.hidden)
+    {
+        [self setupData];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -144,7 +149,7 @@
 {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     NSString *str = oneLimitLabel.text;
-    [str stringByReplacingOccurrencesOfString:@"," withString:@""];
+    str = [str stringByReplacingOccurrencesOfString:@"," withString:@""];
     if (str.doubleValue < editTextField.text.doubleValue)
     {
         hud.mode = MBProgressHUDModeCustomView;
@@ -156,7 +161,7 @@
         NSURL*url = [NSURL URLWithString:[BASEURL stringByAppendingString:@"account/BaoFooRenzhengSDKCharge"]];
         NSMutableURLRequest*request = [NSMutableURLRequest requestWithURL:url];
         [request setHTTPMethod:@"POST"];
-        NSString *para = [NSString stringWithFormat:@"txn_amt=%d",(int)(editTextField.text.doubleValue * 100)];
+        NSString *para = [NSString stringWithFormat:@"txn_amt=%f",(editTextField.text.doubleValue * 100)];
         //添加请求数据
         [request setHTTPBody:[para dataUsingEncoding:NSUTF8StringEncoding]];
         NSOperationQueue *queue = [[NSOperationQueue alloc] init];
@@ -169,7 +174,7 @@
                     BaoFooPayController*web = [[BaoFooPayController alloc] init];
                     web.PAY_TOKEN = [dict objectForKey:@"tradeNo"];
                     web.delegate = self;
-                    web.PAY_BUSINESS = @"fals";
+                    web.PAY_BUSINESS = @"true";
                     [self presentViewController:web animated:YES completion:nil];
                 }
                 else

@@ -7,6 +7,10 @@
 //
 
 #import "AppDelegate.h"
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
+
+
 
 @interface AppDelegate ()
 
@@ -22,6 +26,8 @@
     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
     [userDefault setBool:NO forKey:ISLOGIN];
     [userDefault synchronize];
+    
+    [Fabric with:@[[Crashlytics class]]];
     
     return YES;
 }

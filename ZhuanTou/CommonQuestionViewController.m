@@ -46,7 +46,7 @@
 
 - (void)loadWebView
 {
-    NSURL *URL = [NSURL URLWithString:@"http://debug.pujintianxia.com/Mobile/Home/Questions"];
+    NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/Mobile/Home/Questions", BASEURL]];
     NSURLRequest *request = [NSURLRequest requestWithURL:URL];
     [webView loadRequest:request];
 }

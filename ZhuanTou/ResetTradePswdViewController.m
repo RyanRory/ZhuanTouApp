@@ -154,18 +154,30 @@
             }
             else
             {
-                hud.mode = MBProgressHUDModeCustomView;
-                hud.labelText = @"重置成功";
+                
                 if ([style isEqualToString:RESETLOGINPSWD])
                 {
                     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-                    [userDefault setObject:nPswdTextTextField.text forKey:PASSWORD];
+                    [userDefault removeObjectForKey:PASSWORD];
+                    [userDefault setBool:NO forKey:ISLOGIN];
                     [userDefault synchronize];
+                    [hud hide:YES];
+                    UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:@"您已重置密码，请重新登录" message:nil preferredStyle:UIAlertControllerStyleAlert];
+                    UIAlertAction *confirm = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
+                        [self.navigationController popToRootViewControllerAnimated:YES];
+                    }];
+                    [alertVC addAction:confirm];
+                    [self presentViewController:alertVC animated:YES completion:nil];
                 }
-                [hud hide:YES afterDelay:1.5f];
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    [self.navigationController popViewControllerAnimated:YES];
-                });
+                else
+                {
+                    hud.mode = MBProgressHUDModeCustomView;
+                    hud.labelText = @"重置成功";
+                    [hud hide:YES afterDelay:1.5f];
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        [self.navigationController popViewControllerAnimated:YES];
+                    });
+                }
                 
             }
             [confirmButton setUserInteractionEnabled:YES];

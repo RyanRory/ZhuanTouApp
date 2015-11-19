@@ -88,12 +88,6 @@
             bonus = ((NSString*)[responseObject objectForKey:@"couponAmount"]).doubleValue;
             total = ((NSString*)[responseObject objectForKey:@"totalAsset"]).doubleValue;
             
-            dingqiPercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",dingqi*100/total];
-            huoqiPercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",huoqi*100/total];
-            balancePercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",balance*100/total];
-            frozenPercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",frozen*100/total];
-            bonusPercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",bonus*100/total];
-            
             NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
             [formatter setPositiveFormat:@"###,##0.00元"];
             dingqiNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:dingqi]]];
@@ -102,6 +96,23 @@
             frozenNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:frozen]]];
             bonusNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:bonus]]];
             totalNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:total]]];
+            
+            if (total == 0)
+            {
+                dingqiPercentLabel.text = @"0.00%";
+                huoqiPercentLabel.text = @"0.00%";
+                balancePercentLabel.text = @"0.00%";
+                frozenPercentLabel.text = @"0.00%";
+                bonusPercentLabel.text = @"0.00%";
+            }
+            else
+            {
+                dingqiPercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",dingqi*100/total];
+                huoqiPercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",huoqi*100/total];
+                balancePercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",balance*100/total];
+                frozenPercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",frozen*100/total];
+                bonusPercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",bonus*100/total];
+            }
             
             [self setDataCount:5 range:100];
             [pieChartView animateWithXAxisDuration:1.5 yAxisDuration:1.5 easingOption:ChartEasingOptionEaseOutBack];

@@ -34,8 +34,12 @@
     [nextButton addTarget:self action:@selector(toNextPage:) forControlEvents:UIControlEventTouchUpInside];
     [changeButton addTarget:self action:@selector(changeVcode:) forControlEvents:UIControlEventTouchUpInside];
     [vcodeImageView addTarget:self action:@selector(changeVcode:) forControlEvents:UIControlEventTouchUpInside];
-    
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
     [NSThread detachNewThreadSelector:@selector(getVcode) toTarget:self withObject:nil];
+    vcodeTextField.text =@"";
 }
 
 - (void)didReceiveMemoryWarning {

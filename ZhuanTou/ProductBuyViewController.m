@@ -143,7 +143,7 @@
 - (void)toAgreemet:(id)sender
 {
     WebDetailViewController *vc = [[self storyboard] instantiateViewControllerWithIdentifier:@"WebDetailViewController"];
-    [vc setURL:@"http://debug.pujintianxia.com/Mobile/Home/InvestAgreement4M?productCode=201507270914478"];
+    [vc setURL:[NSString stringWithFormat:@"%@/Mobile/Home/InvestAgreement4M?productCode=%@", BASEURL, idOrCode]];
     vc.title = @"专投网购买协议";
     [[self navigationController]pushViewController:vc animated:YES];
 }

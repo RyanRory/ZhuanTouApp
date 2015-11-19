@@ -39,9 +39,12 @@
     [checkboxButton addTarget:self action:@selector(checkboxEnsure:) forControlEvents:UIControlEventTouchUpInside];
     [changeButton addTarget:self action:@selector(changeVcode:) forControlEvents:UIControlEventTouchUpInside];
     [vcodeImageView addTarget:self action:@selector(changeVcode:) forControlEvents:UIControlEventTouchUpInside];
-    
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
     [NSThread detachNewThreadSelector:@selector(getVcode) toTarget:self withObject:nil];
-    
+    vcodeTextField.text =@"";
 }
 
 - (void)backToParent:(id)sender
@@ -143,7 +146,7 @@
 {
     WebDetailViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"WebDetailViewController"];
     vc.title = @"专投网用户服务协议";
-    [vc setURL:@"http://debug.pujintianxia.com/Mobile/Home/RegisterStatement"];
+    [vc setURL:[NSString stringWithFormat:@"%@/Mobile/Home/RegisterStatement", BASEURL]];
     [[self navigationController]pushViewController:vc animated:YES];
 }
 

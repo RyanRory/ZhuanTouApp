@@ -144,7 +144,8 @@
                 if ([style isEqualToString:RESETLOGINPSWD])
                 {
                     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-                    [userDefault setObject:passwordTextField.text forKey:PASSWORD];
+                    [userDefault removeObjectForKey:PASSWORD];
+                    [userDefault setBool:NO forKey:ISLOGIN];
                     [userDefault synchronize];
                 }
                 [hud hide:YES afterDelay:1.5f];

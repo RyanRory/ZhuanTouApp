@@ -182,6 +182,8 @@
 		A44AFA561BCF4EC1002A8AC4 /* productActive.png in Resources */ = {isa = PBXBuildFile; fileRef = A44AFA541BCF4EC1002A8AC4 /* productActive.png */; };
 		A44AFA5C1BCF7058002A8AC4 /* productActive@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A44AFA5B1BCF7058002A8AC4 /* productActive@3x.png */; };
 		A44AFA5F1BCFA565002A8AC4 /* RegisterSuccessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A44AFA5E1BCFA565002A8AC4 /* RegisterSuccessViewController.m */; };
+		A45B856A1BFDE4740041FFC7 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A45B85681BFDE4740041FFC7 /* Fabric.framework */; };
+		A45B856B1BFDE4740041FFC7 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A45B85691BFDE4740041FFC7 /* Crashlytics.framework */; };
 		A463EA791BD4D25600CAF146 /* accountActive@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A463EA751BD4D25600CAF146 /* accountActive@3x.png */; };
 		A463EA7A1BD4D25600CAF146 /* helpActive@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A463EA761BD4D25600CAF146 /* helpActive@3x.png */; };
 		A463EA7C1BD4D25600CAF146 /* product@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A463EA781BD4D25600CAF146 /* product@3x.png */; };
@@ -558,6 +560,8 @@
 		A44AFA5B1BCF7058002A8AC4 /* productActive@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "productActive@3x.png"; path = "images/@3x/productActive@3x.png"; sourceTree = "<group>"; };
 		A44AFA5D1BCFA565002A8AC4 /* RegisterSuccessViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterSuccessViewController.h; sourceTree = "<group>"; };
 		A44AFA5E1BCFA565002A8AC4 /* RegisterSuccessViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterSuccessViewController.m; sourceTree = "<group>"; };
+		A45B85681BFDE4740041FFC7 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		A45B85691BFDE4740041FFC7 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		A463EA751BD4D25600CAF146 /* accountActive@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "accountActive@3x.png"; path = "images/@3x/accountActive@3x.png"; sourceTree = "<group>"; };
 		A463EA761BD4D25600CAF146 /* helpActive@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "helpActive@3x.png"; path = "images/@3x/helpActive@3x.png"; sourceTree = "<group>"; };
 		A463EA781BD4D25600CAF146 /* product@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "product@3x.png"; path = "images/@3x/product@3x.png"; sourceTree = "<group>"; };
@@ -726,8 +730,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				6960161C4D1F51521E05885E /* libPods.a in Frameworks */,
+				A45B856B1BFDE4740041FFC7 /* Crashlytics.framework in Frameworks */,
 				A463EAB31BD60FB300CAF146 /* Charts.framework in Frameworks */,
 				A475498B1BE61889002E929C /* BaoFooPay.framework in Frameworks */,
+				A45B856A1BFDE4740041FFC7 /* Fabric.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -778,8 +784,6 @@
 		A41C6B211BB9849E006B731D = {
 			isa = PBXGroup;
 			children = (
-				A475498A1BE61889002E929C /* BaoFooPay.framework */,
-				A463EAAD1BD60FA100CAF146 /* Charts.xcodeproj */,
 				A41C6B661BBA642A006B731D /* images */,
 				A41C6B2C1BB9849E006B731D /* ZhuanTou */,
 				A41C6B461BB9849E006B731D /* ZhuanTouTests */,
@@ -822,6 +826,7 @@
 				A41C6B3B1BB9849E006B731D /* LaunchScreen.storyboard */,
 				A41C6B3E1BB9849E006B731D /* Info.plist */,
 				A463EACD1BD6435300CAF146 /* Fonts */,
+				A45B856C1BFDE7790041FFC7 /* Frameworks */,
 				A41C6B2D1BB9849E006B731D /* Supporting Files */,
 			);
 			path = ZhuanTou;
@@ -1180,6 +1185,18 @@
 			name = Product;
 			sourceTree = "<group>";
 		};
+		A45B856C1BFDE7790041FFC7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A463EAAD1BD60FA100CAF146 /* Charts.xcodeproj */,
+				A45B85681BFDE4740041FFC7 /* Fabric.framework */,
+				A45B85691BFDE4740041FFC7 /* Crashlytics.framework */,
+				A475498A1BE61889002E929C /* BaoFooPay.framework */,
+			);
+			name = Frameworks;
+			path = ..;
+			sourceTree = "<group>";
+		};
 		A463EA911BD4E66600CAF146 /* LaunchScreen */ = {
 			isa = PBXGroup;
 			children = (
@@ -1343,6 +1360,7 @@
 				A41C6B281BB9849E006B731D /* Resources */,
 				4C381CFB0889D85C63D13F0F /* Copy Pods Resources */,
 				A463EAB71BD60FB400CAF146 /* Embed Frameworks */,
+				A45B85631BFDE2D30041FFC7 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1732,6 +1750,19 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
+		A45B85631BFDE2D30041FFC7 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Fabric.framework/run b94d7506d68fdf1c837969f20a47bd8dd517da3d c7bccbc816d2914b720426a89da3fbd269c336fbd7a93141e620ba3556e795a2";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1953,11 +1984,13 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Shanghai Momu Financial Information Service Co., Ltd. (Q98L84XUG2)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ZhuanTou",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/ZhuanTou/PrefixHeader.pch";
@@ -1987,6 +2020,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ZhuanTou",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/ZhuanTou/PrefixHeader.pch";
@@ -2103,6 +2137,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ZhuanTou",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/ZhuanTou/PrefixHeader.pch";

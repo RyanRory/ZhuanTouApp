@@ -36,7 +36,6 @@
     addBankCardButton.layer.cornerRadius = 3;
     [addBankCardButton addTarget:self action:@selector(toAddBankCard:) forControlEvents:UIControlEventTouchUpInside];
     addBankCardButton.hidden = YES;
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -71,7 +70,8 @@
             noBankCardView.hidden = YES;
             descriptionLabel.hidden = NO;
             bankNameLabel.text = [responseObject[0] objectForKey:@"bankName"];
-            branchLabel.text = [[responseObject[0] objectForKey:@"subBankName"] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+           // branchLabel.text = [[responseObject[0] objectForKey:@"subBankName"] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            branchLabel.text = [responseObject[0] objectForKey:@"subBankName"];
             cardNumLabel.text = [responseObject[0] objectForKey:@"cardCode"];
             oneLimitLabel.text = [responseObject[0] objectForKey:@"limitAmount"];
             dayLimitLabel.text = [responseObject[0] objectForKey:@"dailyLimit"];

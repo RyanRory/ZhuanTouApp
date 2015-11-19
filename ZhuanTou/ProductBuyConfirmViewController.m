@@ -96,7 +96,7 @@
     [formatter setPositiveFormat:@"###,##0"];
     preIncomeNumLabel.text = [NSString stringWithFormat:@"%@%%",[productInfo objectForKey:@"expectedReturn"]];
     lowestIncomeNumLabel.text = [NSString stringWithFormat:@"%@%%",[productInfo objectForKey:@"interestRate"]];
-    productTimeNumLabel.text = [NSString stringWithFormat:@"%d个月",((NSString*)[productInfo objectForKey:@"noOfDays"]).intValue/30];
+    productTimeNumLabel.text = [NSString stringWithFormat:@"%d个月",(int)round((((NSString*)[productInfo objectForKey:@"noOfDays"]).doubleValue / 30))];
     amountNumLabel.text = [NSString stringWithFormat:@"%@元",[NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithInt:investAmount.intValue]]]];
 }
 

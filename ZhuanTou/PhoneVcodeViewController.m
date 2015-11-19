@@ -62,7 +62,7 @@
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     [self.navigationController.view addSubview:hud];
-    if (![[NSPredicate predicateWithFormat:@"SELF MATCHES %@",@"^[0-9]{6}$"] evaluateWithObject:phoneVcodeTextField.text])
+    if (![[NSPredicate predicateWithFormat:@"SELF MATCHES %@",@"^[0-9]{4}$"] evaluateWithObject:phoneVcodeTextField.text])
     {
         hud.mode = MBProgressHUDModeCustomView;
         hud.labelText = @"验证码错误";
@@ -77,7 +77,20 @@
         hud.mode = MBProgressHUDModeIndeterminate;
         [hud show:YES];
         AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-        NSString *URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/validateRegisterSmsCode/%@", phoneVcodeTextField.text]];
+        NSString *URL;
+        if ([style isEqualToString:RESETLOGINPSWD])
+        {
+            URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/validateSmsCode/%@", phoneVcodeTextField.text]];
+        }
+        else if ([style isEqualToString:RESETTRADEPSWD])
+        {
+            URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/validateSmsCode/%@", phoneVcodeTextField.text]];
+        }
+        else
+        {
+            URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/validateRegisterSmsCode/%@", phoneVcodeTextField.text]];
+        }
+
         [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
             NSLog(@"%@", responseObject);
             NSString *str = [responseObject objectForKey:@"isSuccess"];

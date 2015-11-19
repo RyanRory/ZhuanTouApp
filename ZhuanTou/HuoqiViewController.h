@@ -16,6 +16,8 @@
 @interface HuoqiViewController : UIViewController<ChartViewDelegate>
 {
     NSMutableArray *datas;
+    int showTimes;
+    NSString *bidableAmount;
 }
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *viewHeight;

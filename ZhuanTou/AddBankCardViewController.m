@@ -191,7 +191,8 @@
         AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
         NSString *URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/addBankCardInAPP"]];
         NSDictionary *paramter = @{@"BankCode":[[NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"bankCodeList" ofType:@"plist"]] objectForKey:bankLabel.text],
-                                   @"SubBankName":[bankTextField.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
+                                   //@"SubBankName":[bankTextField.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
+                                   @"SubBankName":bankTextField.text,
                                    @"CardCode":accountNumTextField.text,
                                    @"Province":[provinceLabel.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
                                    @"City":[cityLabel.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]};

@@ -71,10 +71,24 @@
     lineChartView.noDataText = @"";
     
     [self setupData];
+    showTimes = 0;
     
     scrollView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         [self setupData];
     }];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    showTimes++;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    if (showTimes > 0)
+    {
+        [self setupDataAgain];
+    }
 }
 
 - (void)updateViewConstraints
@@ -93,6 +107,27 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void)setupDataAgain
+{
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSString *URL = [BASEURL stringByAppendingString:@"api/account/yesterdayZtb"];
+    [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+        NSLog(@"%@", responseObject);
+        NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
+        [formatter setPositiveFormat:@"###,##0.00"];
+        myPortionLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[responseObject objectForKey:@"ztbBalance"]).doubleValue]]];
+        bidableAmount = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[responseObject objectForKey:@"restBalance"]).doubleValue]]];
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = @"当前网络状况不佳，请重试";
+        [hud hide:YES afterDelay:1.5f];
+    }];
+
+}
+
 - (void)setupData
 {
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
@@ -105,6 +140,7 @@
         myPortionLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[responseObject objectForKey:@"ztbBalance"]).doubleValue]]];
         totalProfitLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[responseObject objectForKey:@"sumReturnAmount"]).doubleValue]]];
         profitPercentLabel.text = [NSString stringWithFormat:@"%@%%",[responseObject objectForKey:@"last5DaysReturn"]];
+        bidableAmount = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[responseObject objectForKey:@"restBalance"]).doubleValue]]];
         datas = [NSMutableArray arrayWithArray:[responseObject objectForKey:@"last7DaysCurv"]];
         [self setDataCount:7 range:((NSString*)[responseObject objectForKey:@"last5DaysReturn"]).doubleValue];
         [lineChartView animateWithXAxisDuration:0.8f];
@@ -130,14 +166,14 @@
 {
     NSMutableArray *xVals = [[NSMutableArray alloc] init];
     
-    for (int i = datas.count-1; i >=0 ; i--)
+    for (int i = (int)datas.count-1; i >=0 ; i--)
     {
         [xVals addObject:(NSString*)[datas[i] objectForKey:@"date"]];
     }
     
     NSMutableArray *yVals = [[NSMutableArray alloc] init];
     
-    for (int i = datas.count-1; i >=0 ; i--)
+    for (int i = (int)datas.count-1; i >=0 ; i--)
     {
         [yVals addObject:[[ChartDataEntry alloc] initWithValue:((NSString*)[datas[i] objectForKey:@"interestRate"]).doubleValue xIndex:datas.count-1-i]];
     }
@@ -168,6 +204,7 @@
 {
     ProductBuyViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ProductBuyViewController"];
     vc.style = HUOQI;
+    vc.bidableAmount = bidableAmount;
     [[self navigationController]pushViewController:vc animated:YES];
 }
 

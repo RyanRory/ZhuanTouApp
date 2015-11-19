@@ -48,9 +48,14 @@
     addBankCardButton.hidden = YES;
     noFeeNumLabel.hidden = YES;
     noFeeDescriptionLabel.hidden = YES;
-    
-    [self setupData];
-    
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    if (bankCardView.hidden)
+    {
+        [self setupData];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

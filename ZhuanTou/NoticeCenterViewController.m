@@ -124,7 +124,7 @@
     }
     else
     {
-        cell.descriptionLabel.text = @"";
+        cell.descriptionLabel.text = [notice objectForKey:@"title"];
     }
     
     return cell;
@@ -134,7 +134,7 @@
 {
     WebDetailViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"WebDetailViewController"];
     vc.title = @"公告详情";
-    [vc setURL:[NSString stringWithFormat:@"http://debug.pujintianxia.com/Mobile/Home/MobileNews/%@",[[notices objectAtIndex:indexPath.row] objectForKey:@"id"]]];
+    [vc setURL:[NSString stringWithFormat:@"%@/Mobile/Home/MobileNews/%@", BASEURL, [[notices objectAtIndex:indexPath.row] objectForKey:@"id"]]];
     [[self navigationController]pushViewController:vc animated:YES];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
