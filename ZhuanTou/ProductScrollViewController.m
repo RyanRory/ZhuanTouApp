@@ -114,6 +114,14 @@
         [huoqiBgImageView2 setFrame:CGRectMake(frame.origin.x - point.x, frame.origin.y - point.y, frame.size.width, frame.size.height)];
         [UIView commitAnimations];
     }
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(becomeForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
+}
+
+- (void)becomeForeground
+{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [mainScrollView.header beginRefreshing];
+    });
 }
 
 - (void)viewDidDisappear:(BOOL)animated

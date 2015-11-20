@@ -358,12 +358,12 @@
     if (btn.selected)
     {
         [btn setImage:[UIImage imageNamed:@"checkIconActive.png"] forState:UIControlStateNormal];
-        [coupons stringByAppendingString:[NSString stringWithFormat:@",%@",[[datas objectAtIndex:btn.tag] objectForKey:@"couponCode"]]];
+        coupons = [coupons stringByAppendingString:[NSString stringWithFormat:@",%@",[[datas objectAtIndex:btn.tag] objectForKey:@"couponCode"]]];
     }
     else
     {
         [btn setImage:[UIImage imageNamed:@"checkIcon.png"] forState:UIControlStateNormal];
-        [coupons stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@",%@",[[datas objectAtIndex:btn.tag] objectForKey:@"couponCode"]] withString:@""];
+        coupons = [coupons stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@",%@",[[datas objectAtIndex:btn.tag] objectForKey:@"couponCode"]] withString:@""];
     }
     
 }

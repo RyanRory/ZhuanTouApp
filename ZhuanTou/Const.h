@@ -50,4 +50,6 @@
 
 #define KEYCHAIN_KEY  @"password_slider"
 
+#define ISENTERBACKGROUND @"ISENTERBACKGROUND"
+
 #endif /* Const_h */

@@ -29,7 +29,6 @@
     
     [noticeButton addTarget:self action:@selector(toNotice:) forControlEvents:UIControlEventTouchUpInside];
     
-    images = [[NSMutableArray alloc]init];
     currentImage = 0;
     
     scrollView.delegate = self;
@@ -100,7 +99,6 @@
     setupDataFlag = 3;
     [self setupData];
     [self setupProduct];
-
 }
 
 - (void)updateViewConstraints
@@ -120,12 +118,21 @@
 
     if (bgPoint.x == 0) bgPoint = CGPointMake(bgImageView.frame.origin.x + bgImageView.frame.size.width/2+10, bgImageView.frame.origin.y+bgImageView.frame.size.height/2);
     [self bgCircleAnimation];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(becomeForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [timer invalidate];
     [noticeTimer invalidate];
+}
+
+- (void)becomeForeground
+{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self setupData];
+        [innerScrollView.header beginRefreshing];
+    });
 }
 
 - (void)bgCircleAnimation
@@ -154,10 +161,11 @@
         {
             [notices addObject:notices[0]];
         }
-        topView.label.text = [[notices objectAtIndex:notices.count-1] objectForKey:@"title"];
-        midView.label.text = [[notices objectAtIndex:0] objectForKey:@"title"];
-        bottomView.label.text = [[notices objectAtIndex:1] objectForKey:@"title"];
+        topView.label.text = [[notices objectAtIndex:(currentNotice-1)%notices.count] objectForKey:@"title"];
+        midView.label.text = [[notices objectAtIndex:currentNotice] objectForKey:@"title"];
+        bottomView.label.text = [[notices objectAtIndex:(currentNotice+1)%notices.count] objectForKey:@"title"];
         flag = true;
+        [noticeTimer invalidate];
         noticeTimer = [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(scrollToNextNotice:) userInfo:nil repeats:YES];
         setupDataFlag++;
         
@@ -216,12 +224,12 @@
             [buyButton setUserInteractionEnabled:NO];
             [buyButton setAlpha:1.0f];
             [buyButton setTitle:@"已售完" forState:UIControlStateNormal];
-            buyButton.backgroundColor = ZTLIGHTGRAY;
+            buyButton.backgroundColor = ZTGRAY;
             [inUpImageView setAlpha:1.0f];
             UIImage *image = [UIImage imageNamed:@"inUpIcon.png"];
             image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
             inUpImageView.image = image;
-            inUpImageView.tintColor = ZTLIGHTGRAY;
+            inUpImageView.tintColor = ZTGRAY;
             
         }
         else
@@ -268,21 +276,23 @@
 
 - (void)setImages
 {
+    NSMutableArray *bufferImages = [[NSMutableArray alloc]init];
     for (int i = 0; i < bannerInfo.count; i++)
     {
         UIImage *img = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[bannerInfo[i] objectForKey:@"imgUrl"]]]];
         if (img)
         {
-            [images addObject:img];
+            [bufferImages addObject:img];
         }
         else
         {
             i--;
         }
     }
-    leftImage.image = [images objectAtIndex:images.count-1];
-    midImage.image = [images objectAtIndex:0];
-    rightImage.image = [images objectAtIndex:1];
+    images = [NSMutableArray arrayWithArray:bufferImages];
+    leftImage.image = [images objectAtIndex:(currentImage-1)%images.count];
+    midImage.image = [images objectAtIndex:currentImage];
+    rightImage.image = [images objectAtIndex:(currentImage+1)%images.count];
     imageFlag = true;
     [self performSelectorOnMainThread:@selector(setupTimer) withObject:nil waitUntilDone:YES];
     pageControl.hidden = NO;
@@ -294,6 +304,7 @@
 
 - (void)setupTimer
 {
+    [timer invalidate];
     timer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(scrollToNextPage:) userInfo:nil repeats:YES];
 }
 
@@ -302,10 +313,12 @@
     [[self navigationController]setNavigationBarHidden:YES animated:YES];
     if (flag)
     {
+        [noticeTimer invalidate];
         noticeTimer = [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(scrollToNextNotice:) userInfo:nil repeats:YES];
     }
     if (imageFlag)
     {
+        [timer invalidate];
         timer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(scrollToNextPage:) userInfo:nil repeats:YES];
     }
 }

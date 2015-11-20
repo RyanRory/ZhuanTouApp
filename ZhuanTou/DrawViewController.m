@@ -126,11 +126,15 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSString *URL = [BASEURL stringByAppendingString:@"api/account/IsIdentified"];
-    [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSString *responseObject) {
-        
-        if (responseObject.boolValue)
+    [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+        NSLog(@"%@", responseObject);
+        NSString *str = [responseObject objectForKey:@"isSuccess"];
+        int f1 = str.intValue;
+        if (f1 == 1)
         {
+            [hud hide:YES];
             AddBankCardViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"AddBankCardViewController"];
+            [vc setFullName:[responseObject objectForKey:@"fullName"]];
             [[self navigationController]pushViewController:vc animated:YES];
         }
         else
