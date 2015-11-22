@@ -87,31 +87,29 @@
             editView.hidden = NO;
             noFeeDescriptionLabel.hidden = NO;
             noFeeNumLabel.hidden = NO;
+            
+            AFHTTPRequestOperationManager *manager1 = [AFHTTPRequestOperationManager manager];
+            NSString *URL1 = [BASEURL stringByAppendingString:@"api/account/userWithdrawVm4M"];
+            [manager1 GET:URL1 parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject1) {
+                NSLog(@"%@", responseObject);
+                NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
+                [formatter setPositiveFormat:@"###,##0.00"];
+                drawNumLabel.text = [NSString stringWithFormat:@"%@元",[NSString stringWithString:[formatter stringFromNumber:[responseObject1 objectForKey:@"fundsAvailable"]]]];
+                noFeeNumLabel.text = [NSString stringWithFormat:@"%@元",[NSString stringWithString:[formatter stringFromNumber:[responseObject1 objectForKey:@"noWithdrawFeeAmount"]]]];
+                
+            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                NSLog(@"Error: %@", error);
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                hud.mode = MBProgressHUDModeText;
+                hud.labelText = @"当前网络状况不佳，请重试";
+                [hud hide:YES afterDelay:1.5f];
+            }];
         }
         else
         {
             noBankCardView.hidden = NO;
             addBankCardButton.hidden = NO;
         }
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Error: %@", error);
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-        hud.mode = MBProgressHUDModeText;
-        hud.labelText = @"当前网络状况不佳，请重试";
-        [hud hide:YES afterDelay:1.5f];
-    }];
-    
-    AFHTTPRequestOperationManager *manager1 = [AFHTTPRequestOperationManager manager];
-    NSString *URL1 = [BASEURL stringByAppendingString:@"api/account/userWithdrawVm4M"];
-    [manager1 GET:URL1 parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
-        NSLog(@"%@", responseObject);
-        //        NSString *str = [responseObject objectForKey:@"isSuccess"];
-        //        int f1 = str.intValue;
-        NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
-        [formatter setPositiveFormat:@"###,##0.00"];
-        drawNumLabel.text = [NSString stringWithFormat:@"%@元",[NSString stringWithString:[formatter stringFromNumber:[responseObject objectForKey:@"fundsAvailable"]]]];
-        noFeeNumLabel.text = [NSString stringWithFormat:@"%@元",[NSString stringWithString:[formatter stringFromNumber:[responseObject objectForKey:@"noWithdrawFeeAmount"]]]];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
