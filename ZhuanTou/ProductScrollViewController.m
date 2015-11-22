@@ -28,6 +28,15 @@
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor darkGrayColor],NSForegroundColorAttributeName,nil]];
     self.navigationController.interactivePopGestureRecognizer.delegate = self;
     
+    if (SCREEN_WIDTH > 400)
+    {
+        screenWidth = SCREEN_WIDTH-8;
+    }
+    else
+    {
+        screenWidth = SCREEN_WIDTH;
+    }
+    
     wenjianView.clipsToBounds = YES;
     zongheView.clipsToBounds = YES;
     huoqiView.clipsToBounds = YES;
@@ -68,7 +77,7 @@
     huoqiButton.tintColor = ZTGRAY;
     
     style = ZONGHE;
-    [scrollView setContentOffset:CGPointMake(SCREEN_WIDTH, 0) animated:NO];
+    [scrollView setContentOffset:CGPointMake(screenWidth, 0) animated:NO];
     productsBeforeButton.tintColor = ZTBLUE;
     
     [self setupHuoqi];
@@ -115,6 +124,7 @@
         [UIView commitAnimations];
     }
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(becomeForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
+    
 }
 
 - (void)becomeForeground
@@ -137,10 +147,10 @@
 {
     [super updateViewConstraints];
     mainViewHeight.constant = CGRectGetHeight(self.view.frame)-35;
-    wenjianViewWidth.constant = SCREEN_WIDTH;
-    zongheViewWidth.constant = SCREEN_WIDTH;
-    huoqiViewWidth.constant = SCREEN_WIDTH;
-    scrollView.contentSize = CGSizeMake(SCREEN_WIDTH*3, 0);
+    wenjianViewWidth.constant = screenWidth;
+    zongheViewWidth.constant = screenWidth;
+    huoqiViewWidth.constant = screenWidth;
+    scrollView.contentSize = CGSizeMake(screenWidth*3, 0);
     if (flag)
     {
         x1.constant = point.x;
@@ -192,12 +202,12 @@
 
 - (void)clickZongheButton:(id)sender
 {
-    [scrollView setContentOffset:CGPointMake(SCREEN_WIDTH, 0) animated:YES];
+    [scrollView setContentOffset:CGPointMake(screenWidth, 0) animated:YES];
 }
 
 - (void)clickHuoqi:(id)sender
 {
-    [scrollView setContentOffset:CGPointMake(SCREEN_WIDTH * 2, 0) animated:YES];
+    [scrollView setContentOffset:CGPointMake(screenWidth * 2, 0) animated:YES];
 }
 
 - (void)setupWenjian
@@ -459,7 +469,7 @@
                 huoqiAmountLabel.hidden = YES;
             }
         }
-        else if (scrView.contentOffset.x == SCREEN_WIDTH)
+        else if (scrView.contentOffset.x == screenWidth)
         {
             if (![style isEqualToString:ZONGHE])
             {

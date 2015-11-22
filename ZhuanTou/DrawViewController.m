@@ -49,7 +49,8 @@
     noFeeNumLabel.hidden = YES;
     noFeeDescriptionLabel.hidden = YES;
     
-    [SCNumberKeyBoard showWithTextField:editTextField block:nil];
+    SCNumberKeyBoard *keyboard = [SCNumberKeyBoard showWithTextField:editTextField block:nil];
+    [keyboard.enterButton setBackgroundColor:ZTBLUE];
 }
 
 - (void)viewWillAppear:(BOOL)animated

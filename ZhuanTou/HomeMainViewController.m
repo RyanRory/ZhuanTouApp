@@ -43,32 +43,38 @@
     noticeScrollView.pagingEnabled = YES;
     noticeScrollView.bounces = NO;
     
-    scrollView.contentSize = CGSizeMake(SCREEN_WIDTH * 3, 0);
+    float screenWidth = SCREEN_WIDTH;
+    if (SCREEN_WIDTH > 400)
+    {
+        screenWidth = screenWidth - 8;
+    }
     
-    leftImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_WIDTH*16/25)];
+    scrollView.contentSize = CGSizeMake(screenWidth * 3, 0);
     
-    midImage = [[UIImageView alloc]initWithFrame:CGRectMake(SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_WIDTH*16/25)];
+    leftImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, screenWidth, screenWidth*16/25)];
+    
+    midImage = [[UIImageView alloc]initWithFrame:CGRectMake(screenWidth, 0, screenWidth, screenWidth*16/25)];
     
     midImageButton = [[UIButton alloc]initWithFrame:midImage.frame];
     midImageButton.titleLabel.text = @"";
     [midImageButton addTarget:self action:@selector(toImageDetail:) forControlEvents:UIControlEventTouchUpInside];
     
-    rightImage = [[UIImageView alloc]initWithFrame:CGRectMake(SCREEN_WIDTH * 2, 0, SCREEN_WIDTH, SCREEN_WIDTH*16/25)];
+    rightImage = [[UIImageView alloc]initWithFrame:CGRectMake(screenWidth * 2, 0, screenWidth, screenWidth*16/25)];
     
     [scrollView addSubview:leftImage];
     [scrollView addSubview:midImage];
     [scrollView addSubview:midImageButton];
     [scrollView addSubview:rightImage];
-    [scrollView setContentOffset:CGPointMake(SCREEN_WIDTH, 0) animated:NO];
+    [scrollView setContentOffset:CGPointMake(screenWidth, 0) animated:NO];
     [scrollView setUserInteractionEnabled:NO];
     
     pageControl.hidden = YES;
     
     noticeScrollView.contentSize = CGSizeMake(0, noticeScrollView.frame.size.height * 3);
     
-    topView = [[NoticeView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, noticeScrollView.frame.size.height)];
-    midView = [[NoticeView alloc]initWithFrame:CGRectMake(0, noticeScrollView.frame.size.height, SCREEN_WIDTH, noticeScrollView.frame.size.height)];
-    bottomView = [[NoticeView alloc]initWithFrame:CGRectMake(0, noticeScrollView.frame.size.height * 2, SCREEN_WIDTH, noticeScrollView.frame.size.height)];
+    topView = [[NoticeView alloc]initWithFrame:CGRectMake(0, 0, screenWidth, noticeScrollView.frame.size.height)];
+    midView = [[NoticeView alloc]initWithFrame:CGRectMake(0, noticeScrollView.frame.size.height, screenWidth, noticeScrollView.frame.size.height)];
+    bottomView = [[NoticeView alloc]initWithFrame:CGRectMake(0, noticeScrollView.frame.size.height * 2, screenWidth, noticeScrollView.frame.size.height)];
     
     [noticeScrollView addSubview:topView];
     [noticeScrollView addSubview:midView];
@@ -104,8 +110,15 @@
 - (void)updateViewConstraints
 {
     [super updateViewConstraints];
-    outterViewHeight.constant = SCREEN_WIDTH*16/25+34;
-    innerViewHeight.constant = CGRectGetHeight(self.view.frame)-SCREEN_WIDTH*16/25-34;
+    if (SCREEN_WIDTH > 400)
+    {
+        outterViewHeight.constant = (SCREEN_WIDTH-8)*16/25+34;
+    }
+    else
+    {
+        outterViewHeight.constant = SCREEN_WIDTH*16/25+34;
+    }
+    innerViewHeight.constant = CGRectGetHeight(self.view.frame)-outterViewHeight.constant;
 }
 
 - (void)viewDidAppear:(BOOL)animated

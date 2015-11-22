@@ -47,42 +47,42 @@
     huoqiPageNum = 0;
     inAndOutPageNum = 0;
     allPageNum = 0;
-    currentNum = 0;
-//    dingqiDatas = [[NSMutableArray alloc]init];
-//    huoqiDatas = [[NSMutableArray alloc]init];
-//    inAndOutDatas = [[NSMutableArray alloc]init];
-//    allDatas = [[NSMutableArray alloc]init];
+    dingqiDatas = [[NSMutableArray alloc]init];
+    huoqiDatas = [[NSMutableArray alloc]init];
+    inAndOutDatas = [[NSMutableArray alloc]init];
+    allDatas = [[NSMutableArray alloc]init];
     datas = [[NSMutableArray alloc]init];
     buttonTag = 0;
     tView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         switch (buttonTag) {
             case 0:
                 dingqiPageNum = 1;
-                //[dingqiDatas removeAllObjects];
+                [dingqiDatas removeAllObjects];
                 [self setupDingqi];
                 break;
                 
             case 1:
                 huoqiPageNum = 1;
-                //[huoqiDatas removeAllObjects];
+                [huoqiDatas removeAllObjects];
                 [self setupHuoqi];
                 break;
             
             case 2:
                 inAndOutPageNum = 1;
-                //[inAndOutDatas removeAllObjects];
+                [inAndOutDatas removeAllObjects];
                 [self setupInAndOut];
                 break;
                 
             case 3:
                 allPageNum = 1;
-                //[allDatas removeAllObjects];
+                [allDatas removeAllObjects];
                 [self setupAll];
                 break;
                 
             default:
                 break;
         }
+        [tView.footer resetNoMoreData];
         
     }];
     [tView.header beginRefreshing];
@@ -140,7 +140,6 @@
 
 - (void)Dingqi:(id)sender
 {
-    currentNum = 0;
     noRecordLabel.hidden = YES;
     buttonTag = 0;
     [tView.header beginRefreshing];
@@ -157,7 +156,6 @@
 
 - (void)Huoqi:(id)sender
 {
-    currentNum = 0;
     noRecordLabel.hidden = YES;
     buttonTag = 1;
     [tView.header beginRefreshing];
@@ -173,7 +171,6 @@
 
 - (void)InAndOut:(id)sender
 {
-    currentNum = 0;
     noRecordLabel.hidden = YES;
     buttonTag = 2;
     [tView.header beginRefreshing];
@@ -189,7 +186,6 @@
 
 - (void)All:(id)sender
 {
-    currentNum = 0;
     noRecordLabel.hidden = YES;
     buttonTag = 3;
     [tView.header beginRefreshing];
@@ -205,16 +201,12 @@
 
 - (void)setupDingqi
 {
-    if (dingqiPageNum == 1)
-    {
-        [datas removeAllObjects];
-        [tView.footer resetNoMoreData];
-    }
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSString *URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/catetoryTransaction4M/4/%d",dingqiPageNum]];
     [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSArray *responseObject) {
         NSLog(@"%@", responseObject);
-        [datas addObjectsFromArray:responseObject];
+        [dingqiDatas addObjectsFromArray:responseObject];
+        datas = [NSMutableArray arrayWithArray:dingqiDatas];
         detailNum = (int)datas.count;
         dingqiPageNum++;
         if (datas.count > 0)
@@ -252,16 +244,12 @@
 
 - (void)setupHuoqi
 {
-    if (huoqiPageNum == 1)
-    {
-        [datas removeAllObjects];
-        [tView.footer resetNoMoreData];
-    }
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSString *URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/catetoryTransaction4M/5/%d",huoqiPageNum]];
     [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSArray *responseObject) {
         NSLog(@"%@", responseObject);
-        [datas addObjectsFromArray:responseObject];
+        [huoqiDatas addObjectsFromArray:responseObject];
+        datas = [NSMutableArray arrayWithArray:huoqiDatas];
         detailNum = (int)datas.count;
         huoqiPageNum++;
         if (datas.count > 0)
@@ -299,16 +287,12 @@
 
 - (void)setupInAndOut
 {
-    if (inAndOutPageNum == 1)
-    {
-        [datas removeAllObjects];
-        [tView.footer resetNoMoreData];
-    }
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSString *URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/catetoryTransaction4M/1/%d",inAndOutPageNum]];
     [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSArray *responseObject) {
         NSLog(@"%@", responseObject);
-        [datas addObjectsFromArray:responseObject];
+        [inAndOutDatas addObjectsFromArray:responseObject];
+        datas = [NSMutableArray arrayWithArray:inAndOutDatas];
         detailNum = (int)datas.count;
         inAndOutPageNum++;
         if (datas.count > 0)
@@ -346,16 +330,12 @@
 
 - (void)setupAll
 {
-    if (allPageNum == 1)
-    {
-        [datas removeAllObjects];
-        [tView.footer resetNoMoreData];
-    }
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSString *URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/transactions4M/%d",allPageNum]];
     [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSArray *responseObject) {
         NSLog(@"%@", responseObject);
-        [datas addObjectsFromArray:responseObject];
+        [allDatas addObjectsFromArray:responseObject];
+        datas = [NSMutableArray arrayWithArray:allDatas];
         detailNum = (int)datas.count;
         allPageNum++;
         if (datas.count > 0)
@@ -414,8 +394,6 @@
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"%d",currentNum);
-    NSLog(@"index%d",indexPath.row);
     id data = datas[indexPath.row];
     static NSString *identifier = @"DetailTableViewCell";
     DetailTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
@@ -443,7 +421,6 @@
     {
         cell.numLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"money"]).doubleValue]]];
     }
-    currentNum++;
     return cell;
 }
 

@@ -96,8 +96,10 @@
         weakZongheEditView.hidden = f;
     };
     
-    [SCNumberKeyBoard showWithTextField:wenjianTextField block:nil];
-    [SCNumberKeyBoard showWithTextField:zongheTextField block:nil];
+    SCNumberKeyBoard *keyboard1 = [SCNumberKeyBoard showWithTextField:wenjianTextField block:nil];
+    [keyboard1.enterButton setBackgroundColor:ZTBLUE];
+    SCNumberKeyBoard *keyboard2 = [SCNumberKeyBoard showWithTextField:zongheTextField block:nil];
+    [keyboard2.enterButton setBackgroundColor:ZTBLUE];
 
 }
 

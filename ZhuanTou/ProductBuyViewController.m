@@ -83,7 +83,8 @@
         [hud hide:YES afterDelay:1.5f];
     }];
     
-    [SCNumberKeyBoard showWithTextField:amountTextField block:nil];
+    SCNumberKeyBoard *keyboard = [SCNumberKeyBoard showWithTextField:amountTextField block:nil];
+    [keyboard.enterButton setBackgroundColor:ZTBLUE];
 
 }
 

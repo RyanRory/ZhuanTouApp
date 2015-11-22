@@ -19,6 +19,7 @@
     NSString *wenjianStartTime, *zongheStartTime;
     NSDictionary *wenjianData, *zongheData, *huoqiData;
     BOOL flag;
+    float screenWidth;
 }
 
 @property (strong, nonatomic) IBOutlet UIButton *wenjianButton;
