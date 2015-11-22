@@ -23,6 +23,7 @@ PODS:
   - IQKeyboardManager (3.2.4)
   - MBProgressHUD (HEAD based on 0.9.1)
   - MJRefresh (2.0.1)
+  - SCNumberKeyBoard (0.2.1)
   - UICountingLabel (1.2.0)
 
 DEPENDENCIES:
@@ -30,6 +31,7 @@ DEPENDENCIES:
   - IQKeyboardManager
   - MBProgressHUD (HEAD)
   - MJRefresh
+  - SCNumberKeyBoard
   - UICountingLabel
 
 SPEC CHECKSUMS:
@@ -37,6 +39,7 @@ SPEC CHECKSUMS:
   IQKeyboardManager: 555b1231fefafb21b19278d7cca72986a27b748b
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
   MJRefresh: ba114191a0ce34bcc9c1853aa1d3781532c9bc3f
+  SCNumberKeyBoard: f24f02456b468e2f6077421259f7a6bccc730070
   UICountingLabel: 1db4e7d023e1762171eb226d6dff47a7a84f27aa
 
 COCOAPODS: 0.38.2

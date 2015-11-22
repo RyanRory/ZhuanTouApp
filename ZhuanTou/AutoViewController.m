@@ -95,6 +95,9 @@
     zongheAllSwitch.block = ^(BOOL f){
         weakZongheEditView.hidden = f;
     };
+    
+    [SCNumberKeyBoard showWithTextField:wenjianTextField block:nil];
+    [SCNumberKeyBoard showWithTextField:zongheTextField block:nil];
 
 }
 

@@ -300,7 +300,7 @@
                                             <constraint firstAttribute="height" constant="30" id="WiR-at-IN8"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="decimalPad" returnKeyType="done"/>
                                         <connections>
                                             <action selector="buttonEnableListener:" destination="ZHJ-qZ-xAm" eventType="editingChanged" id="Kva-J0-Y5u"/>
                                             <action selector="buttonEnableListener:" destination="ZHJ-qZ-xAm" eventType="editingDidEnd" id="yz8-V0-MV8"/>
@@ -1134,7 +1134,7 @@
                                             <constraint firstAttribute="height" constant="30" id="vc0-SN-2Dr"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="next"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="decimalPad" returnKeyType="next"/>
                                         <connections>
                                             <action selector="buttonEnableListener:" destination="eQX-Ak-XaE" eventType="editingChanged" id="2WS-fh-yoL"/>
                                             <action selector="buttonEnableListener:" destination="eQX-Ak-XaE" eventType="editingDidEnd" id="e40-aV-doq"/>

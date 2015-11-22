@@ -48,6 +48,8 @@
     addBankCardButton.hidden = YES;
     noFeeNumLabel.hidden = YES;
     noFeeDescriptionLabel.hidden = YES;
+    
+    [SCNumberKeyBoard showWithTextField:editTextField block:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated

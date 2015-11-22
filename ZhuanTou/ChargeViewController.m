@@ -43,6 +43,8 @@
     confirmButton.hidden = YES;
     noBankCardView.hidden = YES;
     addBankCardButton.hidden = YES;
+    
+    [SCNumberKeyBoard showWithTextField:editTextField block:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated

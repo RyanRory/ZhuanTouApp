@@ -29,6 +29,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>SCNumberKeyBoard.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>UICountingLabel.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -37,12 +42,7 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>1726869A25BE353499F14BEBB461E930</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>2A1F62B7700B0BDDAA57DBCB2570EE92</key>
+		<key>2331C3C9BED3D9794C279D0C6EEEAE1F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -52,17 +52,27 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>68C8C8764CC399EEE9874110EF3785E0</key>
+		<key>5993F810C7547D2393627F0D0ADC5A4A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>90207082E159CB7EF7385AB9628B3106</key>
+		<key>5ACB7D7C0227B4C685C1506D89F57833</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>D081CFDE7550CC2C4882A5D3A67638AF</key>
+		<key>69EE9733432A9E5B3B6B90C8541DEDC3</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>BBE4CD7C958522B3989AF33E71AF05F4</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C54B22C2958FD724FB7D419057B41A44</key>
 		<dict>
 			<key>primary</key>
 			<true/>

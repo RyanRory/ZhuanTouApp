@@ -35,6 +35,8 @@
     [confirmButton setUserInteractionEnabled:NO];
     [confirmButton setAlpha:0.6f];
     
+    [SCNumberKeyBoard showWithTextField:drawNumTextField block:nil];
+    
 }
 
 - (void)didReceiveMemoryWarning {

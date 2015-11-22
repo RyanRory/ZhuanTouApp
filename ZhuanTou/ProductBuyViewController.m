@@ -82,6 +82,8 @@
         hud.labelText = @"当前网络状况不佳";
         [hud hide:YES afterDelay:1.5f];
     }];
+    
+    [SCNumberKeyBoard showWithTextField:amountTextField block:nil];
 
 }
 
