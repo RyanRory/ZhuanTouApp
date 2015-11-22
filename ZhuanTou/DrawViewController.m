@@ -95,7 +95,7 @@
                 NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
                 [formatter setPositiveFormat:@"###,##0.00"];
                 drawNumLabel.text = [NSString stringWithFormat:@"%@元",[NSString stringWithString:[formatter stringFromNumber:[responseObject1 objectForKey:@"fundsAvailable"]]]];
-                noFeeNumLabel.text = [NSString stringWithFormat:@"%@元",[NSString stringWithString:[formatter stringFromNumber:[responseObject1 objectForKey:@"noWithdrawFeeAmount"]]]];
+                noFeeNumLabel.text = [NSString stringWithFormat:@"%@次",[responseObject1 objectForKey:@"freeWithdrawsThisMonth"]];
                 
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                 NSLog(@"Error: %@", error);
