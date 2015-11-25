@@ -19,7 +19,7 @@
     NSArray *bannerInfo;
     NSMutableArray *notices, *images;
     int currentImage, currentNotice;
-    NSTimer *timer, *noticeTimer;
+    NSTimer *timer, *noticeTimer, *zongheTimer;
     NoticeView *topView, *midView, *bottomView;
     UIButton *midImageButton;
     BOOL flag, imageFlag;

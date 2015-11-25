@@ -18,6 +18,7 @@
     NSString *style;
     NSString *wenjianStartTime, *zongheStartTime;
     NSDictionary *wenjianData, *zongheData, *huoqiData;
+    NSTimer *wenjianTimer, *zongheTimer;
     BOOL flag;
     float screenWidth;
 }
@@ -40,8 +41,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *wenjianRateLabel;
 @property (strong, nonatomic) IBOutlet UIButton *wenjianDetailButton;
 @property (strong, nonatomic) IBOutlet UIButton *wenjianBuyButton;
-@property (strong, nonatomic) IBOutlet UILabel *wenjianTimeLabel;
-@property (strong, nonatomic) IBOutlet UILabel *wenjianAmountLabel;
+@property (strong, nonatomic) IBOutlet UILabel *wenjianLabel;
 
 @property (strong, nonatomic) IBOutlet UIView *zongheView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *zongheViewWidth;
@@ -53,8 +53,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *zongheDetailButton;
 @property (strong, nonatomic) IBOutlet UILabel *zongheSmallRateLabel;
 @property (strong, nonatomic) IBOutlet UIButton *zongheBuyButton;
-@property (strong, nonatomic) IBOutlet UILabel *zongheAmountLabel;
-@property (strong, nonatomic) IBOutlet UILabel *zongheTimeLabel;
+@property (strong, nonatomic) IBOutlet UILabel *zongheLabel;
 
 @property (strong, nonatomic) IBOutlet UIView *huoqiView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *huoqiViewWidth;
@@ -68,5 +67,6 @@
 @property (strong, nonatomic) IBOutlet UIButton *huoqiDetailButton;
 @property (strong, nonatomic) IBOutlet UIButton *huoqiBuyButton;
 @property (strong, nonatomic) IBOutlet UILabel *huoqiAmountLabel;
+@property (weak, nonatomic) IBOutlet UILabel *huoqiDescriptionLabel;
 
 @end

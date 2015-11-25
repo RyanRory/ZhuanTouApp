@@ -17,9 +17,9 @@
 @synthesize wenjianButton, zongheButton, huoqiButton;
 @synthesize mainScrollView, mainView, mainViewHeight;
 @synthesize scrollView;
-@synthesize wenjianView, wenjianBgImageView, wenjianDetailButton, wenjianMonthLabel, wenjianMOYLabel, wenjianRateLabel, wenjianViewWidth, wenjianAmountLabel, wenjianBuyButton, wenjianTimeLabel;
-@synthesize zongheView, zongheBgImageView, zongheBigRateLabel, zongheDetailButton, zongheMonthLabel, zongheMOYLabel, zongheSmallRateLabel, zongheViewWidth, productsBeforeButton, zongheAmountLabel, zongheBuyButton, zongheTimeLabel;
-@synthesize huoqiView, huoqiBgImageView1, huoqiBgImageView2, huoqiDetailButton, huoqiRateLabel, huoqiViewWidth, huoqiAmountLabel, huoqiBuyButton, x1, y1, x2, y2;
+@synthesize wenjianView, wenjianBgImageView, wenjianDetailButton, wenjianMonthLabel, wenjianMOYLabel, wenjianRateLabel, wenjianViewWidth, wenjianBuyButton, wenjianLabel;
+@synthesize zongheView, zongheBgImageView, zongheBigRateLabel, zongheDetailButton, zongheMonthLabel, zongheMOYLabel, zongheSmallRateLabel, zongheViewWidth, productsBeforeButton, zongheBuyButton, zongheLabel;
+@synthesize huoqiView, huoqiBgImageView1, huoqiBgImageView2, huoqiDetailButton, huoqiRateLabel, huoqiViewWidth, huoqiAmountLabel, huoqiDescriptionLabel, huoqiBuyButton, x1, y1, x2, y2;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -64,11 +64,11 @@
     [huoqiBuyButton addTarget:self action:@selector(buyNow:) forControlEvents:UIControlEventTouchUpInside];
     
     wenjianBuyButton.hidden = YES;
-    wenjianTimeLabel.hidden = YES;
-    wenjianAmountLabel.hidden = YES;
+    wenjianLabel.hidden = YES;
     
     huoqiBuyButton.hidden = YES;
     huoqiAmountLabel.hidden = YES;
+    huoqiDescriptionLabel.hidden = YES;
 
     
     [zongheButton setUserInteractionEnabled:NO];
@@ -123,6 +123,14 @@
         [huoqiBgImageView2 setFrame:CGRectMake(frame.origin.x - point.x, frame.origin.y - point.y, frame.size.width, frame.size.height)];
         [UIView commitAnimations];
     }
+    if ((wenjianData.count > 0) && (((NSString*)[wenjianData objectForKey:@"bidableAmount"]).intValue > 0))
+    {
+        wenjianTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(wenjianTimeCountDown) userInfo:nil repeats:YES];
+    }
+    if ((zongheData.count > 0) && (((NSString*)[zongheData objectForKey:@"bidableAmount"]).intValue > 0))
+    {
+        zongheTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(zongheTimeCountDown) userInfo:nil repeats:YES];
+    }
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(becomeForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
     
 }
@@ -141,6 +149,12 @@
         [huoqiBgImageView1 setFrame:frame];
         [huoqiBgImageView2 setFrame:frame];
     }
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [wenjianTimer invalidate];
+    [zongheTimer invalidate];
 }
 
 - (void)updateViewConstraints
@@ -238,35 +252,45 @@
             [mainScrollView.header endRefreshing];
             [self bgCircleAnimation:wenjianBgImageView];
         }
-        NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
-        [formatter setPositiveFormat:@"###,##0"];
-        wenjianAmountLabel.text = [NSString stringWithFormat:@"产品规模：%@万元",[formatter stringFromNumber:[NSNumber numberWithInt:[NSString stringWithFormat:@"%@",[wenjianData objectForKey:@"targetPurchaseAmount"]].intValue/10000]]];
-        wenjianTimeLabel.text = [NSString stringWithFormat:@"%@开始抢购",[wenjianData objectForKey:@"startRaisingDate"]];
-        NSDate *date = [NSDate date];
         NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];//实例化一个NSDateFormatter对象
         [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];//设定时间格式
-        if (((NSString*)[wenjianData objectForKey:@"bidableAmount"]).intValue > 0)
+        NSDate *startDate = [dateFormat dateFromString:[wenjianData objectForKey:@"startRaisingDateTime"]];
+        if ([NSString stringWithFormat:@"%@",[wenjianData objectForKey:@"bidableAmount"]].intValue == 0)
         {
-            NSDate *startDate = [dateFormat dateFromString:[wenjianData objectForKey:@"startRaisingDateTime"]];
+            NSDateFormatter* nextDateFormat = [[NSDateFormatter alloc] init];//实例化一个NSDateFormatter对象
+            [nextDateFormat setDateFormat:@"yyyy年MM月dd日 HH:mm"];//设定时间格式
+            NSTimeInterval days = 7*24*60*60;
+            NSString *nextDateStr = [nextDateFormat stringFromDate:[startDate dateByAddingTimeInterval:days]];
+            wenjianLabel.text = [NSString stringWithFormat:@"下一期：%@ 准时上线",nextDateStr];
+            
+            [wenjianBuyButton setUserInteractionEnabled:NO];
+            [wenjianBuyButton setAlpha:1.0f];
+            wenjianBuyButton.backgroundColor = ZTGRAY;
+            [wenjianBuyButton setTitle:@"已售罄" forState:UIControlStateNormal];
+        }
+        else
+        {
+            NSDate *date = [NSDate date];
             if ([date timeIntervalSinceDate:startDate] < 0.0)
             {
+                [self wenjianTimeCountDown];
+                wenjianTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(wenjianTimeCountDown) userInfo:nil repeats:YES];
+                
                 [wenjianBuyButton setUserInteractionEnabled:NO];
+                wenjianBuyButton.backgroundColor = ZTLIGHTRED;
                 [wenjianBuyButton setAlpha:0.6f];
             }
             else
             {
+                NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
+                [formatter setPositiveFormat:@"###,##0"];
+                wenjianLabel.text = [NSString stringWithFormat:@"可认购份额：%@元",[formatter stringFromNumber:[NSNumber numberWithInt:[NSString stringWithFormat:@"%@",[wenjianData objectForKey:@"bidableAmount"]].intValue]]];
+                
                 [wenjianBuyButton setUserInteractionEnabled:YES];
+                wenjianBuyButton.backgroundColor = ZTLIGHTRED;
                 [wenjianBuyButton setAlpha:1.0f];
             }
         }
-        else
-        {
-            [wenjianBuyButton setUserInteractionEnabled:NO];
-            [wenjianBuyButton setAlpha:1.0f];
-            wenjianBuyButton.backgroundColor = ZTGRAY;
-            [wenjianBuyButton setTitle:@"已售完" forState:UIControlStateNormal];
-        }
-
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
@@ -309,36 +333,45 @@
             [mainScrollView.header endRefreshing];
             [self bgCircleAnimation:zongheBgImageView];
         }
-        NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
-        [formatter setPositiveFormat:@"###,##0"];
-        zongheAmountLabel.text = [NSString stringWithFormat:@"产品规模：%@万元",[formatter stringFromNumber:[NSNumber numberWithInt:[NSString stringWithFormat:@"%@",[zongheData objectForKey:@"targetPurchaseAmount"]].intValue/10000]]];
-        zongheTimeLabel.text = [NSString stringWithFormat:@"%@开始抢购",[zongheData objectForKey:@"startRaisingDate"]];
-        zongheSmallRateLabel.text = [NSString stringWithFormat:@"%@",[zongheData objectForKey:@"interestRate"]];
-        NSDate *date = [NSDate date];
         NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];//实例化一个NSDateFormatter对象
         [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];//设定时间格式
-        if (((NSString*)[zongheData objectForKey:@"bidableAmount"]).intValue > 0)
+        NSDate *startDate = [dateFormat dateFromString:[zongheData objectForKey:@"startRaisingDateTime"]];
+        if ([NSString stringWithFormat:@"%@",[zongheData objectForKey:@"bidableAmount"]].intValue == 0)
         {
-            NSDate *startDate = [dateFormat dateFromString:[zongheData objectForKey:@"startRaisingDateTime"]];
+            NSDateFormatter* nextDateFormat = [[NSDateFormatter alloc] init];//实例化一个NSDateFormatter对象
+            [nextDateFormat setDateFormat:@"yyyy年MM月dd日 HH:mm"];//设定时间格式
+            NSTimeInterval days = 7*24*60*60;
+            NSString *nextDateStr = [nextDateFormat stringFromDate:[startDate dateByAddingTimeInterval:days]];
+            zongheLabel.text = [NSString stringWithFormat:@"下一期：%@ 准时上线",nextDateStr];
+            
+            [zongheBuyButton setUserInteractionEnabled:NO];
+            [zongheBuyButton setAlpha:1.0f];
+            zongheBuyButton.backgroundColor = ZTGRAY;
+            [zongheBuyButton setTitle:@"已售罄" forState:UIControlStateNormal];
+        }
+        else
+        {
+            NSDate *date = [NSDate date];
             if ([date timeIntervalSinceDate:startDate] < 0.0)
             {
+                [self zongheTimeCountDown];
+                zongheTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(zongheTimeCountDown) userInfo:nil repeats:YES];
+                
                 [zongheBuyButton setUserInteractionEnabled:NO];
+                zongheBuyButton.backgroundColor = ZTBLUE;
                 [zongheBuyButton setAlpha:0.6f];
             }
             else
             {
+                NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
+                [formatter setPositiveFormat:@"###,##0"];
+                zongheLabel.text = [NSString stringWithFormat:@"可认购份额：%@元",[formatter stringFromNumber:[NSNumber numberWithInt:[NSString stringWithFormat:@"%@",[zongheData objectForKey:@"bidableAmount"]].intValue]]];
+                
                 [zongheBuyButton setUserInteractionEnabled:YES];
+                zongheBuyButton.backgroundColor = ZTBLUE;
                 [zongheBuyButton setAlpha:1.0f];
             }
         }
-        else
-        {
-            [zongheBuyButton setUserInteractionEnabled:NO];
-            [zongheBuyButton setAlpha:1.0f];
-            zongheBuyButton.backgroundColor = ZTGRAY;
-            [zongheBuyButton setTitle:@"已售完" forState:UIControlStateNormal];
-        }
-
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
@@ -368,7 +401,7 @@
         NSString *numStr = [NSString stringWithFormat:@"%@",[responseObject objectForKey:@"interestRate"]];
         if ([numStr rangeOfString:@"."].location != NSNotFound)
         {
-            huoqiRateLabel.font = [UIFont fontWithName:@"EuphemiaUCAS-Bold" size:38.0f];
+            huoqiRateLabel.font = [UIFont fontWithName:@"EuphemiaUCAS-Bold" size:59.0f];
             huoqiRateLabel.text = numStr;
         }
         else
@@ -381,8 +414,8 @@
             [mainScrollView.header endRefreshing];
         }
         NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
-        [formatter setPositiveFormat:@"###,##0"];
-        huoqiAmountLabel.text = [NSString stringWithFormat:@"产品规模：%@万元",[formatter stringFromNumber:[NSNumber numberWithInt:[NSString stringWithFormat:@"%@",[huoqiData objectForKey:@"totalAmount"]].intValue/10000]]];
+        [formatter setPositiveFormat:@"###,##0.00"];
+        huoqiAmountLabel.text = [NSString stringWithFormat:@"可认购份额：%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:[NSString stringWithFormat:@"%@",[huoqiData objectForKey:@"bidableAmount"]].doubleValue]]];
         if (((NSString*)[huoqiData objectForKey:@"bidableAmount"]).intValue > 0)
         {
             [huoqiBuyButton setUserInteractionEnabled:YES];
@@ -415,29 +448,97 @@
 
 - (void)buyNow:(id)sender
 {
-    ProductBuyViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ProductBuyViewController"];
-    vc.style = style;
-    NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
-    [formatter setPositiveFormat:@"###,##0.00"];
-    if ([style isEqualToString:WENJIAN])
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    if (![userDefault boolForKey:ISLOGIN])
     {
-        vc.productInfo = wenjianData;
-        vc.idOrCode = [wenjianData objectForKey:@"id"];
-        vc.bidableAmount = [NSString stringWithString:[formatter stringFromNumber:[wenjianData objectForKey:@"bidableAmount"]]];
-    }
-    else if ([style isEqualToString:ZONGHE])
-    {
-        vc.productInfo = zongheData;
-        vc.idOrCode = [zongheData objectForKey:@"id"];
-        vc.bidableAmount = [NSString stringWithString:[formatter stringFromNumber:[zongheData objectForKey:@"bidableAmount"]]];
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"您尚未登录" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *gotoLogin = [UIAlertAction actionWithTitle:@"去登录" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
+            UINavigationController *nav = [[self storyboard]instantiateViewControllerWithIdentifier:@"LoginNav"];
+            [[self tabBarController] presentViewController:nav animated:YES completion:nil];
+        }];
+        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+        [alertController addAction:gotoLogin];
+        [alertController addAction:cancel];
+        [self presentViewController:alertController animated:YES completion:nil];
     }
     else
     {
-        flag = true;
-        vc.productInfo = huoqiData;
-        vc.bidableAmount = [NSString stringWithString:[formatter stringFromNumber:[huoqiData objectForKey:@"bidableAmount"]]];
+        ProductBuyViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ProductBuyViewController"];
+        vc.style = style;
+        NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
+        [formatter setPositiveFormat:@"###,##0.00"];
+        if ([style isEqualToString:WENJIAN])
+        {
+            vc.productInfo = wenjianData;
+            vc.idOrCode = [wenjianData objectForKey:@"id"];
+            vc.bidableAmount = [NSString stringWithString:[formatter stringFromNumber:[wenjianData objectForKey:@"bidableAmount"]]];
+        }
+        else if ([style isEqualToString:ZONGHE])
+        {
+            vc.productInfo = zongheData;
+            vc.idOrCode = [zongheData objectForKey:@"id"];
+            vc.bidableAmount = [NSString stringWithString:[formatter stringFromNumber:[zongheData objectForKey:@"bidableAmount"]]];
+        }
+        else
+        {
+            flag = true;
+            vc.productInfo = huoqiData;
+            vc.bidableAmount = [NSString stringWithString:[formatter stringFromNumber:[huoqiData objectForKey:@"bidableAmount"]]];
+        }
+        [[self navigationController]pushViewController:vc animated:YES];
     }
-    [[self navigationController]pushViewController:vc animated:YES];
+}
+
+
+- (void)wenjianTimeCountDown
+{
+    NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];//实例化一个NSDateFormatter对象
+    [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];//设定时间格式
+    NSDate *startDate = [dateFormat dateFromString:[wenjianData objectForKey:@"startRaisingDateTime"]];
+    NSDate *date = [NSDate date];
+    if ([startDate timeIntervalSinceDate:date] > 0.0)
+    {
+        int days = (int)[startDate timeIntervalSinceDate:date]/(24*60*60);
+        int hours = ((int)[startDate timeIntervalSinceDate:date] - days*24*60*60)/(60*60);
+        int minutes = ((int)[startDate timeIntervalSinceDate:date] - hours*60*60)/60 + 1;
+        wenjianLabel.text = [NSString stringWithFormat:@"开售倒计时：%02d天%02d时%02d分",days,hours,minutes];
+    }
+    else
+    {
+        NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
+        [formatter setPositiveFormat:@"###,##0"];
+        wenjianLabel.text = [NSString stringWithFormat:@"可认购份额：%@元",[formatter stringFromNumber:[NSNumber numberWithInt:[NSString stringWithFormat:@"%@",[wenjianData objectForKey:@"bidableAmount"]].intValue]]];
+        wenjianLabel.text = @"";
+        
+        [wenjianBuyButton setUserInteractionEnabled:YES];
+        wenjianBuyButton.backgroundColor = ZTLIGHTRED;
+        [wenjianBuyButton setAlpha:1.0f];
+    }
+}
+
+- (void)zongheTimeCountDown
+{
+    NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];//实例化一个NSDateFormatter对象
+    [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];//设定时间格式
+    NSDate *startDate = [dateFormat dateFromString:[zongheData objectForKey:@"startRaisingDateTime"]];
+    NSDate *date = [NSDate date];
+    if ([startDate timeIntervalSinceDate:date] > 0.0)
+    {
+        int days = (int)[startDate timeIntervalSinceDate:date]/(24*60*60);
+        int hours = ((int)[startDate timeIntervalSinceDate:date] - days*24*60*60)/(60*60);
+        int minutes = ((int)[startDate timeIntervalSinceDate:date] - hours*60*60)/60 + 1;
+        zongheLabel.text = [NSString stringWithFormat:@"开售倒计时：%02d天%02d时%02d分",days,hours,minutes];
+    }
+    else
+    {
+        NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
+        [formatter setPositiveFormat:@"###,##0"];
+        zongheLabel.text = [NSString stringWithFormat:@"可认购份额：%@元",[formatter stringFromNumber:[NSNumber numberWithInt:[NSString stringWithFormat:@"%@",[zongheData objectForKey:@"bidableAmount"]].intValue]]];
+        
+        [zongheBuyButton setUserInteractionEnabled:YES];
+        zongheBuyButton.backgroundColor = ZTBLUE;
+        [zongheBuyButton setAlpha:1.0f];
+    }
 }
 
 #pragma mark ScrollViewDelegate
@@ -460,13 +561,12 @@
                 [huoqiBgImageView1 setFrame:frame];
                 [huoqiBgImageView2 setFrame:frame];
                 wenjianBuyButton.hidden = NO;
-                wenjianTimeLabel.hidden = NO;
-                wenjianAmountLabel.hidden = NO;
+                wenjianLabel.hidden = NO;
                 zongheBuyButton.hidden = YES;
-                zongheTimeLabel.hidden = YES;
-                zongheAmountLabel.hidden = YES;
+                zongheLabel.hidden = YES;
                 huoqiBuyButton.hidden = YES;
                 huoqiAmountLabel.hidden = YES;
+                huoqiDescriptionLabel.hidden = YES;
             }
         }
         else if (scrView.contentOffset.x == screenWidth)
@@ -484,13 +584,12 @@
                 [huoqiBgImageView1 setFrame:frame];
                 [huoqiBgImageView2 setFrame:frame];
                 wenjianBuyButton.hidden = YES;
-                wenjianTimeLabel.hidden = YES;
-                wenjianAmountLabel.hidden = YES;
+                wenjianLabel.hidden = YES;
+                zongheLabel.hidden = NO;
                 zongheBuyButton.hidden = NO;
-                zongheTimeLabel.hidden = NO;
-                zongheAmountLabel.hidden = NO;
                 huoqiBuyButton.hidden = YES;
                 huoqiAmountLabel.hidden = YES;
+                huoqiDescriptionLabel.hidden = YES;
             }
         }
         else
@@ -505,13 +604,12 @@
                 wenjianButton.tintColor = ZTGRAY;
                 zongheButton.tintColor = ZTGRAY;
                 wenjianBuyButton.hidden = YES;
-                wenjianTimeLabel.hidden = YES;
-                wenjianAmountLabel.hidden = YES;
+                wenjianLabel.hidden = YES;
                 zongheBuyButton.hidden = YES;
-                zongheTimeLabel.hidden = YES;
-                zongheAmountLabel.hidden = YES;
+                zongheLabel.hidden = YES;
                 huoqiBuyButton.hidden = NO;
                 huoqiAmountLabel.hidden = NO;
+                huoqiDescriptionLabel.hidden = NO;
                 //动画效果
                 [UIView beginAnimations:nil context:UIGraphicsGetCurrentContext()];
                 [UIView setAnimationDuration:0.8f];
@@ -527,7 +625,7 @@
 {
     if (scrView == scrollView)
     {
-        if (scrView.contentOffset.x == wenjianView.frame.origin.x)
+        if (scrView.contentOffset.x == 0)
         {
             if (![style isEqualToString:WENJIAN])
             {
@@ -542,16 +640,15 @@
                 [huoqiBgImageView1 setFrame:frame];
                 [huoqiBgImageView2 setFrame:frame];
                 wenjianBuyButton.hidden = NO;
-                wenjianTimeLabel.hidden = NO;
-                wenjianAmountLabel.hidden = NO;
+                wenjianLabel.hidden = NO;
                 zongheBuyButton.hidden = YES;
-                zongheTimeLabel.hidden = YES;
-                zongheAmountLabel.hidden = YES;
+                zongheLabel.hidden = YES;
                 huoqiBuyButton.hidden = YES;
                 huoqiAmountLabel.hidden = YES;
+                huoqiDescriptionLabel.hidden = YES;
             }
         }
-        else if (scrView.contentOffset.x == zongheView.frame.origin.x)
+        else if (scrView.contentOffset.x == screenWidth)
         {
             if (![style isEqualToString:ZONGHE])
             {
@@ -566,13 +663,11 @@
                 [huoqiBgImageView1 setFrame:frame];
                 [huoqiBgImageView2 setFrame:frame];
                 wenjianBuyButton.hidden = YES;
-                wenjianTimeLabel.hidden = YES;
-                wenjianAmountLabel.hidden = YES;
-                zongheBuyButton.hidden = NO;
-                zongheTimeLabel.hidden = NO;
-                zongheAmountLabel.hidden = NO;
+                wenjianLabel.hidden = YES;
+                zongheLabel.hidden = NO;
                 huoqiBuyButton.hidden = YES;
                 huoqiAmountLabel.hidden = YES;
+                huoqiDescriptionLabel.hidden = YES;
             }
         }
         else
@@ -587,13 +682,12 @@
                 wenjianButton.tintColor = ZTGRAY;
                 zongheButton.tintColor = ZTGRAY;
                 wenjianBuyButton.hidden = YES;
-                wenjianTimeLabel.hidden = YES;
-                wenjianAmountLabel.hidden = YES;
+                wenjianLabel.hidden = YES;
                 zongheBuyButton.hidden = YES;
-                zongheTimeLabel.hidden = YES;
-                zongheAmountLabel.hidden = YES;
+                zongheLabel.hidden = YES;
                 huoqiBuyButton.hidden = NO;
                 huoqiAmountLabel.hidden = NO;
+                huoqiDescriptionLabel.hidden = NO;
                 //动画效果
                 [UIView beginAnimations:nil context:UIGraphicsGetCurrentContext()];
                 [UIView setAnimationDuration:0.8f];

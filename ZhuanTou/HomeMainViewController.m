@@ -232,8 +232,17 @@
         [formatter setPositiveFormat:@"###,##0"];
         bidableAmount = [NSString stringWithFormat:@"%@元",[NSString stringWithString:[formatter stringFromNumber:[responseObject objectForKey:@"bidableAmount"]]]];
         productInfo = [NSDictionary dictionaryWithDictionary:responseObject];
+        NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];//实例化一个NSDateFormatter对象
+        [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];//设定时间格式
+        NSDate *startDate = [dateFormat dateFromString:[productInfo objectForKey:@"startRaisingDateTime"]];
         if (((NSString*)[responseObject objectForKey:@"bidableAmount"]).intValue == 0)
         {
+            NSDateFormatter* nextDateFormat = [[NSDateFormatter alloc] init];//实例化一个NSDateFormatter对象
+            [nextDateFormat setDateFormat:@"yyyy年MM月dd日 HH:mm"];//设定时间格式
+            NSTimeInterval days = 7*24*60*60;
+            NSString *nextDateStr = [nextDateFormat stringFromDate:[startDate dateByAddingTimeInterval:days]];
+            timeLabel.text = [NSString stringWithFormat:@"下一期：%@ 准时上线",nextDateStr];
+            
             [buyButton setUserInteractionEnabled:NO];
             [buyButton setAlpha:1.0f];
             [buyButton setTitle:@"已售完" forState:UIControlStateNormal];
@@ -251,22 +260,27 @@
             buyButton.backgroundColor = ZTBLUE;
             [buyButton setTitle:@"立即购买" forState:UIControlStateNormal];
             NSDate *date = [NSDate date];
-            NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];
-            [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-            NSDate *wenjianDate = [dateFormat dateFromString:[productInfo objectForKey:@"startRaisingDateTime"]];
-            if ([date timeIntervalSinceDate:wenjianDate] < 0.0)
+            if ([date timeIntervalSinceDate:startDate] < 0.0)
             {
+                [self zongheTimeCountDown];
+                zongheTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(zongheTimeCountDown) userInfo:nil repeats:YES];
+                
                 [buyButton setUserInteractionEnabled:NO];
                 [buyButton setAlpha:0.6f];
                 [inUpImageView setAlpha:0.6f];
             }
             else
             {
+                NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
+                [formatter setPositiveFormat:@"###,##0"];
+                timeLabel.text = [NSString stringWithFormat:@"可认购份额：%@元",[formatter stringFromNumber:[NSNumber numberWithInt:[NSString stringWithFormat:@"%@",[productInfo objectForKey:@"bidableAmount"]].intValue]]];
+                
                 [buyButton setUserInteractionEnabled:YES];
                 [buyButton setAlpha:1.0f];
                 [inUpImageView setAlpha:1.0f];
             }
         }
+
         if ([innerScrollView.header isRefreshing])
         {
             [innerScrollView.header endRefreshing];
@@ -336,6 +350,31 @@
     }
 }
 
+- (void)zongheTimeCountDown
+{
+    NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];//实例化一个NSDateFormatter对象
+    [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];//设定时间格式
+    NSDate *startDate = [dateFormat dateFromString:[productInfo objectForKey:@"startRaisingDateTime"]];
+    NSDate *date = [NSDate date];
+    if ([startDate timeIntervalSinceDate:date] > 0.0)
+    {
+        int days = (int)[startDate timeIntervalSinceDate:date]/(24*60*60);
+        int hours = ((int)[startDate timeIntervalSinceDate:date] - days*24*60*60)/(60*60);
+        int minutes = ((int)[startDate timeIntervalSinceDate:date] - hours*60*60)/60 + 1;
+        timeLabel.text = [NSString stringWithFormat:@"开售倒计时：%02d天%02d时%02d分",days,hours,minutes];
+    }
+    else
+    {
+        NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
+        [formatter setPositiveFormat:@"###,##0"];
+        timeLabel.text = [NSString stringWithFormat:@"可认购份额：%@元",[formatter stringFromNumber:[NSNumber numberWithInt:[NSString stringWithFormat:@"%@",[productInfo objectForKey:@"bidableAmount"]].intValue]]];
+        
+        [buyButton setUserInteractionEnabled:YES];
+        buyButton.backgroundColor = ZTBLUE;
+        [buyButton setAlpha:1.0f];
+    }
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -373,12 +412,28 @@
 
 - (void)toBuy:(id)sender
 {
-    ProductBuyViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ProductBuyViewController"];
-    vc.style = ZONGHE;
-    vc.idOrCode = idCode;
-    vc.bidableAmount = bidableAmount;
-    vc.productInfo = productInfo;
-    [[self navigationController]pushViewController:vc animated:YES];
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    if (![userDefault boolForKey:ISLOGIN])
+    {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"您尚未登录" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *gotoLogin = [UIAlertAction actionWithTitle:@"去登录" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
+            UINavigationController *nav = [[self storyboard]instantiateViewControllerWithIdentifier:@"LoginNav"];
+            [[self tabBarController] presentViewController:nav animated:YES completion:nil];
+        }];
+        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+        [alertController addAction:gotoLogin];
+        [alertController addAction:cancel];
+        [self presentViewController:alertController animated:YES completion:nil];
+    }
+    else
+    {
+        ProductBuyViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ProductBuyViewController"];
+        vc.style = ZONGHE;
+        vc.idOrCode = idCode;
+        vc.bidableAmount = bidableAmount;
+        vc.productInfo = productInfo;
+        [[self navigationController]pushViewController:vc animated:YES];
+    }
 }
 
 

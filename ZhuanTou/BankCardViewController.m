@@ -107,9 +107,14 @@
         if (f1 == 1)
         {
             [hud hide:YES];
-            AddBankCardViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"AddBankCardViewController"];
-            [vc setFullName:[responseObject objectForKey:@"fullName"]];
-            [[self navigationController]pushViewController:vc animated:YES];
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"为了您的资金安全，您的资金将被限制同卡进出，请填写真实银行卡信息。" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
+                AddBankCardViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"AddBankCardViewController"];
+                [vc setFullName:[responseObject objectForKey:@"fullName"]];
+                [[self navigationController]pushViewController:vc animated:YES];
+            }];
+            [alertController addAction:confirmAction];
+            [self presentViewController:alertController animated:YES completion:nil];
         }
         else
         {

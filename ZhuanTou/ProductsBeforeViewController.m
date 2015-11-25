@@ -131,7 +131,7 @@
     {
         cell.headView.backgroundColor = ZTGRAY;
         cell.percentNumLabel.textColor = ZTGRAY;
-        cell.percentTitleLabel.text = @"投资人到手年化收益";
+        cell.percentTitleLabel.text = @"年化收益";
     }
     
     return cell;
