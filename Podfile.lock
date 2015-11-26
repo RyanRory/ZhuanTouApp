@@ -20,26 +20,26 @@ PODS:
   - AFNetworking/UIKit (2.5.4):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
-  - IQKeyboardManager (3.2.4)
+  - IQKeyboardManager (HEAD based on 3.3.4)
   - MBProgressHUD (HEAD based on 0.9.1)
-  - MJRefresh (2.0.1)
-  - SCNumberKeyBoard (0.2.1)
-  - UICountingLabel (1.2.0)
+  - MJRefresh (HEAD based on 3.0.6)
+  - SCNumberKeyBoard (HEAD based on 0.5.3)
+  - UICountingLabel (HEAD based on 1.2.0)
 
 DEPENDENCIES:
-  - AFNetworking
-  - IQKeyboardManager
+  - AFNetworking (~> 2.5.4)
+  - IQKeyboardManager (HEAD)
   - MBProgressHUD (HEAD)
-  - MJRefresh
-  - SCNumberKeyBoard
-  - UICountingLabel
+  - MJRefresh (HEAD)
+  - SCNumberKeyBoard (HEAD)
+  - UICountingLabel (HEAD)
 
 SPEC CHECKSUMS:
   AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
-  IQKeyboardManager: 555b1231fefafb21b19278d7cca72986a27b748b
+  IQKeyboardManager: ac803e61e5b50efae6b3aeedd95a02c7c7d3b2b3
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
-  MJRefresh: ba114191a0ce34bcc9c1853aa1d3781532c9bc3f
-  SCNumberKeyBoard: f24f02456b468e2f6077421259f7a6bccc730070
+  MJRefresh: df419e2393f9020bcd340c552e8f0cf700073f32
+  SCNumberKeyBoard: 0d246ca7cc55b603d67f76ed9d7f0c4b5de26eaf
   UICountingLabel: 1db4e7d023e1762171eb226d6dff47a7a84f27aa
 
 COCOAPODS: 0.38.2

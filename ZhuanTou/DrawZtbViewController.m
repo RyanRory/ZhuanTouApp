@@ -35,7 +35,9 @@
     [confirmButton setUserInteractionEnabled:NO];
     [confirmButton setAlpha:0.6f];
     
-    [SCNumberKeyBoard showWithTextField:drawNumTextField block:nil];
+    SCNumberKeyBoard *keyboard = [SCNumberKeyBoard showWithTextField:drawNumTextField enter:nil close:nil];
+    [keyboard.enterButton setBackgroundColor:ZTBLUE];
+    [keyboard.enterButton setTitle:@"确定" forState:UIControlStateNormal];
     
 }
 

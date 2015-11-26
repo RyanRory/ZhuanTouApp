@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "89F437DC2ECD24BC4D95FDE2"
+               BlueprintIdentifier = "0DB76852D4E65560AEE20E93"
                BuildableName = "libSCNumberKeyBoard.a"
                BlueprintName = "SCNumberKeyBoard"
                ReferencedContainer = "container:Pods.xcodeproj">

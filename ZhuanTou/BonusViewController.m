@@ -27,10 +27,10 @@
     
     tView.showsHorizontalScrollIndicator = NO;
     tView.showsVerticalScrollIndicator = NO;
-    tView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+    tView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
            [self setupData];
     }];
-    [tView.header beginRefreshing];
+    [tView.mj_header beginRefreshing];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -45,7 +45,7 @@
 - (void)becomeForeground
 {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [tView.header beginRefreshing];
+        [tView.mj_header beginRefreshing];
     });
 }
 
@@ -67,12 +67,12 @@
         NSLog(@"%@", responseObject);
         datas = [NSMutableArray arrayWithArray:responseObject];
         bonusNum = (int)datas.count;
-        [tView.header endRefreshing];
+        [tView.mj_header endRefreshing];
         [tView reloadData];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
-        [tView.header endRefreshing];
+        [tView.mj_header endRefreshing];
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.mode = MBProgressHUDModeText;
         hud.labelText = @"当前网络状况不佳，请重试";

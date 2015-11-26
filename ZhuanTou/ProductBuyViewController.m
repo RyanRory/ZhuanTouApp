@@ -62,7 +62,7 @@
         [self setupHuoqi];
     }
     
-    restLabel.text = bidableAmount;
+    restLabel.text = [NSString stringWithFormat:@"%@元",bidableAmount];
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSString *URL = [BASEURL stringByAppendingString:@"api/account/couponInfo4M"];
@@ -70,7 +70,16 @@
         NSLog(@"%@", responseObject);
         NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
         [formatter setPositiveFormat:@"###,##0.00"];
-        balanceLabel.text = [NSString stringWithString:[formatter stringFromNumber:[responseObject objectForKey:@"fundsAvailable"]]];
+        if ([style isEqualToString:HUOQI])
+        {
+            balance = [NSString stringWithFormat:@"%@",[responseObject objectForKey:@"fundsAvailable"]].doubleValue;
+            balanceLabel.text = [NSString stringWithFormat:@"可用余额：%@元",[formatter stringFromNumber:[responseObject objectForKey:@"fundsAvailable"]]];
+        }
+        else
+        {
+            balance = [NSString stringWithFormat:@"%@",[responseObject objectForKey:@"fundsAvailable"]].doubleValue + [NSString stringWithFormat:@"%@",[responseObject objectForKey:@"ztbBalance"]].doubleValue;
+            balanceLabel.text = [NSString stringWithFormat:@"可投资余额：%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:balance]]];
+        }
         datas = [NSMutableArray arrayWithArray:[responseObject objectForKey:@"coupons"]];
         bonusNum = (int)datas.count;
         [tView reloadData];
@@ -83,8 +92,9 @@
         [hud hide:YES afterDelay:1.5f];
     }];
     
-    SCNumberKeyBoard *keyboard = [SCNumberKeyBoard showWithTextField:amountTextField block:nil];
+    SCNumberKeyBoard *keyboard = [SCNumberKeyBoard showWithTextField:amountTextField enter:nil close:nil];
     [keyboard.enterButton setBackgroundColor:ZTBLUE];
+    [keyboard.enterButton setTitle:@"确定" forState:UIControlStateNormal];
 
 }
 
@@ -153,7 +163,7 @@
 
 - (void)confirm:(id)sender
 {
-    if (amountTextField.text.doubleValue > [balanceLabel.text stringByReplacingOccurrencesOfString:@"," withString:@""].doubleValue)
+    if (amountTextField.text.doubleValue > balance)
     {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.mode = MBProgressHUDModeCustomView;
@@ -163,26 +173,26 @@
             [amountTextField becomeFirstResponder];
         });
     }
-    else if ((![style isEqualToString:HUOQI]) && (amountTextField.text.intValue < ((NSString*)[productInfo objectForKey:@"minPurchaseAmount"]).intValue))
-    {
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-        hud.mode = MBProgressHUDModeCustomView;
-        hud.labelText = [NSString stringWithFormat:@"最低投资额度为%@元",[productInfo objectForKey:@"minPurchaseAmount"]];
-        [hud hide:YES afterDelay:1.5];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [amountTextField becomeFirstResponder];
-        });
-    }
-    else if ((![style isEqualToString:HUOQI]) && (amountTextField.text.intValue > ((NSString*)[productInfo objectForKey:@"maxPurchaseAmount"]).intValue))
-    {
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-        hud.mode = MBProgressHUDModeCustomView;
-        hud.labelText = [NSString stringWithFormat:@"最高投资额度为%@元",[productInfo objectForKey:@"maxPurchaseAmount"]];
-        [hud hide:YES afterDelay:1.5];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [amountTextField becomeFirstResponder];
-        });
-    }
+//    else if ((![style isEqualToString:HUOQI]) && (amountTextField.text.intValue < ((NSString*)[productInfo objectForKey:@"minPurchaseAmount"]).intValue))
+//    {
+//        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+//        hud.mode = MBProgressHUDModeCustomView;
+//        hud.labelText = [NSString stringWithFormat:@"最低投资额度为%@元",[productInfo objectForKey:@"minPurchaseAmount"]];
+//        [hud hide:YES afterDelay:1.5];
+//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//            [amountTextField becomeFirstResponder];
+//        });
+//    }
+//    else if ((![style isEqualToString:HUOQI]) && (amountTextField.text.intValue > ((NSString*)[productInfo objectForKey:@"maxPurchaseAmount"]).intValue))
+//    {
+//        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+//        hud.mode = MBProgressHUDModeCustomView;
+//        hud.labelText = [NSString stringWithFormat:@"最高投资额度为%@元",[productInfo objectForKey:@"maxPurchaseAmount"]];
+//        [hud hide:YES afterDelay:1.5];
+//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//            [amountTextField becomeFirstResponder];
+//        });
+//    }
     else if ((![style isEqualToString:HUOQI]) && (amountTextField.text.intValue % 100 != 0))
     {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];

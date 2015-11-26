@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZTTabBarViewController.h"
 
 @interface RegisterSuccessViewController : UIViewController
 

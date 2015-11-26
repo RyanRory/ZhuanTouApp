@@ -49,7 +49,7 @@
     
     [self setupData];
     
-    scrollView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+    scrollView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         [self setupData];
     }];
 }
@@ -67,7 +67,7 @@
 - (void)becomeForeground
 {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [scrollView.header beginRefreshing];
+        [scrollView.mj_header beginRefreshing];
     });
 }
 
@@ -139,9 +139,9 @@
             hud.labelText = [responseObject objectForKey:@"errorMessage"];
             [hud hide:YES afterDelay:1.5f];
         }
-        if ([scrollView.header isRefreshing])
+        if ([scrollView.mj_header isRefreshing])
         {
-            [scrollView.header endRefreshing];
+            [scrollView.mj_header endRefreshing];
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -150,9 +150,9 @@
         hud.mode = MBProgressHUDModeText;
         hud.labelText = @"当前网络状况不佳，请重试";
         [hud hide:YES afterDelay:1.5f];
-        if ([scrollView.header isRefreshing])
+        if ([scrollView.mj_header isRefreshing])
         {
-            [scrollView.header endRefreshing];
+            [scrollView.mj_header endRefreshing];
         }
     }];
 }

@@ -41,7 +41,7 @@
     [chargeButton addTarget:self action:@selector(toCharge:) forControlEvents:UIControlEventTouchUpInside];
     [drawButton addTarget:self action:@selector(toDraw:) forControlEvents:UIControlEventTouchUpInside];
     
-    scrollView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+    scrollView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         [self setupData];
     }];
 }
@@ -64,12 +64,13 @@
 - (void)becomeForeground
 {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [scrollView.header beginRefreshing];
+        [scrollView.mj_header beginRefreshing];
     });
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
+
     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
     BOOL flag = [userDefault boolForKey:ISLOGIN];
     if (flag)
@@ -106,7 +107,8 @@
         {
             NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
             [formatter setPositiveFormat:@"###,##0.00"];
-            dingqiNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[responseObject objectForKey:@"activeInvestTotalAmount"]]];
+            double dingqi = [NSString stringWithFormat:@"%@",[responseObject objectForKey:@"activeInvestTotalAmount"]].doubleValue;
+            dingqiNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:dingqi]]];
             huoqiNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[responseObject objectForKey:@"ztbBalance"]]];
             propertyLabel.text = [NSString stringWithString:[formatter stringFromNumber:[responseObject objectForKey:@"totalAsset"]]];
             balanceLabel.text = [NSString stringWithString:[formatter stringFromNumber:[responseObject objectForKey:@"fundsAvailable"]]];
@@ -120,9 +122,9 @@
             hud.labelText = [responseObject objectForKey:@"errorMessage"];
             [hud hide:YES afterDelay:1.5f];
         }
-        if ([scrollView.header isRefreshing])
+        if ([scrollView.mj_header isRefreshing])
         {
-            [scrollView.header endRefreshing];
+            [scrollView.mj_header endRefreshing];
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -131,9 +133,9 @@
         hud.mode = MBProgressHUDModeText;
         hud.labelText = @"当前网络状况不佳，请重试";
         [hud hide:YES afterDelay:1.5f];
-        if ([scrollView.header isRefreshing])
+        if ([scrollView.mj_header isRefreshing])
         {
-            [scrollView.header endRefreshing];
+            [scrollView.mj_header endRefreshing];
         }
     }];
 }
@@ -205,7 +207,6 @@
     if (isSave) {
         SetpasswordViewController *setpass = [[self storyboard]instantiateViewControllerWithIdentifier:@"SetpasswordViewController"];
         setpass.string = @"修改密码";
-        setpass.hidesBottomBarWhenPushed = YES;
         [[self navigationController]pushViewController:setpass animated:YES];
     } else {
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"您还没有设置手势密码" message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
@@ -215,48 +216,57 @@
 
 - (void)signOut:(id)sender
 {
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    [self.navigationController.view addSubview:hud];
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    NSString *URL = [BASEURL stringByAppendingString:@"Account/SignOut"];
-    [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
-        NSLog(@"%@", responseObject);
-        NSString *str = [responseObject objectForKey:@"isAuthenticated"];
-        int f1 = str.intValue;
-        if (f1 == 0)
-        {
-            hud.mode = MBProgressHUDModeCustomView;
-            hud.labelText = [responseObject objectForKey:@"errorMessage"];
-            [hud hide:YES afterDelay:1.5f];
-        }
-        else
-        {
+    UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:@"是否确认安全退出当前账户？" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        [self.navigationController.view addSubview:hud];
+        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+        NSString *URL = [BASEURL stringByAppendingString:@"Account/SignOut"];
+        [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+            NSLog(@"%@", responseObject);
+            NSString *str = [responseObject objectForKey:@"isAuthenticated"];
+            int f1 = str.intValue;
+            if (f1 == 0)
+            {
+                hud.mode = MBProgressHUDModeCustomView;
+                hud.labelText = [responseObject objectForKey:@"errorMessage"];
+                [hud hide:YES afterDelay:1.5f];
+            }
+            else
+            {
+                hud.mode = MBProgressHUDModeCustomView;
+                hud.labelText = @"登出成功";
+                [hud hide:YES afterDelay:1.0f];
+                self.navigationItem.leftBarButtonItem = nil;
+                NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+                [userDefault setBool:NO forKey:ISLOGIN];
+                [userDefault removeObjectForKey:PASSWORD];
+                [userDefault synchronize];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [[self tabBarController]setSelectedIndex:0];
+                });
+            }
+            
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            NSLog(@"Error: %@", error);
             hud.mode = MBProgressHUDModeCustomView;
             hud.labelText = @"登出成功";
             [hud hide:YES afterDelay:1.0f];
             self.navigationItem.leftBarButtonItem = nil;
             NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
             [userDefault setBool:NO forKey:ISLOGIN];
+            [userDefault removeObjectForKey:PASSWORD];
             [userDefault synchronize];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [[self tabBarController]setSelectedIndex:0];
             });
-        }
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Error: %@", error);
-        hud.mode = MBProgressHUDModeCustomView;
-        hud.labelText = @"登出成功";
-        [hud hide:YES afterDelay:1.0f];
-        self.navigationItem.leftBarButtonItem = nil;
-        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-        [userDefault setBool:NO forKey:ISLOGIN];
-        [userDefault synchronize];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [[self tabBarController]setSelectedIndex:0];
-        });
+        }];
     }];
     
+    [alertVC addAction:cancelAction];
+    [alertVC addAction:confirmAction];
+    [self presentViewController:alertVC animated:YES completion:nil];
 }
 
 

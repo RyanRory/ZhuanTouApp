@@ -84,7 +84,7 @@
     [self setupWenjian];
     [self setupZonghe];
 
-    mainScrollView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+    mainScrollView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         if ([style isEqualToString:WENJIAN])
         {
             [self setupWenjian];
@@ -138,7 +138,7 @@
 - (void)becomeForeground
 {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [mainScrollView.header beginRefreshing];
+        [mainScrollView.mj_header beginRefreshing];
     });
 }
 
@@ -235,7 +235,7 @@
     [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
         NSLog(@"%@", responseObject);
         wenjianData = [NSDictionary dictionaryWithDictionary:responseObject];
-        NSString *numStr = [NSString stringWithFormat:@"%@",[wenjianData objectForKey:@"interestRate"]];
+        NSString *numStr = [NSString stringWithFormat:@"%@",[wenjianData objectForKey:@"expectedReturn"]];
         if ([numStr rangeOfString:@"."].location != NSNotFound)
         {
             wenjianRateLabel.font = [UIFont fontWithName:@"EuphemiaUCAS-Bold" size:38.0f];
@@ -247,9 +247,9 @@
             wenjianRateLabel.text = numStr;
         }
         wenjianMonthLabel.text = [NSString stringWithFormat:@"%d",(int)round((((NSString*)[wenjianData objectForKey:@"noOfDays"]).doubleValue / 30))];
-        if ([mainScrollView.header isRefreshing])
+        if ([mainScrollView.mj_header isRefreshing])
         {
-            [mainScrollView.header endRefreshing];
+            [mainScrollView.mj_header endRefreshing];
             [self bgCircleAnimation:wenjianBgImageView];
         }
         NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];//实例化一个NSDateFormatter对象
@@ -261,7 +261,7 @@
             [nextDateFormat setDateFormat:@"yyyy年MM月dd日 HH:mm"];//设定时间格式
             NSTimeInterval days = 7*24*60*60;
             NSString *nextDateStr = [nextDateFormat stringFromDate:[startDate dateByAddingTimeInterval:days]];
-            wenjianLabel.text = [NSString stringWithFormat:@"下一期：%@ 准时上线",nextDateStr];
+            wenjianLabel.text = [NSString stringWithFormat:@"下一期：%@ 准时开抢",nextDateStr];
             
             [wenjianBuyButton setUserInteractionEnabled:NO];
             [wenjianBuyButton setAlpha:1.0f];
@@ -284,7 +284,7 @@
             {
                 NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
                 [formatter setPositiveFormat:@"###,##0"];
-                wenjianLabel.text = [NSString stringWithFormat:@"可认购份额：%@元",[formatter stringFromNumber:[NSNumber numberWithInt:[NSString stringWithFormat:@"%@",[wenjianData objectForKey:@"bidableAmount"]].intValue]]];
+                wenjianLabel.text = [NSString stringWithFormat:@"剩余可认购份额：%@元",[formatter stringFromNumber:[NSNumber numberWithInt:[NSString stringWithFormat:@"%@",[wenjianData objectForKey:@"bidableAmount"]].intValue]]];
                 
                 [wenjianBuyButton setUserInteractionEnabled:YES];
                 wenjianBuyButton.backgroundColor = ZTLIGHTRED;
@@ -298,9 +298,9 @@
         hud.mode = MBProgressHUDModeText;
         hud.labelText = @"当前网络状况不佳，请重试";
         [hud hide:YES afterDelay:1.5f];
-        if ([scrollView.header isRefreshing])
+        if ([scrollView.mj_header isRefreshing])
         {
-            [scrollView.header endRefreshing];
+            [scrollView.mj_header endRefreshing];
         }
     }];
 }
@@ -328,9 +328,9 @@
             zongheBigRateLabel.text = numStr;
         }
         zongheMonthLabel.text = [NSString stringWithFormat:@"%d",(int)round((((NSString*)[zongheData objectForKey:@"noOfDays"]).doubleValue / 30))];
-        if ([mainScrollView.header isRefreshing])
+        if ([mainScrollView.mj_header isRefreshing])
         {
-            [mainScrollView.header endRefreshing];
+            [mainScrollView.mj_header endRefreshing];
             [self bgCircleAnimation:zongheBgImageView];
         }
         NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];//实例化一个NSDateFormatter对象
@@ -342,7 +342,7 @@
             [nextDateFormat setDateFormat:@"yyyy年MM月dd日 HH:mm"];//设定时间格式
             NSTimeInterval days = 7*24*60*60;
             NSString *nextDateStr = [nextDateFormat stringFromDate:[startDate dateByAddingTimeInterval:days]];
-            zongheLabel.text = [NSString stringWithFormat:@"下一期：%@ 准时上线",nextDateStr];
+            zongheLabel.text = [NSString stringWithFormat:@"下一期：%@ 准时开抢",nextDateStr];
             
             [zongheBuyButton setUserInteractionEnabled:NO];
             [zongheBuyButton setAlpha:1.0f];
@@ -365,7 +365,7 @@
             {
                 NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
                 [formatter setPositiveFormat:@"###,##0"];
-                zongheLabel.text = [NSString stringWithFormat:@"可认购份额：%@元",[formatter stringFromNumber:[NSNumber numberWithInt:[NSString stringWithFormat:@"%@",[zongheData objectForKey:@"bidableAmount"]].intValue]]];
+                zongheLabel.text = [NSString stringWithFormat:@"剩余可认购份额：%@元",[formatter stringFromNumber:[NSNumber numberWithInt:[NSString stringWithFormat:@"%@",[zongheData objectForKey:@"bidableAmount"]].intValue]]];
                 
                 [zongheBuyButton setUserInteractionEnabled:YES];
                 zongheBuyButton.backgroundColor = ZTBLUE;
@@ -379,9 +379,9 @@
         hud.mode = MBProgressHUDModeText;
         hud.labelText = @"当前网络状况不佳，请重试";
         [hud hide:YES afterDelay:1.5f];
-        if ([scrollView.header isRefreshing])
+        if ([scrollView.mj_header isRefreshing])
         {
-            [scrollView.header endRefreshing];
+            [scrollView.mj_header endRefreshing];
         }
     }];
 
@@ -409,13 +409,13 @@
             huoqiRateLabel.font = [UIFont fontWithName:@"EuphemiaUCAS-Bold" size:65.0f];
             huoqiRateLabel.text = numStr;
         }
-        if ([mainScrollView.header isRefreshing])
+        if ([mainScrollView.mj_header isRefreshing])
         {
-            [mainScrollView.header endRefreshing];
+            [mainScrollView.mj_header endRefreshing];
         }
         NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
-        [formatter setPositiveFormat:@"###,##0.00"];
-        huoqiAmountLabel.text = [NSString stringWithFormat:@"可认购份额：%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:[NSString stringWithFormat:@"%@",[huoqiData objectForKey:@"bidableAmount"]].doubleValue]]];
+        [formatter setPositiveFormat:@"###,##0"];
+        huoqiAmountLabel.text = [NSString stringWithFormat:@"剩余可认购份额：%@万元",[formatter stringFromNumber:[NSNumber numberWithDouble:[NSString stringWithFormat:@"%@",[huoqiData objectForKey:@"bidableAmount"]].doubleValue/10000]]];
         if (((NSString*)[huoqiData objectForKey:@"bidableAmount"]).intValue > 0)
         {
             [huoqiBuyButton setUserInteractionEnabled:YES];
@@ -426,7 +426,7 @@
             [huoqiBuyButton setUserInteractionEnabled:NO];
             [huoqiBuyButton setAlpha:1.0f];
             huoqiBuyButton.backgroundColor = ZTGRAY;
-            [huoqiBuyButton setTitle:@"已售完" forState:UIControlStateNormal];
+            [huoqiBuyButton setTitle:@"已售罄" forState:UIControlStateNormal];
         }
 
         
@@ -436,9 +436,9 @@
         hud.mode = MBProgressHUDModeText;
         hud.labelText = @"当前网络状况不佳，请重试";
         [hud hide:YES afterDelay:1.5f];
-        if ([scrollView.header isRefreshing])
+        if ([scrollView.mj_header isRefreshing])
         {
-            [scrollView.header endRefreshing];
+            [scrollView.mj_header endRefreshing];
         }
 
     }];
@@ -500,14 +500,31 @@
     {
         int days = (int)[startDate timeIntervalSinceDate:date]/(24*60*60);
         int hours = ((int)[startDate timeIntervalSinceDate:date] - days*24*60*60)/(60*60);
-        int minutes = ((int)[startDate timeIntervalSinceDate:date] - hours*60*60)/60 + 1;
-        wenjianLabel.text = [NSString stringWithFormat:@"开售倒计时：%02d天%02d时%02d分",days,hours,minutes];
+        int minutes = ((int)[startDate timeIntervalSinceDate:date] - days*24*60*60 - hours*60*60)/60;
+        int seconds = (int)[startDate timeIntervalSinceDate:date] - days*24*60*60 - hours*60*60 - minutes*60;
+        if (days > 0)
+        {
+            wenjianLabel.text = [NSString stringWithFormat:@"开售倒计时：%d天%d小时",days,hours];
+        }
+        else if (hours > 0)
+        {
+            if (minutes+1 == 60)
+            {
+                hours = hours+1;
+                minutes = -1;
+            }
+            wenjianLabel.text = [NSString stringWithFormat:@"开售倒计时：%d小时%d分",hours,minutes+1];
+        }
+        else
+        {
+            wenjianLabel.text = [NSString stringWithFormat:@"开售倒计时：%d分%d秒",minutes,seconds];
+        }
     }
     else
     {
         NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
         [formatter setPositiveFormat:@"###,##0"];
-        wenjianLabel.text = [NSString stringWithFormat:@"可认购份额：%@元",[formatter stringFromNumber:[NSNumber numberWithInt:[NSString stringWithFormat:@"%@",[wenjianData objectForKey:@"bidableAmount"]].intValue]]];
+        wenjianLabel.text = [NSString stringWithFormat:@"剩余可认购份额：%@元",[formatter stringFromNumber:[NSNumber numberWithInt:[NSString stringWithFormat:@"%@",[wenjianData objectForKey:@"bidableAmount"]].intValue]]];
         wenjianLabel.text = @"";
         
         [wenjianBuyButton setUserInteractionEnabled:YES];
@@ -526,14 +543,31 @@
     {
         int days = (int)[startDate timeIntervalSinceDate:date]/(24*60*60);
         int hours = ((int)[startDate timeIntervalSinceDate:date] - days*24*60*60)/(60*60);
-        int minutes = ((int)[startDate timeIntervalSinceDate:date] - hours*60*60)/60 + 1;
-        zongheLabel.text = [NSString stringWithFormat:@"开售倒计时：%02d天%02d时%02d分",days,hours,minutes];
+        int minutes = ((int)[startDate timeIntervalSinceDate:date] - days*24*60*60 - hours*60*60)/60;
+        int seconds = (int)[startDate timeIntervalSinceDate:date] - days*24*60*60 - hours*60*60 - minutes*60;
+        if (days > 0)
+        {
+            zongheLabel.text = [NSString stringWithFormat:@"开售倒计时：%d天%d小时",days,hours];
+        }
+        else if (hours > 0)
+        {
+            if (minutes+1 == 60)
+            {
+                hours = hours+1;
+                minutes = -1;
+            }
+            zongheLabel.text = [NSString stringWithFormat:@"开售倒计时：%d小时%d分",hours,minutes+1];
+        }
+        else
+        {
+            zongheLabel.text = [NSString stringWithFormat:@"开售倒计时：%d分%d秒",minutes,seconds];
+        }
     }
     else
     {
         NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
         [formatter setPositiveFormat:@"###,##0"];
-        zongheLabel.text = [NSString stringWithFormat:@"可认购份额：%@元",[formatter stringFromNumber:[NSNumber numberWithInt:[NSString stringWithFormat:@"%@",[zongheData objectForKey:@"bidableAmount"]].intValue]]];
+        zongheLabel.text = [NSString stringWithFormat:@"剩余可认购份额：%@元",[formatter stringFromNumber:[NSNumber numberWithInt:[NSString stringWithFormat:@"%@",[zongheData objectForKey:@"bidableAmount"]].intValue]]];
         
         [zongheBuyButton setUserInteractionEnabled:YES];
         zongheBuyButton.backgroundColor = ZTBLUE;
@@ -665,6 +699,7 @@
                 wenjianBuyButton.hidden = YES;
                 wenjianLabel.hidden = YES;
                 zongheLabel.hidden = NO;
+                zongheBuyButton.hidden = NO;
                 huoqiBuyButton.hidden = YES;
                 huoqiAmountLabel.hidden = YES;
                 huoqiDescriptionLabel.hidden = YES;

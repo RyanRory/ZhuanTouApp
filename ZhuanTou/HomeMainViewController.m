@@ -96,10 +96,11 @@
     outterScrollView.delegate = self;
     innerScrollView.delegate = self;
     innerScrollView.clipsToBounds = NO;
-    innerScrollView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+    innerScrollView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         [self setupProduct];
     }];
 
+    [newerButton addTarget:self action:@selector(toNewer:) forControlEvents:UIControlEventTouchUpInside];
     
     flag = false;
     setupDataFlag = 3;
@@ -144,7 +145,7 @@
 {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self setupData];
-        [innerScrollView.header beginRefreshing];
+        [innerScrollView.mj_header beginRefreshing];
     });
 }
 
@@ -230,7 +231,7 @@
         timeLabel.text = [NSString stringWithFormat:@"%@开始抢购",[responseObject objectForKey:@"startRaisingDate"]];
         NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
         [formatter setPositiveFormat:@"###,##0"];
-        bidableAmount = [NSString stringWithFormat:@"%@元",[NSString stringWithString:[formatter stringFromNumber:[responseObject objectForKey:@"bidableAmount"]]]];
+        bidableAmount = [NSString stringWithString:[formatter stringFromNumber:[responseObject objectForKey:@"bidableAmount"]]];
         productInfo = [NSDictionary dictionaryWithDictionary:responseObject];
         NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];//实例化一个NSDateFormatter对象
         [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];//设定时间格式
@@ -241,11 +242,11 @@
             [nextDateFormat setDateFormat:@"yyyy年MM月dd日 HH:mm"];//设定时间格式
             NSTimeInterval days = 7*24*60*60;
             NSString *nextDateStr = [nextDateFormat stringFromDate:[startDate dateByAddingTimeInterval:days]];
-            timeLabel.text = [NSString stringWithFormat:@"下一期：%@ 准时上线",nextDateStr];
+            timeLabel.text = [NSString stringWithFormat:@"下一期：%@ 准时开抢",nextDateStr];
             
             [buyButton setUserInteractionEnabled:NO];
             [buyButton setAlpha:1.0f];
-            [buyButton setTitle:@"已售完" forState:UIControlStateNormal];
+            [buyButton setTitle:@"已售罄" forState:UIControlStateNormal];
             buyButton.backgroundColor = ZTGRAY;
             [inUpImageView setAlpha:1.0f];
             UIImage *image = [UIImage imageNamed:@"inUpIcon.png"];
@@ -273,7 +274,7 @@
             {
                 NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
                 [formatter setPositiveFormat:@"###,##0"];
-                timeLabel.text = [NSString stringWithFormat:@"可认购份额：%@元",[formatter stringFromNumber:[NSNumber numberWithInt:[NSString stringWithFormat:@"%@",[productInfo objectForKey:@"bidableAmount"]].intValue]]];
+                timeLabel.text = [NSString stringWithFormat:@"剩余可认购份额：%@元",[formatter stringFromNumber:[NSNumber numberWithInt:[NSString stringWithFormat:@"%@",[productInfo objectForKey:@"bidableAmount"]].intValue]]];
                 
                 [buyButton setUserInteractionEnabled:YES];
                 [buyButton setAlpha:1.0f];
@@ -281,9 +282,9 @@
             }
         }
 
-        if ([innerScrollView.header isRefreshing])
+        if ([innerScrollView.mj_header isRefreshing])
         {
-            [innerScrollView.header endRefreshing];
+            [innerScrollView.mj_header endRefreshing];
             [self bgCircleAnimation];
         }
 
@@ -293,9 +294,9 @@
         hud.mode = MBProgressHUDModeText;
         hud.labelText = @"当前网络状况不佳，请重试";
         [hud hide:YES afterDelay:1.5f];
-        if ([innerScrollView.header isRefreshing])
+        if ([innerScrollView.mj_header isRefreshing])
         {
-            [innerScrollView.header endRefreshing];
+            [innerScrollView.mj_header endRefreshing];
         }
     }];
 
@@ -348,6 +349,21 @@
         [timer invalidate];
         timer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(scrollToNextPage:) userInfo:nil repeats:YES];
     }
+    ZTTabBarViewController *tabVC = (ZTTabBarViewController*)[self tabBarController];
+    if (tabVC.isRegister == 1)
+    {
+        [self performSelector:@selector(toNewer:) withObject:nil afterDelay:0];
+        tabVC.isRegister = 0;
+    }
+}
+
+- (void)toNewer:(id)sender
+{
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.mode = MBProgressHUDModeCustomView;
+    hud.labelText = @"建设中...";
+    hud.customView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"inbuilding.png"]];
+    [hud hide:YES afterDelay:1.5f];
 }
 
 - (void)zongheTimeCountDown
@@ -360,14 +376,31 @@
     {
         int days = (int)[startDate timeIntervalSinceDate:date]/(24*60*60);
         int hours = ((int)[startDate timeIntervalSinceDate:date] - days*24*60*60)/(60*60);
-        int minutes = ((int)[startDate timeIntervalSinceDate:date] - hours*60*60)/60 + 1;
-        timeLabel.text = [NSString stringWithFormat:@"开售倒计时：%02d天%02d时%02d分",days,hours,minutes];
+        int minutes = ((int)[startDate timeIntervalSinceDate:date] - days*24*60*60 - hours*60*60)/60;
+        int seconds = (int)[startDate timeIntervalSinceDate:date] - days*24*60*60 - hours*60*60 - minutes*60;
+        if (days > 0)
+        {
+            timeLabel.text = [NSString stringWithFormat:@"开售倒计时：%d天%d小时",days,hours];
+        }
+        else if (hours > 0)
+        {
+            if (minutes+1 == 60)
+            {
+                hours = hours+1;
+                minutes = -1;
+            }
+            timeLabel.text = [NSString stringWithFormat:@"开售倒计时：%d小时%d分",hours,minutes+1];
+        }
+        else
+        {
+            timeLabel.text = [NSString stringWithFormat:@"开售倒计时：%d分%d秒",minutes,seconds];
+        }
     }
     else
     {
         NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
         [formatter setPositiveFormat:@"###,##0"];
-        timeLabel.text = [NSString stringWithFormat:@"可认购份额：%@元",[formatter stringFromNumber:[NSNumber numberWithInt:[NSString stringWithFormat:@"%@",[productInfo objectForKey:@"bidableAmount"]].intValue]]];
+        timeLabel.text = [NSString stringWithFormat:@"剩余可认购份额：%@元",[formatter stringFromNumber:[NSNumber numberWithInt:[NSString stringWithFormat:@"%@",[productInfo objectForKey:@"bidableAmount"]].intValue]]];
         
         [buyButton setUserInteractionEnabled:YES];
         buyButton.backgroundColor = ZTBLUE;

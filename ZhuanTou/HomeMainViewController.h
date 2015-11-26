@@ -12,6 +12,7 @@
 #import "WebDetailViewController.h"
 #import "ProductsBeforeViewController.h"
 #import "ProductBuyViewController.h"
+#import "ZTTabBarViewController.h"
 
 @interface HomeMainViewController : UIViewController<UIScrollViewDelegate, UIGestureRecognizerDelegate>
 {

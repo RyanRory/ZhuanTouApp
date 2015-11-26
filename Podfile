@@ -1,8 +1,8 @@
 
 platform :ios, '7.0'
-pod “AFNetworking”
-pod “IQKeyboardManager”
+pod “AFNetworking”, ”~> 2.5.4”
+pod “IQKeyboardManager”,:head
 pod “MBProgressHUD”, :head
-pod “UICountingLabel”
-pod 'MJRefresh'
-pod 'SCNumberKeyBoard'
+pod “UICountingLabel”,:head
+pod 'MJRefresh',:head
+pod 'SCNumberKeyBoard’,:head

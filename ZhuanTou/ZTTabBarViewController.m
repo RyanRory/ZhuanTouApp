@@ -14,7 +14,7 @@
 
 @implementation ZTTabBarViewController
 
-@synthesize lastSelectedIndex;
+@synthesize lastSelectedIndex, isRegister;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -80,6 +80,8 @@
             
         }];
     }
+    
+    isRegister = 0;
 }
 
 - (void)didReceiveMemoryWarning {

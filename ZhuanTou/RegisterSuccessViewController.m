@@ -28,6 +28,9 @@
 
 - (void)toNewerReward:(id)sender
 {
+    ZTTabBarViewController *tabVC = (ZTTabBarViewController*)[self.navigationController presentingViewController];
+    tabVC.isRegister = 1;
+    [tabVC setSelectedIndex:0];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

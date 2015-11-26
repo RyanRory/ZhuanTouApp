@@ -194,8 +194,9 @@
                                    //@"SubBankName":[bankTextField.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
                                    @"SubBankName":bankTextField.text,
                                    @"CardCode":accountNumTextField.text,
-                                   @"Province":[provinceLabel.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
-                                   @"City":[cityLabel.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]};
+                                   @"Province":provinceLabel.text,
+                                   @"City":cityLabel.text,
+                                   @"BindedMobile":phoneNumTextField.text};
         [manager POST:URL parameters:paramter success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
             NSLog(@"%@", responseObject);
             NSString *str = [responseObject objectForKey:@"isSuccess"];

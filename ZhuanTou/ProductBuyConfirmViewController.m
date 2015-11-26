@@ -151,6 +151,7 @@
             hud.mode = MBProgressHUDModeCustomView;
             hud.labelText = [responseObject objectForKey:@"errorMessage"];
             [hud hide:YES afterDelay:1.5f];
+            //if ([responseObject objectForKey:@"errorMessage"])
         }
         else
         {

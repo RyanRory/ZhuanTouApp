@@ -53,7 +53,7 @@
     allDatas = [[NSMutableArray alloc]init];
     datas = [[NSMutableArray alloc]init];
     buttonTag = 0;
-    tView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+    tView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         switch (buttonTag) {
             case 0:
                 dingqiPageNum = 1;
@@ -82,11 +82,11 @@
             default:
                 break;
         }
-        [tView.footer resetNoMoreData];
+        [tView.mj_footer resetNoMoreData];
         
     }];
-    [tView.header beginRefreshing];
-    tView.footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
+    [tView.mj_header beginRefreshing];
+    tView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
         switch (buttonTag) {
             case 0:
                 [self setupDingqi];
@@ -119,7 +119,7 @@
 - (void)becomeForeground
 {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [tView.header beginRefreshing];
+        [tView.mj_header beginRefreshing];
     });
 }
 
@@ -142,7 +142,7 @@
 {
     noRecordLabel.hidden = YES;
     buttonTag = 0;
-    [tView.header beginRefreshing];
+    [tView.mj_header beginRefreshing];
     dingqiButton.tintColor = ZTBLUE;
     [dingqiButton setUserInteractionEnabled:NO];
     huoqiButton.tintColor = ZTGRAY;
@@ -158,7 +158,7 @@
 {
     noRecordLabel.hidden = YES;
     buttonTag = 1;
-    [tView.header beginRefreshing];
+    [tView.mj_header beginRefreshing];
     huoqiButton.tintColor = ZTBLUE;
     [huoqiButton setUserInteractionEnabled:NO];
     dingqiButton.tintColor = ZTGRAY;
@@ -173,7 +173,7 @@
 {
     noRecordLabel.hidden = YES;
     buttonTag = 2;
-    [tView.header beginRefreshing];
+    [tView.mj_header beginRefreshing];
     inAndOutButton.tintColor = ZTBLUE;
     [inAndOutButton setUserInteractionEnabled:NO];
     dingqiButton.tintColor = ZTGRAY;
@@ -188,7 +188,7 @@
 {
     noRecordLabel.hidden = YES;
     buttonTag = 3;
-    [tView.header beginRefreshing];
+    [tView.mj_header beginRefreshing];
     allButton.tintColor = ZTBLUE;
     [allButton setUserInteractionEnabled:NO];
     dingqiButton.tintColor = ZTGRAY;
@@ -220,21 +220,21 @@
         if (dingqiPageNum == 2)
         {
             [tView reloadData];
-            [tView.header endRefreshing];
+            [tView.mj_header endRefreshing];
         }
         else
         {
             [tView reloadData];
-            [tView.footer endRefreshing];
+            [tView.mj_footer endRefreshing];
         }
         if (responseObject.count == 0)
         {
-            [tView.footer noticeNoMoreData];
+            [tView.mj_footer noticeNoMoreData];
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
-        [tView.header endRefreshing];
+        [tView.mj_header endRefreshing];
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.mode = MBProgressHUDModeText;
         hud.labelText = @"当前网络状况不佳，请重试";
@@ -263,21 +263,21 @@
         if (huoqiPageNum == 2)
         {
             [tView reloadData];
-            [tView.header endRefreshing];
+            [tView.mj_header endRefreshing];
         }
         else
         {
             [tView reloadData];
-            [tView.footer endRefreshing];
+            [tView.mj_footer endRefreshing];
         }
         if (responseObject.count == 0)
         {
-            [tView.footer noticeNoMoreData];
+            [tView.mj_footer noticeNoMoreData];
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
-        [tView.header endRefreshing];
+        [tView.mj_header endRefreshing];
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.mode = MBProgressHUDModeText;
         hud.labelText = @"当前网络状况不佳，请重试";
@@ -306,21 +306,21 @@
         if (inAndOutPageNum == 2)
         {
             [tView reloadData];
-            [tView.header endRefreshing];
+            [tView.mj_header endRefreshing];
         }
         else
         {
             [tView reloadData];
-            [tView.footer endRefreshing];
+            [tView.mj_footer endRefreshing];
         }
         if (responseObject.count == 0)
         {
-            [tView.footer noticeNoMoreData];
+            [tView.mj_footer noticeNoMoreData];
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
-        [tView.header endRefreshing];
+        [tView.mj_header endRefreshing];
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.mode = MBProgressHUDModeText;
         hud.labelText = @"当前网络状况不佳，请重试";
@@ -349,21 +349,21 @@
         if (allPageNum == 2)
         {
             [tView reloadData];
-            [tView.header endRefreshing];
+            [tView.mj_header endRefreshing];
         }
         else
         {
             [tView reloadData];
-            [tView.footer endRefreshing];
+            [tView.mj_footer endRefreshing];
         }
         if (responseObject.count == 0)
         {
-            [tView.footer noticeNoMoreData];
+            [tView.mj_footer noticeNoMoreData];
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
-        [tView.header endRefreshing];
+        [tView.mj_header endRefreshing];
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.mode = MBProgressHUDModeText;
         hud.labelText = @"当前网络状况不佳，请重试";

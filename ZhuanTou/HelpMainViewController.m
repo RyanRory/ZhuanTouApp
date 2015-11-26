@@ -133,14 +133,28 @@
         if (indexPath.row == 0)
         {
             CommonQuestionViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"CommonQuestionViewController"];
-            vc.hidesBottomBarWhenPushed = YES;
             [[self navigationController]pushViewController:vc animated:YES];
         }
         else if (indexPath.row == 1)
         {
-            FeedbackViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"FeedbackViewController"];
-            vc.hidesBottomBarWhenPushed = YES;
-            [[self navigationController]pushViewController:vc animated:YES];
+            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+            if ([userDefault boolForKey:ISLOGIN])
+            {
+                FeedbackViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"FeedbackViewController"];
+                [[self navigationController]pushViewController:vc animated:YES];
+            }
+            else
+            {
+                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"您尚未登录" message:nil preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *gotoLogin = [UIAlertAction actionWithTitle:@"去登录" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
+                    UINavigationController *nav = [[self storyboard]instantiateViewControllerWithIdentifier:@"LoginNav"];
+                    [[self tabBarController] presentViewController:nav animated:YES completion:nil];
+                }];
+                UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+                [alertController addAction:gotoLogin];
+                [alertController addAction:cancel];
+                [self presentViewController:alertController animated:YES completion:nil];
+            }
         }
         else
         {
@@ -191,7 +205,6 @@
         if (indexPath.row == 0)
         {
             AboutViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"AboutViewController"];
-            vc.hidesBottomBarWhenPushed = YES;
             [[self navigationController]pushViewController:vc animated:YES];
         }
     }

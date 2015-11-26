@@ -26,12 +26,12 @@
     UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithCustomView:[UIButton buttonWithType:UIButtonTypeCustom]];
     self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:backItem, item, nil];
     notices = [[NSMutableArray alloc]init];
-    tView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+    tView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         pageNum = 1;
         [self setupData];
     }];
-    [tView.header beginRefreshing];
-    tView.footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
+    [tView.mj_header beginRefreshing];
+    tView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
         [self setupData];
     }];
 }
@@ -49,7 +49,7 @@
 - (void)becomeForeground
 {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [tView.header beginRefreshing];
+        [tView.mj_header beginRefreshing];
     });
 }
 
@@ -69,7 +69,7 @@
     if (pageNum == 1)
     {
         [notices removeAllObjects];
-        [tView.footer resetNoMoreData];
+        [tView.mj_footer resetNoMoreData];
     }
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSString *URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/article/byCategory4M/0/%d", pageNum]];
@@ -81,21 +81,21 @@
         if (pageNum == 2)
         {
             [tView reloadData];
-            [tView.header endRefreshing];
+            [tView.mj_header endRefreshing];
         }
         else
         {
             [tView reloadData];
-            [tView.footer endRefreshing];
+            [tView.mj_footer endRefreshing];
         }
         if ([NSArray arrayWithArray:[responseObject objectForKey:@"dataList"]].count == 0)
         {
-            [tView.footer noticeNoMoreData];
+            [tView.mj_footer noticeNoMoreData];
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
-        [tView.header endRefreshing];
+        [tView.mj_header endRefreshing];
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.mode = MBProgressHUDModeText;
         hud.labelText = @"当前网络状况不佳，请重试";

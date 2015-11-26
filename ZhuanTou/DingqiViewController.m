@@ -45,7 +45,7 @@
     
     datas = [[NSMutableArray alloc]init];
     
-    tView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+    tView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         switch (buttonTag) {
             case 0:
                 [self loadIngTableViewData];
@@ -59,7 +59,7 @@
                 break;
         }
     }];
-    [tView.header beginRefreshing];
+    [tView.mj_header beginRefreshing];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -70,7 +70,7 @@
 - (void)becomeForeground
 {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [tView.header beginRefreshing];
+        [tView.mj_header beginRefreshing];
     });
 }
 
@@ -97,7 +97,7 @@
 - (void)loadIngTableViewData:(id)sender
 {
     buttonTag = 0;
-    [tView.header beginRefreshing];
+    [tView.mj_header beginRefreshing];
     ingButton.tintColor = ZTBLUE;
     endedButton.tintColor = ZTGRAY;
     [ingButton setUserInteractionEnabled:NO];
@@ -132,21 +132,21 @@
             [findProductButton setHidden:YES];
         }
         [tView reloadData];
-        [tView.header endRefreshing];
+        [tView.mj_header endRefreshing];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.mode = MBProgressHUDModeText;
         hud.labelText = @"当前网络状况不佳，请重试";
         [hud hide:YES afterDelay:1.5f];
-        [tView.header endRefreshing];
+        [tView.mj_header endRefreshing];
     }];
 }
 
 - (void)loadEndedTableViewData:(id)sender
 {
     buttonTag = 1;
-    [tView.header beginRefreshing];
+    [tView.mj_header beginRefreshing];
     endedButton.tintColor = ZTBLUE;
     ingButton.tintColor = ZTGRAY;
     [endedButton setUserInteractionEnabled:NO];
@@ -179,14 +179,14 @@
             [tView setHidden:NO];
         }
         [tView reloadData];
-        [tView.header endRefreshing];
+        [tView.mj_header endRefreshing];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.mode = MBProgressHUDModeText;
         hud.labelText = @"当前网络状况不佳，请重试";
         [hud hide:YES afterDelay:1.5f];
-        [tView.header endRefreshing];
+        [tView.mj_header endRefreshing];
     }];
     [findProductButton setHidden:YES];
 }

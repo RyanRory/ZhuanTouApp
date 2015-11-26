@@ -17,6 +17,7 @@
     NSString *coupons;
     NSMutableArray *datas;
     int bonusNum;
+    double balance;
 }
 @property (strong, nonatomic) IBOutlet UIView *headBgView;
 @property (strong, nonatomic) IBOutlet UILabel *balanceLabel;

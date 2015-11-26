@@ -44,8 +44,9 @@
     noBankCardView.hidden = YES;
     addBankCardButton.hidden = YES;
     
-    SCNumberKeyBoard *keyboard = [SCNumberKeyBoard showWithTextField:editTextField block:nil];
+    SCNumberKeyBoard *keyboard = [SCNumberKeyBoard showWithTextField:editTextField enter:nil close:nil];
     [keyboard.enterButton setBackgroundColor:ZTBLUE];
+    [keyboard.enterButton setTitle:@"确定" forState:UIControlStateNormal];
 }
 
 - (void)viewWillAppear:(BOOL)animated

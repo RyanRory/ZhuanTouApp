@@ -10,6 +10,7 @@
 
 @interface ZTTabBarViewController : UITabBarController<UITabBarControllerDelegate, UITabBarDelegate>
 
-@property(readonly, nonatomic)NSUInteger lastSelectedIndex;
+@property(readonly, nonatomic) NSUInteger lastSelectedIndex;
+@property(readwrite, nonatomic) NSUInteger isRegister;
 
 @end

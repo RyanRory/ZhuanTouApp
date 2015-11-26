@@ -96,10 +96,12 @@
         weakZongheEditView.hidden = f;
     };
     
-    SCNumberKeyBoard *keyboard1 = [SCNumberKeyBoard showWithTextField:wenjianTextField block:nil];
+    SCNumberKeyBoard *keyboard1 = [SCNumberKeyBoard showWithTextField:wenjianTextField enter:nil close:nil];
     [keyboard1.enterButton setBackgroundColor:ZTBLUE];
-    SCNumberKeyBoard *keyboard2 = [SCNumberKeyBoard showWithTextField:zongheTextField block:nil];
+    [keyboard1.enterButton setTitle:@"确定" forState:UIControlStateNormal];
+    SCNumberKeyBoard *keyboard2 = [SCNumberKeyBoard showWithTextField:zongheTextField enter:nil close:nil];
     [keyboard2.enterButton setBackgroundColor:ZTBLUE];
+    [keyboard2.enterButton setTitle:@"确定" forState:UIControlStateNormal];
 
 }
 
