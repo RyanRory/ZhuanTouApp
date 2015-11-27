@@ -10,10 +10,11 @@
 
 @interface BonusTableViewCell : UITableViewCell
 
-@property (strong, nonatomic) IBOutlet UIImageView *bgImageView;
+@property (strong, nonatomic) IBOutlet UIView *bgView;
 @property (strong, nonatomic) IBOutlet UILabel *amountLabel;
 @property (strong, nonatomic) IBOutlet UILabel *statusLabel;
 @property (strong, nonatomic) IBOutlet UILabel *ddlLabel;
 @property (strong, nonatomic) IBOutlet UILabel *ruleLabel;
+@property (strong, nonatomic) IBOutlet UIButton *toProductButton;
 
 @end

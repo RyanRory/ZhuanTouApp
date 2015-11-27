@@ -359,11 +359,10 @@
 
 - (void)toNewer:(id)sender
 {
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    hud.mode = MBProgressHUDModeCustomView;
-    hud.labelText = @"建设中...";
-    hud.customView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"inbuilding.png"]];
-    [hud hide:YES afterDelay:1.5f];
+    WebDetailViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"WebDetailViewController"];
+    vc.title = @"新手专享三重礼";
+    [vc setURL:[BASEURL stringByAppendingString:@"Mobile/Home/Newer"]];
+    [[self navigationController]pushViewController:vc animated:YES];
 }
 
 - (void)zongheTimeCountDown

@@ -8,13 +8,15 @@
 
 #import "SetpasswordViewController.h"
 
+@import LocalAuthentication;
+
 @interface SetpasswordViewController ()
 
 @end
 
 @implementation SetpasswordViewController
 
-@synthesize forgottenButton;
+@synthesize forgottenButton, touchIdButton, forgottenButtonWithTouchId;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -34,29 +36,79 @@
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor darkGrayColor],NSForegroundColorAttributeName,nil]];
     
     [forgottenButton addTarget:self action:@selector(toLogin:) forControlEvents:UIControlEventTouchUpInside];
+    [forgottenButtonWithTouchId addTarget:self action:@selector(toLogin:) forControlEvents:UIControlEventTouchUpInside];
+    [touchIdButton addTarget:self action:@selector(setTouchID:) forControlEvents:UIControlEventTouchUpInside];
+    
+    __weak NSString *weakStyle = self.style;
+    __weak NSString *weakString = self.string;
+    __weak UINavigationController *weakSelf = self.navigationController;
     
     alipay = [[AliPayViews alloc] initWithFrame:self.view.bounds];
     oldPSW = [KeychainData objectForKey:KEYCHAIN_KEY];
     if ([self.string isEqualToString:@"验证密码"])
     {
         alipay.gestureModel = ValidatePwdModel;
+        
+        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+        LAContext *context = [[LAContext alloc] init];
+        context.localizedFallbackTitle=@"";
+        NSError *error;
+        BOOL success;
+        
+        success = [context canEvaluatePolicy: LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error];
+        if (success)
+        {
+            [self.view bringSubviewToFront:forgottenButtonWithTouchId];
+            [self.view bringSubviewToFront:touchIdButton];
+            [forgottenButton setHidden:YES];
+            if ([userDefault boolForKey:TOUCHID])
+            {
+                [touchIdButton setTitle:@"关闭指纹验证" forState:UIControlStateNormal];
+                [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics localizedReason:NSLocalizedString(@"通过Home键验证已有指纹", nil) reply:
+                 ^(BOOL success, NSError *authenticationError) {
+                     if (success)
+                     {
+                         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                             ZTTabBarViewController *tabvc = [[weakSelf storyboard]instantiateViewControllerWithIdentifier:@"ZTTabBarViewController"];
+                             [weakSelf presentViewController:tabvc animated:YES completion:nil];
+                         });
+                     }
+                 }];
+            }
+            else
+            {
+                [touchIdButton setTitle:@"开启指纹验证" forState:UIControlStateNormal];
+            }
+        }
+        else
+        {
+            [self.view bringSubviewToFront:forgottenButton];
+            [forgottenButtonWithTouchId setHidden:YES];
+            [touchIdButton setHidden:YES];
+        }
+
     }
     else if ([self.string isEqualToString:@"修改密码"])
     {
         alipay.gestureModel = AlertPwdModel;
+        [forgottenButton setHidden:YES];
+        [forgottenButtonWithTouchId setHidden:YES];
+        [touchIdButton setHidden:YES];
     }
     else if ([self.string isEqualToString:@"重置密码"])
     {
         alipay.gestureModel = SetPwdModel;
+        [forgottenButton setHidden:YES];
+        [forgottenButtonWithTouchId setHidden:YES];
+        [touchIdButton setHidden:YES];
     }
     else
     {
         alipay.gestureModel = NoneModel;
+        [forgottenButton setHidden:YES];
+        [forgottenButtonWithTouchId setHidden:YES];
+        [touchIdButton setHidden:YES];
     }
-    
-    __weak NSString *weakStyle = self.style;
-    __weak NSString *weakString = self.string;
-    __weak SetpasswordViewController *weakSelf = self;
     
     alipay.block = ^(NSString *pswString) {
         if ([weakString isEqualToString:@"重置密码"])
@@ -126,15 +178,6 @@
     };
     
     [self.view addSubview:alipay];
-    
-    if ([self.string isEqualToString:@"验证密码"])
-    {
-        [self.view bringSubviewToFront:forgottenButton];
-    }
-    else
-    {
-        [forgottenButton setHidden:YES];
-    }
 
 }
 
@@ -166,6 +209,32 @@
     LoginViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"LoginViewController"];
     vc.style = @"FORGOTTEN";
     [[self navigationController]pushViewController:vc animated:YES];
+}
+
+- (void)setTouchID:(id)sender
+{
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    [userDefault setBool:![userDefault boolForKey:TOUCHID] forKey:TOUCHID];
+    [userDefault synchronize];
+    if ([userDefault boolForKey:TOUCHID])
+    {
+        [touchIdButton setTitle:@"关闭指纹验证" forState:UIControlStateNormal];
+        __weak SetpasswordViewController *weakSelf = self;
+        LAContext *context = [[LAContext alloc] init];
+        context.localizedFallbackTitle=@"";
+        [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics localizedReason:NSLocalizedString(@"通过Home键验证已有指纹", nil) reply:
+         ^(BOOL success, NSError *authenticationError) {
+             if (success)
+             {
+                 ZTTabBarViewController *tabvc = [[weakSelf storyboard]instantiateViewControllerWithIdentifier:@"ZTTabBarViewController"];
+                 [weakSelf presentViewController:tabvc animated:YES completion:nil];
+             }
+         }];
+    }
+    else
+    {
+        [touchIdButton setTitle:@"开启指纹验证" forState:UIControlStateNormal];
+    }
 }
 
 

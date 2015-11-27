@@ -36,6 +36,7 @@
 #define PHONENUM @"PHONENUM"
 #define VCODE @"VCODE"
 #define ISLOGIN @"ISLOGIN"
+#define TOUCHID @"TOUCHID"
 
 #define WENJIAN @"WENJIAN"
 #define ZONGHE @"ZONGHE"

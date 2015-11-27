@@ -20,11 +20,43 @@
     [super viewDidLoad];
     self.view.clipsToBounds = YES;
     [self.navigationController setNavigationBarHidden:NO animated:YES];
-    [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor darkGrayColor],NSForegroundColorAttributeName,nil]];
-    UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"backIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(backToParent:)];
-    backItem.tintColor = ZTBLUE;
-    UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithCustomView:[UIButton buttonWithType:UIButtonTypeCustom]];
-    self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:backItem, item, nil];
+    
+    if ([self.title isEqualToString:@"稳盈宝"])
+    {
+        [self.navigationController.navigationBar setBarTintColor:ZTLIGHTRED];
+        [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,nil]];
+        UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"backIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(backToParent:)];
+        backItem.tintColor = [UIColor whiteColor];
+        UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithCustomView:[UIButton buttonWithType:UIButtonTypeCustom]];
+        self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:backItem, item, nil];
+    }
+    else if ([self.title isEqualToString:@"专投宝"])
+    {
+        [self.navigationController.navigationBar setBarTintColor:ZTRED];
+        [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,nil]];
+        UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"backIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(backToParent:)];
+        backItem.tintColor = [UIColor whiteColor];
+        UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithCustomView:[UIButton buttonWithType:UIButtonTypeCustom]];
+        self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:backItem, item, nil];
+    }
+    else if ([self.title isEqualToString:@"分红宝"] || [self.title isEqualToString:@"新手专享三重礼"])
+    {
+        [self.navigationController.navigationBar setBarTintColor:ZTBLUE];
+        [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,nil]];
+        UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"backIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(backToParent:)];
+        backItem.tintColor = [UIColor whiteColor];
+        UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithCustomView:[UIButton buttonWithType:UIButtonTypeCustom]];
+        self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:backItem, item, nil];
+    }
+    else
+    {
+        [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
+        [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor darkGrayColor],NSForegroundColorAttributeName,nil]];
+        UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"backIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(backToParent:)];
+        backItem.tintColor = ZTBLUE;
+        UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithCustomView:[UIButton buttonWithType:UIButtonTypeCustom]];
+        self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:backItem, item, nil];
+    }
     
     reloadButton.hidden = YES;
     [reloadButton addTarget:self action:@selector(reloadWebView:) forControlEvents:UIControlEventTouchUpInside];
@@ -33,6 +65,12 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [self loadWebView];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
+    [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor darkGrayColor],NSForegroundColorAttributeName,nil]];
 }
 
 - (void)didReceiveMemoryWarning {

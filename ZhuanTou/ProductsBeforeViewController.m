@@ -119,7 +119,14 @@
         cell = [[ProductsBeforeTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
     cell.idLabel.text = [NSString stringWithFormat:@"%@",[data objectForKey:@"time"]];
-    cell.percentNumLabel.text = [NSString stringWithFormat:@"%@%%",[data objectForKey:@"profit"]];
+    if ([NSString stringWithFormat:@"%@",[data objectForKey:@"profit"]].doubleValue < 0)
+    {
+        cell.percentNumLabel.text = @"暂不计算";
+    }
+    else
+    {
+        cell.percentNumLabel.text = [NSString stringWithFormat:@"%.2f%%",[NSString stringWithFormat:@"%@",[data objectForKey:@"profit"]].doubleValue];
+    }
     cell.statusLabel.text = [data objectForKey:@"status"];
     if ([cell.statusLabel.text isEqualToString:@"操盘中"])
     {

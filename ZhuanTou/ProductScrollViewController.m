@@ -103,7 +103,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     flag = false;
-    if (frame.origin.x == 0) frame = huoqiBgImageView1.frame;
+    if (frame.origin.x == 0) {frame = huoqiBgImageView1.frame;NSLog(@"ttttttt");}
     if (bgPoint.x == 0) bgPoint = CGPointMake(wenjianBgImageView.frame.origin.x + wenjianBgImageView.frame.size.width/2+10, wenjianBgImageView.frame.origin.y+wenjianBgImageView.frame.size.height/2);
     if (point.x == 0) point = CGPointMake(wenjianBgImageView.frame.origin.x - frame.origin.x + 20, wenjianBgImageView.frame.origin.y - frame.origin.y + 5);
     if ([style isEqualToString:WENJIAN])
@@ -187,11 +187,28 @@
 
 - (void)goToDetail:(id)sender
 {
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    hud.mode = MBProgressHUDModeCustomView;
-    hud.labelText = @"建设中...";
-    hud.customView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"inbuilding.png"]];
-    [hud hide:YES afterDelay:1.5f];
+    if ([style isEqualToString:WENJIAN])
+    {
+        WebDetailViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"WebDetailViewController"];
+        vc.title = @"稳盈宝";
+        [vc setURL:[BASEURL stringByAppendingString:@"Mobile/Home/WenDesc"]];
+        [[self navigationController]pushViewController:vc animated:YES];
+    }
+    else if ([style isEqualToString:ZONGHE])
+    {
+        WebDetailViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"WebDetailViewController"];
+        vc.title = @"分红宝";
+        [vc setURL:[BASEURL stringByAppendingString:@"Mobile/Home/FenDesc"]];
+        [[self navigationController]pushViewController:vc animated:YES];
+    }
+    else
+    {
+        flag = true;
+        WebDetailViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"WebDetailViewController"];
+        vc.title = @"专投宝";
+        [vc setURL:[BASEURL stringByAppendingString:@"Mobile/Home/ZhuanDesc"]];
+        [[self navigationController]pushViewController:vc animated:YES];
+    }
 }
 
 - (void)bgCircleAnimation:(UIImageView*)bg

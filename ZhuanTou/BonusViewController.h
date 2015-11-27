@@ -8,13 +8,17 @@
 
 #import <UIKit/UIKit.h>
 #import "BonusTableViewCell.h"
+#import "ZTTabBarViewController.h"
 
 @interface BonusViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 {
     int bonusNum;
-    NSMutableArray *datas;
+    NSMutableArray *datas, *canDatas, *cannotDatas;
 }
 
 @property (strong, nonatomic) IBOutlet UITableView *tView;
+@property (strong, nonatomic) IBOutlet UIButton *canUseButton;
+@property (strong, nonatomic) IBOutlet UIButton *cannotUseButton;
+@property (strong, nonatomic) IBOutlet UILabel *noBonusLabel;
 
 @end

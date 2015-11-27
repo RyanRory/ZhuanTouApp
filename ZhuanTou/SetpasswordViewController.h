@@ -19,6 +19,8 @@
     NSString *oldPSW;
 }
 @property (strong, nonatomic) IBOutlet UIButton *forgottenButton;
+@property (strong, nonatomic) IBOutlet UIButton *touchIdButton;
+@property (strong, nonatomic) IBOutlet UIButton *forgottenButtonWithTouchId;
 
 @property(nonatomic, copy)NSString *string;
 @property(nonatomic, copy)NSString *style;

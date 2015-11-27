@@ -15,6 +15,7 @@
 @implementation BonusViewController
 
 @synthesize tView;
+@synthesize cannotUseButton, canUseButton, noBonusLabel;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -24,6 +25,14 @@
     backItem.tintColor = ZTBLUE;
     UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithCustomView:[UIButton buttonWithType:UIButtonTypeCustom]];
     self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:backItem, item, nil];
+    
+    [canUseButton setUserInteractionEnabled:NO];
+    [cannotUseButton setUserInteractionEnabled:YES];
+    canUseButton.tintColor = ZTBLUE;
+    cannotUseButton.tintColor = ZTGRAY;
+    [canUseButton addTarget:self action:@selector(canUse:) forControlEvents:UIControlEventTouchUpInside];
+    [cannotUseButton addTarget:self action:@selector(cannotUse:) forControlEvents:UIControlEventTouchUpInside];
+    noBonusLabel.hidden = YES;
     
     tView.showsHorizontalScrollIndicator = NO;
     tView.showsVerticalScrollIndicator = NO;
@@ -59,13 +68,69 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void)canUse:(id)sender
+{
+    [canUseButton setUserInteractionEnabled:NO];
+    [cannotUseButton setUserInteractionEnabled:YES];
+    canUseButton.tintColor = ZTBLUE;
+    cannotUseButton.tintColor = ZTGRAY;
+    [tView.mj_header beginRefreshing];
+}
+
+- (void)cannotUse:(id)sender
+{
+    [canUseButton setUserInteractionEnabled:YES];
+    [cannotUseButton setUserInteractionEnabled:NO];
+    canUseButton.tintColor = ZTGRAY;
+    cannotUseButton.tintColor = ZTBLUE;
+    [tView.mj_header beginRefreshing];
+}
+
 - (void)setupData
 {
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSString *URL = [BASEURL stringByAppendingString:@"api/account/getCouponsInApp"];
     [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSArray *responseObject) {
         NSLog(@"%@", responseObject);
-        datas = [NSMutableArray arrayWithArray:responseObject];
+        canDatas = [[NSMutableArray alloc]init];
+        cannotDatas = [[NSMutableArray alloc]init];
+        for (int i=0; i<responseObject.count; i++)
+        {
+            if ([[NSString stringWithFormat:@"%@",[responseObject[i] objectForKey:@"status"]] isEqualToString:@"可使用"])
+            {
+                [canDatas addObject:responseObject[i]];
+            }
+            else
+            {
+                [cannotDatas addObject:responseObject[i]];
+            }
+        }
+        if (cannotUseButton.userInteractionEnabled)
+        {
+            datas = [NSMutableArray arrayWithArray:canDatas];
+            if (datas.count > 0)
+            {
+                noBonusLabel.hidden = YES;
+            }
+            else
+            {
+                noBonusLabel.hidden = NO;
+                noBonusLabel.text = @"暂无可使用红包";
+            }
+        }
+        else
+        {
+            datas = [NSMutableArray arrayWithArray:cannotDatas];
+            if (datas.count > 0)
+            {
+                noBonusLabel.hidden = YES;
+            }
+            else
+            {
+                noBonusLabel.hidden = NO;
+                noBonusLabel.text = @"暂无已失效红包";
+            }
+        }
         bonusNum = (int)datas.count;
         [tView.mj_header endRefreshing];
         [tView reloadData];
@@ -79,6 +144,13 @@
         [hud hide:YES afterDelay:1.5f];
     }];
 
+}
+
+- (void)toProduct:(id)sender
+{
+    ZTTabBarViewController *tabVC = (ZTTabBarViewController*)[self tabBarController];
+    [tabVC setSelectedIndex:1];
+    [[self navigationController]popViewControllerAnimated:YES];
 }
 
 #pragma TableViewDelegates
@@ -95,7 +167,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 142;
+    return 127;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -111,17 +183,25 @@
     {
         cell = [[BonusTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
+    [cell.toProductButton addTarget:self action:@selector(toProduct:) forControlEvents:UIControlEventTouchUpInside];
     cell.amountLabel.text = [data objectForKey:@"money"];
-    cell.ddlLabel.text = [data objectForKey:@"expireTime"];
-    cell.ruleLabel.text = [data objectForKey:@"comments"];
-    cell.statusLabel.text = [data objectForKey:@"status"];
-    if ([cell.statusLabel.text isEqualToString:@"可使用"])
+    cell.ddlLabel.text = [NSString stringWithFormat:@"%@过期",[data objectForKey:@"expireTime"]];
+    cell.ruleLabel.text = [NSString stringWithFormat:@"使用规则：投资满%@元可抵%@元现金",[data objectForKey:@"thresholdValue"],[data objectForKey:@"money"]];
+    if ([[NSString stringWithFormat:@"%@",[data objectForKey:@"status"]] isEqualToString:@"可使用"])
     {
-        cell.bgImageView.image = [UIImage imageNamed:@"bonusActive.png"];
+        cell.bgView.backgroundColor = ZTBLUE;
+        cell.statusLabel.text = @"选购产品";
+        cell.statusLabel.textColor = ZTBLUE;
+        cell.ddlLabel.textColor = ZTBLUE;
+        [cell.toProductButton setUserInteractionEnabled:YES];
     }
     else
     {
-        cell.bgImageView.image = [UIImage imageNamed:@"bonus.png"];
+        cell.bgView.backgroundColor = ZTGRAY;
+        cell.statusLabel.text = [NSString stringWithFormat:@"%@",[data objectForKey:@"status"]];
+        cell.statusLabel.textColor = ZTGRAY;
+        cell.ddlLabel.textColor = ZTGRAY;
+        [cell.toProductButton setUserInteractionEnabled:NO];
     }
     
     return cell;
