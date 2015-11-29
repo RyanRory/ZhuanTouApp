@@ -90,7 +90,7 @@
         }
         if ([NSArray arrayWithArray:[responseObject objectForKey:@"dataList"]].count == 0)
         {
-            [tView.mj_footer noticeNoMoreData];
+            [tView.mj_footer endRefreshingWithNoMoreData];
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

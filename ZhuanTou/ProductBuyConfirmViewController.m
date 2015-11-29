@@ -102,22 +102,38 @@
 
 - (void)confirm:(id)sender
 {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"请输入交易密码" message:nil preferredStyle:UIAlertControllerStyleAlert];
-    [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField){
-        textField.secureTextEntry = YES;
-        textField.returnKeyType = UIReturnKeyDone;
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(alertTextFieldDidChange:) name:UITextFieldTextDidChangeNotification object:textField];
-    }];
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
-        UITextField *tradePswdTextField = alertController.textFields.firstObject;
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextFieldTextDidChangeNotification object:nil];
-        [self buy:tradePswdTextField.text];
-    }];
-    [alertController addAction:cancelAction];
-    [alertController addAction:confirmAction];
-    confirmAction.enabled = NO;
-    [self presentViewController:alertController animated:YES completion:nil];
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    if (![userDefault boolForKey:ISTRADEPSWDSET])
+    {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"您尚未设置交易密码" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *gotoSet = [UIAlertAction actionWithTitle:@"去设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
+            SetTradePswdViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"SetTradePswdViewController"];
+            [self.navigationController pushViewController:vc animated:YES];
+        }];
+        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+        [alertController addAction:gotoSet];
+        [alertController addAction:cancel];
+        [self presentViewController:alertController animated:YES completion:nil];
+    }
+    else
+    {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"请输入交易密码" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField){
+            textField.secureTextEntry = YES;
+            textField.returnKeyType = UIReturnKeyDone;
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(alertTextFieldDidChange:) name:UITextFieldTextDidChangeNotification object:textField];
+        }];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+        UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
+            UITextField *tradePswdTextField = alertController.textFields.firstObject;
+            [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextFieldTextDidChangeNotification object:nil];
+            [self buy:tradePswdTextField.text];
+        }];
+        [alertController addAction:cancelAction];
+        [alertController addAction:confirmAction];
+        confirmAction.enabled = NO;
+        [self presentViewController:alertController animated:YES completion:nil];
+    }
     
 }
 
@@ -151,7 +167,14 @@
             hud.mode = MBProgressHUDModeCustomView;
             hud.labelText = [responseObject objectForKey:@"errorMessage"];
             [hud hide:YES afterDelay:1.5f];
-            //if ([responseObject objectForKey:@"errorMessage"])
+            if ([[NSString stringWithFormat:@"%@",[responseObject objectForKey:@"errorMessage"]] isEqualToString:@"100003"])
+            {
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    UINavigationController *nav = [[self storyboard]instantiateViewControllerWithIdentifier:@"LoginNav"];
+                    [[self tabBarController] presentViewController:nav animated:YES completion:nil];
+
+                });
+            }
         }
         else
         {

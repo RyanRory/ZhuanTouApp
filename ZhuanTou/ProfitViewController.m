@@ -138,6 +138,14 @@
             hud.mode = MBProgressHUDModeText;
             hud.labelText = [responseObject objectForKey:@"errorMessage"];
             [hud hide:YES afterDelay:1.5f];
+            if ([[NSString stringWithFormat:@"%@",[responseObject objectForKey:@"errorMessage"]] isEqualToString:@"100003"])
+            {
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    UINavigationController *nav = [[self storyboard]instantiateViewControllerWithIdentifier:@"LoginNav"];
+                    [[self tabBarController] presentViewController:nav animated:YES completion:nil];
+                    
+                });
+            }
         }
         if ([scrollView.mj_header isRefreshing])
         {

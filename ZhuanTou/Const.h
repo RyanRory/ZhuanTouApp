@@ -37,6 +37,7 @@
 #define VCODE @"VCODE"
 #define ISLOGIN @"ISLOGIN"
 #define TOUCHID @"TOUCHID"
+#define ISTRADEPSWDSET @"ISTRADEPSWDSET"
 
 #define WENJIAN @"WENJIAN"
 #define ZONGHE @"ZONGHE"

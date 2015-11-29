@@ -118,7 +118,7 @@
     reloadButton.hidden = YES;
     hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.mode = MBProgressHUDModeIndeterminate;
-    timer = [NSTimer scheduledTimerWithTimeInterval:10.0f target:self selector:@selector(webViewStopLaoding) userInfo:nil repeats:NO];
+    timer = [NSTimer scheduledTimerWithTimeInterval:30.0f target:self selector:@selector(webViewStopLaoding) userInfo:nil repeats:NO];
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView

@@ -137,7 +137,18 @@
         NSLog(@"Error: %@", error);
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.mode = MBProgressHUDModeText;
-        hud.labelText = @"当前网络状况不佳，请重试";
+        if (error.code == 100003)
+        {
+            hud.labelText = @"当前用户未被授权执行当前操作";
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                UINavigationController *nav = [[self storyboard]instantiateViewControllerWithIdentifier:@"LoginNav"];
+                [[self tabBarController] presentViewController:nav animated:YES completion:nil];
+            });
+        }
+        else
+        {
+            hud.labelText = @"当前网络状况不佳，请重试";
+        }
         [hud hide:YES afterDelay:1.5f];
         [tView.mj_header endRefreshing];
     }];
@@ -184,7 +195,18 @@
         NSLog(@"Error: %@", error);
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.mode = MBProgressHUDModeText;
-        hud.labelText = @"当前网络状况不佳，请重试";
+        if (error.code == 100003)
+        {
+            hud.labelText = @"当前用户未被授权执行当前操作";
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                UINavigationController *nav = [[self storyboard]instantiateViewControllerWithIdentifier:@"LoginNav"];
+                [[self tabBarController] presentViewController:nav animated:YES completion:nil];
+            });
+        }
+        else
+        {
+            hud.labelText = @"当前网络状况不佳，请重试";
+        }
         [hud hide:YES afterDelay:1.5f];
         [tView.mj_header endRefreshing];
     }];

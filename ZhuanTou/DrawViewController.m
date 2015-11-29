@@ -136,7 +136,7 @@
         {
             [hud hide:YES];
             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"为了您的资金安全，您的资金将被限制同卡进出，请填写真实银行卡信息。" preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
+            UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"朕知道了" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
                 AddBankCardViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"AddBankCardViewController"];
                 [vc setFullName:[responseObject objectForKey:@"fullName"]];
                 [[self navigationController]pushViewController:vc animated:YES];
@@ -146,13 +146,16 @@
         }
         else
         {
-            hud.mode = MBProgressHUDModeCustomView;
-            hud.labelText = @"您还未进行实名验证，请先进行实名验证";
-            [hud hide:YES afterDelay:1.5f];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                RealNameViewController *vc = [[self storyboard] instantiateViewControllerWithIdentifier:@"RealNameViewController"];
+            [hud hide:YES];
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"您还未进行实名验证，请先进行实名验证" message:nil preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+            UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"去认证" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
+                RealNameViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"RealNameViewController"];
                 [[self navigationController]pushViewController:vc animated:YES];
-            });
+            }];
+            [alertController addAction:cancelAction];
+            [alertController addAction:confirmAction];
+            [self presentViewController:alertController animated:YES completion:nil];
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

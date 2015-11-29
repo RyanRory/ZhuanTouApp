@@ -68,6 +68,7 @@
             else
             {
                 [userDefault setBool:YES forKey:ISLOGIN];
+                [userDefault setBool:[NSString stringWithFormat:@"%@",[responseObject objectForKey:@"isTradePwSetted"]].boolValue forKey:ISTRADEPSWDSET];
                 [userDefault synchronize];
             }
             

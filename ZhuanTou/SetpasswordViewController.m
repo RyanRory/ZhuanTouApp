@@ -68,7 +68,7 @@
                  ^(BOOL success, NSError *authenticationError) {
                      if (success)
                      {
-                         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                              ZTTabBarViewController *tabvc = [[weakSelf storyboard]instantiateViewControllerWithIdentifier:@"ZTTabBarViewController"];
                              [weakSelf presentViewController:tabvc animated:YES completion:nil];
                          });
@@ -226,8 +226,10 @@
          ^(BOOL success, NSError *authenticationError) {
              if (success)
              {
-                 ZTTabBarViewController *tabvc = [[weakSelf storyboard]instantiateViewControllerWithIdentifier:@"ZTTabBarViewController"];
-                 [weakSelf presentViewController:tabvc animated:YES completion:nil];
+                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                     ZTTabBarViewController *tabvc = [[weakSelf storyboard]instantiateViewControllerWithIdentifier:@"ZTTabBarViewController"];
+                     [weakSelf presentViewController:tabvc animated:YES completion:nil];
+                 });
              }
          }];
     }

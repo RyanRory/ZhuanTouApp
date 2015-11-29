@@ -11,6 +11,7 @@
 #import "ChargeViewController.h"
 #import "ProductBonusTableViewCell.h"
 #import "WebDetailViewController.h"
+#import "SetTradePswdViewController.h"
 
 @interface ProductBuyViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 {

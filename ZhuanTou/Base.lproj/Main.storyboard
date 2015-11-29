@@ -2465,12 +2465,12 @@
                                                 </constraints>
                                                 <variation key="default">
                                                     <mask key="constraints">
+                                                        <exclude reference="ch3-y1-DDd"/>
+                                                        <exclude reference="t4b-nj-nIn"/>
                                                         <exclude reference="N6W-21-bDy"/>
                                                         <exclude reference="OuM-uJ-S3g"/>
                                                         <exclude reference="d3z-ro-BTD"/>
                                                         <exclude reference="gLt-Pr-gDu"/>
-                                                        <exclude reference="ch3-y1-DDd"/>
-                                                        <exclude reference="t4b-nj-nIn"/>
                                                         <exclude reference="8tt-jD-HMv"/>
                                                         <exclude reference="Vny-rk-BOR"/>
                                                         <exclude reference="qNy-hi-LIp"/>

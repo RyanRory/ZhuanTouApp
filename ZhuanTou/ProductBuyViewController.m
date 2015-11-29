@@ -207,22 +207,38 @@
     {
         if ([style isEqualToString:HUOQI])
         {
-            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"请输入交易密码" message:nil preferredStyle:UIAlertControllerStyleAlert];
-            [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField){
-                textField.secureTextEntry = YES;
-                textField.returnKeyType = UIReturnKeyDone;
-                [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(alertTextFieldDidChange:) name:UITextFieldTextDidChangeNotification object:textField];
-            }];
-            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-            UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
-                UITextField *tradePswdTextField = alertController.textFields.firstObject;
-                [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextFieldTextDidChangeNotification object:nil];
-                [self buy:tradePswdTextField.text];
-            }];
-            [alertController addAction:cancelAction];
-            [alertController addAction:confirmAction];
-            confirmAction.enabled = NO;
-            [self presentViewController:alertController animated:YES completion:nil];
+            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+            if (![userDefault boolForKey:ISTRADEPSWDSET])
+            {
+                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"您尚未设置交易密码" message:nil preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *gotoSet = [UIAlertAction actionWithTitle:@"去设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
+                    SetTradePswdViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"SetTradePswdViewController"];
+                    [self.navigationController pushViewController:vc animated:YES];
+                }];
+                UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+                [alertController addAction:gotoSet];
+                [alertController addAction:cancel];
+                [self presentViewController:alertController animated:YES completion:nil];
+            }
+            else
+            {
+                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"请输入交易密码" message:nil preferredStyle:UIAlertControllerStyleAlert];
+                [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField){
+                    textField.secureTextEntry = YES;
+                    textField.returnKeyType = UIReturnKeyDone;
+                    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(alertTextFieldDidChange:) name:UITextFieldTextDidChangeNotification object:textField];
+                }];
+                UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+                UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
+                    UITextField *tradePswdTextField = alertController.textFields.firstObject;
+                    [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextFieldTextDidChangeNotification object:nil];
+                    [self buy:tradePswdTextField.text];
+                }];
+                [alertController addAction:cancelAction];
+                [alertController addAction:confirmAction];
+                confirmAction.enabled = NO;
+                [self presentViewController:alertController animated:YES completion:nil];
+            }
         }
         else
         {

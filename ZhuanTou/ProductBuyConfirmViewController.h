@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SetTradePswdViewController.h"
 
 @interface ProductBuyConfirmViewController : UIViewController
 {

@@ -97,6 +97,7 @@
                 [userDefault setBool:YES forKey:ISLOGIN];
                 [userDefault setObject:usernameTextField.text forKey:USERNAME];
                 [userDefault setObject:passwordTextField.text forKey:PASSWORD];
+                [userDefault setBool:[NSString stringWithFormat:@"%@",[responseObject objectForKey:@"isTradePwSetted"]].boolValue forKey:ISTRADEPSWDSET];
                 [userDefault synchronize];
                 [KeychainData forgotPsw];
                 SetpasswordViewController *setpass = [[self storyboard]instantiateViewControllerWithIdentifier:@"SetpasswordViewController"];
