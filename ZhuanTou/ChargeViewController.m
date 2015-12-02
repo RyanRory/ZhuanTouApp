@@ -167,24 +167,74 @@
     }
     else
     {
-        NSURL*url = [NSURL URLWithString:[BASEURL stringByAppendingString:@"account/BaoFooRenzhengSDKCharge"]];
+//        NSURL*url = [NSURL URLWithString:[BASEURL stringByAppendingString:@"account/RenzhengSDKCharge"]];
+//        NSMutableURLRequest*request = [NSMutableURLRequest requestWithURL:url];
+//        [request setHTTPMethod:@"POST"];
+//        NSString *para = [NSString stringWithFormat:@"txn_amt=%.2f",editTextField.text.doubleValue];
+//        [request setHTTPBody:[para dataUsingEncoding:NSUTF8StringEncoding]];
+//        NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+//        [NSURLConnection sendAsynchronousRequest:request queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+//                NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+//                NSArray *array = [str componentsSeparatedByString:@"\"risk_item\":"];
+//                NSArray *array2 = [array[1] componentsSeparatedByString:@"},"];
+//                NSString *risk_item_str = [NSString stringWithFormat:@"%@}",array2[0]];
+//                NSLog(@"%@",risk_item_str);
+//                if ([[dict objectForKey:@"retCode"] isEqualToString:@"0000"]) {
+//                    [hud hide:YES];
+//                    if ([[NSString stringWithFormat:@"%@",[dict objectForKey:@"chargeChannel"]] isEqualToString:@"宝付"])
+//                    {
+//                        BaoFooPayController*web = [[BaoFooPayController alloc] init];
+//                        NSDictionary *baofooData = [NSDictionary dictionaryWithDictionary:[dict objectForKey:@"baofoodata"]];
+//                        web.PAY_TOKEN = [baofooData objectForKey:@"tradeNo"];
+//                        web.delegate = self;
+//                        web.PAY_BUSINESS = @"true";
+//                        [self presentViewController:web animated:YES completion:nil];
+//                    }
+//                    else
+//                    {
+//                        NSDictionary *tempData = [NSDictionary dictionaryWithDictionary:[dict objectForKey:@"lianliandata"]];
+//                        NSMutableDictionary *lianlianData = [[NSMutableDictionary alloc]init];
+//                        [lianlianData setValue:[tempData objectForKey:@"acct_name"] forKey:@"acct_name"];
+//                        [lianlianData setValue:[tempData objectForKey:@"busi_partner"] forKey:@"busi_partner"];
+//                        [lianlianData setValue:[tempData objectForKey:@"card_no"] forKey:@"card_no"];
+//                        [lianlianData setValue:[tempData objectForKey:@"dt_order"] forKey:@"dt_order"];
+//                        [lianlianData setValue:[tempData objectForKey:@"id_no"] forKey:@"id_no"];
+//                        [lianlianData setValue:[NSString stringWithFormat:@"%.2f",[NSString stringWithFormat:@"%@",[tempData objectForKey:@"money_order"]].doubleValue] forKey:@"money_order"];
+//                        [lianlianData setValue:[tempData objectForKey:@"name_goods"] forKey:@"name_goods"];
+//                        [lianlianData setValue:[tempData objectForKey:@"no_agree"] forKey:@"no_agree"];
+//                        [lianlianData setValue:[tempData objectForKey:@"no_order"] forKey:@"no_order"];
+//                        [lianlianData setValue:[tempData objectForKey:@"notify_url"] forKey:@"notify_url"];
+//                        [lianlianData setValue:[tempData objectForKey:@"oid_partner"] forKey:@"oid_partner"];
+//                        [lianlianData setValue:risk_item_str forKey:@"risk_item"];
+//                        [lianlianData setValue:[tempData objectForKey:@"sign"] forKey:@"sign"];
+//                        [lianlianData setValue:[tempData objectForKey:@"sign_type"] forKey:@"sign_type"];
+//                        [lianlianData setValue:[tempData objectForKey:@"user_id"] forKey:@"user_id"];
+//                        [lianlianData setValue:[tempData objectForKey:@"valid_order"] forKey:@"valid_order"];
+//                        NSLog(@"%@",lianlianData);
+//                        [LLPaySdk sharedSdk].sdkDelegate = self;
+//                        [[LLPaySdk sharedSdk] presentVerifyPaySdkInViewController:self withTraderInfo:lianlianData];
+//                    }
+//                }
+        NSURL*url = [NSURL URLWithString:[BASEURL stringByAppendingString:@"account/BaofooRenzhengSDKCharge"]];
         NSMutableURLRequest*request = [NSMutableURLRequest requestWithURL:url];
         [request setHTTPMethod:@"POST"];
-        NSString *para = [NSString stringWithFormat:@"txn_amt=%f",(editTextField.text.doubleValue * 100)];
-        //添加请求数据
+        NSString *para = [NSString stringWithFormat:@"txn_amt=%.2f",editTextField.text.doubleValue*100];
         [request setHTTPBody:[para dataUsingEncoding:NSUTF8StringEncoding]];
         NSOperationQueue *queue = [[NSOperationQueue alloc] init];
         [NSURLConnection sendAsynchronousRequest:request queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                
                 NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-                if ([[dict objectForKey:@"retCode"] isEqualToString:@"0000"]) {
+                if ([[dict objectForKey:@"retCode"] isEqualToString:@"0000"])
+                {
                     [hud hide:YES];
                     BaoFooPayController*web = [[BaoFooPayController alloc] init];
                     web.PAY_TOKEN = [dict objectForKey:@"tradeNo"];
                     web.delegate = self;
                     web.PAY_BUSINESS = @"true";
                     [self presentViewController:web animated:YES completion:nil];
+
                 }
                 else
                 {
@@ -198,7 +248,6 @@
                 }
             });
         }];
-
     }
 }
 
@@ -230,8 +279,86 @@
     NSString *str = [params substringToIndex:1];
     if ([str isEqualToString:@"1"])
     {
-        [[self navigationController] popViewControllerAnimated:YES];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.mode = MBProgressHUDModeCustomView;
+        hud.labelText = @"支付成功";
+        [hud hide:YES afterDelay:1.5f];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [[self navigationController] popViewControllerAnimated:YES];
+        });
     }
 }
+
+#pragma mark - LLPayDelegate
+- (void)paymentEnd:(LLPayResult)resultCode withResultDic:(NSDictionary *)dic
+{
+    NSString *msg = @"支付异常";
+    switch (resultCode) {
+        case kLLPayResultSuccess:
+        {
+            msg = @"支付成功";
+            
+            NSString* result_pay = dic[@"result_pay"];
+            if ([result_pay isEqualToString:@"SUCCESS"])
+            {
+                msg = @"支付成功";
+            }
+            else if ([result_pay isEqualToString:@"PROCESSING"])
+            {
+                msg = @"支付单处理中";
+            }
+            else if ([result_pay isEqualToString:@"FAILURE"])
+            {
+                msg = @"支付单失败";
+            }
+            else if ([result_pay isEqualToString:@"REFUND"])
+            {
+                msg = @"支付单已退款";
+            }
+        }
+            break;
+        case kLLPayResultFail:
+        {
+            msg = @"支付失败";
+        }
+            break;
+        case kLLPayResultCancel:
+        {
+            msg = @"支付取消";
+        }
+            break;
+        case kLLPayResultInitError:
+        {
+            msg = @"sdk初始化异常";
+        }
+            break;
+        case kLLPayResultInitParamError:
+        {
+            msg = dic[@"ret_msg"];
+        }
+            break;
+        default:
+            break;
+    }
+    if ([msg isEqualToString:@"支付成功"])
+    {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.mode = MBProgressHUDModeCustomView;
+        hud.labelText = msg;
+        [hud hide:YES afterDelay:1.5f];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [[self navigationController] popViewControllerAnimated:YES];
+        });
+    }
+    else
+    {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.mode = MBProgressHUDModeCustomView;
+        hud.labelText = msg;
+        [hud hide:YES afterDelay:1.5f];
+    }
+
+}
+
 
 @end

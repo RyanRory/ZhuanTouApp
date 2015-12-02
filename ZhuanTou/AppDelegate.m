@@ -25,6 +25,7 @@
     
     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
     [userDefault setBool:NO forKey:ISLOGIN];
+    [userDefault setBool:NO forKey:ISTRADEPSWDSET];
     [userDefault synchronize];
     
     [Fabric with:@[[Crashlytics class]]];

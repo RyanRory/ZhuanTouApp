@@ -173,16 +173,16 @@
             [amountTextField becomeFirstResponder];
         });
     }
-//    else if ((![style isEqualToString:HUOQI]) && (amountTextField.text.intValue < ((NSString*)[productInfo objectForKey:@"minPurchaseAmount"]).intValue))
-//    {
-//        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-//        hud.mode = MBProgressHUDModeCustomView;
-//        hud.labelText = [NSString stringWithFormat:@"最低投资额度为%@元",[productInfo objectForKey:@"minPurchaseAmount"]];
-//        [hud hide:YES afterDelay:1.5];
-//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//            [amountTextField becomeFirstResponder];
-//        });
-//    }
+    else if ((![style isEqualToString:HUOQI]) && (amountTextField.text.intValue < ((NSString*)[productInfo objectForKey:@"minPurchaseAmount"]).intValue))
+    {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.mode = MBProgressHUDModeCustomView;
+        hud.labelText = [NSString stringWithFormat:@"最低投资额度为%@元",[productInfo objectForKey:@"minPurchaseAmount"]];
+        [hud hide:YES afterDelay:1.5];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [amountTextField becomeFirstResponder];
+        });
+    }
 //    else if ((![style isEqualToString:HUOQI]) && (amountTextField.text.intValue > ((NSString*)[productInfo objectForKey:@"maxPurchaseAmount"]).intValue))
 //    {
 //        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
@@ -208,7 +208,17 @@
         if ([style isEqualToString:HUOQI])
         {
             NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-            if (![userDefault boolForKey:ISTRADEPSWDSET])
+            if (amountTextField.text.doubleValue < 0.01)
+            {
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                hud.mode = MBProgressHUDModeCustomView;
+                hud.labelText = [NSString stringWithFormat:@"最低投资额度为0.01元"];
+                [hud hide:YES afterDelay:1.5];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [amountTextField becomeFirstResponder];
+                });
+            }
+            else if (![userDefault boolForKey:ISTRADEPSWDSET])
             {
                 UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"您尚未设置交易密码" message:nil preferredStyle:UIAlertControllerStyleAlert];
                 UIAlertAction *gotoSet = [UIAlertAction actionWithTitle:@"去设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
@@ -378,7 +388,20 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ProductBonusTableViewCell *cell = [tView cellForRowAtIndexPath:indexPath];
-    [self performSelector:@selector(bonusCheckboxEnsure:) withObject:cell.checkboxButton afterDelay:0];
+    if (amountTextField.text.doubleValue < [NSString stringWithFormat:@"%@",[[datas objectAtIndex:indexPath.row] objectForKey:@"thresholdValue"]].intValue)
+    {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = [NSString stringWithFormat:@"当前红包投资满%@元可用",[[datas objectAtIndex:indexPath.row] objectForKey:@"thresholdValue"]];
+        [hud hide:YES afterDelay:1.5];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [amountTextField becomeFirstResponder];
+        });
+    }
+    else
+    {
+        [self performSelector:@selector(bonusCheckboxEnsure:) withObject:cell.checkboxButton afterDelay:0];
+    }
 }
 
 - (void)bonusCheckboxEnsure:(UIButton*)btn

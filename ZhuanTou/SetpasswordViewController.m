@@ -130,10 +130,51 @@
         }
         else if ([weakString isEqualToString:@"修改密码"])
         {
-            [[weakSelf navigationController]popViewControllerAnimated:YES];
+            [[self navigationController]popViewControllerAnimated:YES];
         }
         else
         {
+//            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+//            NSString *password = [userDefault objectForKey:PASSWORD];
+//            if ((password.length > 0) && (![userDefault boolForKey:ISLOGIN]))
+//            {
+//                AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+//                NSDictionary *parameters = @{@"login":[userDefault objectForKey:USERNAME],
+//                                             @"password":[userDefault objectForKey:PASSWORD]};
+//                NSString *URL = [BASEURL stringByAppendingString:@"api/auth/signIn"];
+//                [manager POST:URL parameters:parameters success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+//                    NSLog(@"%@", responseObject);
+//                    NSString *str = [responseObject objectForKey:@"isAuthenticated"];
+//                    int f1 = str.intValue;
+//                    if (f1 == 0)
+//                    {
+//                        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//                        hud.mode = MBProgressHUDModeCustomView;
+//                        hud.labelText = [responseObject objectForKey:@"errorMessage"];
+//                        [hud hide:YES afterDelay:1.5f];
+//                    }
+//                    else
+//                    {
+//                        [userDefault setBool:YES forKey:ISLOGIN];
+//                        [userDefault setBool:[NSString stringWithFormat:@"%@",[responseObject objectForKey:@"isTradePwSetted"]].boolValue forKey:ISTRADEPSWDSET];
+//                        [userDefault synchronize];
+//                    }
+//                    
+//                } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//                    NSLog(@"Error: %@", error);
+//                    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//                    hud.mode = MBProgressHUDModeText;
+//                    hud.labelText = @"登录失败";
+//                    [hud hide:YES afterDelay:1.5f];
+//                    
+//                }];
+//            }
+//            
+//            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//                ZTTabBarViewController *tabvc = [[weakSelf storyboard]instantiateViewControllerWithIdentifier:@"ZTTabBarViewController"];
+//                [weakSelf presentViewController:tabvc animated:YES completion:nil];
+//            });
+            
             ZTTabBarViewController *tabvc = [[weakSelf storyboard]instantiateViewControllerWithIdentifier:@"ZTTabBarViewController"];
             [weakSelf presentViewController:tabvc animated:YES completion:nil];
         }

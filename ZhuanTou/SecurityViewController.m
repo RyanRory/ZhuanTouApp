@@ -16,6 +16,7 @@
 
 @synthesize pointerImageView, levelLabel;
 @synthesize realNameStatusLabel, realNameButton, tradePswdButton, tradePswdStatusLabel, loginPswdButton;
+@synthesize realNameRightIcon;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -82,10 +83,12 @@
             if (((NSString*)[responseObject objectForKey:@"isIdentified"]).intValue == 0)
             {
                 realNameStatusLabel.text = @"未认证";
+                realNameRightIcon.hidden = NO;
             }
             else
             {
                 realNameStatusLabel.text = @"已认证";
+                realNameRightIcon.hidden = YES;
             }
             if (((NSString*)[responseObject objectForKey:@"isTradePwSetted"]).intValue == 0)
             {

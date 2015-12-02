@@ -74,7 +74,7 @@
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
     [formatter setPositiveFormat:@"###,##0"];
     wenjianPINumLabel.text = [NSString stringWithFormat:@"%@%%",[productInfo objectForKey:@"interestRate"]];
-    wenjianPTNumLabel.text = [NSString stringWithFormat:@"%d个月",((NSString*)[productInfo objectForKey:@"noOfDays"]).intValue/30];
+    wenjianPTNumLabel.text = [NSString stringWithFormat:@"%d个月",(int)round((((NSString*)[productInfo objectForKey:@"noOfDays"]).doubleValue / 30))];
     wenjianAmountNumLabel.text = [NSString stringWithFormat:@"%@元",[NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithInt:investAmount.intValue]]]];
     
 }

@@ -19,5 +19,6 @@
 @property (strong, nonatomic) IBOutlet UIButton *realNameButton;
 @property (strong, nonatomic) IBOutlet UIButton *tradePswdButton;
 @property (strong, nonatomic) IBOutlet UIButton *loginPswdButton;
+@property (strong, nonatomic) IBOutlet UIImageView *realNameRightIcon;
 
 @end

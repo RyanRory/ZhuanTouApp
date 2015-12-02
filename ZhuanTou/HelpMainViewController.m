@@ -22,6 +22,8 @@
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor darkGrayColor],NSForegroundColorAttributeName,nil]];
     self.navigationController.interactivePopGestureRecognizer.delegate = self;
     
+    easterEggs = 0;
+    
     tView.showsVerticalScrollIndicator = NO;
 }
 
@@ -207,9 +209,23 @@
             AboutViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"AboutViewController"];
             [[self navigationController]pushViewController:vc animated:YES];
         }
+        else
+        {
+            easterEggs++;
+            if (easterEggs == 11)
+            {
+                [self easterEggsAction];
+            }
+        }
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma 彩蛋~~
+- (void)easterEggsAction
+{
+    
 }
 
 #pragma ActionSheet

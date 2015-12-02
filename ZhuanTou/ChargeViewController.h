@@ -10,8 +10,9 @@
 #import <BaoFooPay/BaoFooPay.h>
 #import "AddBankCardViewController.h"
 #import "RealNameViewController.h"
+#import "LLPaySdk.h"
 
-@interface ChargeViewController : UIViewController<BaofooSdkDelegate>
+@interface ChargeViewController : UIViewController<BaofooSdkDelegate, LLPaySdkDelegate>
 
 @property (strong, nonatomic) IBOutlet UIView *bankCardView;
 @property (strong, nonatomic) IBOutlet UIImageView *bankImageView;

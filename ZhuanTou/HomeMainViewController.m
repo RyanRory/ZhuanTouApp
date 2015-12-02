@@ -15,7 +15,7 @@
 @implementation HomeMainViewController
 
 @synthesize scrollView, noticeScrollView, noticeButton, pageControl;
-@synthesize bgImageView, productBeforeButton, buyButton, profitPercentLabel, monthNumLabel, moryLabel, timeLabel, newerButton, inUpImageView;
+@synthesize bgImageView, productBeforeButton, buyButton, profitPercentLabel, monthNumLabel, moryLabel, timeLabel, newerButton;
 @synthesize outterScrollView, outterViewHeight;
 @synthesize innerScrollView, innerViewHeight;
 
@@ -85,7 +85,6 @@
     [buyButton addTarget:self action:@selector(toBuy:) forControlEvents:UIControlEventTouchUpInside];
     [buyButton setUserInteractionEnabled:NO];
     [buyButton setAlpha:0.6f];
-    [inUpImageView setAlpha:0.6f];
     
     
     [productBeforeButton setTitle:[NSString stringWithFormat:@"查看\n往期收益"] forState:UIControlStateNormal];
@@ -248,16 +247,10 @@
             [buyButton setAlpha:1.0f];
             [buyButton setTitle:@"已售罄" forState:UIControlStateNormal];
             buyButton.backgroundColor = ZTGRAY;
-            [inUpImageView setAlpha:1.0f];
-            UIImage *image = [UIImage imageNamed:@"inUpIcon.png"];
-            image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-            inUpImageView.image = image;
-            inUpImageView.tintColor = ZTGRAY;
             
         }
         else
         {
-            inUpImageView.tintColor = ZTBLUE;
             buyButton.backgroundColor = ZTBLUE;
             [buyButton setTitle:@"立即购买" forState:UIControlStateNormal];
             NSDate *date = [NSDate date];
@@ -268,7 +261,6 @@
                 
                 [buyButton setUserInteractionEnabled:NO];
                 [buyButton setAlpha:0.6f];
-                [inUpImageView setAlpha:0.6f];
             }
             else
             {
@@ -278,7 +270,6 @@
                 
                 [buyButton setUserInteractionEnabled:YES];
                 [buyButton setAlpha:1.0f];
-                [inUpImageView setAlpha:1.0f];
             }
         }
 

@@ -14,6 +14,9 @@
 #import "CommonQuestionViewController.h"
 
 @interface HelpMainViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, UIWebViewDelegate, UIGestureRecognizerDelegate>
+{
+    int easterEggs;
+}
 
 @property (strong, nonatomic) IBOutlet UITableView *tView;
 

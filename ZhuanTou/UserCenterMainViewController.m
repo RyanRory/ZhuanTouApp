@@ -174,8 +174,14 @@
 
 - (void)setAuto:(id)sender
 {
-    AutoViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"AutoViewController"];
-    [[self navigationController]pushViewController:vc animated:YES];
+//    AutoViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"AutoViewController"];
+//    [[self navigationController]pushViewController:vc animated:YES];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.mode = MBProgressHUDModeCustomView;
+    UIImageView *imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"inbuilding.png"]];
+    hud.customView = imageView;
+    hud.labelText = @"建设中...";
+    [hud hide:YES afterDelay:1.5];
 }
 
 

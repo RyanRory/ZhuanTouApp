@@ -315,9 +315,9 @@
         hud.mode = MBProgressHUDModeText;
         hud.labelText = @"当前网络状况不佳，请重试";
         [hud hide:YES afterDelay:1.5f];
-        if ([scrollView.mj_header isRefreshing])
+        if ([mainScrollView.mj_header isRefreshing])
         {
-            [scrollView.mj_header endRefreshing];
+            [mainScrollView.mj_header endRefreshing];
         }
     }];
 }
@@ -396,9 +396,9 @@
         hud.mode = MBProgressHUDModeText;
         hud.labelText = @"当前网络状况不佳，请重试";
         [hud hide:YES afterDelay:1.5f];
-        if ([scrollView.mj_header isRefreshing])
+        if ([mainScrollView.mj_header isRefreshing])
         {
-            [scrollView.mj_header endRefreshing];
+            [mainScrollView.mj_header endRefreshing];
         }
     }];
 
@@ -453,9 +453,9 @@
         hud.mode = MBProgressHUDModeText;
         hud.labelText = @"当前网络状况不佳，请重试";
         [hud hide:YES afterDelay:1.5f];
-        if ([scrollView.mj_header isRefreshing])
+        if ([mainScrollView.mj_header isRefreshing])
         {
-            [scrollView.mj_header endRefreshing];
+            [mainScrollView.mj_header endRefreshing];
         }
 
     }];
@@ -542,7 +542,6 @@
         NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
         [formatter setPositiveFormat:@"###,##0"];
         wenjianLabel.text = [NSString stringWithFormat:@"剩余可认购份额：%@元",[formatter stringFromNumber:[NSNumber numberWithInt:[NSString stringWithFormat:@"%@",[wenjianData objectForKey:@"bidableAmount"]].intValue]]];
-        wenjianLabel.text = @"";
         
         [wenjianBuyButton setUserInteractionEnabled:YES];
         wenjianBuyButton.backgroundColor = ZTLIGHTRED;

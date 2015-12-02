@@ -294,6 +294,10 @@
 		A4E7F2561BCE54DD00B20EC6 /* KeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = A4E7F2511BCE54DD00B20EC6 /* KeychainItemWrapper.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		A4E7F2591BCE552400B20EC6 /* SetpasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4E7F2581BCE552400B20EC6 /* SetpasswordViewController.m */; };
 		A4E89D731BEB135000CC5DDA /* AutoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4E89D721BEB135000CC5DDA /* AutoViewController.m */; };
+		A4E8F8461C0C54B10002D7D0 /* CHANGELIST.txt in Resources */ = {isa = PBXBuildFile; fileRef = A4E8F8411C0C54B10002D7D0 /* CHANGELIST.txt */; };
+		A4E8F8471C0C54B10002D7D0 /* libPaySdkColor.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A4E8F8421C0C54B10002D7D0 /* libPaySdkColor.a */; };
+		A4E8F8481C0C54B10002D7D0 /* Readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = A4E8F8441C0C54B10002D7D0 /* Readme.txt */; };
+		A4E8F8491C0C54B10002D7D0 /* walletResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A4E8F8451C0C54B10002D7D0 /* walletResources.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -699,6 +703,11 @@
 		A4E7F2581BCE552400B20EC6 /* SetpasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetpasswordViewController.m; sourceTree = "<group>"; };
 		A4E89D711BEB135000CC5DDA /* AutoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoViewController.h; sourceTree = "<group>"; };
 		A4E89D721BEB135000CC5DDA /* AutoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutoViewController.m; sourceTree = "<group>"; };
+		A4E8F8411C0C54B10002D7D0 /* CHANGELIST.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CHANGELIST.txt; path = LLPay_iOS_SDK_V2.4/CHANGELIST.txt; sourceTree = "<group>"; };
+		A4E8F8421C0C54B10002D7D0 /* libPaySdkColor.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPaySdkColor.a; path = LLPay_iOS_SDK_V2.4/libPaySdkColor.a; sourceTree = "<group>"; };
+		A4E8F8431C0C54B10002D7D0 /* LLPaySdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LLPaySdk.h; path = LLPay_iOS_SDK_V2.4/LLPaySdk.h; sourceTree = "<group>"; };
+		A4E8F8441C0C54B10002D7D0 /* Readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Readme.txt; path = LLPay_iOS_SDK_V2.4/Readme.txt; sourceTree = "<group>"; };
+		A4E8F8451C0C54B10002D7D0 /* walletResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = walletResources.bundle; path = LLPay_iOS_SDK_V2.4/walletResources.bundle; sourceTree = "<group>"; };
 		B241E5576143A7703444EB0B /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		C8A74B6F96E609344BDC6A9A /* Pods.distribution.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.distribution.xcconfig; path = "Pods/Target Support Files/Pods/Pods.distribution.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -713,6 +722,7 @@
 				A463EAB31BD60FB300CAF146 /* Charts.framework in Frameworks */,
 				A475498B1BE61889002E929C /* BaoFooPay.framework in Frameworks */,
 				A45B856A1BFDE4740041FFC7 /* Fabric.framework in Frameworks */,
+				A4E8F8471C0C54B10002D7D0 /* libPaySdkColor.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1158,6 +1168,7 @@
 		A45B856C1BFDE7790041FFC7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A4E8F83E1C0C53D70002D7D0 /* LLPay */,
 				A463EAAD1BD60FA100CAF146 /* Charts.xcodeproj */,
 				A45B85681BFDE4740041FFC7 /* Fabric.framework */,
 				A45B85691BFDE4740041FFC7 /* Crashlytics.framework */,
@@ -1313,6 +1324,18 @@
 				A4E7F2511BCE54DD00B20EC6 /* KeychainItemWrapper.m */,
 			);
 			name = GestureViews;
+			sourceTree = "<group>";
+		};
+		A4E8F83E1C0C53D70002D7D0 /* LLPay */ = {
+			isa = PBXGroup;
+			children = (
+				A4E8F8411C0C54B10002D7D0 /* CHANGELIST.txt */,
+				A4E8F8421C0C54B10002D7D0 /* libPaySdkColor.a */,
+				A4E8F8431C0C54B10002D7D0 /* LLPaySdk.h */,
+				A4E8F8441C0C54B10002D7D0 /* Readme.txt */,
+				A4E8F8451C0C54B10002D7D0 /* walletResources.bundle */,
+			);
+			name = LLPay;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1523,6 +1546,7 @@
 				A4BBC1DD1BD10D52006331AC /* uGesture@3x.png in Resources */,
 				A44AFA521BCF4EAE002A8AC4 /* productActive@2x.png in Resources */,
 				A4BBC1EF1BD10D61006331AC /* uBonus@2x.png in Resources */,
+				A4E8F8481C0C54B10002D7D0 /* Readme.txt in Resources */,
 				A4BBC2081BD10DA1006331AC /* uSecurity.png in Resources */,
 				A42EA2C51BDF833F00E35F5F /* inewer@3x.png in Resources */,
 				A41ACC8C1BDDFCD700755C96 /* bonusActive@2x.png in Resources */,
@@ -1586,6 +1610,7 @@
 				A42EA2EE1BE1D7F200E35F5F /* productStatus@3x.png in Resources */,
 				A44AFA191BCF47F1002A8AC4 /* huoqiTriangle@2x.png in Resources */,
 				A4E7F2091BCE050E00B20EC6 /* checkIconActive@3x.png in Resources */,
+				A4E8F8461C0C54B10002D7D0 /* CHANGELIST.txt in Resources */,
 				A405AC5E1BC911FB002BFCE9 /* loginLogo@3x.png in Resources */,
 				A4E7F2311BCE053200B20EC6 /* checkIconActive.png in Resources */,
 				A42EA2C31BDF833F00E35F5F /* inbuilding@3x.png in Resources */,
@@ -1628,6 +1653,7 @@
 				A41ACC941BDE064900755C96 /* launchCenter.png in Resources */,
 				A42EA2C21BDF833F00E35F5F /* iguding@3x.png in Resources */,
 				A4BBC1EE1BD10D61006331AC /* uBankcard@2x.png in Resources */,
+				A4E8F8491C0C54B10002D7D0 /* walletResources.bundle in Resources */,
 				A44AF9FC1BCF47E1002A8AC4 /* safeIcon@3x.png in Resources */,
 				A43174651BD492880001FC53 /* pFloat@2x.png in Resources */,
 				A43174631BD492880001FC53 /* pDeadline@2x.png in Resources */,
@@ -1890,6 +1916,10 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-force_load",
+					"$(SRCROOT)/LLPay_iOS_SDK_V2.4/libPaySdkColor.a",
+				);
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1929,6 +1959,10 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-force_load",
+					"$(SRCROOT)/LLPay_iOS_SDK_V2.4/libPaySdkColor.a",
+				);
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1955,6 +1989,10 @@
 				INFOPLIST_FILE = ZhuanTou/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/LLPay_iOS_SDK_V2.4",
+				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.momu.zhuantouwang.ZhuanTou;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1985,6 +2023,10 @@
 				INFOPLIST_FILE = ZhuanTou/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/LLPay_iOS_SDK_V2.4",
+				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.momu.zhuantouwang.ZhuanTou;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2077,6 +2119,10 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-force_load",
+					"$(SRCROOT)/LLPay_iOS_SDK_V2.4/libPaySdkColor.a",
+				);
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -2102,6 +2148,10 @@
 				INFOPLIST_FILE = ZhuanTou/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/LLPay_iOS_SDK_V2.4",
+				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.momu.zhuantouwang.ZhuanTou;
 				PRODUCT_NAME = "$(TARGET_NAME)";

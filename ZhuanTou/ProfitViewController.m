@@ -14,8 +14,8 @@
 
 @implementation ProfitViewController
 
-@synthesize dingqiPercentLabel, huoqiPercentLabel, balancePercentLabel, frozenPercentLabel, bonusPercentLabel;
-@synthesize dingqiNumLabel, huoqiNumLabel, balanceNumLabel, frozenNumLabel, bonusNumLabel;
+@synthesize dingqiPercentLabel, huoqiPercentLabel, balancePercentLabel;
+@synthesize dingqiNumLabel, huoqiNumLabel, balanceNumLabel;
 @synthesize contentView, pieChartView, totalNumLabel;
 @synthesize scrollView, viewHeight;
 
@@ -99,8 +99,6 @@
             dingqi = ((NSString*)[responseObject objectForKey:@"activeInvestTotalAmount"]).doubleValue;
             huoqi = ((NSString*)[responseObject objectForKey:@"ztbBalance"]).doubleValue;
             balance = ((NSString*)[responseObject objectForKey:@"fundsAvailable"]).doubleValue;
-            frozen = ((NSString*)[responseObject objectForKey:@"frozenAmount"]).doubleValue;
-            bonus = ((NSString*)[responseObject objectForKey:@"couponAmount"]).doubleValue;
             total = ((NSString*)[responseObject objectForKey:@"totalAsset"]).doubleValue;
             
             NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
@@ -108,8 +106,6 @@
             dingqiNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:dingqi]]];
             huoqiNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:huoqi]]];
             balanceNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:balance]]];
-            frozenNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:frozen]]];
-            bonusNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:bonus]]];
             totalNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:total]]];
             
             if (total == 0)
@@ -117,19 +113,15 @@
                 dingqiPercentLabel.text = @"0.00%";
                 huoqiPercentLabel.text = @"0.00%";
                 balancePercentLabel.text = @"0.00%";
-                frozenPercentLabel.text = @"0.00%";
-                bonusPercentLabel.text = @"0.00%";
             }
             else
             {
                 dingqiPercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",dingqi*100/total];
                 huoqiPercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",huoqi*100/total];
                 balancePercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",balance*100/total];
-                frozenPercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",frozen*100/total];
-                bonusPercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",bonus*100/total];
             }
             
-            [self setDataCount:5 range:100];
+            [self setDataCount:3 range:100];
             [pieChartView animateWithXAxisDuration:1.5 yAxisDuration:1.5 easingOption:ChartEasingOptionEaseOutBack];
         }
         else
@@ -174,8 +166,6 @@
     [yVals1 addObject:[[BarChartDataEntry alloc] initWithValue:huoqi/total xIndex:0]];
     [yVals1 addObject:[[BarChartDataEntry alloc] initWithValue:dingqi/total xIndex:1]];
     [yVals1 addObject:[[BarChartDataEntry alloc] initWithValue:balance/total xIndex:2]];
-    [yVals1 addObject:[[BarChartDataEntry alloc] initWithValue:bonus/total xIndex:3]];
-    [yVals1 addObject:[[BarChartDataEntry alloc] initWithValue:frozen/total xIndex:4]];
     
     NSMutableArray *xVals = [[NSMutableArray alloc] init];
     
@@ -195,11 +185,6 @@
     [colors addObject:ZTPIECHARTPURPLE];
     [colors addObject:ZTPIECHARTBLUE];
     [colors addObject:ZTPIECHARTRED];
-    [colors addObject:ZTPIECHARTGREEN];
-    [colors addObject:ZTPIECHARTYELLOW];
-    
-    
-    
     
     dataSet.colors = colors;
     

@@ -12,7 +12,7 @@
 
 @interface ProfitViewController : UIViewController<ChartViewDelegate>
 {
-    double dingqi, huoqi, balance, bonus, total, frozen;
+    double dingqi, huoqi, balance, total;
 }
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *viewHeight;
@@ -20,14 +20,10 @@
 @property (strong, nonatomic) IBOutlet UILabel *dingqiPercentLabel;
 @property (strong, nonatomic) IBOutlet UILabel *huoqiPercentLabel;
 @property (strong, nonatomic) IBOutlet UILabel *balancePercentLabel;
-@property (strong, nonatomic) IBOutlet UILabel *frozenPercentLabel;
 @property (strong, nonatomic) IBOutlet UILabel *dingqiNumLabel;
 @property (strong, nonatomic) IBOutlet UILabel *huoqiNumLabel;
 @property (strong, nonatomic) IBOutlet UILabel *balanceNumLabel;
-@property (strong, nonatomic) IBOutlet UILabel *frozenNumLabel;
 @property (strong, nonatomic) IBOutlet PieChartView *pieChartView;
-@property (strong, nonatomic) IBOutlet UILabel *bonusPercentLabel;
-@property (strong, nonatomic) IBOutlet UILabel *bonusNumLabel;
 @property (strong, nonatomic) IBOutlet UILabel *totalNumLabel;
 
 @end
