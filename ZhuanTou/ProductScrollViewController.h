@@ -41,7 +41,23 @@
 @property (strong, nonatomic) IBOutlet UILabel *wenjianRateLabel;
 @property (strong, nonatomic) IBOutlet UIButton *wenjianDetailButton;
 @property (strong, nonatomic) IBOutlet UIButton *wenjianBuyButton;
-@property (strong, nonatomic) IBOutlet UILabel *wenjianLabel;
+
+@property (strong, nonatomic) IBOutlet UIView *wenjianTimeView;
+@property (strong, nonatomic) IBOutlet UIImageView *startTardePointImageView;
+@property (strong, nonatomic) IBOutlet UIView *startTradeLine;
+@property (strong, nonatomic) IBOutlet UILabel *startTradeLabel;
+@property (strong, nonatomic) IBOutlet UILabel *startTradeTimeLabel;
+@property (strong, nonatomic) IBOutlet UIImageView *endPointImageView;
+@property (strong, nonatomic) IBOutlet UIView *endLine;
+@property (strong, nonatomic) IBOutlet UILabel *endLabel;
+@property (strong, nonatomic) IBOutlet UILabel *endTimeLabel;
+@property (strong, nonatomic) IBOutlet UIImageView *startBuyPointImageView;
+@property (strong, nonatomic) IBOutlet UILabel *startBuyLabel;
+@property (strong, nonatomic) IBOutlet UILabel *startBuyTimeLabel;
+@property (strong, nonatomic) IBOutlet UIView *startBuyLine;
+@property (strong, nonatomic) IBOutlet UIProgressView *wenjianProgressView;
+@property (strong, nonatomic) IBOutlet UILabel *TradingLabel;
+@property (strong, nonatomic) IBOutlet UILabel *buyingLabel;
 
 @property (strong, nonatomic) IBOutlet UIView *zongheView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *zongheViewWidth;
@@ -53,7 +69,25 @@
 @property (strong, nonatomic) IBOutlet UIButton *zongheDetailButton;
 @property (strong, nonatomic) IBOutlet UILabel *zongheSmallRateLabel;
 @property (strong, nonatomic) IBOutlet UIButton *zongheBuyButton;
-@property (strong, nonatomic) IBOutlet UILabel *zongheLabel;
+
+@property (strong, nonatomic) IBOutlet UIView *zongheTimeView;
+@property (strong, nonatomic) IBOutlet UIImageView *zongheStartTradePoint;
+@property (strong, nonatomic) IBOutlet UIView *zongheStartTradeLine;
+@property (strong, nonatomic) IBOutlet UILabel *zongheStartTradeLabel;
+@property (strong, nonatomic) IBOutlet UILabel *zongheStartTradeTimeLabel;
+@property (strong, nonatomic) IBOutlet UIImageView *zongheEndPoint;
+@property (strong, nonatomic) IBOutlet UIView *zongheEndLine;
+@property (strong, nonatomic) IBOutlet UILabel *zongheEndLabel;
+@property (strong, nonatomic) IBOutlet UILabel *zongheEndTimeLabel;
+@property (strong, nonatomic) IBOutlet UIImageView *zongheStartBuyPoint;
+@property (strong, nonatomic) IBOutlet UILabel *zongheStartBuyLabel;
+@property (strong, nonatomic) IBOutlet UILabel *zongheStartBuyTimeLabel;
+@property (strong, nonatomic) IBOutlet UIView *zongheStartBuyLine;
+@property (strong, nonatomic) IBOutlet UIProgressView *zongheProgressView;
+@property (strong, nonatomic) IBOutlet UILabel *zongheTradingLabel;
+@property (strong, nonatomic) IBOutlet UILabel *zongheBuyingLabel;
+@property (strong, nonatomic) IBOutlet UILabel *zongheEndedLabel;
+
 
 @property (strong, nonatomic) IBOutlet UIView *huoqiView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *huoqiViewWidth;

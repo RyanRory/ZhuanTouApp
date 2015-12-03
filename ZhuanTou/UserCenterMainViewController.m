@@ -107,7 +107,7 @@
         {
             NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
             [formatter setPositiveFormat:@"###,##0.00"];
-            double dingqi = [NSString stringWithFormat:@"%@",[responseObject objectForKey:@"activeInvestTotalAmount"]].doubleValue;
+            double dingqi = [NSString stringWithFormat:@"%@",[responseObject objectForKey:@"activeInvestAmount"]].doubleValue;
             dingqiNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:dingqi]]];
             huoqiNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[responseObject objectForKey:@"ztbBalance"]]];
             propertyLabel.text = [NSString stringWithString:[formatter stringFromNumber:[responseObject objectForKey:@"totalAsset"]]];

@@ -62,7 +62,7 @@
     else if(![regextestpassword evaluateWithObject: tradePswdTextField.text])
     {
         hud.mode = MBProgressHUDModeCustomView;
-        hud.labelText = @"密码至少8位，包括数字和字母";
+        hud.labelText = @"密码至少8位";
         [hud hide:YES afterDelay:1.5f];
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [tradePswdTextField becomeFirstResponder];

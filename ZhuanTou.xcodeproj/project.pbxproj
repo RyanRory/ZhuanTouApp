@@ -298,6 +298,15 @@
 		A4E8F8471C0C54B10002D7D0 /* libPaySdkColor.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A4E8F8421C0C54B10002D7D0 /* libPaySdkColor.a */; };
 		A4E8F8481C0C54B10002D7D0 /* Readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = A4E8F8441C0C54B10002D7D0 /* Readme.txt */; };
 		A4E8F8491C0C54B10002D7D0 /* walletResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A4E8F8451C0C54B10002D7D0 /* walletResources.bundle */; };
+		A4EE98E21C10056D007E74E2 /* FloatTimePoint.png in Resources */ = {isa = PBXBuildFile; fileRef = A4EE98DF1C10056D007E74E2 /* FloatTimePoint.png */; };
+		A4EE98E31C10056D007E74E2 /* GrayTimePoint.png in Resources */ = {isa = PBXBuildFile; fileRef = A4EE98E01C10056D007E74E2 /* GrayTimePoint.png */; };
+		A4EE98E41C10056D007E74E2 /* StableTimePoint.png in Resources */ = {isa = PBXBuildFile; fileRef = A4EE98E11C10056D007E74E2 /* StableTimePoint.png */; };
+		A4EE98E81C10057A007E74E2 /* FloatTimePoint@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4EE98E51C10057A007E74E2 /* FloatTimePoint@2x.png */; };
+		A4EE98E91C10057A007E74E2 /* GrayTimePoint@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4EE98E61C10057A007E74E2 /* GrayTimePoint@2x.png */; };
+		A4EE98EA1C10057A007E74E2 /* StableTimePoint@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4EE98E71C10057A007E74E2 /* StableTimePoint@2x.png */; };
+		A4EE98EE1C100588007E74E2 /* FloatTimePoint@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4EE98EB1C100588007E74E2 /* FloatTimePoint@3x.png */; };
+		A4EE98EF1C100588007E74E2 /* GrayTimePoint@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4EE98EC1C100588007E74E2 /* GrayTimePoint@3x.png */; };
+		A4EE98F01C100588007E74E2 /* StableTimePoint@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4EE98ED1C100588007E74E2 /* StableTimePoint@3x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -708,6 +717,15 @@
 		A4E8F8431C0C54B10002D7D0 /* LLPaySdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LLPaySdk.h; path = LLPay_iOS_SDK_V2.4/LLPaySdk.h; sourceTree = "<group>"; };
 		A4E8F8441C0C54B10002D7D0 /* Readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Readme.txt; path = LLPay_iOS_SDK_V2.4/Readme.txt; sourceTree = "<group>"; };
 		A4E8F8451C0C54B10002D7D0 /* walletResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = walletResources.bundle; path = LLPay_iOS_SDK_V2.4/walletResources.bundle; sourceTree = "<group>"; };
+		A4EE98DF1C10056D007E74E2 /* FloatTimePoint.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FloatTimePoint.png; path = "images/@1x/FloatTimePoint.png"; sourceTree = "<group>"; };
+		A4EE98E01C10056D007E74E2 /* GrayTimePoint.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = GrayTimePoint.png; path = "images/@1x/GrayTimePoint.png"; sourceTree = "<group>"; };
+		A4EE98E11C10056D007E74E2 /* StableTimePoint.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = StableTimePoint.png; path = "images/@1x/StableTimePoint.png"; sourceTree = "<group>"; };
+		A4EE98E51C10057A007E74E2 /* FloatTimePoint@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "FloatTimePoint@2x.png"; path = "images/@2x/FloatTimePoint@2x.png"; sourceTree = "<group>"; };
+		A4EE98E61C10057A007E74E2 /* GrayTimePoint@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "GrayTimePoint@2x.png"; path = "images/@2x/GrayTimePoint@2x.png"; sourceTree = "<group>"; };
+		A4EE98E71C10057A007E74E2 /* StableTimePoint@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "StableTimePoint@2x.png"; path = "images/@2x/StableTimePoint@2x.png"; sourceTree = "<group>"; };
+		A4EE98EB1C100588007E74E2 /* FloatTimePoint@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "FloatTimePoint@3x.png"; path = "images/@3x/FloatTimePoint@3x.png"; sourceTree = "<group>"; };
+		A4EE98EC1C100588007E74E2 /* GrayTimePoint@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "GrayTimePoint@3x.png"; path = "images/@3x/GrayTimePoint@3x.png"; sourceTree = "<group>"; };
+		A4EE98ED1C100588007E74E2 /* StableTimePoint@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "StableTimePoint@3x.png"; path = "images/@3x/StableTimePoint@3x.png"; sourceTree = "<group>"; };
 		B241E5576143A7703444EB0B /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		C8A74B6F96E609344BDC6A9A /* Pods.distribution.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.distribution.xcconfig; path = "Pods/Target Support Files/Pods/Pods.distribution.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -889,6 +907,9 @@
 		A41C6B711BBAAF9E006B731D /* @1x */ = {
 			isa = PBXGroup;
 			children = (
+				A4EE98DF1C10056D007E74E2 /* FloatTimePoint.png */,
+				A4EE98E01C10056D007E74E2 /* GrayTimePoint.png */,
+				A4EE98E11C10056D007E74E2 /* StableTimePoint.png */,
 				A44A9C0F1BF06ACE00FE6F2E /* indexSurprise.png */,
 				A44A9BFE1BF03F4D00FE6F2E /* inOthers.png */,
 				A44A9BFF1BF03F4D00FE6F2E /* inProduct.png */,
@@ -966,6 +987,9 @@
 		A41C6B721BBAAFA7006B731D /* @2x */ = {
 			isa = PBXGroup;
 			children = (
+				A4EE98E51C10057A007E74E2 /* FloatTimePoint@2x.png */,
+				A4EE98E61C10057A007E74E2 /* GrayTimePoint@2x.png */,
+				A4EE98E71C10057A007E74E2 /* StableTimePoint@2x.png */,
 				A44A9C0D1BF06ABF00FE6F2E /* indexSurprise@2x.png */,
 				A44A9BF41BF03F3E00FE6F2E /* inOthers@2x.png */,
 				A44A9BF51BF03F3E00FE6F2E /* inProduct@2x.png */,
@@ -1043,6 +1067,9 @@
 		A41C6B731BBAAFC0006B731D /* @3x */ = {
 			isa = PBXGroup;
 			children = (
+				A4EE98EB1C100588007E74E2 /* FloatTimePoint@3x.png */,
+				A4EE98EC1C100588007E74E2 /* GrayTimePoint@3x.png */,
+				A4EE98ED1C100588007E74E2 /* StableTimePoint@3x.png */,
 				A44A9C0B1BF06AB200FE6F2E /* indexSurprise@3x.png */,
 				A44A9BEA1BF03F2F00FE6F2E /* inOthers@3x.png */,
 				A44A9BEB1BF03F2F00FE6F2E /* inProduct@3x.png */,
@@ -1508,7 +1535,9 @@
 				A4AE22131BE777EF00101B89 /* homeActive@3x.png in Resources */,
 				A4BBC2031BD10DA1006331AC /* uBonus.png in Resources */,
 				A41ACC871BDDFCC900755C96 /* bonus@3x.png in Resources */,
+				A4EE98E21C10056D007E74E2 /* FloatTimePoint.png in Resources */,
 				A42EA2E31BDF835500E35F5F /* inbuilding.png in Resources */,
+				A4EE98EF1C100588007E74E2 /* GrayTimePoint@3x.png in Resources */,
 				A4E7F21D1BCE052500B20EC6 /* checkIconActive@2x.png in Resources */,
 				A4BBC1D91BD10D52006331AC /* uAuto@3x.png in Resources */,
 				A4BBC1F31BD10D61006331AC /* uProfit@2x.png in Resources */,
@@ -1517,11 +1546,15 @@
 				A44AFA171BCF47F1002A8AC4 /* help@2x.png in Resources */,
 				A43174641BD492880001FC53 /* pDetailIcon@2x.png in Resources */,
 				A44AFA431BCF4801002A8AC4 /* quickIcon.png in Resources */,
+				A4EE98EE1C100588007E74E2 /* FloatTimePoint@3x.png in Resources */,
+				A4EE98E81C10057A007E74E2 /* FloatTimePoint@2x.png in Resources */,
 				A44AF9FD1BCF47E1002A8AC4 /* wenjian@3x.png in Resources */,
 				A4B8A69E1BEA16E40034E415 /* noBankCard@2x.png in Resources */,
 				A42EA2D61BDF834A00E35F5F /* iNewsIcon@2x.png in Resources */,
 				A41ACC881BDDFCC900755C96 /* bonusActive@3x.png in Resources */,
+				A4EE98E31C10056D007E74E2 /* GrayTimePoint.png in Resources */,
 				A42EA2C71BDF833F00E35F5F /* izhaiquan@3x.png in Resources */,
+				A4EE98E91C10057A007E74E2 /* GrayTimePoint@2x.png in Resources */,
 				A44AF9F21BCF47E1002A8AC4 /* dispersionIcon@3x.png in Resources */,
 				A4BBC2071BD10DA1006331AC /* uProfit.png in Resources */,
 				A44AFA3B1BCF4801002A8AC4 /* help.png in Resources */,
@@ -1584,6 +1617,7 @@
 				A43174701BD492940001FC53 /* pDetailIcon.png in Resources */,
 				A44A9BF01BF03F2F00FE6F2E /* inProduct@3x.png in Resources */,
 				A44AFA441BCF4801002A8AC4 /* safeIcon.png in Resources */,
+				A4EE98E41C10056D007E74E2 /* StableTimePoint.png in Resources */,
 				A44A9BF21BF03F2F00FE6F2E /* inTitleBelow@3x.png in Resources */,
 				A463EA7A1BD4D25600CAF146 /* helpActive@3x.png in Resources */,
 				A44AFA1B1BCF47F1002A8AC4 /* otherRight@2x.png in Resources */,
@@ -1627,7 +1661,9 @@
 				A405AC6D1BC91210002BFCE9 /* loginUserIcon@2x.png in Resources */,
 				A44AF9FF1BCF47E1002A8AC4 /* zonghe@3x.png in Resources */,
 				A43174581BD4927A0001FC53 /* pDetailIcon@3x.png in Resources */,
+				A4EE98F01C100588007E74E2 /* StableTimePoint@3x.png in Resources */,
 				A4E7F2301BCE053200B20EC6 /* checkIcon.png in Resources */,
+				A4EE98EA1C10057A007E74E2 /* StableTimePoint@2x.png in Resources */,
 				A431746F1BD492940001FC53 /* pDeadline.png in Resources */,
 				A44A9BF31BF03F2F00FE6F2E /* inUpIcon@3x.png in Resources */,
 				A44AF9F61BCF47E1002A8AC4 /* otherLeft@3x.png in Resources */,
