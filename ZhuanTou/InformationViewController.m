@@ -120,6 +120,7 @@
                 SetpasswordViewController *setpass = [[self storyboard]instantiateViewControllerWithIdentifier:@"SetpasswordViewController"];
                 setpass.string = @"重置密码";
                 setpass.style = @"REGISTER";
+                setpass.isFromNewer = self.isFromNewer;
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                     [[self navigationController]pushViewController:setpass animated:YES];
                 });

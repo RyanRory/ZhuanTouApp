@@ -12,7 +12,14 @@
 #import "RealNameViewController.h"
 #import "LLPaySdk.h"
 
-@interface ChargeViewController : UIViewController<BaofooSdkDelegate, LLPaySdkDelegate>
+@interface ChargeViewController : UIViewController<BaofooSdkDelegate, LLPaySdkDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
+{
+    UIPickerView *picker;
+    UIView *view, *bgView;
+    UIToolbar *toolBar;
+    NSArray *bankArray;
+    int bankTemp;
+}
 
 @property (strong, nonatomic) IBOutlet UIView *bankCardView;
 @property (strong, nonatomic) IBOutlet UIImageView *bankImageView;
@@ -24,8 +31,15 @@
 @property (strong, nonatomic) IBOutlet UILabel *dayLimitLabel;
 @property (strong, nonatomic) IBOutlet UIButton *confirmButton;
 @property (strong, nonatomic) IBOutlet UITextField *editTextField;
+
 @property (strong, nonatomic) IBOutlet UIView *noBankCardView;
-@property (strong, nonatomic) IBOutlet UIButton *addBankCardButton;
+@property (strong, nonatomic) IBOutlet UIButton *bankcardDetailButton;
+@property (strong, nonatomic) IBOutlet UITextField *bankcardNoTextField;
+@property (strong, nonatomic) IBOutlet UIButton *chooseBankButton;
+@property (strong, nonatomic) IBOutlet UILabel *bankLabel;
+@property (strong, nonatomic) IBOutlet UILabel *limitLabel;
+@property (strong, nonatomic) IBOutlet UITextField *phoneNumTextField;
+
 
 - (IBAction)textFiledReturnEditing:(id)sender;
 

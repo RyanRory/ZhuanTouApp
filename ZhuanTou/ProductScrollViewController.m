@@ -18,7 +18,7 @@
 @synthesize mainScrollView, mainView, mainViewHeight;
 @synthesize scrollView;
 @synthesize wenjianView, wenjianBgImageView, wenjianDetailButton, wenjianMonthLabel, wenjianMOYLabel, wenjianRateLabel, wenjianViewWidth, wenjianBuyButton;
-@synthesize wenjianTimeView, wenjianProgressView, startBuyLabel, startBuyLine, startBuyPointImageView, startBuyTimeLabel, startTardePointImageView, startTradeLabel, startTradeLine, startTradeTimeLabel, endLabel, endLine, endPointImageView, endTimeLabel, buyingLabel, TradingLabel;
+@synthesize wenjianTimeView, wenjianProgressView, startBuyLabel, startBuyLine, startBuyPointImageView, startBuyTimeLabel, startTradePointImageView, startTradeLabel, startTradeLine, startTradeTimeLabel, endLabel, endLine, endPointImageView, endTimeLabel, buyingLabel, tradingLabel;
 @synthesize zongheView, zongheBgImageView, zongheBigRateLabel, zongheDetailButton, zongheMonthLabel, zongheMOYLabel, zongheSmallRateLabel, zongheViewWidth, productsBeforeButton, zongheBuyButton;
 @synthesize zongheTimeView, zongheProgressView, zongheBuyingLabel, zongheEndedLabel, zongheEndLabel, zongheEndLine, zongheEndPoint, zongheEndTimeLabel, zongheStartBuyLabel, zongheStartBuyLine, zongheStartBuyPoint, zongheStartBuyTimeLabel, zongheStartTradeLabel, zongheStartTradeLine, zongheStartTradePoint, zongheStartTradeTimeLabel, zongheTradingLabel;
 @synthesize huoqiView, huoqiBgImageView1, huoqiBgImageView2, huoqiDetailButton, huoqiRateLabel, huoqiViewWidth, huoqiAmountLabel, huoqiDescriptionLabel, huoqiBuyButton, x1, y1, x2, y2;
@@ -81,10 +81,6 @@
     style = ZONGHE;
     [scrollView setContentOffset:CGPointMake(screenWidth, 0) animated:NO];
     productsBeforeButton.tintColor = ZTBLUE;
-    
-    [self setupHuoqi];
-    [self setupWenjian];
-    [self setupZonghe];
 
     mainScrollView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         if ([style isEqualToString:WENJIAN])
@@ -100,6 +96,13 @@
             [self setupHuoqi];
         }
     }];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self setupHuoqi];
+    [self setupWenjian];
+    [self setupZonghe];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -267,12 +270,13 @@
     [wenjianBuyButton setTitle:@"立即购买" forState:UIControlStateNormal];
     [wenjianBuyButton setUserInteractionEnabled:NO];
     [wenjianBuyButton setAlpha:0.6f];
+    wenjianBuyButton.backgroundColor = ZTLIGHTRED;
 
     AFHTTPRequestOperationManager * manager = [AFHTTPRequestOperationManager manager];
     NSString *URL = [BASEURL stringByAppendingString:@"api/fofProd/0"];
     [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
         NSLog(@"%@", responseObject);
-        wenjianData = [NSDictionary dictionaryWithDictionary:responseObject];
+        wenjianData = [NSMutableDictionary dictionaryWithDictionary:responseObject];
         NSString *numStr = [NSString stringWithFormat:@"%@",[wenjianData objectForKey:@"expectedReturn"]];
         if ([numStr rangeOfString:@"."].location != NSNotFound)
         {
@@ -304,6 +308,23 @@
         
         startBuyTimeLabel.text = [NSString stringWithFormat:@"%ld:%02ld\n%4ld-%02ld-%02ld",hour,minute,year,month,day];
         
+        [dateFormat setDateFormat:@"yyyy年MM月dd日"];//设定时间格式
+        NSDate *beginDate = [dateFormat dateFromString:[wenjianData objectForKey:@"beginDate"]];
+        components = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:beginDate];
+        year = [components year];
+        month = [components month];
+        day = [components day];
+        startTradeTimeLabel.text = [NSString stringWithFormat:@"9:00\n%4ld-%02ld-%02ld",year,month,day];
+        [wenjianData setValue:[NSString stringWithFormat:@"%4ld-%02ld-%02ld 09:00:00",year,month,day] forKey:@"beginDateTime"];
+        
+        NSDate *endDate = [dateFormat dateFromString:[wenjianData objectForKey:@"endDate"]];
+        components = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:endDate];
+        year = [components year];
+        month = [components month];
+        day = [components day];
+        endTimeLabel.text = [NSString stringWithFormat:@"9:00\n%4ld-%02ld-%02ld",year,month,day];
+        [wenjianData setValue:[NSString stringWithFormat:@"%4ld-%02ld-%02ld 09:00:00",year,month,day] forKey:@"endDateTime"];
+        
         [self wenjianTimeCountDown];
         wenjianTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(wenjianTimeCountDown) userInfo:nil repeats:YES];
         
@@ -326,12 +347,13 @@
     [zongheBuyButton setTitle:@"立即购买" forState:UIControlStateNormal];
     [zongheBuyButton setUserInteractionEnabled:NO];
     [zongheBuyButton setAlpha:0.6f];
+    zongheBuyButton.backgroundColor = ZTBLUE;
     
     AFHTTPRequestOperationManager * manager = [AFHTTPRequestOperationManager manager];
     NSString *URL = [BASEURL stringByAppendingString:@"api/fofProd/1"];
     [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
         NSLog(@"%@", responseObject);
-        zongheData = [NSDictionary dictionaryWithDictionary:responseObject];
+        zongheData = [NSMutableDictionary dictionaryWithDictionary:responseObject];
         NSString *numStr = [NSString stringWithFormat:@"%@",[zongheData objectForKey:@"expectedReturn"]];
         if ([numStr rangeOfString:@"."].location != NSNotFound)
         {
@@ -363,6 +385,23 @@
         
         zongheStartBuyTimeLabel.text = [NSString stringWithFormat:@"%ld:%02ld\n%4ld-%02ld-%02ld",hour,minute,year,month,day];
         
+        [dateFormat setDateFormat:@"yyyy年MM月dd日"];//设定时间格式
+        NSDate *beginDate = [dateFormat dateFromString:[zongheData objectForKey:@"beginDate"]];
+        components = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:beginDate];
+        year = [components year];
+        month = [components month];
+        day = [components day];
+        zongheStartTradeTimeLabel.text = [NSString stringWithFormat:@"9:00\n%4ld-%02ld-%02ld",year,month,day];
+        [zongheData setValue:[NSString stringWithFormat:@"%4ld-%02ld-%02ld 09:00:00",year,month,day] forKey:@"beginDateTime"];
+        
+        NSDate *endDate = [dateFormat dateFromString:[zongheData objectForKey:@"endDate"]];
+        components = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:endDate];
+        year = [components year];
+        month = [components month];
+        day = [components day];
+        zongheEndTimeLabel.text = [NSString stringWithFormat:@"9:00\n%4ld-%02ld-%02ld",year,month,day];
+        [zongheData setValue:[NSString stringWithFormat:@"%4ld-%02ld-%02ld 09:00:00",year,month,day] forKey:@"endDateTime"];
+        
         [self zongheTimeCountDown];
         zongheTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(zongheTimeCountDown) userInfo:nil repeats:YES];
     
@@ -385,12 +424,13 @@
     [huoqiBuyButton setTitle:@"立即购买" forState:UIControlStateNormal];
     [huoqiBuyButton setUserInteractionEnabled:NO];
     [huoqiBuyButton setAlpha:0.6f];
+    huoqiBuyButton.backgroundColor = ZTRED;
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSString *URL = [BASEURL stringByAppendingString:@"api/stat/ztbDesc4M"];
     [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
         NSLog(@"%@", responseObject);
-        huoqiData = [NSDictionary dictionaryWithDictionary:responseObject];
+        huoqiData = [NSMutableDictionary dictionaryWithDictionary:responseObject];
         NSString *numStr = [NSString stringWithFormat:@"%@",[responseObject objectForKey:@"interestRate"]];
         if ([numStr rangeOfString:@"."].location != NSNotFound)
         {
@@ -458,6 +498,7 @@
     {
         ProductBuyViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ProductBuyViewController"];
         vc.style = style;
+        vc.isFromNewer = false;
         NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
         [formatter setPositiveFormat:@"###,##0.00"];
         if ([style isEqualToString:WENJIAN])
@@ -488,6 +529,8 @@
     NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];//实例化一个NSDateFormatter对象
     [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];//设定时间格式
     NSDate *startDate = [dateFormat dateFromString:[wenjianData objectForKey:@"startRaisingDateTime"]];
+    NSDate *beginDate = [dateFormat dateFromString:[wenjianData objectForKey:@"beginDateTime"]];
+    NSDate *endDate = [dateFormat dateFromString:[wenjianData objectForKey:@"endDateTime"]];
     NSDate *date = [NSDate date];
     if ([startDate timeIntervalSinceDate:date] > 0.0)
     {
@@ -496,6 +539,7 @@
         startBuyPointImageView.image = [UIImage imageNamed:@"GrayTimePoint.png"];
         startBuyTimeLabel.textColor = ZTLIGHTGRAY;
         buyingLabel.textColor = ZTLIGHTGRAY;
+        [wenjianProgressView setProgress:0];
     }
     else
     {
@@ -505,6 +549,25 @@
         startBuyTimeLabel.textColor = ZTLIGHTRED;
         buyingLabel.textColor = ZTLIGHTRED;
         [wenjianProgressView setProgress:0.3];
+        
+        if ([date timeIntervalSinceDate:beginDate] > 0.0)
+        {
+            startTradeTimeLabel.textColor = ZTLIGHTRED;
+            startTradeLine.backgroundColor = ZTLIGHTRED;
+            startTradeLabel.textColor = ZTLIGHTRED;
+            startTradePointImageView.image = [UIImage imageNamed:@"StableTimePoint.png"];
+            tradingLabel.textColor = ZTLIGHTRED;
+            [wenjianProgressView setProgress:0.6];
+            
+            if ([date timeIntervalSinceDate:endDate] > 0.0)
+            {
+                endLabel.textColor = ZTLIGHTRED;
+                endLine.backgroundColor = ZTLIGHTRED;
+                endTimeLabel.textColor = ZTLIGHTRED;
+                endPointImageView.image = [UIImage imageNamed:@"StableTimePoint.png"];;
+                [wenjianProgressView setProgress:1.0];
+            }
+        }
         
         if ([NSString stringWithFormat:@"%@",[wenjianData objectForKey:@"bidableAmount"]].intValue == 0)
         {
@@ -528,6 +591,8 @@
     NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];//实例化一个NSDateFormatter对象
     [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];//设定时间格式
     NSDate *startDate = [dateFormat dateFromString:[zongheData objectForKey:@"startRaisingDateTime"]];
+    NSDate *beginDate = [dateFormat dateFromString:[zongheData objectForKey:@"beginDateTime"]];
+    NSDate *endDate = [dateFormat dateFromString:[zongheData objectForKey:@"endDateTime"]];
     NSDate *date = [NSDate date];
     if ([startDate timeIntervalSinceDate:date] > 0.0)
     {
@@ -536,6 +601,7 @@
         zongheStartBuyPoint.image = [UIImage imageNamed:@"GrayTimePoint.png"];
         zongheStartBuyTimeLabel.textColor = ZTLIGHTGRAY;
         zongheBuyingLabel.textColor = ZTLIGHTGRAY;
+        [zongheProgressView setProgress:0];
     }
     else
     {
@@ -545,6 +611,26 @@
         zongheStartBuyTimeLabel.textColor = ZTBLUE;
         zongheBuyingLabel.textColor = ZTBLUE;
         [zongheProgressView setProgress:0.3];
+        
+        if ([date timeIntervalSinceDate:beginDate] > 0.0)
+        {
+            zongheStartTradeTimeLabel.textColor = ZTBLUE;
+            zongheStartTradeLine.backgroundColor = ZTBLUE;
+            zongheStartTradeLabel.textColor = ZTBLUE;
+            zongheStartTradePoint.image = [UIImage imageNamed:@"FloatTimePoint.png"];
+            zongheTradingLabel.textColor = ZTBLUE;
+            [zongheProgressView setProgress:0.6];
+            
+            if ([date timeIntervalSinceDate:endDate] > 0.0)
+            {
+                zongheEndedLabel.textColor = ZTBLUE;
+                zongheEndLabel.textColor = ZTBLUE;
+                zongheEndLine.backgroundColor = ZTBLUE;
+                zongheEndTimeLabel.textColor = ZTBLUE;
+                zongheEndPoint.image = [UIImage imageNamed:@"FloatTimePoint.png"];
+                [zongheProgressView setProgress:1.0];
+            }
+        }
         
         if ([NSString stringWithFormat:@"%@",[zongheData objectForKey:@"bidableAmount"]].intValue == 0)
         {

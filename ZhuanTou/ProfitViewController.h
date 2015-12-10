@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <Charts/Charts.h>
 #import "ZhuanTou-Bridging-Header.h"
+#import "SetpasswordViewController.h"
 
 @interface ProfitViewController : UIViewController<ChartViewDelegate>
 {

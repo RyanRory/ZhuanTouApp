@@ -38,6 +38,8 @@
 @property (strong, nonatomic) NSString *bidableAmount;
 @property (strong, nonatomic) NSDictionary *productInfo;
 
+@property (readwrite, nonatomic) BOOL isFromNewer;
+
 - (void)setStyle:(NSString*)str;
 
 - (IBAction)textFiledReturnEditing:(id)sender;

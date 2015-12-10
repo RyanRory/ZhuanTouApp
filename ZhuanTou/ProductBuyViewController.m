@@ -255,6 +255,7 @@
             ProductBuyConfirmViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ProductBuyConfirmViewController"];
             [vc setStyle:style];
             vc.title = self.title;
+            vc.isFromNewer = self.isFromNewer;
             vc.investAmount = amountTextField.text;
             vc.coupons = coupons;
             vc.idOrCode = idOrCode;

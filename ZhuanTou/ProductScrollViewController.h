@@ -17,7 +17,7 @@
     CGPoint point;
     NSString *style;
     NSString *wenjianStartTime, *zongheStartTime;
-    NSDictionary *wenjianData, *zongheData, *huoqiData;
+    NSMutableDictionary *wenjianData, *zongheData, *huoqiData;
     NSTimer *wenjianTimer, *zongheTimer;
     BOOL flag;
     float screenWidth;
@@ -43,7 +43,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *wenjianBuyButton;
 
 @property (strong, nonatomic) IBOutlet UIView *wenjianTimeView;
-@property (strong, nonatomic) IBOutlet UIImageView *startTardePointImageView;
+@property (strong, nonatomic) IBOutlet UIImageView *startTradePointImageView;
 @property (strong, nonatomic) IBOutlet UIView *startTradeLine;
 @property (strong, nonatomic) IBOutlet UILabel *startTradeLabel;
 @property (strong, nonatomic) IBOutlet UILabel *startTradeTimeLabel;
@@ -56,7 +56,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *startBuyTimeLabel;
 @property (strong, nonatomic) IBOutlet UIView *startBuyLine;
 @property (strong, nonatomic) IBOutlet UIProgressView *wenjianProgressView;
-@property (strong, nonatomic) IBOutlet UILabel *TradingLabel;
+@property (strong, nonatomic) IBOutlet UILabel *tradingLabel;
 @property (strong, nonatomic) IBOutlet UILabel *buyingLabel;
 
 @property (strong, nonatomic) IBOutlet UIView *zongheView;

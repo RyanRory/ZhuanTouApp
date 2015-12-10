@@ -16,7 +16,7 @@
 
 @synthesize editView, editTextField, confirmButton;
 @synthesize bankCardView, bankImageView, bankNameLabel, cardNumLabel, branchLabel, oneLimitLabel, dayLimitLabel;
-@synthesize noBankCardView, addBankCardButton;
+@synthesize noBankCardView, bankcardDetailButton, bankcardNoTextField, bankLabel, phoneNumTextField, limitLabel, chooseBankButton;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -35,14 +35,40 @@
     [bankCardView.layer setBorderColor:[UIColor colorWithRed:56.0/255.0 green:148.0/255.0 blue:238.0/255.0 alpha:100].CGColor];
     bankCardView.layer.cornerRadius = 3;
     
-    addBankCardButton.layer.cornerRadius = 3;
-    [addBankCardButton addTarget:self action:@selector(toAddBankCard:) forControlEvents:UIControlEventTouchUpInside];
-    
     bankCardView.hidden = YES;
     editView.hidden = YES;
     confirmButton.hidden = YES;
     noBankCardView.hidden = YES;
-    addBankCardButton.hidden = YES;
+    
+    view = [[UIView alloc]initWithFrame:CGRectMake(0, self.navigationController.view.frame.size.height, self.navigationController.view.frame.size.width, 224)];
+    bgView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.navigationController.view.frame.size.width, self.navigationController.view.frame.size.height)];
+    bgView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.3];
+    bgView.hidden = YES;
+    bgView.alpha = 0;
+    
+    picker = [[UIPickerView alloc] init];
+    picker.backgroundColor = [UIColor whiteColor];
+    picker.frame = CGRectMake(0, view.frame.size.height - 180, view.frame.size.width, 180);
+    picker.delegate = self;
+    picker.dataSource = self;
+    picker.showsSelectionIndicator = YES;
+    
+    [view addSubview:picker];
+    
+    toolBar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, view.frame.size.height - 224, view.frame.size.width, 44)];
+    UIBarButtonItem *okButton = [[UIBarButtonItem alloc]initWithTitle:@"确认" style:UIBarButtonItemStylePlain target:self action:@selector(OKButton:)];
+    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc]initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(CancelButton:)];
+    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
+    
+    toolBar.items = [NSArray arrayWithObjects:cancelButton, flexibleSpace, okButton, nil];
+    
+    [view addSubview:toolBar];
+    [self.navigationController.view addSubview:bgView];
+    [self.navigationController.view addSubview:view];
+    
+    bankArray = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"bankList" ofType:@"plist"]];
+    
+    [chooseBankButton addTarget:self action:@selector(showChooseDetail:) forControlEvents:UIControlEventTouchUpInside];
     
     SCNumberKeyBoard *keyboard = [SCNumberKeyBoard showWithTextField:editTextField enter:nil close:nil];
     [keyboard.enterButton setBackgroundColor:ZTBLUE];
@@ -62,37 +88,91 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)dealloc
+{
+    picker.delegate = nil;
+    picker.dataSource = nil;
+}
+
 - (void)setupData
 {
-    
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSString *URL = [BASEURL stringByAppendingString:@"api/account/getAppBankCards"];
     [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSArray *responseObject) {
         NSLog(@"%@", responseObject);
-//        NSString *str = [responseObject objectForKey:@"isSuccess"];
-//        int f1 = str.intValue;
         if (responseObject.count > 0)
         {
-            bankCardView.hidden = NO;
-            addBankCardButton.hidden = YES;
-            noBankCardView.hidden = YES;
-            bankNameLabel.text = [responseObject[0] objectForKey:@"bankName"];
-            branchLabel.text = [[responseObject[0] objectForKey:@"subBankName"] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-            cardNumLabel.text = [responseObject[0] objectForKey:@"cardCode"];
-            oneLimitLabel.text = [responseObject[0] objectForKey:@"limitAmount"];
-            dayLimitLabel.text = [responseObject[0] objectForKey:@"dailyLimit"];
-            bankImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[responseObject[0] objectForKey:@"imgUrl"]]]];
-            confirmButton.hidden = NO;
-            editView.hidden = NO;
+            if ([NSString stringWithFormat:@"%@", [responseObject[0] objectForKey:@"isValidated"]].boolValue)
+            {
+                bankCardView.hidden = NO;
+                noBankCardView.hidden = YES;
+                bankNameLabel.text = [responseObject[0] objectForKey:@"bankName"];
+                if ([[responseObject[0] objectForKey:@"subBankName"] isKindOfClass:[NSNull class]])
+                {
+                    branchLabel.text = @"";
+                }
+                else
+                {
+                    branchLabel.text = [[responseObject[0] objectForKey:@"subBankName"] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                }
+                cardNumLabel.text = [responseObject[0] objectForKey:@"cardCode"];
+                oneLimitLabel.text = [responseObject[0] objectForKey:@"limitAmount"];
+                dayLimitLabel.text = [responseObject[0] objectForKey:@"dailyLimit"];
+                bankImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[responseObject[0] objectForKey:@"imgUrl"]]]];
+            }
+            else
+            {
+                bankCardView.hidden = YES;
+                noBankCardView.hidden = NO;
+                bankcardNoTextField.text = [responseObject[0] objectForKey:@"cardCode"];
+                bankLabel.text = [responseObject[0] objectForKey:@"bankName"];
+                bankLabel.textColor = ZTGRAY;
+                limitLabel.text = [NSString stringWithFormat:@"(单笔限额%@元)", [responseObject[0] objectForKey:@"limitAmount"]];
+            }
         }
         else
         {
+            AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+            NSString *URL = [BASEURL stringByAppendingString:@"api/account/IsIdentified"];
+            [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+                NSLog(@"%@",responseObject);
+                NSString *str = [responseObject objectForKey:@"isSuccess"];
+                int f1 = str.intValue;
+                if (f1 == 1)
+                {
+                    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"为了您的资金安全，您的资金将被限制同卡进出，请填写真实银行卡信息。" preferredStyle:UIAlertControllerStyleAlert];
+                    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"朕知道了" style:UIAlertActionStyleCancel handler:nil];
+                    [alertController addAction:confirmAction];
+                    [self presentViewController:alertController animated:YES completion:nil];
+                }
+                else
+                {
+                    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"您还未进行实名验证，请先进行实名验证" message:nil preferredStyle:UIAlertControllerStyleAlert];
+                    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action){
+                        [[self navigationController] popViewControllerAnimated:YES];
+                    }];
+                    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"去认证" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
+                        RealNameViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"RealNameViewController"];
+                        [[self navigationController]pushViewController:vc animated:YES];
+                    }];
+                    [alertController addAction:cancelAction];
+                    [alertController addAction:confirmAction];
+                    [self presentViewController:alertController animated:YES completion:nil];
+                }
+                
+            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                NSLog(@"Error: %@", error);
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                hud.mode = MBProgressHUDModeText;
+                hud.labelText = @"当前网络状况不佳，请重试";
+                [hud hide:YES afterDelay:1.5f];
+            }];
+
             bankCardView.hidden = YES;
             noBankCardView.hidden = NO;
-            addBankCardButton.hidden = NO;
-            confirmButton.hidden = YES;
-            editView.hidden = YES;
         }
+        confirmButton.hidden = NO;
+        editView.hidden = NO;
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
@@ -104,51 +184,6 @@
     
 }
 
-- (void)toAddBankCard:(id)sender
-{
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    NSString *URL = [BASEURL stringByAppendingString:@"api/account/IsIdentified"];
-    [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
-        NSLog(@"%@",responseObject);
-        NSString *str = [responseObject objectForKey:@"isSuccess"];
-        int f1 = str.intValue;
-        if (f1 == 1)
-        {
-            [hud hide:YES];
-            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"为了您的资金安全，您的资金将被限制同卡进出，请填写真实银行卡信息。" preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"朕知道了" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
-                AddBankCardViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"AddBankCardViewController"];
-                [vc setFullName:[responseObject objectForKey:@"fullName"]];
-                [[self navigationController]pushViewController:vc animated:YES];
-            }];
-            [alertController addAction:confirmAction];
-            [self presentViewController:alertController animated:YES completion:nil];
-        }
-        else
-        {
-            [hud hide:YES];
-            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"您还未进行实名验证，请先进行实名验证" message:nil preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-            UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"去认证" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
-                RealNameViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"RealNameViewController"];
-                [[self navigationController]pushViewController:vc animated:YES];
-            }];
-            [alertController addAction:cancelAction];
-            [alertController addAction:confirmAction];
-            [self presentViewController:alertController animated:YES completion:nil];
-        }
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Error: %@", error);
-        hud.mode = MBProgressHUDModeText;
-        hud.labelText = @"当前网络状况不佳，请重试";
-        [hud hide:YES afterDelay:1.5f];
-    }];
-    
-    
-}
-
 - (void)backToParent:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
@@ -157,121 +192,195 @@
 - (void)confirm:(id)sender
 {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    NSString *str = oneLimitLabel.text;
-    str = [str stringByReplacingOccurrencesOfString:@"," withString:@""];
-    if (str.doubleValue < editTextField.text.doubleValue)
+    if (noBankCardView.hidden)
     {
-        hud.mode = MBProgressHUDModeCustomView;
-        hud.labelText = @"超过单笔限额";
-        [hud hide:YES afterDelay:1.5f];
+        NSString *str = oneLimitLabel.text;
+        str = [str stringByReplacingOccurrencesOfString:@"," withString:@""];
+        if ((str.doubleValue < editTextField.text.doubleValue) && ([oneLimitLabel.text isEqualToString:@"无限额"]))
+        {
+            hud.mode = MBProgressHUDModeCustomView;
+            hud.labelText = @"超过单笔限额";
+            [hud hide:YES afterDelay:1.5f];
+        }
+        else
+        {
+            //        NSURL*url = [NSURL URLWithString:[BASEURL stringByAppendingString:@"account/RenzhengSDKCharge"]];
+            //        NSMutableURLRequest*request = [NSMutableURLRequest requestWithURL:url];
+            //        [request setHTTPMethod:@"POST"];
+            //        NSString *para = [NSString stringWithFormat:@"txn_amt=%.2f",editTextField.text.doubleValue];
+            //        [request setHTTPBody:[para dataUsingEncoding:NSUTF8StringEncoding]];
+            //        NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+            //        [NSURLConnection sendAsynchronousRequest:request queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+            //            dispatch_async(dispatch_get_main_queue(), ^{
+            //                NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+            //                NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+            //                NSArray *array = [str componentsSeparatedByString:@"\"risk_item\":"];
+            //                NSArray *array2 = [array[1] componentsSeparatedByString:@"},"];
+            //                NSString *risk_item_str = [NSString stringWithFormat:@"%@}",array2[0]];
+            //                NSLog(@"%@",risk_item_str);
+            //                if ([[dict objectForKey:@"retCode"] isEqualToString:@"0000"]) {
+            //                    [hud hide:YES];
+            //                    if ([[NSString stringWithFormat:@"%@",[dict objectForKey:@"chargeChannel"]] isEqualToString:@"宝付"])
+            //                    {
+            //                        BaoFooPayController*web = [[BaoFooPayController alloc] init];
+            //                        NSDictionary *baofooData = [NSDictionary dictionaryWithDictionary:[dict objectForKey:@"baofoodata"]];
+            //                        web.PAY_TOKEN = [baofooData objectForKey:@"tradeNo"];
+            //                        web.delegate = self;
+            //                        web.PAY_BUSINESS = @"true";
+            //                        [self presentViewController:web animated:YES completion:nil];
+            //                    }
+            //                    else
+            //                    {
+            //                        NSDictionary *tempData = [NSDictionary dictionaryWithDictionary:[dict objectForKey:@"lianliandata"]];
+            //                        NSMutableDictionary *lianlianData = [[NSMutableDictionary alloc]init];
+            //                        [lianlianData setValue:[tempData objectForKey:@"acct_name"] forKey:@"acct_name"];
+            //                        [lianlianData setValue:[tempData objectForKey:@"busi_partner"] forKey:@"busi_partner"];
+            //                        [lianlianData setValue:[tempData objectForKey:@"card_no"] forKey:@"card_no"];
+            //                        [lianlianData setValue:[tempData objectForKey:@"dt_order"] forKey:@"dt_order"];
+            //                        [lianlianData setValue:[tempData objectForKey:@"id_no"] forKey:@"id_no"];
+            //                        [lianlianData setValue:[NSString stringWithFormat:@"%.2f",[NSString stringWithFormat:@"%@",[tempData objectForKey:@"money_order"]].doubleValue] forKey:@"money_order"];
+            //                        [lianlianData setValue:[tempData objectForKey:@"name_goods"] forKey:@"name_goods"];
+            //                        [lianlianData setValue:[tempData objectForKey:@"no_agree"] forKey:@"no_agree"];
+            //                        [lianlianData setValue:[tempData objectForKey:@"no_order"] forKey:@"no_order"];
+            //                        [lianlianData setValue:[tempData objectForKey:@"notify_url"] forKey:@"notify_url"];
+            //                        [lianlianData setValue:[tempData objectForKey:@"oid_partner"] forKey:@"oid_partner"];
+            //                        [lianlianData setValue:risk_item_str forKey:@"risk_item"];
+            //                        [lianlianData setValue:[tempData objectForKey:@"sign"] forKey:@"sign"];
+            //                        [lianlianData setValue:[tempData objectForKey:@"sign_type"] forKey:@"sign_type"];
+            //                        [lianlianData setValue:[tempData objectForKey:@"user_id"] forKey:@"user_id"];
+            //                        [lianlianData setValue:[tempData objectForKey:@"valid_order"] forKey:@"valid_order"];
+            //                        NSLog(@"%@",lianlianData);
+            //                        [LLPaySdk sharedSdk].sdkDelegate = self;
+            //                        [[LLPaySdk sharedSdk] presentVerifyPaySdkInViewController:self withTraderInfo:lianlianData];
+            //                    }
+            //                }
+            NSURL*url = [NSURL URLWithString:[BASEURL stringByAppendingString:@"account/BaofooRenzhengSDKCharge"]];
+            NSMutableURLRequest*request = [NSMutableURLRequest requestWithURL:url];
+            [request setHTTPMethod:@"POST"];
+            NSString *para = [NSString stringWithFormat:@"txn_amt=%.2f",editTextField.text.doubleValue*100];
+            [request setHTTPBody:[para dataUsingEncoding:NSUTF8StringEncoding]];
+            NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+            [NSURLConnection sendAsynchronousRequest:request queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+                    if ([[dict objectForKey:@"retCode"] isEqualToString:@"0000"])
+                    {
+                        [hud hide:YES];
+                        BaoFooPayController*web = [[BaoFooPayController alloc] init];
+                        web.PAY_TOKEN = [dict objectForKey:@"tradeNo"];
+                        web.delegate = self;
+                        web.PAY_BUSINESS = @"true";
+                        [self presentViewController:web animated:YES completion:nil];
+                        
+                    }
+                    else
+                    {
+                        NSString *errorMsg = [dict objectForKey:@"retMsg"];
+                        if (!errorMsg) {
+                            errorMsg = @"创建订单号失败";
+                        }
+                        hud.mode = MBProgressHUDModeCustomView;
+                        hud.labelText = errorMsg;
+                        [hud hide:YES afterDelay:1.5f];
+                    }
+                });
+            }];
+        }
+
     }
     else
     {
-//        NSURL*url = [NSURL URLWithString:[BASEURL stringByAppendingString:@"account/RenzhengSDKCharge"]];
-//        NSMutableURLRequest*request = [NSMutableURLRequest requestWithURL:url];
-//        [request setHTTPMethod:@"POST"];
-//        NSString *para = [NSString stringWithFormat:@"txn_amt=%.2f",editTextField.text.doubleValue];
-//        [request setHTTPBody:[para dataUsingEncoding:NSUTF8StringEncoding]];
-//        NSOperationQueue *queue = [[NSOperationQueue alloc] init];
-//        [NSURLConnection sendAsynchronousRequest:request queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-//                NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-//                NSArray *array = [str componentsSeparatedByString:@"\"risk_item\":"];
-//                NSArray *array2 = [array[1] componentsSeparatedByString:@"},"];
-//                NSString *risk_item_str = [NSString stringWithFormat:@"%@}",array2[0]];
-//                NSLog(@"%@",risk_item_str);
-//                if ([[dict objectForKey:@"retCode"] isEqualToString:@"0000"]) {
-//                    [hud hide:YES];
-//                    if ([[NSString stringWithFormat:@"%@",[dict objectForKey:@"chargeChannel"]] isEqualToString:@"宝付"])
-//                    {
-//                        BaoFooPayController*web = [[BaoFooPayController alloc] init];
-//                        NSDictionary *baofooData = [NSDictionary dictionaryWithDictionary:[dict objectForKey:@"baofoodata"]];
-//                        web.PAY_TOKEN = [baofooData objectForKey:@"tradeNo"];
-//                        web.delegate = self;
-//                        web.PAY_BUSINESS = @"true";
-//                        [self presentViewController:web animated:YES completion:nil];
-//                    }
-//                    else
-//                    {
-//                        NSDictionary *tempData = [NSDictionary dictionaryWithDictionary:[dict objectForKey:@"lianliandata"]];
-//                        NSMutableDictionary *lianlianData = [[NSMutableDictionary alloc]init];
-//                        [lianlianData setValue:[tempData objectForKey:@"acct_name"] forKey:@"acct_name"];
-//                        [lianlianData setValue:[tempData objectForKey:@"busi_partner"] forKey:@"busi_partner"];
-//                        [lianlianData setValue:[tempData objectForKey:@"card_no"] forKey:@"card_no"];
-//                        [lianlianData setValue:[tempData objectForKey:@"dt_order"] forKey:@"dt_order"];
-//                        [lianlianData setValue:[tempData objectForKey:@"id_no"] forKey:@"id_no"];
-//                        [lianlianData setValue:[NSString stringWithFormat:@"%.2f",[NSString stringWithFormat:@"%@",[tempData objectForKey:@"money_order"]].doubleValue] forKey:@"money_order"];
-//                        [lianlianData setValue:[tempData objectForKey:@"name_goods"] forKey:@"name_goods"];
-//                        [lianlianData setValue:[tempData objectForKey:@"no_agree"] forKey:@"no_agree"];
-//                        [lianlianData setValue:[tempData objectForKey:@"no_order"] forKey:@"no_order"];
-//                        [lianlianData setValue:[tempData objectForKey:@"notify_url"] forKey:@"notify_url"];
-//                        [lianlianData setValue:[tempData objectForKey:@"oid_partner"] forKey:@"oid_partner"];
-//                        [lianlianData setValue:risk_item_str forKey:@"risk_item"];
-//                        [lianlianData setValue:[tempData objectForKey:@"sign"] forKey:@"sign"];
-//                        [lianlianData setValue:[tempData objectForKey:@"sign_type"] forKey:@"sign_type"];
-//                        [lianlianData setValue:[tempData objectForKey:@"user_id"] forKey:@"user_id"];
-//                        [lianlianData setValue:[tempData objectForKey:@"valid_order"] forKey:@"valid_order"];
-//                        NSLog(@"%@",lianlianData);
-//                        [LLPaySdk sharedSdk].sdkDelegate = self;
-//                        [[LLPaySdk sharedSdk] presentVerifyPaySdkInViewController:self withTraderInfo:lianlianData];
-//                    }
-//                }
-        NSURL*url = [NSURL URLWithString:[BASEURL stringByAppendingString:@"account/BaofooRenzhengSDKCharge"]];
-        NSMutableURLRequest*request = [NSMutableURLRequest requestWithURL:url];
-        [request setHTTPMethod:@"POST"];
-        NSString *para = [NSString stringWithFormat:@"txn_amt=%.2f",editTextField.text.doubleValue*100];
-        [request setHTTPBody:[para dataUsingEncoding:NSUTF8StringEncoding]];
-        NSOperationQueue *queue = [[NSOperationQueue alloc] init];
-        [NSURLConnection sendAsynchronousRequest:request queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-                if ([[dict objectForKey:@"retCode"] isEqualToString:@"0000"])
-                {
-                    [hud hide:YES];
-                    BaoFooPayController*web = [[BaoFooPayController alloc] init];
-                    web.PAY_TOKEN = [dict objectForKey:@"tradeNo"];
-                    web.delegate = self;
-                    web.PAY_BUSINESS = @"true";
-                    [self presentViewController:web animated:YES completion:nil];
-
-                }
-                else
-                {
-                    NSString *errorMsg = [dict objectForKey:@"retMsg"];
-                    if (!errorMsg) {
-                        errorMsg = @"创建订单号失败";
-                    }
-                    hud.mode = MBProgressHUDModeCustomView;
-                    hud.labelText = errorMsg;
-                    [hud hide:YES afterDelay:1.5f];
-                }
+        hud.mode = MBProgressHUDModeIndeterminate;
+        
+        NSString *cardReg = @"^[0-9]{16,30}$";
+        NSPredicate *regextestId = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", cardReg];
+        
+        if(![regextestId evaluateWithObject: bankcardNoTextField.text])
+        {
+            hud.mode = MBProgressHUDModeCustomView;
+            hud.labelText = @"请检查您的银行卡号码是否正确";
+            [hud hide:YES afterDelay:1.5f];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [bankcardNoTextField becomeFirstResponder];
             });
-        }];
+        }
+        else if (![[NSPredicate predicateWithFormat:@"SELF MATCHES %@",@"^[0-9]{11}$"] evaluateWithObject:phoneNumTextField.text])
+        {
+            hud.mode = MBProgressHUDModeCustomView;
+            hud.labelText = @"请检查手机号码是否正确";
+            [hud hide:YES afterDelay:1.5f];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [phoneNumTextField becomeFirstResponder];
+            });
+        }
+        else
+        {
+            [confirmButton setUserInteractionEnabled:NO];
+            [confirmButton setAlpha:0.6f];
+        }
+
     }
 }
 
--(IBAction)textFiledReturnEditing:(id)sender {
-    [editTextField resignFirstResponder];
+-(IBAction)textFiledReturnEditing:(UITextField*)sender {
+    [sender resignFirstResponder];
 }
 
 - (IBAction)backgroundTap:(id)sender {
     [editTextField resignFirstResponder];
+    [bankcardNoTextField resignFirstResponder];
+    [phoneNumTextField resignFirstResponder];
 }
 
 - (IBAction)buttonEnableListener:(id)sender
 {
-    if (editTextField.text.length > 0)
+    if (noBankCardView.hidden)
     {
-        [confirmButton setUserInteractionEnabled:YES];
-        [confirmButton setAlpha:1.0f];
+        if (editTextField.text.length > 0)
+        {
+            [confirmButton setUserInteractionEnabled:YES];
+            [confirmButton setAlpha:1.0f];
+        }
+        else
+        {
+            [confirmButton setUserInteractionEnabled:NO];
+            [confirmButton setAlpha:0.6f];
+        }
     }
     else
     {
-        [confirmButton setUserInteractionEnabled:NO];
-        [confirmButton setAlpha:0.6f];
+        if ((editTextField.text.length > 0) && (phoneNumTextField.text.length > 0) && (bankcardNoTextField.text.length > 0) && (![bankLabel.text isEqualToString:@"请选择"]))
+        {
+            [confirmButton setUserInteractionEnabled:YES];
+            [confirmButton setAlpha:1.0f];
+        }
+        else
+        {
+            [confirmButton setUserInteractionEnabled:NO];
+            [confirmButton setAlpha:0.6f];
+        }
     }
 }
+
+- (void)showChooseDetail:(UIButton*)sender
+{
+    [bankcardNoTextField resignFirstResponder];
+    [editTextField resignFirstResponder];
+    [phoneNumTextField resignFirstResponder];
+    
+    NSTimeInterval animationDuration = 0.30f;
+    bgView.hidden = NO;
+    [UIView beginAnimations:@"ResizeForPickerView" context:nil];
+    [UIView setAnimationDuration:animationDuration];
+    bgView.alpha = 1.0;
+    view.frame = CGRectMake(0, self.navigationController.view.frame.size.height-224, self.navigationController.view.frame.size.width, 224);
+    [UIView commitAnimations];
+    
+    [picker selectRow:bankTemp inComponent:0 animated:NO];
+    
+    [picker reloadAllComponents];
+}
+
 
 #pragma mark - BaofooDelegate
 -(void)callBack:(NSString*)params
@@ -359,6 +468,59 @@
     }
 
 }
+
+
+#pragma UIPickerViewDelegate
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+    return 1;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+
+    return bankArray.count;
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    return [bankArray objectAtIndex:row];
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    bankTemp = (int)row;
+}
+
+- (void)OKButton:(id)sender
+{
+    NSTimeInterval animationDuration = 0.30f;
+    [UIView beginAnimations:@"ResizeForPickerView" context:nil];
+    [UIView setAnimationDuration:animationDuration];
+    bgView.alpha = 0;
+    view.frame = CGRectMake(0, self.navigationController.view.frame.size.height, self.navigationController.view.frame.size.width, 224);
+    [UIView commitAnimations];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        bgView.hidden = YES;
+    });
+    
+    bankLabel.text = [bankArray objectAtIndex:bankTemp];
+    bankLabel.textColor = ZTGRAY;
+}
+
+- (void)CancelButton:(id)sender
+{
+    NSTimeInterval animationDuration = 0.30f;
+    [UIView beginAnimations:@"ResizeForPickerView" context:nil];
+    [UIView setAnimationDuration:animationDuration];
+    bgView.alpha = 0;
+    view.frame = CGRectMake(0, self.navigationController.view.frame.size.height, self.navigationController.view.frame.size.width, 224);
+    [UIView commitAnimations];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        bgView.hidden = YES;
+    });
+}
+
 
 
 @end

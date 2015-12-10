@@ -117,6 +117,7 @@
                         
                         PhoneVcodeViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"PhoneVcodeViewController"];
                         [vc setStyle:@"REGISTER"];
+                        vc.isFromNewer = self.isFromNewer;
                         [[self navigationController]pushViewController:vc animated:YES];
                     }
                     

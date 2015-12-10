@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "SimpleSwitch.h"
+#import "SetpasswordViewController.h"
 
 @interface AutoViewController : UIViewController
 {

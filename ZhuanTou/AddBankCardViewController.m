@@ -83,6 +83,12 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)dealloc
+{
+    picker.delegate = nil;
+    picker.dataSource = nil;
+}
+
 - (void)setFullName:(NSString*)str
 {
     fullName = str;

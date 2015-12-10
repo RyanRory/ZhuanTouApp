@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "SetTradePswdViewController.h"
+#import "SetpasswordViewController.h"
 
 @interface ProductBuyConfirmViewController : UIViewController
 {
@@ -40,5 +41,7 @@
 @property (strong, nonatomic) NSString *coupons;
 @property (strong, nonatomic) NSString *idOrCode;
 @property (strong, nonatomic) NSDictionary *productInfo;
+
+@property (readwrite, nonatomic) BOOL isFromNewer;
 
 @end

@@ -27,6 +27,7 @@
     self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:backItem, item, nil];
     
     datas = [[NSMutableArray alloc]init];
+    buffer = [[NSMutableArray alloc]init];
     
     tView.showsHorizontalScrollIndicator = NO;
     tView.showsVerticalScrollIndicator = NO;
@@ -67,12 +68,13 @@
 
 - (void)setupData
 {
-    [datas removeAllObjects];
+    [buffer removeAllObjects];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSString *URL = [BASEURL stringByAppendingString:@"api/fofProd/PreviousProducts"];
     [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSArray *responseObject) {
         NSLog(@"%@", responseObject);
-        datas = [NSMutableArray arrayWithArray:responseObject];
+        buffer = [NSMutableArray arrayWithArray:responseObject];
+        datas = [NSMutableArray arrayWithArray:buffer];
         productsNum = (int)datas.count;
         [tView.mj_header endRefreshing];
         [tView reloadData];

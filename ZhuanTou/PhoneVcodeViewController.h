@@ -23,6 +23,8 @@
 @property (strong, nonatomic) IBOutlet UIButton *getVcodeButton;
 @property (strong, nonatomic) IBOutlet UIButton *nextButton;
 
+@property (readwrite, nonatomic) BOOL isFromNewer;
+
 - (void)setStyle:(NSString*)str;
 
 - (IBAction)textFiledReturnEditing:(id)sender;

@@ -25,7 +25,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *checkboxButton;
 @property (strong, nonatomic) IBOutlet UIButton *agreementButton;
 
-
+@property (readwrite, nonatomic) BOOL isFromNewer;
 
 - (IBAction)textFiledReturnEditing:(id)sender;
 

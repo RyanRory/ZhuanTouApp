@@ -11,6 +11,7 @@
 #import "WenjianEndedTableViewCell.h"
 #import "ZongheEndedTableViewCell.h"
 #import "ZongheIngTableViewCell.h"
+#import "SetpasswordViewController.h"
 
 @interface DingqiViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 {

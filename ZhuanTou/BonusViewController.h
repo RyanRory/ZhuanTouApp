@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "BonusTableViewCell.h"
 #import "ZTTabBarViewController.h"
+#import "SetpasswordViewController.h"
 
 @interface BonusViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 {

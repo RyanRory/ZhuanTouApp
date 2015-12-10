@@ -350,10 +350,12 @@
 
 - (void)toNewer:(id)sender
 {
-    WebDetailViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"WebDetailViewController"];
-    vc.title = @"新手专享三重礼";
-    [vc setURL:[BASEURL stringByAppendingString:@"Mobile/Home/Newer"]];
-    [[self navigationController]pushViewController:vc animated:YES];
+//    WebDetailViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"WebDetailViewController"];
+//    vc.title = @"新手专享三重礼";
+//    [vc setURL:[BASEURL stringByAppendingString:@"Mobile/Home/Newer"]];
+//    [[self navigationController]pushViewController:vc animated:YES];
+    NewerViewController *vc = [[self storyboard] instantiateViewControllerWithIdentifier:@"NewerViewController"];
+    [[self navigationController] pushViewController:vc animated:YES];
 }
 
 - (void)zongheTimeCountDown

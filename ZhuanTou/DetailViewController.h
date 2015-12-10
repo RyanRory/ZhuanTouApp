@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "DetailTableViewCell.h"
+#import "SetpasswordViewController.h"
 
 @interface DetailViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 {

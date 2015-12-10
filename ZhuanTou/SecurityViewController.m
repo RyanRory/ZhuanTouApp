@@ -145,15 +145,17 @@
         {
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
             hud.mode = MBProgressHUDModeText;
-            hud.labelText = [responseObject objectForKey:@"errorMessage"];
             [hud hide:YES afterDelay:1.5f];
-            if ([[NSString stringWithFormat:@"%@",[responseObject objectForKey:@"errorMessage"]] isEqualToString:@"100003"])
+            if ([[NSString stringWithFormat:@"%@",[responseObject objectForKey:@"errorCode"]] isEqualToString:@"100003"])
             {
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    UINavigationController *nav = [[self storyboard]instantiateViewControllerWithIdentifier:@"LoginNav"];
-                    [[self tabBarController] presentViewController:nav animated:YES completion:nil];
-                    
-                });
+                hud.labelText = @"登录信息已过期，请重新登录";
+                SetpasswordViewController *setpass = [[self storyboard]instantiateViewControllerWithIdentifier:@"SetpasswordViewController"];
+                setpass.string = @"验证密码";
+                [[self tabBarController] presentViewController:setpass animated:NO completion:nil];
+            }
+            else
+            {
+                hud.labelText = [responseObject objectForKey:@"errorMessage"];
             }
         }
 
@@ -163,11 +165,10 @@
         hud.mode = MBProgressHUDModeText;
         if (error.code == 100003)
         {
-            hud.labelText = @"当前用户未被授权执行当前操作";
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                UINavigationController *nav = [[self storyboard]instantiateViewControllerWithIdentifier:@"LoginNav"];
-                [[self tabBarController] presentViewController:nav animated:YES completion:nil];
-            });
+            hud.labelText = @"登录信息已过期，请重新登录";
+            SetpasswordViewController *setpass = [[self storyboard]instantiateViewControllerWithIdentifier:@"SetpasswordViewController"];
+            setpass.string = @"验证密码";
+            [[self tabBarController] presentViewController:setpass animated:NO completion:nil];
         }
         else
         {

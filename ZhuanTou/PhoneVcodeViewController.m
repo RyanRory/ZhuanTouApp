@@ -117,6 +117,7 @@
                 else
                 {
                     InformationViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"InformationViewController"];
+                    vc.isFromNewer = self.isFromNewer;
                     [[self navigationController]pushViewController:vc animated:YES];
                 }
             }

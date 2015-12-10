@@ -17,6 +17,7 @@
 @implementation SetpasswordViewController
 
 @synthesize forgottenButton, touchIdButton, forgottenButtonWithTouchId;
+@synthesize isFromNewer;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -68,6 +69,56 @@
                  ^(BOOL success, NSError *authenticationError) {
                      if (success)
                      {
+                         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+                         NSString *password = [userDefault objectForKey:PASSWORD];
+                         if ((password.length > 0) && (![userDefault boolForKey:ISLOGIN]))
+                         {
+                             AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+                             NSDictionary *parameters = @{@"login":[userDefault objectForKey:USERNAME],
+                                                          @"password":[userDefault objectForKey:PASSWORD]};
+                             NSString *URL = [BASEURL stringByAppendingString:@"api/auth/signIn"];
+                             [manager POST:URL parameters:parameters success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+                                 NSLog(@"%@", responseObject);
+                                 NSString *str = [responseObject objectForKey:@"isAuthenticated"];
+                                 int f1 = str.intValue;
+                                 if (f1 == 0)
+                                 {
+                                     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:weakSelf.presentedViewController.view animated:YES];
+                                     hud.mode = MBProgressHUDModeCustomView;
+                                     NSRange range = [[NSString stringWithFormat:@"%@",[responseObject objectForKey:@"errorMessage"]] rangeOfString:@"密码错误"];
+                                     if (range.length > 0)
+                                     {
+                                         hud.labelText = @"您的登录密码已修改，请重新登录";
+                                         [userDefault removeObjectForKey:PASSWORD];
+                                         [userDefault synchronize];
+                                         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                                             UINavigationController *nav = [[weakSelf storyboard]instantiateViewControllerWithIdentifier:@"LoginNav"];
+                                             [weakSelf.presentedViewController presentViewController:nav animated:YES completion:nil];
+                                         });
+                                     }
+                                     else
+                                     {
+                                         hud.labelText = [responseObject objectForKey:@"errorMessage"];
+                                     }
+                                     [hud hide:YES afterDelay:1.5f];
+                                 }
+                                 else
+                                 {
+                                     [userDefault setBool:YES forKey:ISLOGIN];
+                                     [userDefault setBool:[NSString stringWithFormat:@"%@",[responseObject objectForKey:@"isTradepasswordset"]].boolValue forKey:ISTRADEPSWDSET];
+                                     [userDefault synchronize];
+                                 }
+                                 
+                             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                 NSLog(@"Error: %@", error);
+                                 MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:weakSelf.view animated:YES];
+                                 hud.mode = MBProgressHUDModeText;
+                                 hud.labelText = @"登录失败";
+                                 [hud hide:YES afterDelay:1.5f];
+                                 
+                             }];
+                         }
+
                          dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                              ZTTabBarViewController *tabvc = [[weakSelf storyboard]instantiateViewControllerWithIdentifier:@"ZTTabBarViewController"];
                              [weakSelf presentViewController:tabvc animated:YES completion:nil];
@@ -110,13 +161,22 @@
         [touchIdButton setHidden:YES];
     }
     
+    BOOL weakIsFromNewer = isFromNewer;
+    
     alipay.block = ^(NSString *pswString) {
         if ([weakString isEqualToString:@"重置密码"])
         {
             if ([weakStyle isEqualToString:@"REGISTER"])
             {
-                RegisterSuccessViewController *vc = [[weakSelf storyboard]instantiateViewControllerWithIdentifier:@"RegisterSuccessVC"];
-                [[weakSelf navigationController]pushViewController:vc animated:YES];
+                if (weakIsFromNewer)
+                {
+                    [weakSelf popToViewController:weakSelf.viewControllers[1] animated:YES];
+                }
+                else
+                {
+                    RegisterSuccessViewController *vc = [[weakSelf storyboard]instantiateViewControllerWithIdentifier:@"RegisterSuccessVC"];
+                    [weakSelf pushViewController:vc animated:YES];
+                }
             }
             else if ([weakStyle isEqualToString:@"FORGOTTEN"])
             {
@@ -130,51 +190,59 @@
         }
         else if ([weakString isEqualToString:@"修改密码"])
         {
-            [[self navigationController]popViewControllerAnimated:YES];
+            [weakSelf popViewControllerAnimated:YES];
         }
         else
         {
-//            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-//            NSString *password = [userDefault objectForKey:PASSWORD];
-//            if ((password.length > 0) && (![userDefault boolForKey:ISLOGIN]))
-//            {
-//                AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-//                NSDictionary *parameters = @{@"login":[userDefault objectForKey:USERNAME],
-//                                             @"password":[userDefault objectForKey:PASSWORD]};
-//                NSString *URL = [BASEURL stringByAppendingString:@"api/auth/signIn"];
-//                [manager POST:URL parameters:parameters success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
-//                    NSLog(@"%@", responseObject);
-//                    NSString *str = [responseObject objectForKey:@"isAuthenticated"];
-//                    int f1 = str.intValue;
-//                    if (f1 == 0)
-//                    {
-//                        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//                        hud.mode = MBProgressHUDModeCustomView;
-//                        hud.labelText = [responseObject objectForKey:@"errorMessage"];
-//                        [hud hide:YES afterDelay:1.5f];
-//                    }
-//                    else
-//                    {
-//                        [userDefault setBool:YES forKey:ISLOGIN];
-//                        [userDefault setBool:[NSString stringWithFormat:@"%@",[responseObject objectForKey:@"isTradePwSetted"]].boolValue forKey:ISTRADEPSWDSET];
-//                        [userDefault synchronize];
-//                    }
-//                    
-//                } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//                    NSLog(@"Error: %@", error);
-//                    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//                    hud.mode = MBProgressHUDModeText;
-//                    hud.labelText = @"登录失败";
-//                    [hud hide:YES afterDelay:1.5f];
-//                    
-//                }];
-//            }
-//            
-//            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//                ZTTabBarViewController *tabvc = [[weakSelf storyboard]instantiateViewControllerWithIdentifier:@"ZTTabBarViewController"];
-//                [weakSelf presentViewController:tabvc animated:YES completion:nil];
-//            });
-            
+            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+            NSString *password = [userDefault objectForKey:PASSWORD];
+            if ((password.length > 0) && (![userDefault boolForKey:ISLOGIN]))
+            {
+                AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+                NSDictionary *parameters = @{@"login":[userDefault objectForKey:USERNAME],
+                                             @"password":[userDefault objectForKey:PASSWORD]};
+                NSString *URL = [BASEURL stringByAppendingString:@"api/auth/signIn"];
+                [manager POST:URL parameters:parameters success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+                    NSLog(@"%@", responseObject);
+                    NSString *str = [responseObject objectForKey:@"isAuthenticated"];
+                    int f1 = str.intValue;
+                    if (f1 == 0)
+                    {
+                        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:weakSelf.presentedViewController.view animated:YES];
+                        hud.mode = MBProgressHUDModeCustomView;
+                        NSRange range = [[NSString stringWithFormat:@"%@",[responseObject objectForKey:@"errorMessage"]] rangeOfString:@"密码错误"];
+                        if (range.length > 0)
+                        {
+                            hud.labelText = @"您的登录密码已修改，请重新登录";
+                            [userDefault removeObjectForKey:PASSWORD];
+                            [userDefault synchronize];
+                            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                                UINavigationController *nav = [[weakSelf storyboard]instantiateViewControllerWithIdentifier:@"LoginNav"];
+                                [weakSelf.presentedViewController presentViewController:nav animated:YES completion:nil];
+                            });
+                        }
+                        else
+                        {
+                            hud.labelText = [responseObject objectForKey:@"errorMessage"];
+                        }
+                        [hud hide:YES afterDelay:1.5f];
+                    }
+                    else
+                    {
+                        [userDefault setBool:YES forKey:ISLOGIN];
+                        [userDefault setBool:[NSString stringWithFormat:@"%@",[responseObject objectForKey:@"isTradepasswordset"]].boolValue forKey:ISTRADEPSWDSET];
+                        [userDefault synchronize];
+                    }
+                    
+                } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                    NSLog(@"Error: %@", error);
+                    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:weakSelf.view animated:YES];
+                    hud.mode = MBProgressHUDModeText;
+                    hud.labelText = @"登录失败";
+                    [hud hide:YES afterDelay:1.5f];
+                    
+                }];
+            }
             ZTTabBarViewController *tabvc = [[weakSelf storyboard]instantiateViewControllerWithIdentifier:@"ZTTabBarViewController"];
             [weakSelf presentViewController:tabvc animated:YES completion:nil];
         }
@@ -267,6 +335,55 @@
          ^(BOOL success, NSError *authenticationError) {
              if (success)
              {
+                 NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+                 NSString *password = [userDefault objectForKey:PASSWORD];
+                 if ((password.length > 0) && (![userDefault boolForKey:ISLOGIN]))
+                 {
+                     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+                     NSDictionary *parameters = @{@"login":[userDefault objectForKey:USERNAME],
+                                                  @"password":[userDefault objectForKey:PASSWORD]};
+                     NSString *URL = [BASEURL stringByAppendingString:@"api/auth/signIn"];
+                     [manager POST:URL parameters:parameters success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+                         NSLog(@"%@", responseObject);
+                         NSString *str = [responseObject objectForKey:@"isAuthenticated"];
+                         int f1 = str.intValue;
+                         if (f1 == 0)
+                         {
+                             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:weakSelf.presentedViewController.view animated:YES];
+                             hud.mode = MBProgressHUDModeCustomView;
+                             NSRange range = [[NSString stringWithFormat:@"%@",[responseObject objectForKey:@"errorMessage"]] rangeOfString:@"密码错误"];
+                             if (range.length > 0)
+                             {
+                                 hud.labelText = @"您的登录密码已修改，请重新登录";
+                                 [userDefault removeObjectForKey:PASSWORD];
+                                 [userDefault synchronize];
+                                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                                     UINavigationController *nav = [[weakSelf storyboard]instantiateViewControllerWithIdentifier:@"LoginNav"];
+                                     [weakSelf.presentedViewController presentViewController:nav animated:YES completion:nil];
+                                 });
+                             }
+                             else
+                             {
+                                 hud.labelText = [responseObject objectForKey:@"errorMessage"];
+                             }
+                             [hud hide:YES afterDelay:1.5f];
+                         }
+                         else
+                         {
+                             [userDefault setBool:YES forKey:ISLOGIN];
+                             [userDefault setBool:[NSString stringWithFormat:@"%@",[responseObject objectForKey:@"isTradepasswordset"]].boolValue forKey:ISTRADEPSWDSET];
+                             [userDefault synchronize];
+                         }
+                         
+                     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                         NSLog(@"Error: %@", error);
+                         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:weakSelf.view animated:YES];
+                         hud.mode = MBProgressHUDModeText;
+                         hud.labelText = @"登录失败";
+                         [hud hide:YES afterDelay:1.5f];
+                         
+                     }];
+                 }
                  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                      ZTTabBarViewController *tabvc = [[weakSelf storyboard]instantiateViewControllerWithIdentifier:@"ZTTabBarViewController"];
                      [weakSelf presentViewController:tabvc animated:YES completion:nil];

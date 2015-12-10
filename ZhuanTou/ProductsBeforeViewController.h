@@ -12,7 +12,7 @@
 @interface ProductsBeforeViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
 {
     int productsNum;
-    NSMutableArray *datas;
+    NSMutableArray *datas, *buffer;
 }
 
 @property (strong, nonatomic) IBOutlet UITableView *tView;

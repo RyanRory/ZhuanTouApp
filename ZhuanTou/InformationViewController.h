@@ -24,6 +24,8 @@
 @property (strong, nonatomic) IBOutlet UIButton *nextButton;
 @property (strong, nonatomic) IBOutlet UITextField *recommendTextField;
 
+@property (readwrite, nonatomic) BOOL isFromNewer;
+
 - (IBAction)textFiledReturnEditing:(id)sender;
 
 - (IBAction)backgroundTap:(id)sender;

@@ -22,6 +22,8 @@
 @property (strong, nonatomic) IBOutlet UIButton *touchIdButton;
 @property (strong, nonatomic) IBOutlet UIButton *forgottenButtonWithTouchId;
 
+@property (readwrite, nonatomic) BOOL isFromNewer;
+
 @property(nonatomic, copy)NSString *string;
 @property(nonatomic, copy)NSString *style;
 
