@@ -655,6 +655,10 @@
             {
                 if (isHttpFinished == 2)
                 {
+                    secureImage.image = [UIImage imageNamed:@"newerSecureBlue.png"];
+                    secureLabel.textColor = ZTBLUE;
+                    secureDescriptionLabel.textColor = ZTBLUE;
+                    secureLine.backgroundColor = ZTBLUE;
                     [self performSelector:@selector(clickSecureButton:) withObject:secureButton afterDelay:0];
                 }
             }
@@ -700,6 +704,10 @@
                 [hud hide:YES afterDelay:1.5f];
                 if (isHttpFinished == 2)
                 {
+                    secureImage.image = [UIImage imageNamed:@"newerSecureBlue.png"];
+                    secureLabel.textColor = ZTBLUE;
+                    secureDescriptionLabel.textColor = ZTBLUE;
+                    secureLine.backgroundColor = ZTBLUE;
                     [self performSelector:@selector(clickSecureButton:) withObject:secureButton afterDelay:0];
                 }
             }

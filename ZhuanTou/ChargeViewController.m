@@ -196,7 +196,7 @@
     {
         NSString *str = oneLimitLabel.text;
         str = [str stringByReplacingOccurrencesOfString:@"," withString:@""];
-        if ((str.doubleValue < editTextField.text.doubleValue) && ([oneLimitLabel.text isEqualToString:@"无限额"]))
+        if ((str.doubleValue < editTextField.text.doubleValue) && (![oneLimitLabel.text isEqualToString:@"无限额"]))
         {
             hud.mode = MBProgressHUDModeCustomView;
             hud.labelText = @"超过单笔限额";

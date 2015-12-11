@@ -178,7 +178,6 @@
                         [self.navigationController popViewControllerAnimated:YES];
                     });
                 }
-                
             }
             [confirmButton setUserInteractionEnabled:YES];
             [confirmButton setAlpha:1.0f];

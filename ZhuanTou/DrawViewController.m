@@ -14,9 +14,9 @@
 
 @implementation DrawViewController
 
-@synthesize editView, editTextField, descriptionLabel, drawNumLabel, confirmButton, noFeeDescriptionLabel, noFeeNumLabel;
+@synthesize editView, editTextField, descriptionLabel, drawNumLabel, confirmButton, drawCostLabel, drawCostDescriptionLabel, noFeeLabel, drawPreTimeLabel;
 @synthesize bankCardView, bankImageView, bankNameLabel, cardNumLabel, branchLabel;
-@synthesize noBankCardView, bankLabel, bankcardNoTextField, bankcardDetailButton, branchTextField, balanceLabel, chooseProvinceButton, chooseCityButton, chooseBankButton, provinceLabel, cityLabel, phoneNumTextField, NBCVconfirmButton, NBCVnoFeeNumLabel, limitLabel, drawNumTextField;
+@synthesize noBankCardView, bankLabel, bankcardNoTextField, bankcardDetailButton, branchTextField, balanceLabel, chooseProvinceButton, chooseCityButton, chooseBankButton, provinceLabel, cityLabel, NBCVconfirmButton, NBCVnoFeeNumLabel, limitLabel, drawNumTextField, phoneNumLabel, smsCodeTextField, getSmsCodeButton, preTimeLabel, costLabel;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -42,8 +42,10 @@
     editView.hidden = YES;
     confirmButton.hidden = YES;
     noBankCardView.hidden = YES;
-    noFeeNumLabel.hidden = YES;
-    noFeeDescriptionLabel.hidden = YES;
+    noFeeLabel.hidden = YES;
+    drawPreTimeLabel.hidden = YES;
+    drawCostLabel.hidden = YES;
+    drawCostDescriptionLabel.hidden = YES;
     
     SCNumberKeyBoard *keyboard = [SCNumberKeyBoard showWithTextField:editTextField enter:nil close:nil];
     [keyboard.enterButton setBackgroundColor:ZTBLUE];
@@ -93,6 +95,11 @@
     SCNumberKeyBoard *keyboard2 = [SCNumberKeyBoard showWithTextField:drawNumTextField enter:nil close:nil];
     [keyboard2.enterButton setBackgroundColor:ZTBLUE];
     [keyboard2.enterButton setTitle:@"确定" forState:UIControlStateNormal];
+    
+    [getSmsCodeButton.layer setBorderColor:ZTBLUE.CGColor];
+    getSmsCodeButton.layer.borderWidth = 1;
+    getSmsCodeButton.layer.cornerRadius = 3;
+    [getSmsCodeButton addTarget:self action:@selector(getSmsCode:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -140,8 +147,10 @@
             descriptionLabel.hidden = NO;
             drawNumLabel.hidden = NO;
             editView.hidden = NO;
-            noFeeDescriptionLabel.hidden = NO;
-            noFeeNumLabel.hidden = NO;
+            noFeeLabel.hidden = NO;
+            drawPreTimeLabel.hidden = NO;
+            drawCostLabel.hidden = NO;
+            drawCostDescriptionLabel.hidden = NO;
         }
         else
         {
@@ -182,6 +191,8 @@
             }];
 
             noBankCardView.hidden = NO;
+            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+            phoneNumLabel.text = [NSString stringWithFormat:@"将向您的%@手机发送验证码：", [userDefault objectForKey:PHONENUM]];
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -199,9 +210,19 @@
         NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
         [formatter setPositiveFormat:@"###,##0.00"];
         drawNumLabel.text = [NSString stringWithFormat:@"%@元",[NSString stringWithString:[formatter stringFromNumber:[responseObject1 objectForKey:@"fundsAvailable"]]]];
-        noFeeNumLabel.text = [NSString stringWithFormat:@"%@次",[responseObject1 objectForKey:@"freeWithdrawsThisMonth"]];
+        noFeeLabel.text = [NSString stringWithFormat:@"(每月可免费提现3次，本与剩余免费提现次数:%@次)",[responseObject1 objectForKey:@"freeWithdrawsThisMonth"]];
         balanceLabel.text = [NSString stringWithFormat:@"%@元",[NSString stringWithString:[formatter stringFromNumber:[responseObject1 objectForKey:@"fundsAvailable"]]]];
-        NBCVnoFeeNumLabel.text = [NSString stringWithFormat:@"%@次",[responseObject1 objectForKey:@"freeWithdrawsThisMonth"]];
+        NBCVnoFeeNumLabel.text = [NSString stringWithFormat:@"(每月可免费提现3次，本与剩余免费提现次数:%@次)",[responseObject1 objectForKey:@"freeWithdrawsThisMonth"]];
+        if ([NSString stringWithFormat:@"%@",[responseObject1 objectForKey:@"freeWithdrawsThisMonth"]].intValue == 0)
+        {
+            costLabel.text = @"3元";
+            drawCostLabel.text = @"3元";
+        }
+        else
+        {
+            costLabel.text = @"0元";
+            drawCostLabel.text = @"0元";
+        }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
@@ -278,11 +299,24 @@
 {
     hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    NSString *URL = [BASEURL stringByAppendingString:@"api/withdraw/applyWithdrawal4M"];
-    NSDictionary *parameter = @{@"amount":editTextField.text,
-                                @"tradePassword":tradePswd,
-                                @"channel":@2,
-                                @"transferAccount":@"self"};
+    NSString *URL = [BASEURL stringByAppendingString:@"api/withdraw/applyWithdrawAndBindCard"];
+    NSDictionary *parameter;
+    if (noBankCardView.hidden)
+    {
+        parameter = @{@"withdrawAmount": editTextField.text,
+                      @"tradePassword": tradePswd};
+    }
+    else
+    {
+        parameter = @{@"province": provinceLabel.text,
+                      @"city": cityLabel.text,
+                      @"cardCode": bankcardNoTextField.text,
+                      @"bankCode": [[NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"bankCodeList" ofType:@"plist"]] objectForKey:bankLabel.text],
+                      @"subbranchName": branchTextField.text,
+                      @"withdrawAmount": drawNumTextField.text,
+                      @"tradePassword": tradePswd,
+                      @"smsCode": smsCodeTextField.text};
+    }
     [manager POST:URL parameters:parameter success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
         NSLog(@"%@",responseObject);
         NSString *str = [responseObject objectForKey:@"isSuccess"];
@@ -336,7 +370,7 @@
 
 - (IBAction)NBCVconfirmButtonEnableListener:(id)sender
 {
-    if ((branchTextField.text.length > 0) && (bankcardNoTextField.text.length > 0) && (phoneNumTextField.text.length > 0) && (![bankLabel.text isEqualToString:@"请选择"]) && (![provinceLabel.text isEqualToString:@"请选择"]) && (![cityLabel.text isEqualToString:@"请选择"]) && (drawNumTextField.text.length > 0))
+    if ((branchTextField.text.length > 0) && (bankcardNoTextField.text.length > 0) && (smsCodeTextField.text.length > 0) && (![bankLabel.text isEqualToString:@"请选择"]) && (![provinceLabel.text isEqualToString:@"请选择"]) && (![cityLabel.text isEqualToString:@"请选择"]) && (drawNumTextField.text.length > 0))
     {
         [NBCVconfirmButton setUserInteractionEnabled:YES];
         [NBCVconfirmButton setAlpha:1.0f];
@@ -354,7 +388,7 @@
 {
     [bankcardNoTextField resignFirstResponder];
     [branchTextField resignFirstResponder];
-    [phoneNumTextField resignFirstResponder];
+    [smsCodeTextField resignFirstResponder];
     
     hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.mode = MBProgressHUDModeIndeterminate;
@@ -371,13 +405,13 @@
             [bankcardNoTextField becomeFirstResponder];
         });
     }
-    else if (![[NSPredicate predicateWithFormat:@"SELF MATCHES %@",@"^[0-9]{11}$"] evaluateWithObject:phoneNumTextField.text])
+    else if (![[NSPredicate predicateWithFormat:@"SELF MATCHES %@",@"^[0-9]{4}$"] evaluateWithObject:smsCodeTextField.text])
     {
         hud.mode = MBProgressHUDModeCustomView;
-        hud.labelText = @"请检查手机号码是否正确";
+        hud.labelText = @"请检查验证码是否正确";
         [hud hide:YES afterDelay:1.5f];
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [phoneNumTextField becomeFirstResponder];
+            [smsCodeTextField becomeFirstResponder];
         });
     }
     else
@@ -391,7 +425,7 @@
 {
     [bankcardNoTextField resignFirstResponder];
     [branchTextField resignFirstResponder];
-    [phoneNumTextField resignFirstResponder];
+    [smsCodeTextField resignFirstResponder];
     
     if (sender == chooseBankButton)
     {
@@ -448,6 +482,30 @@
             
             [picker reloadAllComponents];
         }
+    }
+}
+
+- (void)getSmsCode:(id)sender
+{
+    secondsCountDown = 60;
+    countDownTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timeFireMethod) userInfo:nil repeats:YES];
+    [getSmsCodeButton setUserInteractionEnabled:NO];
+}
+
+- (void)timeFireMethod
+{
+    secondsCountDown--;
+    if (secondsCountDown == 0)
+    {
+        getSmsCodeButton.titleLabel.text = @"获取验证码";
+        [getSmsCodeButton setTitle:@"获取验证码" forState:UIControlStateNormal];
+        [getSmsCodeButton setUserInteractionEnabled:YES];
+        [countDownTimer invalidate];
+    }
+    else
+    {
+        getSmsCodeButton.titleLabel.text = [NSString stringWithFormat:@"(%d)秒后重新获取",secondsCountDown];
+        [getSmsCodeButton setTitle:[NSString stringWithFormat:@"(%d)秒后重新获取",secondsCountDown] forState:UIControlStateNormal];
     }
 }
 
@@ -554,7 +612,6 @@
         bgView.hidden = YES;
     });
 }
-
 
 
 @end

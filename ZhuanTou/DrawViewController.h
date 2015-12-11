@@ -18,8 +18,9 @@
     UIPickerView *picker;
     UIView *view, *bgView;
     UIToolbar *toolBar;
-    int buttonTag;
+    int buttonTag, secondsCountDown;
     int bankTemp, provinceTemp, cityTemp;
+    NSTimer *countDownTimer;
 }
 
 @property (strong, nonatomic) IBOutlet UIView *bankCardView;
@@ -32,8 +33,11 @@
 @property (strong, nonatomic) IBOutlet UILabel *drawNumLabel;
 @property (strong, nonatomic) IBOutlet UIButton *confirmButton;
 @property (strong, nonatomic) IBOutlet UITextField *editTextField;
-@property (strong, nonatomic) IBOutlet UILabel *noFeeDescriptionLabel;
-@property (strong, nonatomic) IBOutlet UILabel *noFeeNumLabel;
+@property (strong, nonatomic) IBOutlet UILabel *drawCostLabel;
+@property (strong, nonatomic) IBOutlet UILabel *noFeeLabel;
+@property (strong, nonatomic) IBOutlet UILabel *drawPreTimeLabel;
+@property (strong, nonatomic) IBOutlet UILabel *drawCostDescriptionLabel;
+
 
 @property (strong, nonatomic) IBOutlet UIView *noBankCardView;
 @property (strong, nonatomic) IBOutlet UIButton *bankcardDetailButton;
@@ -41,7 +45,6 @@
 @property (strong, nonatomic) IBOutlet UIButton *chooseBankButton;
 @property (strong, nonatomic) IBOutlet UILabel *bankLabel;
 @property (strong, nonatomic) IBOutlet UILabel *limitLabel;
-@property (strong, nonatomic) IBOutlet UITextField *phoneNumTextField;
 @property (strong, nonatomic) IBOutlet UIButton *chooseProvinceButton;
 @property (strong, nonatomic) IBOutlet UILabel *provinceLabel;
 @property (strong, nonatomic) IBOutlet UIButton *chooseCityButton;
@@ -51,6 +54,11 @@
 @property (strong, nonatomic) IBOutlet UITextField *drawNumTextField;
 @property (strong, nonatomic) IBOutlet UILabel *balanceLabel;
 @property (strong, nonatomic) IBOutlet UILabel *NBCVnoFeeNumLabel;
+@property (strong, nonatomic) IBOutlet UITextField *smsCodeTextField;
+@property (strong, nonatomic) IBOutlet UILabel *phoneNumLabel;
+@property (strong, nonatomic) IBOutlet UILabel *costLabel;
+@property (strong, nonatomic) IBOutlet UILabel *preTimeLabel;
+@property (strong, nonatomic) IBOutlet UIButton *getSmsCodeButton;
 
 
 - (IBAction)textFiledReturnEditing:(id)sender;
