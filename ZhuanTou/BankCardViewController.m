@@ -70,8 +70,14 @@
             noBankCardView.hidden = YES;
             descriptionLabel.hidden = NO;
             bankNameLabel.text = [responseObject[0] objectForKey:@"bankName"];
-            branchLabel.text = [[responseObject[0] objectForKey:@"subBankName"] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-            //branchLabel.text = [responseObject[0] objectForKey:@"subBankName"];
+            if ([[responseObject[0] objectForKey:@"subBankName"] isKindOfClass:[NSNull class]])
+            {
+                branchLabel.text = @"";
+            }
+            else
+            {
+                branchLabel.text = [[responseObject[0] objectForKey:@"subBankName"] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            }
             cardNumLabel.text = [responseObject[0] objectForKey:@"cardCode"];
             oneLimitLabel.text = [responseObject[0] objectForKey:@"limitAmount"];
             dayLimitLabel.text = [responseObject[0] objectForKey:@"dailyLimit"];

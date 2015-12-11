@@ -40,11 +40,9 @@
 
 
 @property (strong, nonatomic) IBOutlet UIView *noBankCardView;
-@property (strong, nonatomic) IBOutlet UIButton *bankcardDetailButton;
 @property (strong, nonatomic) IBOutlet UITextField *bankcardNoTextField;
 @property (strong, nonatomic) IBOutlet UIButton *chooseBankButton;
 @property (strong, nonatomic) IBOutlet UILabel *bankLabel;
-@property (strong, nonatomic) IBOutlet UILabel *limitLabel;
 @property (strong, nonatomic) IBOutlet UIButton *chooseProvinceButton;
 @property (strong, nonatomic) IBOutlet UILabel *provinceLabel;
 @property (strong, nonatomic) IBOutlet UIButton *chooseCityButton;

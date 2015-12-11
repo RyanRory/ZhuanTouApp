@@ -266,7 +266,7 @@
             {
                 NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
                 [formatter setPositiveFormat:@"###,##0"];
-                timeLabel.text = [NSString stringWithFormat:@"剩余可认购份额：%@元",[formatter stringFromNumber:[NSNumber numberWithInt:[NSString stringWithFormat:@"%@",[productInfo objectForKey:@"bidableAmount"]].intValue]]];
+                timeLabel.text = @"";
                 
                 [buyButton setUserInteractionEnabled:YES];
                 [buyButton setAlpha:1.0f];
@@ -392,7 +392,7 @@
     {
         NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
         [formatter setPositiveFormat:@"###,##0"];
-        timeLabel.text = [NSString stringWithFormat:@"剩余可认购份额：%@元",[formatter stringFromNumber:[NSNumber numberWithInt:[NSString stringWithFormat:@"%@",[productInfo objectForKey:@"bidableAmount"]].intValue]]];
+        timeLabel.text = @"";
         
         [buyButton setUserInteractionEnabled:YES];
         buyButton.backgroundColor = ZTBLUE;

@@ -448,7 +448,7 @@
         }
         NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
         [formatter setPositiveFormat:@"###,##0"];
-        huoqiAmountLabel.text = [NSString stringWithFormat:@"剩余可认购份额：%@万元",[formatter stringFromNumber:[NSNumber numberWithDouble:[NSString stringWithFormat:@"%@",[huoqiData objectForKey:@"bidableAmount"]].doubleValue/10000]]];
+        huoqiAmountLabel.text = [NSString stringWithFormat:@"剩余可认购份额：%@万元",[formatter stringFromNumber:[NSNumber numberWithDouble:[NSString stringWithFormat:@"%@",[huoqiData objectForKey:@"bidableAmount"]].intValue/10000]]];
         if (((NSString*)[huoqiData objectForKey:@"bidableAmount"]).intValue > 0)
         {
             [huoqiBuyButton setUserInteractionEnabled:YES];

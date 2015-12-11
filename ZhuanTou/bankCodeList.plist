@@ -22,9 +22,15 @@
 	<string>PAB</string>
 	<key>邮政储蓄银行</key>
 	<string>PSBC</string>
-	<key>上海银行</key>
-	<string>SHB</string>
 	<key>浦东发展银行</key>
 	<string>SPDB</string>
+	<key>华夏银行</key>
+	<string>HXB</string>
+	<key>广东发展银行</key>
+	<string>GDB</string>
+	<key>民生银行</key>
+	<string>CMBC</string>
+	<key>招商银行</key>
+	<string>CMB</string>
 </dict>
 </plist>

@@ -143,17 +143,26 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSString *URL;
-    if ([style isEqualToString:RESETLOGINPSWD])
+    NSString *isYuyin;
+    if ([getVcodeButton.titleLabel.text isEqualToString:@"语音验证"])
     {
-        URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/sendSmsCodeForResetPassword/%@/%@",phoneNum,vCode]];
-    }
-    else if ([style isEqualToString:RESETTRADEPSWD])
-    {
-        URL = [BASEURL stringByAppendingString:@"api/account/sendSmsCodeForResetWP"];
+        isYuyin = @"/true";
     }
     else
     {
-        URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/registerSmsCode/%@/%@",phoneNum,vCode]];
+        isYuyin = @"";
+    }
+    if ([style isEqualToString:RESETLOGINPSWD])
+    {
+        URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/sendSmsCodeForResetPassword%@/%@/%@",isYuyin,phoneNum,vCode]];
+    }
+    else if ([style isEqualToString:RESETTRADEPSWD])
+    {
+        URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/sendSmsCodeForResetWP%@",isYuyin]];
+    }
+    else
+    {
+        URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/registerSmsCode%@/%@/%@",isYuyin,phoneNum,vCode]];
     }
     [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
         NSLog(@"%@", responseObject);
@@ -186,8 +195,8 @@
     secondsCountDown--;
     if (secondsCountDown == 0)
     {
-        getVcodeButton.titleLabel.text = @"获取验证码";
-        [getVcodeButton setTitle:@"获取验证码" forState:UIControlStateNormal];
+        getVcodeButton.titleLabel.text = @"语音验证";
+        [getVcodeButton setTitle:@"语音验证" forState:UIControlStateNormal];
         [getVcodeButton setUserInteractionEnabled:YES];
         [countDownTimer invalidate];
     }

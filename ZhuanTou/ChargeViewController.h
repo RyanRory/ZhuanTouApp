@@ -18,6 +18,7 @@
     UIView *view, *bgView;
     UIToolbar *toolBar;
     NSArray *bankArray;
+    NSDictionary *dailyLimit;
     int bankTemp;
 }
 

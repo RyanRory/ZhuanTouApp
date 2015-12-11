@@ -115,7 +115,7 @@
             bonusNumLabel.text = [NSString stringWithFormat:@"%@",[responseObject objectForKey:@"acitveCouponsAmount"]];
             securityLabel.text = [responseObject objectForKey:@"levelStr"];
             NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-            [userDefault setObject:[NSString stringWithFormat:@"%@",[responseObject objectForKey:@"mobilePhone"]] forKey:PHONENUM];
+            [userDefault setObject:[NSString stringWithFormat:@"%@",[responseObject objectForKey:@"mobilePhone"]] forKey:CURRENTPHONE];
             [userDefault synchronize];
         }
         else

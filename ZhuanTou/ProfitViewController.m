@@ -96,7 +96,7 @@
         int f1 = str.intValue;
         if (f1 == 1)
         {
-            dingqi = ((NSString*)[responseObject objectForKey:@"activeInvestTotalAmount"]).doubleValue;
+            dingqi = ((NSString*)[responseObject objectForKey:@"activeInvestAmount"]).doubleValue;
             huoqi = ((NSString*)[responseObject objectForKey:@"ztbBalance"]).doubleValue;
             balance = ((NSString*)[responseObject objectForKey:@"fundsAvailable"]).doubleValue;
             total = ((NSString*)[responseObject objectForKey:@"totalAsset"]).doubleValue;

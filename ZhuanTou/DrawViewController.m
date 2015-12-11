@@ -16,7 +16,7 @@
 
 @synthesize editView, editTextField, descriptionLabel, drawNumLabel, confirmButton, drawCostLabel, drawCostDescriptionLabel, noFeeLabel, drawPreTimeLabel;
 @synthesize bankCardView, bankImageView, bankNameLabel, cardNumLabel, branchLabel;
-@synthesize noBankCardView, bankLabel, bankcardNoTextField, bankcardDetailButton, branchTextField, balanceLabel, chooseProvinceButton, chooseCityButton, chooseBankButton, provinceLabel, cityLabel, NBCVconfirmButton, NBCVnoFeeNumLabel, limitLabel, drawNumTextField, phoneNumLabel, smsCodeTextField, getSmsCodeButton, preTimeLabel, costLabel;
+@synthesize noBankCardView, bankLabel, bankcardNoTextField, branchTextField, balanceLabel, chooseProvinceButton, chooseCityButton, chooseBankButton, provinceLabel, cityLabel, NBCVconfirmButton, NBCVnoFeeNumLabel, drawNumTextField, phoneNumLabel, smsCodeTextField, getSmsCodeButton, preTimeLabel, costLabel;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -127,8 +127,6 @@
     NSString *URL = [BASEURL stringByAppendingString:@"api/account/getAppBankCards"];
     [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSArray *responseObject) {
         NSLog(@"%@", responseObject);
-//        NSString *str = [responseObject objectForKey:@"isSuccess"];
-//        int f1 = str.intValue;
         if (responseObject.count > 0)
         {
             bankCardView.hidden = NO;
@@ -192,7 +190,7 @@
 
             noBankCardView.hidden = NO;
             NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-            phoneNumLabel.text = [NSString stringWithFormat:@"将向您的%@手机发送验证码：", [userDefault objectForKey:PHONENUM]];
+            phoneNumLabel.text = [NSString stringWithFormat:@"将向您的%@手机发送验证码：", [userDefault objectForKey:CURRENTPHONE]];
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -231,6 +229,43 @@
         hud.labelText = @"当前网络状况不佳，请重试";
         [hud hide:YES afterDelay:1.5f];
     }];
+    
+    AFHTTPRequestOperationManager *manager2 = [AFHTTPRequestOperationManager manager];
+    NSString *URL2 = [BASEURL stringByAppendingString:@"api/withdraw/confirmDate"];
+    [manager2 GET:URL2 parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"%@", responseObject);
+        NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];//实例化一个NSDateFormatter对象
+        [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];//设定时间格式
+        NSDate *daozhangDate = [dateFormat dateFromString:responseObject];
+        if ([daozhangDate timeIntervalSinceNow] <= 0.0)
+        {
+            preTimeLabel.text = @"预计到账时间：今天24点前";
+        }
+        else if ([daozhangDate timeIntervalSinceNow] <= 24*60*60)
+        {
+            preTimeLabel.text = @"预计到账时间：明天24点前";
+        }
+        else
+        {
+            NSCalendar* calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+            NSDateComponents* components = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:daozhangDate];
+            
+            long year = [components year];
+            long month = [components month];
+            long day = [components day];
+            
+            preTimeLabel.text = [NSString stringWithFormat:@"预计到账时间：%ld年%ld月%ld日24点前", year, month, day];
+        }
+        
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+        hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = @"当前网络状况不佳，请重试";
+        [hud hide:YES afterDelay:1.5f];
+    }];
+
 }
 
 - (void)backToParent:(id)sender
@@ -246,6 +281,16 @@
         hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.mode = MBProgressHUDModeCustomView;
         hud.labelText = @"超出当前账户余额";
+        [hud hide:YES afterDelay:1.5f];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [editTextField becomeFirstResponder];
+        });
+    }
+    else if (editTextField.text.doubleValue < 100)
+    {
+        hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.mode = MBProgressHUDModeCustomView;
+        hud.labelText = @"提现金额不低于100元";
         [hud hide:YES afterDelay:1.5f];
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [editTextField becomeFirstResponder];
@@ -356,7 +401,7 @@
 
 - (IBAction)buttonEnableListener:(id)sender
 {
-    if ((editTextField.text.length > 0) && (editTextField.text.doubleValue >= 100.00))
+    if ((editTextField.text.length > 0) && (editTextField.text.length > 0))
     {
         [confirmButton setUserInteractionEnabled:YES];
         [confirmButton setAlpha:1.0f];
@@ -487,9 +532,42 @@
 
 - (void)getSmsCode:(id)sender
 {
-    secondsCountDown = 60;
-    countDownTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timeFireMethod) userInfo:nil repeats:YES];
-    [getSmsCodeButton setUserInteractionEnabled:NO];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSString *isYuyin;
+    if ([getSmsCodeButton.titleLabel.text isEqualToString:@"语音验证"])
+    {
+        isYuyin = @"/true";
+    }
+    else
+    {
+        isYuyin = @"";
+    }
+    NSString *URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/withdraw/sendAddSms%@",isYuyin]];
+    [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+        NSLog(@"%@", responseObject);
+        NSString *str = [responseObject objectForKey:@"isSuccess"];
+        int f = str.intValue;
+        if (f == 0)
+        {
+            hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            hud.mode = MBProgressHUDModeCustomView;
+            hud.labelText = [responseObject objectForKey:@"errorMessage"];
+            [hud hide:YES afterDelay:1.5f];
+        }
+        else
+        {
+            secondsCountDown = 60;
+            countDownTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timeFireMethod) userInfo:nil repeats:YES];
+            [getSmsCodeButton setUserInteractionEnabled:NO];
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+        hud.mode = MBProgressHUDModeCustomView;
+        hud.labelText = @"获取短信验证码失败，请重试";
+        [hud hide:YES afterDelay:1.5f];
+    }];
+
 }
 
 - (void)timeFireMethod
@@ -497,8 +575,8 @@
     secondsCountDown--;
     if (secondsCountDown == 0)
     {
-        getSmsCodeButton.titleLabel.text = @"获取验证码";
-        [getSmsCodeButton setTitle:@"获取验证码" forState:UIControlStateNormal];
+        getSmsCodeButton.titleLabel.text = @"语音验证";
+        [getSmsCodeButton setTitle:@"语音验证" forState:UIControlStateNormal];
         [getSmsCodeButton setUserInteractionEnabled:YES];
         [countDownTimer invalidate];
     }

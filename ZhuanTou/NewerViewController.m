@@ -230,19 +230,6 @@
                 registerBonusOpenedImageView.hidden = NO;
                 [registerBonus.layer removeAllAnimations];
             }
-            
-            if (!bonus2)
-            {
-                shakeTimer1 = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(shake:) userInfo:investBonus repeats:YES];
-                investBonusOpenedImageView.hidden = YES;
-                [investBonusButton setUserInteractionEnabled:YES];
-            }
-            else
-            {
-                investBonusImageView.hidden = YES;
-                investBonusOpenedImageView.hidden = NO;
-                [investBonus.layer removeAllAnimations];
-            }
             break;
             
         default:
@@ -301,6 +288,7 @@
             {
                 shakeTimer1 = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(shake:) userInfo:investBonus repeats:YES];
                 investBonusOpenedImageView.hidden = YES;
+                investBonusImageView.image = [UIImage imageNamed:@"newerBonusRed.png"];
                 [investBonusButton setUserInteractionEnabled:YES];
             }
             else
@@ -659,7 +647,19 @@
                     secureLabel.textColor = ZTBLUE;
                     secureDescriptionLabel.textColor = ZTBLUE;
                     secureLine.backgroundColor = ZTBLUE;
-                    [self performSelector:@selector(clickSecureButton:) withObject:secureButton afterDelay:0];
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        chargeBlueHand.hidden = NO;
+                        blueHandFrame = chargeBlueHand.frame;
+                        blueHandTimer = [NSTimer scheduledTimerWithTimeInterval:0.8 target:self selector:@selector(blueHandAnimation:) userInfo:[NSArray arrayWithObjects:chargeBlueHand, chargeLight, nil] repeats:YES];
+                    });
+                    secureButton.selected = !secureButton.selected;
+                    secureHand.hidden = YES;
+                    [self transPosition:chargeView moveY:0 duration:0.2];
+                    [self transPosition:secureView moveY:0 duration:0.2];
+                    secureContentView.transform = CGAffineTransformMakeTranslation(0, (secureViewFrame.size.height-82));
+                    secureContentView.hidden = YES;
+                    [secureButton setUserInteractionEnabled:NO];
+                    [chargeButton setUserInteractionEnabled:YES];
                 }
             }
             
@@ -708,7 +708,19 @@
                     secureLabel.textColor = ZTBLUE;
                     secureDescriptionLabel.textColor = ZTBLUE;
                     secureLine.backgroundColor = ZTBLUE;
-                    [self performSelector:@selector(clickSecureButton:) withObject:secureButton afterDelay:0];
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        chargeBlueHand.hidden = NO;
+                        blueHandFrame = chargeBlueHand.frame;
+                        blueHandTimer = [NSTimer scheduledTimerWithTimeInterval:0.8 target:self selector:@selector(blueHandAnimation:) userInfo:[NSArray arrayWithObjects:chargeBlueHand, chargeLight, nil] repeats:YES];
+                    });
+                    secureButton.selected = !secureButton.selected;
+                    secureHand.hidden = YES;
+                    [self transPosition:chargeView moveY:0 duration:0.2];
+                    [self transPosition:secureView moveY:0 duration:0.2];
+                    secureContentView.transform = CGAffineTransformMakeTranslation(0, (secureViewFrame.size.height-82));
+                    secureContentView.hidden = YES;
+                    [secureButton setUserInteractionEnabled:NO];
+                    [chargeButton setUserInteractionEnabled:YES];
                 }
             }
             
