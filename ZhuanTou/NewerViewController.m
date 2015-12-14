@@ -81,8 +81,15 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    switch (status) {
-        case 0:
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSString *URL = [BASEURL stringByAppendingString:@"api/account/freshmanStatus"];
+    [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+        NSLog(@"%@", responseObject);
+        [hud hide:YES];
+        if (![NSString stringWithFormat:@"%@", [responseObject objectForKey:@"registered"]].boolValue)
+        {
+            status = 0;
             [registerButton setUserInteractionEnabled:YES];
             [secureButton setUserInteractionEnabled:NO];
             [chargeButton setUserInteractionEnabled:NO];
@@ -93,9 +100,11 @@
                 registerBlueHand.hidden = NO;
                 blueHandTimer = [NSTimer scheduledTimerWithTimeInterval:0.8 target:self selector:@selector(blueHandAnimation:) userInfo:[NSArray arrayWithObjects:registerBlueHand, registerLight, nil] repeats:YES];
             }
-            break;
-            
-        case 1:
+
+        }
+        else if (![NSString stringWithFormat:@"%@", [responseObject objectForKey:@"realnameSettled"]].boolValue)
+        {
+            status = 1;
             [registerButton setUserInteractionEnabled:NO];
             [secureButton setUserInteractionEnabled:YES];
             [chargeButton setUserInteractionEnabled:NO];
@@ -120,6 +129,7 @@
                 registerContentView.hidden = YES;
             }
             
+            bonus1 = [NSString stringWithFormat:@"%@", [responseObject objectForKey:@"freshman10Got"]].boolValue;
             if (!bonus1)
             {
                 shakeTimer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(shake:) userInfo:registerBonus repeats:YES];
@@ -133,9 +143,10 @@
                 registerBonusOpenedImageView.hidden = NO;
                 [registerBonus.layer removeAllAnimations];
             }
-            break;
-            
-        case 2:
+
+        }
+        else if (![NSString stringWithFormat:@"%@", [responseObject objectForKey:@"charged"]].boolValue)
+        {
             [registerButton setUserInteractionEnabled:NO];
             [secureButton setUserInteractionEnabled:NO];
             [chargeButton setUserInteractionEnabled:YES];
@@ -166,6 +177,7 @@
                 secureContentView.hidden = YES;
             }
             
+            bonus1 = [NSString stringWithFormat:@"%@", [responseObject objectForKey:@"freshman10Got"]].boolValue;
             if (!bonus1)
             {
                 shakeTimer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(shake:) userInfo:registerBonus repeats:YES];
@@ -179,9 +191,10 @@
                 registerBonusOpenedImageView.hidden = NO;
                 [registerBonus.layer removeAllAnimations];
             }
-            break;
-            
-        case 3:
+        }
+        else if (![NSString stringWithFormat:@"%@", [responseObject objectForKey:@"investorAchieved"]].boolValue)
+        {
+            status = 3;
             [registerButton setUserInteractionEnabled:NO];
             [secureButton setUserInteractionEnabled:NO];
             [chargeButton setUserInteractionEnabled:NO];
@@ -217,6 +230,7 @@
                 chargeContentView.hidden = YES;
             }
             
+            bonus1 = [NSString stringWithFormat:@"%@", [responseObject objectForKey:@"freshman10Got"]].boolValue;
             if (!bonus1)
             {
                 shakeTimer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(shake:) userInfo:registerBonus repeats:YES];
@@ -230,9 +244,11 @@
                 registerBonusOpenedImageView.hidden = NO;
                 [registerBonus.layer removeAllAnimations];
             }
-            break;
-            
-        default:
+
+        }
+        else
+        {
+            status = 4;
             [registerButton setUserInteractionEnabled:NO];
             [secureButton setUserInteractionEnabled:NO];
             [chargeButton setUserInteractionEnabled:NO];
@@ -270,6 +286,7 @@
                 investContentView.hidden = YES;
             }
             
+            bonus1 = [NSString stringWithFormat:@"%@", [responseObject objectForKey:@"freshman10Got"]].boolValue;
             if (!bonus1)
             {
                 shakeTimer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(shake:) userInfo:registerBonus repeats:YES];
@@ -284,6 +301,7 @@
                 [registerBonus.layer removeAllAnimations];
             }
             
+            bonus2 = [NSString stringWithFormat:@"%@", [responseObject objectForKey:@"freshman50Got"]].boolValue;
             if (!bonus2)
             {
                 shakeTimer1 = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(shake:) userInfo:investBonus repeats:YES];
@@ -297,8 +315,15 @@
                 investBonusOpenedImageView.hidden = NO;
                 [investBonus.layer removeAllAnimations];
             }
-            break;
-    }
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = @"当前网络状况不佳，请重试";
+        [hud hide:YES afterDelay:1.5f];
+    }];
+
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -397,7 +422,6 @@
 
 - (void)clickSecureButton:(id)sender
 {
-    status = 2;
     [realNameTextField resignFirstResponder];
     [idCardNoTextField resignFirstResponder];
     [tradePswdTextField resignFirstResponder];
@@ -562,7 +586,6 @@
 
 - (void)toRegister:(id)sender
 {
-    status = 1;
     RegisterViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"RegisterViewController"];
     vc.isFromNewer = true;
     [[self navigationController] pushViewController:vc animated:YES];
@@ -744,7 +767,6 @@
 
 - (void)toCharge:(id)sender
 {
-    status = 3;
     ChargeViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ChargeViewController"];
     [[self navigationController]pushViewController:vc animated:YES];
 }
@@ -767,7 +789,6 @@
 
 - (void)toBuyWenjian:(id)sender
 {
-    status = 4;
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     AFHTTPRequestOperationManager * manager = [AFHTTPRequestOperationManager manager];
     NSString *URL = [BASEURL stringByAppendingString:@"api/fofProd/0"];
@@ -793,7 +814,6 @@
 
 - (void)toBuyZonghe:(id)sender
 {
-    status = 4;
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     AFHTTPRequestOperationManager * manager = [AFHTTPRequestOperationManager manager];
     NSString *URL = [BASEURL stringByAppendingString:@"api/fofProd/1"];
@@ -821,28 +841,64 @@
 {
     [shakeTimer invalidate];
     [registerBonus.layer removeAllAnimations];
-    bonus1 = true;
-    registerBonusOpenedImageView.hidden = NO;
-    registerBounsImageView.hidden = YES;
-    [registerBonusButton setUserInteractionEnabled:NO];
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    hud.mode = MBProgressHUDModeCustomView;
-    hud.labelText = @"红包领取成功";
-    [hud hide:YES afterDelay:1.5f];
+    AFHTTPRequestOperationManager * manager = [AFHTTPRequestOperationManager manager];
+    NSString *URL = [BASEURL stringByAppendingString:@"api/account/drawCoupon/FRESHMAN10"];
+    [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+        NSLog(@"%@", responseObject);
+        if ([NSString stringWithFormat:@"%@", [responseObject objectForKey:@"isSuccess"]].boolValue)
+        {
+            registerBonusOpenedImageView.hidden = NO;
+            registerBounsImageView.hidden = YES;
+            [registerBonusButton setUserInteractionEnabled:NO];
+            hud.mode = MBProgressHUDModeCustomView;
+            hud.labelText = @"红包领取成功";
+            [hud hide:YES afterDelay:1.5f];
+        }
+        else
+        {
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = [responseObject objectForKey:@"errorMessage"];
+            [hud hide:YES afterDelay:1.5f];
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = @"当前网络状况不佳，请重试";
+        [hud hide:YES afterDelay:1.5f];
+    }];
 }
 
 - (void)openInvestBonus:(id)sender
 {
     [shakeTimer1 invalidate];
     [investBonus.layer removeAllAnimations];
-    bonus2 = true;
-    investBonusOpenedImageView.hidden = NO;
-    investBonusImageView.hidden = YES;
-    [investBonusButton setUserInteractionEnabled:NO];
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    hud.mode = MBProgressHUDModeCustomView;
-    hud.labelText = @"红包领取成功";
-    [hud hide:YES afterDelay:1.5f];
+    AFHTTPRequestOperationManager * manager = [AFHTTPRequestOperationManager manager];
+    NSString *URL = [BASEURL stringByAppendingString:@"api/account/drawCoupon/FRESHMAN666"];
+    [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+        NSLog(@"%@", responseObject);
+        if ([NSString stringWithFormat:@"%@", [responseObject objectForKey:@"isSuccess"]].boolValue)
+        {
+            investBonusOpenedImageView.hidden = NO;
+            investBonusImageView.hidden = YES;
+            [investBonusButton setUserInteractionEnabled:NO];
+            hud.mode = MBProgressHUDModeCustomView;
+            hud.labelText = @"红包领取成功";
+            [hud hide:YES afterDelay:1.5f];
+        }
+        else
+        {
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = [responseObject objectForKey:@"errorMessage"];
+            [hud hide:YES afterDelay:1.5f];
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = @"当前网络状况不佳，请重试";
+        [hud hide:YES afterDelay:1.5f];
+    }];
 }
 
 - (void)blueHandAnimation:(NSTimer*) timer

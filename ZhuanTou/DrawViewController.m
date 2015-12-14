@@ -232,31 +232,10 @@
     
     AFHTTPRequestOperationManager *manager2 = [AFHTTPRequestOperationManager manager];
     NSString *URL2 = [BASEURL stringByAppendingString:@"api/withdraw/confirmDate"];
-    [manager2 GET:URL2 parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [manager2 GET:URL2 parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
         NSLog(@"%@", responseObject);
-        NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];//实例化一个NSDateFormatter对象
-        [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];//设定时间格式
-        NSDate *daozhangDate = [dateFormat dateFromString:responseObject];
-        if ([daozhangDate timeIntervalSinceNow] <= 0.0)
-        {
-            preTimeLabel.text = @"预计到账时间：今天24点前";
-        }
-        else if ([daozhangDate timeIntervalSinceNow] <= 24*60*60)
-        {
-            preTimeLabel.text = @"预计到账时间：明天24点前";
-        }
-        else
-        {
-            NSCalendar* calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-            NSDateComponents* components = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:daozhangDate];
-            
-            long year = [components year];
-            long month = [components month];
-            long day = [components day];
-            
-            preTimeLabel.text = [NSString stringWithFormat:@"预计到账时间：%ld年%ld月%ld日24点前", year, month, day];
-        }
-        
+        preTimeLabel.text = [NSString stringWithFormat:@"预计到账时间：%@", [responseObject objectForKey:@"dateDesc"]];
+        drawPreTimeLabel.text = [NSString stringWithFormat:@"预计到账时间：%@", [responseObject objectForKey:@"dateDesc"]];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
@@ -461,7 +440,23 @@
     }
     else
     {
-        
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"请输入交易密码" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField){
+            textField.secureTextEntry = YES;
+            textField.returnKeyType = UIReturnKeyDone;
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(alertTextFieldDidChange:) name:UITextFieldTextDidChangeNotification object:textField];
+        }];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+        UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
+            UITextField *tradePswdTextField = alertController.textFields.firstObject;
+            [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextFieldTextDidChangeNotification object:nil];
+            [self draw:tradePswdTextField.text];
+        }];
+        [alertController addAction:cancelAction];
+        [alertController addAction:confirmAction];
+        confirmAction.enabled = NO;
+        [self presentViewController:alertController animated:YES completion:nil];
+
     }
 
 }

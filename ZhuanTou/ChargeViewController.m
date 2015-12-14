@@ -228,7 +228,16 @@
             NSURL*url = [NSURL URLWithString:[BASEURL stringByAppendingString:@"account/RenzhengSDKCharge"]];
             NSMutableURLRequest*request = [NSMutableURLRequest requestWithURL:url];
             [request setHTTPMethod:@"POST"];
-            NSString *para = [NSString stringWithFormat:@"txn_amt=%.2f",editTextField.text.doubleValue];
+            NSString *para;
+            if (noBankCardView.hidden)
+            {
+                para = [NSString stringWithFormat:@"txn_amt=%.2f",editTextField.text.doubleValue];
+            }
+            else
+            {
+                para = [NSString stringWithFormat:@"txn_amt=%.2f&CardCode=%@&BankCode=%@&MobilePhone=%@", editTextField.text.doubleValue, bankcardNoTextField.text, [[NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"bankCodeList" ofType:@"plist"]] objectForKey:bankLabel.text], phoneNumTextField.text];
+            }
+            NSLog(@"%@",[para dataUsingEncoding:NSUTF8StringEncoding]);
             [request setHTTPBody:[para dataUsingEncoding:NSUTF8StringEncoding]];
             NSOperationQueue *queue = [[NSOperationQueue alloc] init];
             [NSURLConnection sendAsynchronousRequest:request queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
