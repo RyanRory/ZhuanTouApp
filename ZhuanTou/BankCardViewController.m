@@ -78,7 +78,7 @@
             {
                 branchLabel.text = [[responseObject[0] objectForKey:@"subBankName"] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
             }
-            cardNumLabel.text = [responseObject[0] objectForKey:@"cardCode"];
+            cardNumLabel.text = [responseObject[0] objectForKey:@"cardCodeDisplay"];
             oneLimitLabel.text = [responseObject[0] objectForKey:@"limitAmount"];
             dayLimitLabel.text = [responseObject[0] objectForKey:@"dailyLimit"];
             bankImage.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[responseObject[0] objectForKey:@"imgUrl"]]]];

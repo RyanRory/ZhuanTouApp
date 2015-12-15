@@ -400,7 +400,7 @@
         month = [components month];
         day = [components day];
         zongheEndTimeLabel.text = [NSString stringWithFormat:@"9:00\n%4ld-%02ld-%02ld",year,month,day];
-        [zongheData setValue:[NSString stringWithFormat:@"%4ld-%02ld-%02ld 09:00:00",year,month,day] forKey:@"endDateTime"];
+        [zongheData setValue:[NSString stringWithFormat:@"%4ld-%02ld-%02ld 15:30:00",year,month,day] forKey:@"endDateTime"];
         
         [self zongheTimeCountDown];
         zongheTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(zongheTimeCountDown) userInfo:nil repeats:YES];

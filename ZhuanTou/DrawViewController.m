@@ -129,26 +129,37 @@
         NSLog(@"%@", responseObject);
         if (responseObject.count > 0)
         {
-            bankCardView.hidden = NO;
-            bankNameLabel.text = [responseObject[0] objectForKey:@"bankName"];
-            if ([[responseObject[0] objectForKey:@"subBankName"] isKindOfClass:[NSNull class]])
+            if ([NSString stringWithFormat:@"%@", [responseObject[0] objectForKey:@"isValidated"]].boolValue)
             {
-                branchLabel.text = @"";
+                bankCardView.hidden = NO;
+                bankNameLabel.text = [responseObject[0] objectForKey:@"bankName"];
+                if ([[responseObject[0] objectForKey:@"subBankName"] isKindOfClass:[NSNull class]])
+                {
+                    branchLabel.text = @"";
+                }
+                else
+                {
+                    branchLabel.text = [[responseObject[0] objectForKey:@"subBankName"] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                }
+                cardNumLabel.text = [responseObject[0] objectForKey:@"cardCodeDisplay"];
+                bankImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[responseObject[0] objectForKey:@"imgUrl"]]]];
+                confirmButton.hidden = NO;
+                descriptionLabel.hidden = NO;
+                drawNumLabel.hidden = NO;
+                editView.hidden = NO;
+                noFeeLabel.hidden = NO;
+                drawPreTimeLabel.hidden = NO;
+                drawCostLabel.hidden = NO;
+                drawCostDescriptionLabel.hidden = NO;
             }
             else
             {
-                branchLabel.text = [[responseObject[0] objectForKey:@"subBankName"] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                noBankCardView.hidden = NO;
+                NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+                phoneNumLabel.text = [NSString stringWithFormat:@"将向您的%@手机发送验证码：", [userDefault objectForKey:CURRENTPHONE]];
+                bankcardNoTextField.text = [responseObject[0] objectForKey:@"cardCode"];
+                bankLabel.text = [responseObject[0] objectForKey:@"bankName"];
             }
-            cardNumLabel.text = [responseObject[0] objectForKey:@"cardCode"];
-            bankImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[responseObject[0] objectForKey:@"imgUrl"]]]];
-            confirmButton.hidden = NO;
-            descriptionLabel.hidden = NO;
-            drawNumLabel.hidden = NO;
-            editView.hidden = NO;
-            noFeeLabel.hidden = NO;
-            drawPreTimeLabel.hidden = NO;
-            drawCostLabel.hidden = NO;
-            drawCostDescriptionLabel.hidden = NO;
         }
         else
         {
@@ -208,9 +219,9 @@
         NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
         [formatter setPositiveFormat:@"###,##0.00"];
         drawNumLabel.text = [NSString stringWithFormat:@"%@元",[NSString stringWithString:[formatter stringFromNumber:[responseObject1 objectForKey:@"fundsAvailable"]]]];
-        noFeeLabel.text = [NSString stringWithFormat:@"(每月可免费提现3次，本与剩余免费提现次数:%@次)",[responseObject1 objectForKey:@"freeWithdrawsThisMonth"]];
+        noFeeLabel.text = [NSString stringWithFormat:@"(每月可免费提现3次，本月剩余免费提现次数:%@次)",[responseObject1 objectForKey:@"freeWithdrawsThisMonth"]];
         balanceLabel.text = [NSString stringWithFormat:@"%@元",[NSString stringWithString:[formatter stringFromNumber:[responseObject1 objectForKey:@"fundsAvailable"]]]];
-        NBCVnoFeeNumLabel.text = [NSString stringWithFormat:@"(每月可免费提现3次，本与剩余免费提现次数:%@次)",[responseObject1 objectForKey:@"freeWithdrawsThisMonth"]];
+        NBCVnoFeeNumLabel.text = [NSString stringWithFormat:@"(每月可免费提现3次，本月剩余免费提现次数:%@次)",[responseObject1 objectForKey:@"freeWithdrawsThisMonth"]];
         if ([NSString stringWithFormat:@"%@",[responseObject1 objectForKey:@"freeWithdrawsThisMonth"]].intValue == 0)
         {
             costLabel.text = @"3元";

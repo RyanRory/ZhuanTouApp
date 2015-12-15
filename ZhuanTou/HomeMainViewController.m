@@ -170,6 +170,10 @@
     [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSArray *responseObject) {
         NSLog(@"%@", responseObject);
         notices = [NSMutableArray arrayWithArray:responseObject];
+        if (notices.count == 0)
+        {
+            
+        }
         if (notices.count < 2)
         {
             [notices addObject:notices[0]];
@@ -350,12 +354,12 @@
 
 - (void)toNewer:(id)sender
 {
-//    WebDetailViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"WebDetailViewController"];
-//    vc.title = @"新手专享三重礼";
-//    [vc setURL:[BASEURL stringByAppendingString:@"Mobile/Home/Newer"]];
-//    [[self navigationController]pushViewController:vc animated:YES];
-    NewerViewController *vc = [[self storyboard] instantiateViewControllerWithIdentifier:@"NewerViewController"];
-    [[self navigationController] pushViewController:vc animated:YES];
+    WebDetailViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"WebDetailViewController"];
+    vc.title = @"新手专享三重礼";
+    [vc setURL:[BASEURL stringByAppendingString:@"Mobile/Home/Newer"]];
+    [[self navigationController]pushViewController:vc animated:YES];
+//    NewerViewController *vc = [[self storyboard] instantiateViewControllerWithIdentifier:@"NewerViewController"];
+//    [[self navigationController] pushViewController:vc animated:YES];
 }
 
 - (void)zongheTimeCountDown
