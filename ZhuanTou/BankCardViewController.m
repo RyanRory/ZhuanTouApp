@@ -114,7 +114,7 @@
         {
             [hud hide:YES];
             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"为了您的资金安全，您的充值提现将被限制使用同一张卡，请填写真实常用的银行卡信息。" preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"朕知道了" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
+            UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
                 AddBankCardViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"AddBankCardViewController"];
                 [vc setFullName:[responseObject objectForKey:@"fullName"]];
                 [[self navigationController]pushViewController:vc animated:YES];

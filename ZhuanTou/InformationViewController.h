@@ -13,10 +13,7 @@
 #import "SetpasswordViewController.h"
 
 @interface InformationViewController : UIViewController
-{
-    NSString *smsCode;
-    NSString *phoneNum;
-}
+
 @property (strong, nonatomic) IBOutlet UIView *textView;
 @property (strong, nonatomic) IBOutlet UITextField *usernameTextField;
 @property (strong, nonatomic) IBOutlet UITextField *passwordTextField;
@@ -25,6 +22,8 @@
 @property (strong, nonatomic) IBOutlet UITextField *recommendTextField;
 
 @property (readwrite, nonatomic) BOOL isFromNewer;
+@property (readwrite, nonatomic) NSString *smsCode;
+@property (readwrite, nonatomic) NSString *phoneNum;
 
 - (IBAction)textFiledReturnEditing:(id)sender;
 

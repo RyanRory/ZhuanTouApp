@@ -15,6 +15,7 @@
 @implementation InformationViewController
 
 @synthesize usernameTextField, passwordTextField, pswdAgainTextFiled, nextButton, textView, recommendTextField;
+@synthesize phoneNum, smsCode;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -81,8 +82,14 @@
         [nextButton setUserInteractionEnabled:NO];
         [nextButton setAlpha:0.6f];
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        smsCode = [userDefaults objectForKey:SMSCODE];
-        phoneNum = [userDefaults objectForKey:PHONENUM];
+        if (smsCode.length == 0)
+        {
+            smsCode = [userDefaults objectForKey:SMSCODE];
+        }
+        if (phoneNum.length == 0)
+        {
+            phoneNum = [userDefaults objectForKey:PHONENUM];
+        }
         
         hud.mode = MBProgressHUDModeIndeterminate;
         [hud show:YES];

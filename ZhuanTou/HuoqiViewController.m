@@ -73,6 +73,11 @@
     [self setupData];
     showTimes = 0;
     
+    [buyButton setUserInteractionEnabled:NO];
+    [buyButton setAlpha:0.6f];
+    [drawButton setUserInteractionEnabled:NO];
+    [drawButton setAlpha:0.6f];
+    
     scrollView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         [self setupData];
     }];
@@ -171,6 +176,10 @@
         {
             [scrollView.mj_header endRefreshing];
         }
+        [buyButton setUserInteractionEnabled:YES];
+        [buyButton setAlpha:1.0f];
+        [drawButton setUserInteractionEnabled:YES];
+        [drawButton setAlpha:1.0f];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);

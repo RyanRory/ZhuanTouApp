@@ -14,14 +14,14 @@
 {
     int secondsCountDown;
     NSTimer *countDownTimer;
-    NSString *phoneNum;
-    NSString *vCode;
     NSString *style;
 }
 @property (strong, nonatomic) IBOutlet UIView *textView;
 @property (strong, nonatomic) IBOutlet UITextField *phoneVcodeTextField;
 @property (strong, nonatomic) IBOutlet UIButton *getVcodeButton;
 @property (strong, nonatomic) IBOutlet UIButton *nextButton;
+@property (readwrite, nonatomic) NSString *phoneNum;
+@property (readwrite, nonatomic) NSString *vCode;
 
 @property (readwrite, nonatomic) BOOL isFromNewer;
 

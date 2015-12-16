@@ -159,6 +159,33 @@
                 phoneNumLabel.text = [NSString stringWithFormat:@"将向您的%@手机发送验证码：", [userDefault objectForKey:CURRENTPHONE]];
                 bankcardNoTextField.text = [responseObject[0] objectForKey:@"cardCode"];
                 bankLabel.text = [responseObject[0] objectForKey:@"bankName"];
+                bankLabel.textColor = ZTGRAY;
+                if ([[responseObject[0] objectForKey:@"subBankName"] isKindOfClass:[NSNull class]])
+                {
+                    branchTextField.text = @"";
+                }
+                else
+                {
+                    branchTextField.text = [[responseObject[0] objectForKey:@"subBankName"] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                }
+                if ([[responseObject[0] objectForKey:@"province"] isKindOfClass:[NSNull class]])
+                {
+                    provinceLabel.text = @"请选择";
+                }
+                else
+                {
+                    provinceLabel.text = [responseObject[0] objectForKey:@"province"];
+                    provinceLabel.textColor = ZTGRAY;
+                }
+                if ([[responseObject[0] objectForKey:@"city"] isKindOfClass:[NSNull class]])
+                {
+                    cityLabel.text = @"请选择";
+                }
+                else
+                {
+                    cityLabel.text = [responseObject[0] objectForKey:@"city"];
+                    cityLabel.textColor = ZTGRAY;
+                }
             }
         }
         else
@@ -172,7 +199,7 @@
                 if (f1 == 1)
                 {
                     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"为了您的资金安全，您的资金将被限制同卡进出，请填写真实银行卡信息。" preferredStyle:UIAlertControllerStyleAlert];
-                    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"朕知道了" style:UIAlertActionStyleCancel handler:nil];
+                    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
                     [alertController addAction:confirmAction];
                     [self presentViewController:alertController animated:YES completion:nil];
                 }
@@ -289,7 +316,7 @@
     else if (!(branchLabel.text.length > 0))
     {
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"为了您的资金安全，需补充银行卡的以下信息后才能提现。" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"朕知道了" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
+        UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
             CompleteBankCardInfoViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"CompleteBankCardInfoViewController"];
             vc.bankNameLabel.text = bankNameLabel.text;
             vc.bankCardNoLabel.text = cardNumLabel.text;
@@ -425,14 +452,12 @@
     [branchTextField resignFirstResponder];
     [smsCodeTextField resignFirstResponder];
     
-    hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    hud.mode = MBProgressHUDModeIndeterminate;
-    
     NSString *cardReg = @"^[0-9]{16,30}$";
     NSPredicate *regextestId = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", cardReg];
     
     if(![regextestId evaluateWithObject: bankcardNoTextField.text])
     {
+        hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.mode = MBProgressHUDModeCustomView;
         hud.labelText = @"请检查您的银行卡号码是否正确";
         [hud hide:YES afterDelay:1.5f];
@@ -442,11 +467,22 @@
     }
     else if (![[NSPredicate predicateWithFormat:@"SELF MATCHES %@",@"^[0-9]{4}$"] evaluateWithObject:smsCodeTextField.text])
     {
+        hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.mode = MBProgressHUDModeCustomView;
         hud.labelText = @"请检查验证码是否正确";
         [hud hide:YES afterDelay:1.5f];
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [smsCodeTextField becomeFirstResponder];
+        });
+    }
+    else if (drawNumTextField.text.doubleValue < 100)
+    {
+        hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.mode = MBProgressHUDModeCustomView;
+        hud.labelText = @"提现金额不低于100元";
+        [hud hide:YES afterDelay:1.5f];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [drawNumTextField becomeFirstResponder];
         });
     }
     else

@@ -250,6 +250,9 @@
 		A49AA6A91C167BA10087F060 /* newerSecureBlue.png in Resources */ = {isa = PBXBuildFile; fileRef = A49AA69B1C167BA10087F060 /* newerSecureBlue.png */; };
 		A49AA6AA1C167BA10087F060 /* newerSecureGray.png in Resources */ = {isa = PBXBuildFile; fileRef = A49AA69C1C167BA10087F060 /* newerSecureGray.png */; };
 		A49AA6AE1C168C450087F060 /* NewerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A49AA6AD1C168C450087F060 /* NewerViewController.m */; };
+		A4A60E131C2162530032EA6A /* registerSuccess@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4A60E121C2162530032EA6A /* registerSuccess@3x.png */; };
+		A4A60E151C2162630032EA6A /* registerSuccess@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4A60E141C2162630032EA6A /* registerSuccess@2x.png */; };
+		A4A60E171C2162700032EA6A /* registerSuccess.png in Resources */ = {isa = PBXBuildFile; fileRef = A4A60E161C2162700032EA6A /* registerSuccess.png */; };
 		A4AE22061BE7655200101B89 /* 方正楷体简体.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A4AE22051BE7655200101B89 /* 方正楷体简体.ttf */; };
 		A4AE22131BE777EF00101B89 /* homeActive@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4AE22121BE777EF00101B89 /* homeActive@3x.png */; };
 		A4B227841BD3516F0020C4D5 /* KnobButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A4B2277D1BD3516F0020C4D5 /* KnobButton.m */; };
@@ -684,6 +687,9 @@
 		A49AA69C1C167BA10087F060 /* newerSecureGray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = newerSecureGray.png; path = "images/@1x/newerSecureGray.png"; sourceTree = "<group>"; };
 		A49AA6AC1C168C450087F060 /* NewerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewerViewController.h; sourceTree = "<group>"; };
 		A49AA6AD1C168C450087F060 /* NewerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewerViewController.m; sourceTree = "<group>"; };
+		A4A60E121C2162530032EA6A /* registerSuccess@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "registerSuccess@3x.png"; path = "images/@3x/registerSuccess@3x.png"; sourceTree = "<group>"; };
+		A4A60E141C2162630032EA6A /* registerSuccess@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "registerSuccess@2x.png"; path = "images/@2x/registerSuccess@2x.png"; sourceTree = "<group>"; };
+		A4A60E161C2162700032EA6A /* registerSuccess.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = registerSuccess.png; path = "images/@1x/registerSuccess.png"; sourceTree = "<group>"; };
 		A4AE22051BE7655200101B89 /* 方正楷体简体.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "方正楷体简体.ttf"; sourceTree = "<group>"; };
 		A4AE22121BE777EF00101B89 /* homeActive@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "homeActive@3x.png"; path = "images/@3x/homeActive@3x.png"; sourceTree = "<group>"; };
 		A4B2277C1BD3516F0020C4D5 /* KnobButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KnobButton.h; path = SimpleSwitch/KnobButton.h; sourceTree = "<group>"; };
@@ -1003,6 +1009,7 @@
 		A41C6B711BBAAF9E006B731D /* @1x */ = {
 			isa = PBXGroup;
 			children = (
+				A4A60E161C2162700032EA6A /* registerSuccess.png */,
 				A4DFA2C81C192AF50050F366 /* newerBonusOpened.png */,
 				A49AA68F1C167BA10087F060 /* infoDetail.png */,
 				A49AA6901C167BA10087F060 /* newerBonusRed.png */,
@@ -1098,6 +1105,7 @@
 		A41C6B721BBAAFA7006B731D /* @2x */ = {
 			isa = PBXGroup;
 			children = (
+				A4A60E141C2162630032EA6A /* registerSuccess@2x.png */,
 				A4DFA2C61C192AE40050F366 /* newerBonusOpened@2x.png */,
 				A49AA6731C167B950087F060 /* infoDetail@2x.png */,
 				A49AA6741C167B950087F060 /* newerBonusRed@2x.png */,
@@ -1193,6 +1201,7 @@
 		A41C6B731BBAAFC0006B731D /* @3x */ = {
 			isa = PBXGroup;
 			children = (
+				A4A60E121C2162530032EA6A /* registerSuccess@3x.png */,
 				A4DFA2C41C192AD10050F366 /* newerBonusOpened@3x.png */,
 				A49AA6571C167B870087F060 /* infoDetail@3x.png */,
 				A49AA6581C167B870087F060 /* newerBonusRed@3x.png */,
@@ -1650,6 +1659,7 @@
 				A43174731BD492940001FC53 /* pNoProduct.png in Resources */,
 				A4BBC2061BD10DA1006331AC /* uHuoqi.png in Resources */,
 				A463EAC51BD6358400CAF146 /* wave@2x.png in Resources */,
+				A4A60E131C2162530032EA6A /* registerSuccess@3x.png in Resources */,
 				A41C6B3D1BB9849E006B731D /* LaunchScreen.storyboard in Resources */,
 				A431746E1BD492940001FC53 /* pAmount.png in Resources */,
 				A44A9BFA1BF03F3E00FE6F2E /* inProduct@2x.png in Resources */,
@@ -1714,6 +1724,7 @@
 				A44AFA421BCF4801002A8AC4 /* profitIcon.png in Resources */,
 				A431745B1BD4927A0001FC53 /* pNoProduct@3x.png in Resources */,
 				A49AA6851C167B950087F060 /* newerChargeGray@2x.png in Resources */,
+				A4A60E151C2162630032EA6A /* registerSuccess@2x.png in Resources */,
 				A4BBC2001BD10DA1006331AC /* buyAmoutIcon.png in Resources */,
 				A49AA6701C167B870087F060 /* newerRegisterGray@3x.png in Resources */,
 				A49AA66E1C167B870087F060 /* newerLight@3x.png in Resources */,
@@ -1858,6 +1869,7 @@
 				A44A9C041BF03F4D00FE6F2E /* inProduct.png in Resources */,
 				A44AF9FA1BCF47E1002A8AC4 /* profitIcon@3x.png in Resources */,
 				A42EA2E41BDF835500E35F5F /* inbuildingTag.png in Resources */,
+				A4A60E171C2162700032EA6A /* registerSuccess.png in Resources */,
 				A405AC691BC91210002BFCE9 /* loginLogo@2x.png in Resources */,
 				A44AFA371BCF4801002A8AC4 /* account.png in Resources */,
 				A4DFA2C51C192AD10050F366 /* newerBonusOpened@3x.png in Resources */,

@@ -39,6 +39,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *chooseBankButton;
 @property (strong, nonatomic) IBOutlet UILabel *bankLabel;
 @property (strong, nonatomic) IBOutlet UILabel *limitLabel;
+@property (strong, nonatomic) IBOutlet UITextField *phoneNumTextField;
 
 
 - (IBAction)textFiledReturnEditing:(id)sender;

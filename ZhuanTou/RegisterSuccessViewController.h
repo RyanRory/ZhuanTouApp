@@ -12,5 +12,6 @@
 @interface RegisterSuccessViewController : UIViewController
 
 @property (strong, nonatomic) IBOutlet UIButton *newerButton;
+@property (strong, nonatomic) IBOutlet UIButton *gotoHomePageButton;
 
 @end

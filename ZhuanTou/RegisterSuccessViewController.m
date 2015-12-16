@@ -14,7 +14,7 @@
 
 @implementation RegisterSuccessViewController
 
-@synthesize newerButton;
+@synthesize newerButton, gotoHomePageButton;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -24,12 +24,25 @@
     
     [newerButton addTarget:self action:@selector(toNewerReward:) forControlEvents:UIControlEventTouchUpInside];
     newerButton.layer.cornerRadius = 3;
+    
+    gotoHomePageButton.layer.cornerRadius = 3;
+    gotoHomePageButton.layer.borderWidth = 1;
+    gotoHomePageButton.layer.borderColor = ZTBLUE.CGColor;
+    [gotoHomePageButton addTarget:self action:@selector(gotoHomePage:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)toNewerReward:(id)sender
 {
     ZTTabBarViewController *tabVC = (ZTTabBarViewController*)[self.navigationController presentingViewController];
     tabVC.isRegister = 1;
+    [tabVC setSelectedIndex:0];
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)gotoHomePage:(id)sender
+{
+    ZTTabBarViewController *tabVC = (ZTTabBarViewController*)[self.navigationController presentingViewController];
+    tabVC.isRegister = 0;
     [tabVC setSelectedIndex:0];
     [self dismissViewControllerAnimated:YES completion:nil];
 }

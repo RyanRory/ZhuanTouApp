@@ -172,7 +172,7 @@
         notices = [NSMutableArray arrayWithArray:responseObject];
         if (notices.count == 0)
         {
-            
+            [notices addObject:@{@"title":@"暂无公告"}];
         }
         if (notices.count < 2)
         {

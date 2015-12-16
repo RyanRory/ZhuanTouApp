@@ -322,8 +322,8 @@
         year = [components year];
         month = [components month];
         day = [components day];
-        endTimeLabel.text = [NSString stringWithFormat:@"9:00\n%4ld-%02ld-%02ld",year,month,day];
-        [wenjianData setValue:[NSString stringWithFormat:@"%4ld-%02ld-%02ld 09:00:00",year,month,day] forKey:@"endDateTime"];
+        endTimeLabel.text = [NSString stringWithFormat:@"15:30\n%4ld-%02ld-%02ld",year,month,day];
+        [wenjianData setValue:[NSString stringWithFormat:@"%4ld-%02ld-%02ld 15:30:00",year,month,day] forKey:@"endDateTime"];
         
         [self wenjianTimeCountDown];
         wenjianTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(wenjianTimeCountDown) userInfo:nil repeats:YES];
@@ -399,7 +399,7 @@
         year = [components year];
         month = [components month];
         day = [components day];
-        zongheEndTimeLabel.text = [NSString stringWithFormat:@"9:00\n%4ld-%02ld-%02ld",year,month,day];
+        zongheEndTimeLabel.text = [NSString stringWithFormat:@"15:30\n%4ld-%02ld-%02ld",year,month,day];
         [zongheData setValue:[NSString stringWithFormat:@"%4ld-%02ld-%02ld 15:30:00",year,month,day] forKey:@"endDateTime"];
         
         [self zongheTimeCountDown];

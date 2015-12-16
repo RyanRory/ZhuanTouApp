@@ -64,6 +64,14 @@
     
     restLabel.text = [NSString stringWithFormat:@"%@元",bidableAmount];
     
+    SCNumberKeyBoard *keyboard = [SCNumberKeyBoard showWithTextField:amountTextField enter:nil close:nil];
+    [keyboard.enterButton setBackgroundColor:ZTBLUE];
+    [keyboard.enterButton setTitle:@"确定" forState:UIControlStateNormal];
+
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSString *URL = [BASEURL stringByAppendingString:@"api/account/couponInfo4M"];
     [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
@@ -91,11 +99,6 @@
         hud.labelText = @"当前网络状况不佳";
         [hud hide:YES afterDelay:1.5f];
     }];
-    
-    SCNumberKeyBoard *keyboard = [SCNumberKeyBoard showWithTextField:amountTextField enter:nil close:nil];
-    [keyboard.enterButton setBackgroundColor:ZTBLUE];
-    [keyboard.enterButton setTitle:@"确定" forState:UIControlStateNormal];
-
 }
 
 

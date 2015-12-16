@@ -74,7 +74,7 @@
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
     [formatter setPositiveFormat:@"###,##0"];
     wenjianPINumLabel.text = [NSString stringWithFormat:@"%@%%",[productInfo objectForKey:@"interestRate"]];
-    wenjianPTNumLabel.text = [NSString stringWithFormat:@"%d个月",(int)round((((NSString*)[productInfo objectForKey:@"noOfDays"]).doubleValue / 30))];
+    wenjianPTNumLabel.text = [NSString stringWithFormat:@"%d天",(((NSString*)[productInfo objectForKey:@"noOfDays"]).intValue)];
     wenjianAmountNumLabel.text = [NSString stringWithFormat:@"%@元",[NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithInt:investAmount.intValue]]]];
     
 }
@@ -96,7 +96,7 @@
     [formatter setPositiveFormat:@"###,##0"];
     preIncomeNumLabel.text = [NSString stringWithFormat:@"%@%%",[productInfo objectForKey:@"expectedReturn"]];
     lowestIncomeNumLabel.text = [NSString stringWithFormat:@"%@%%",[productInfo objectForKey:@"interestRate"]];
-    productTimeNumLabel.text = [NSString stringWithFormat:@"%d个月",(int)round((((NSString*)[productInfo objectForKey:@"noOfDays"]).doubleValue / 30))];
+    productTimeNumLabel.text = [NSString stringWithFormat:@"%d天",(((NSString*)[productInfo objectForKey:@"noOfDays"]).intValue)];
     amountNumLabel.text = [NSString stringWithFormat:@"%@元",[NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithInt:investAmount.intValue]]]];
 }
 

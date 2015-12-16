@@ -16,7 +16,7 @@
 
 @synthesize editView, editTextField, confirmButton;
 @synthesize bankCardView, bankImageView, bankNameLabel, cardNumLabel, branchLabel, oneLimitLabel, dayLimitLabel;
-@synthesize noBankCardView, bankcardDetailButton, bankcardNoTextField, bankLabel, limitLabel, chooseBankButton;
+@synthesize noBankCardView, bankcardDetailButton, bankcardNoTextField, bankLabel, limitLabel, chooseBankButton, phoneNumTextField;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -149,6 +149,7 @@
                 {
                     limitLabel.text = [NSString stringWithFormat:@"(单笔限额%@元)", [responseObject[0] objectForKey:@"limitAmount"]];
                 }
+                phoneNumTextField.text = [responseObject[0] objectForKey:@"bindedMobile"];
             }
         }
         else
@@ -162,7 +163,7 @@
                 if (f1 == 1)
                 {
                     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"为了您的资金安全，您的资金将被限制同卡进出，请填写真实银行卡信息。" preferredStyle:UIAlertControllerStyleAlert];
-                    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"朕知道了" style:UIAlertActionStyleCancel handler:nil];
+                    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
                     [alertController addAction:confirmAction];
                     [self presentViewController:alertController animated:YES completion:nil];
                 }
@@ -248,6 +249,8 @@
                         web.delegate = self;
                         web.PAY_BUSINESS = @"true";
                         [self presentViewController:web animated:YES completion:nil];
+                        [confirmButton setUserInteractionEnabled:YES];
+                        [confirmButton setAlpha:1.0f];
                     }
                     else
                     {
@@ -276,6 +279,8 @@
                         NSLog(@"%@",lianlianData);
                         [LLPaySdk sharedSdk].sdkDelegate = self;
                         [[LLPaySdk sharedSdk] presentVerifyPaySdkInViewController:self withTraderInfo:lianlianData];
+                        [confirmButton setUserInteractionEnabled:YES];
+                        [confirmButton setAlpha:1.0f];
                     }
                 }
 
@@ -295,6 +300,8 @@
         
         NSString *cardReg = @"^[0-9]{16,30}$";
         NSPredicate *regextestId = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", cardReg];
+        NSString *limit = [NSString stringWithFormat:@"%@",[dailyLimit objectForKey:[[[NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"bankCodeList" ofType:@"plist"]] objectForKey:bankLabel.text] lowercaseString]]];
+        limit = [limit stringByReplacingOccurrencesOfString:@"," withString:@""];
         
         if(![regextestId evaluateWithObject: bankcardNoTextField.text])
         {
@@ -305,7 +312,16 @@
                 [bankcardNoTextField becomeFirstResponder];
             });
         }
-        else if (!([[dailyLimit objectForKey:[[[NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"bankCodeList" ofType:@"plist"]] objectForKey:bankLabel.text] lowercaseString]] isEqualToString:@"无限额"] || [NSString stringWithFormat:@"%@",[dailyLimit objectForKey:[[[NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"bankCodeList" ofType:@"plist"]] objectForKey:bankLabel.text] lowercaseString]]].doubleValue > editTextField.text.doubleValue))
+        else if (![[NSPredicate predicateWithFormat:@"SELF MATCHES %@",@"^[0-9]{11}$"] evaluateWithObject:phoneNumTextField.text])
+        {
+            hud.mode = MBProgressHUDModeCustomView;
+            hud.labelText = @"请检查手机号码是否正确";
+            [hud hide:YES afterDelay:1.5f];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [phoneNumTextField becomeFirstResponder];
+            });
+        }
+        else if (!([limit isEqualToString:@"无限额"] || limit.doubleValue >= editTextField.text.doubleValue))
         {
             hud.mode = MBProgressHUDModeCustomView;
             hud.labelText = @"超过单笔限额";
@@ -322,7 +338,8 @@
             NSString *URL = [BASEURL stringByAppendingString:@"account/RenzhengSDKCharge"];
             NSDictionary *parameter = @{@"txn_amt":[NSString stringWithFormat:@"%.2f",editTextField.text.doubleValue],
                                         @"CardCode":bankcardNoTextField.text,
-                                        @"BankCode":[[NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"bankCodeList" ofType:@"plist"]] objectForKey:bankLabel.text]};
+                                        @"BankCode":[[NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"bankCodeList" ofType:@"plist"]] objectForKey:bankLabel.text],
+                                        @"MobilePhone":phoneNumTextField.text};
             manager.responseSerializer = [AFHTTPResponseSerializer serializer];
             NSLog(@"%@",parameter);
             [manager POST:URL parameters:parameter success:^(AFHTTPRequestOperation *operation, NSData *responseObject) {
@@ -340,6 +357,8 @@
                         web.delegate = self;
                         web.PAY_BUSINESS = @"true";
                         [self presentViewController:web animated:YES completion:nil];
+                        [confirmButton setUserInteractionEnabled:YES];
+                        [confirmButton setAlpha:1.0f];
                     }
                     else
                     {
@@ -368,6 +387,8 @@
                         NSLog(@"%@",lianlianData);
                         [LLPaySdk sharedSdk].sdkDelegate = self;
                         [[LLPaySdk sharedSdk] presentVerifyPaySdkInViewController:self withTraderInfo:lianlianData];
+                        [confirmButton setUserInteractionEnabled:YES];
+                        [confirmButton setAlpha:1.0f];
                     }
                 }
                 
@@ -391,6 +412,7 @@
 - (IBAction)backgroundTap:(id)sender {
     [editTextField resignFirstResponder];
     [bankcardNoTextField resignFirstResponder];
+    [phoneNumTextField resignFirstResponder];
 }
 
 - (IBAction)buttonEnableListener:(id)sender
@@ -410,7 +432,7 @@
     }
     else
     {
-        if ((editTextField.text.length > 0) && (bankcardNoTextField.text.length > 0) && (![bankLabel.text isEqualToString:@"请选择"]))
+        if ((editTextField.text.length > 0) && (phoneNumTextField.text.length > 0) && (bankcardNoTextField.text.length > 0) && (![bankLabel.text isEqualToString:@"请选择"]))
         {
             [confirmButton setUserInteractionEnabled:YES];
             [confirmButton setAlpha:1.0f];
@@ -427,6 +449,7 @@
 {
     [bankcardNoTextField resignFirstResponder];
     [editTextField resignFirstResponder];
+    [phoneNumTextField resignFirstResponder];
     
     NSTimeInterval animationDuration = 0.30f;
     bgView.hidden = NO;

@@ -15,6 +15,7 @@
 @implementation PhoneVcodeViewController
 
 @synthesize textView, phoneVcodeTextField, nextButton, getVcodeButton;
+@synthesize phoneNum, vCode;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -37,8 +38,14 @@
     [getVcodeButton addTarget:self action:@selector(getVcode:) forControlEvents:UIControlEventTouchUpInside];
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    phoneNum = [userDefaults objectForKey:PHONENUM];
-    vCode = [userDefaults objectForKey:VCODE];
+    if (phoneNum.length == 0)
+    {
+        phoneNum = [userDefaults objectForKey:PHONENUM];
+    }
+    if (vCode.length == 0)
+    {
+        vCode = [userDefaults objectForKey:VCODE];
+    }
     [self getVcode];
     
     if ([style isEqualToString:RESETLOGINPSWD]||[style isEqualToString:RESETTRADEPSWD])
@@ -118,6 +125,8 @@
                 {
                     InformationViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"InformationViewController"];
                     vc.isFromNewer = self.isFromNewer;
+                    vc.phoneNum = phoneNum;
+                    vc.smsCode = phoneVcodeTextField.text;
                     [[self navigationController]pushViewController:vc animated:YES];
                 }
             }

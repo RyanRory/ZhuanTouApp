@@ -292,7 +292,14 @@
 
 - (void)viewDidLayoutSubviews
 {
-    [alipay setFrame:CGRectMake(0, (self.view.frame.size.height-480)/2-10, self.view.frame.size.width, 480)];
+    if (SCREEN_WIDTH > 350)
+    {
+        [alipay setFrame:CGRectMake(0, (self.view.frame.size.height-480)/2-30, self.view.frame.size.width, 460)];
+    }
+    else
+    {
+        [alipay setFrame:CGRectMake(0, (self.view.frame.size.height-480)/2-10, self.view.frame.size.width, 460)];
+    }
 }
 
 - (void)backToParent:(id)sender

@@ -77,7 +77,7 @@
         [hud show:YES];
         AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
         NSString *URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/checkVCode/%@",vcodeTextField.text]];
-        [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+        [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
             NSLog(@"%@", responseObject);
             NSString *str = [responseObject objectForKey:@"isSuccess"];
             int f1 = str.intValue;
@@ -118,6 +118,8 @@
                         PhoneVcodeViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"PhoneVcodeViewController"];
                         [vc setStyle:@"REGISTER"];
                         vc.isFromNewer = self.isFromNewer;
+                        vc.phoneNum = phoneTextField.text;
+                        vc.vCode = vcodeTextField.text;
                         [[self navigationController]pushViewController:vc animated:YES];
                     }
                     
