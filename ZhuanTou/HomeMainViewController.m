@@ -241,11 +241,11 @@
         NSDate *startDate = [dateFormat dateFromString:[productInfo objectForKey:@"startRaisingDateTime"]];
         if (((NSString*)[responseObject objectForKey:@"bidableAmount"]).intValue == 0)
         {
-            NSDateFormatter* nextDateFormat = [[NSDateFormatter alloc] init];//实例化一个NSDateFormatter对象
-            [nextDateFormat setDateFormat:@"yyyy年MM月dd日 HH:mm"];//设定时间格式
-            NSTimeInterval days = 7*24*60*60;
-            NSString *nextDateStr = [nextDateFormat stringFromDate:[startDate dateByAddingTimeInterval:days]];
-            timeLabel.text = [NSString stringWithFormat:@"下一期：%@ 准时开抢",nextDateStr];
+//            NSDateFormatter* nextDateFormat = [[NSDateFormatter alloc] init];//实例化一个NSDateFormatter对象
+//            [nextDateFormat setDateFormat:@"yyyy年MM月dd日 HH:mm"];//设定时间格式
+//            NSTimeInterval days = 7*24*60*60;
+//            NSString *nextDateStr = [nextDateFormat stringFromDate:[startDate dateByAddingTimeInterval:days]];
+            timeLabel.text = @"";
             
             [buyButton setUserInteractionEnabled:NO];
             [buyButton setAlpha:1.0f];
