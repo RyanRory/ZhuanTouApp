@@ -180,10 +180,22 @@
         }
         else
         {
-            hud.mode = MBProgressHUDModeCustomView;
-            hud.labelText = @"抢购成功";
-            [hud hide:YES afterDelay:1.5f];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//            hud.mode = MBProgressHUDModeCustomView;
+//            hud.labelText = @"抢购成功";
+//            [hud hide:YES afterDelay:1.5f];
+//            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//                if (self.isFromNewer)
+//                {
+//                    [[self navigationController]popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
+//                }
+//                else
+//                {
+//                    [[self navigationController]popToRootViewControllerAnimated:YES];
+//                }
+//            });
+            [hud hide:YES];
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"抢购成功" message:[NSString stringWithFormat:@"您的资金将暂时锁定在专投宝中，享受专投宝利息，并在%@产品开始操盘后转入在投资产", [productInfo objectForKey:@"beginDate"]] preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
                 if (self.isFromNewer)
                 {
                     [[self navigationController]popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
@@ -192,7 +204,11 @@
                 {
                     [[self navigationController]popToRootViewControllerAnimated:YES];
                 }
-            });
+
+            }];
+            [alertController addAction:confirmAction];
+            [self presentViewController:alertController animated:YES completion:nil];
+            
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

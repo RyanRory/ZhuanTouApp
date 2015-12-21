@@ -464,7 +464,7 @@
             // 失败
             if (self.btnArray.count > 0)
             {
-                self.tfLabel.text = @"密码错误，请重新输入";
+                self.tfLabel.text = @"两次输入不一致，请重新输入";
                 self.tfLabel.textColor = LABELWRONGCOLOR;
                 [self shake:self.tfLabel];
                 color = LABELWRONGCOLOR;

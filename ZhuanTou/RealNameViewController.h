@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <APNumberPad/APNumberPad.h>
 
-@interface RealNameViewController : UIViewController
+@interface RealNameViewController : UIViewController<APNumberPadDelegate>
 @property (strong, nonatomic) IBOutlet UITextField *realNameTextField;
 @property (strong, nonatomic) IBOutlet UITextField *idNumTextField;
 @property (strong, nonatomic) IBOutlet UIButton *confirmButton;

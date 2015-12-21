@@ -31,6 +31,7 @@
 #define ZTSECURITYGREEN ([UIColor colorWithRed:156.0/255.0 green:235.0/255.0 blue:158.0/255.0 alpha:1.0f])
 
 #define USERNAME @"USERNAME"
+#define NICKNAME @"NICKNAME"
 #define PASSWORD @"PASSWORD"
 #define SMSCODE @"SMSCODE"
 #define PHONENUM @"PHONENUM"

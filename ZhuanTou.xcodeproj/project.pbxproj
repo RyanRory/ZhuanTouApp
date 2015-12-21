@@ -253,6 +253,10 @@
 		A4A60E131C2162530032EA6A /* registerSuccess@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4A60E121C2162530032EA6A /* registerSuccess@3x.png */; };
 		A4A60E151C2162630032EA6A /* registerSuccess@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4A60E141C2162630032EA6A /* registerSuccess@2x.png */; };
 		A4A60E171C2162700032EA6A /* registerSuccess.png in Resources */ = {isa = PBXBuildFile; fileRef = A4A60E161C2162700032EA6A /* registerSuccess.png */; };
+		A4A60E1E1C27A1EE0032EA6A /* LeftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4A60E1D1C27A1EE0032EA6A /* LeftViewController.m */; };
+		A4A60E2A1C280D520032EA6A /* defaultHeadPortrait@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4A60E291C280D520032EA6A /* defaultHeadPortrait@3x.png */; };
+		A4A60E2C1C280D640032EA6A /* defaultHeadPortrait@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4A60E2B1C280D640032EA6A /* defaultHeadPortrait@2x.png */; };
+		A4A60E2E1C280D740032EA6A /* defaultHeadPortrait.png in Resources */ = {isa = PBXBuildFile; fileRef = A4A60E2D1C280D740032EA6A /* defaultHeadPortrait.png */; };
 		A4AE22061BE7655200101B89 /* 方正楷体简体.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A4AE22051BE7655200101B89 /* 方正楷体简体.ttf */; };
 		A4AE22131BE777EF00101B89 /* homeActive@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4AE22121BE777EF00101B89 /* homeActive@3x.png */; };
 		A4B227841BD3516F0020C4D5 /* KnobButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A4B2277D1BD3516F0020C4D5 /* KnobButton.m */; };
@@ -690,6 +694,11 @@
 		A4A60E121C2162530032EA6A /* registerSuccess@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "registerSuccess@3x.png"; path = "images/@3x/registerSuccess@3x.png"; sourceTree = "<group>"; };
 		A4A60E141C2162630032EA6A /* registerSuccess@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "registerSuccess@2x.png"; path = "images/@2x/registerSuccess@2x.png"; sourceTree = "<group>"; };
 		A4A60E161C2162700032EA6A /* registerSuccess.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = registerSuccess.png; path = "images/@1x/registerSuccess.png"; sourceTree = "<group>"; };
+		A4A60E1C1C27A1EE0032EA6A /* LeftViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftViewController.h; sourceTree = "<group>"; };
+		A4A60E1D1C27A1EE0032EA6A /* LeftViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftViewController.m; sourceTree = "<group>"; };
+		A4A60E291C280D520032EA6A /* defaultHeadPortrait@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "defaultHeadPortrait@3x.png"; path = "images/@3x/defaultHeadPortrait@3x.png"; sourceTree = "<group>"; };
+		A4A60E2B1C280D640032EA6A /* defaultHeadPortrait@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "defaultHeadPortrait@2x.png"; path = "images/@2x/defaultHeadPortrait@2x.png"; sourceTree = "<group>"; };
+		A4A60E2D1C280D740032EA6A /* defaultHeadPortrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = defaultHeadPortrait.png; path = "images/@1x/defaultHeadPortrait.png"; sourceTree = "<group>"; };
 		A4AE22051BE7655200101B89 /* 方正楷体简体.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "方正楷体简体.ttf"; sourceTree = "<group>"; };
 		A4AE22121BE777EF00101B89 /* homeActive@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "homeActive@3x.png"; path = "images/@3x/homeActive@3x.png"; sourceTree = "<group>"; };
 		A4B2277C1BD3516F0020C4D5 /* KnobButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KnobButton.h; path = SimpleSwitch/KnobButton.h; sourceTree = "<group>"; };
@@ -918,6 +927,8 @@
 			children = (
 				A44AF9DA1BCF469B002A8AC4 /* ZTTabBarViewController.h */,
 				A44AFA491BCF481D002A8AC4 /* ZTTabBarViewController.m */,
+				A4A60E1C1C27A1EE0032EA6A /* LeftViewController.h */,
+				A4A60E1D1C27A1EE0032EA6A /* LeftViewController.m */,
 				A48347B81BBBBFC6002D6591 /* ZTViews */,
 				A4B2D0021BDCCE5A00AC2E78 /* Home */,
 				A44AFA571BCF4FA3002A8AC4 /* Product */,
@@ -1009,6 +1020,7 @@
 		A41C6B711BBAAF9E006B731D /* @1x */ = {
 			isa = PBXGroup;
 			children = (
+				A4A60E2D1C280D740032EA6A /* defaultHeadPortrait.png */,
 				A4A60E161C2162700032EA6A /* registerSuccess.png */,
 				A4DFA2C81C192AF50050F366 /* newerBonusOpened.png */,
 				A49AA68F1C167BA10087F060 /* infoDetail.png */,
@@ -1105,6 +1117,7 @@
 		A41C6B721BBAAFA7006B731D /* @2x */ = {
 			isa = PBXGroup;
 			children = (
+				A4A60E2B1C280D640032EA6A /* defaultHeadPortrait@2x.png */,
 				A4A60E141C2162630032EA6A /* registerSuccess@2x.png */,
 				A4DFA2C61C192AE40050F366 /* newerBonusOpened@2x.png */,
 				A49AA6731C167B950087F060 /* infoDetail@2x.png */,
@@ -1201,6 +1214,7 @@
 		A41C6B731BBAAFC0006B731D /* @3x */ = {
 			isa = PBXGroup;
 			children = (
+				A4A60E291C280D520032EA6A /* defaultHeadPortrait@3x.png */,
 				A4A60E121C2162530032EA6A /* registerSuccess@3x.png */,
 				A4DFA2C41C192AD10050F366 /* newerBonusOpened@3x.png */,
 				A49AA6571C167B870087F060 /* infoDetail@3x.png */,
@@ -1533,6 +1547,7 @@
 				4C381CFB0889D85C63D13F0F /* Copy Pods Resources */,
 				A463EAB71BD60FB400CAF146 /* Embed Frameworks */,
 				A45B85631BFDE2D30041FFC7 /* ShellScript */,
+				3DB99F1AB5C05AA8A27D488C /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1669,6 +1684,7 @@
 				A4B2CFBF1BD8ACF800AC2E78 /* grayRightIcon@3x.png in Resources */,
 				A44AFA181BCF47F1002A8AC4 /* huoqi@2x.png in Resources */,
 				A42EA2D11BDF834A00E35F5F /* ifudong@2x.png in Resources */,
+				A4A60E2E1C280D740032EA6A /* defaultHeadPortrait.png in Resources */,
 				A4E7F2081BCE050E00B20EC6 /* checkIcon@3x.png in Resources */,
 				A4E7F2381BCE053200B20EC6 /* loginTelIcon.png in Resources */,
 				A42EA2E81BDF835500E35F5F /* izhuantoubao.png in Resources */,
@@ -1708,6 +1724,7 @@
 				A44AFA431BCF4801002A8AC4 /* quickIcon.png in Resources */,
 				A4EE98EE1C100588007E74E2 /* FloatTimePoint@3x.png in Resources */,
 				A4EE98E81C10057A007E74E2 /* FloatTimePoint@2x.png in Resources */,
+				A4A60E2C1C280D640032EA6A /* defaultHeadPortrait@2x.png in Resources */,
 				A44AF9FD1BCF47E1002A8AC4 /* wenjian@3x.png in Resources */,
 				A49AA6A61C167BA10087F060 /* newerLight.png in Resources */,
 				A4B8A69E1BEA16E40034E415 /* noBankCard@2x.png in Resources */,
@@ -1754,6 +1771,7 @@
 				A4E7F2451BCE389100B20EC6 /* recommendIcon.png in Resources */,
 				A44AFA231BCF47F1002A8AC4 /* zonghe@2x.png in Resources */,
 				A44AFA561BCF4EC1002A8AC4 /* productActive.png in Resources */,
+				A4A60E2A1C280D520032EA6A /* defaultHeadPortrait@3x.png in Resources */,
 				A44AFA241BCF47F1002A8AC4 /* zongheTriangle@2x.png in Resources */,
 				A44AFA3D1BCF4801002A8AC4 /* huoqiTriangle.png in Resources */,
 				A49AA6651C167B870087F060 /* infoDetail@3x.png in Resources */,
@@ -1943,6 +1961,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		3DB99F1AB5C05AA8A27D488C /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		4C381CFB0889D85C63D13F0F /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2050,6 +2083,7 @@
 				A4B227871BD3516F0020C4D5 /* UIView+InnerShadow.m in Sources */,
 				A41E1DEA1BE5B60800641616 /* ChargeViewController.m in Sources */,
 				A4B2CFD31BD8B32B00AC2E78 /* SecurityViewController.m in Sources */,
+				A4A60E1E1C27A1EE0032EA6A /* LeftViewController.m in Sources */,
 				A4B227841BD3516F0020C4D5 /* KnobButton.m in Sources */,
 				A4B2CFDA1BD8E94B00AC2E78 /* SetTradePswdViewController.m in Sources */,
 				A4B2278A1BD363300020C4D5 /* UserCenterMainViewController.m in Sources */,

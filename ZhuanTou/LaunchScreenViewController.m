@@ -60,7 +60,13 @@
         else
         {
             ZTTabBarViewController *tabvc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ZTTabBarViewController"];
-            [self presentViewController:tabvc animated:NO completion:nil];
+            PPRevealSideViewController *revealSideViewController = [[PPRevealSideViewController alloc]initWithRootViewController:tabvc];
+            [revealSideViewController setDirectionsToShowBounce:PPRevealSideDirectionNone];
+            revealSideViewController.fakeiOS7StatusBarColor = [UIColor clearColor];
+            [revealSideViewController setOption:PPRevealSideOptionsiOS7StatusBarMoving];
+            LeftViewController *leftVC = [[self storyboard]instantiateViewControllerWithIdentifier:@"LeftViewController"];
+            [revealSideViewController preloadViewController:leftVC forSide:PPRevealSideDirectionLeft];
+            [self presentViewController:revealSideViewController animated:NO completion:nil];
         }
     });
 }

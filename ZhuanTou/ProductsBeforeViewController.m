@@ -124,22 +124,22 @@
     if ([NSString stringWithFormat:@"%@",[data objectForKey:@"profit"]].doubleValue < 0)
     {
         cell.percentNumLabel.text = @"暂不计算";
+        cell.percentNumLabel.textColor = ZTGRAY;
     }
     else
     {
         cell.percentNumLabel.text = [NSString stringWithFormat:@"%.2f%%",[NSString stringWithFormat:@"%@",[data objectForKey:@"profit"]].doubleValue];
+        cell.percentNumLabel.textColor = ZTLIGHTRED;
     }
     cell.statusLabel.text = [data objectForKey:@"status"];
     if ([cell.statusLabel.text isEqualToString:@"操盘中"])
     {
         cell.headView.backgroundColor = ZTBLUE;
-        cell.percentNumLabel.textColor = ZTLIGHTRED;
         cell.percentTitleLabel.text = @"预期年化收益率";
     }
     else
     {
         cell.headView.backgroundColor = ZTGRAY;
-        cell.percentNumLabel.textColor = ZTGRAY;
         cell.percentTitleLabel.text = @"年化收益";
     }
     

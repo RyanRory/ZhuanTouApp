@@ -30,6 +30,13 @@
     [confirmButton setUserInteractionEnabled:NO];
     [confirmButton setAlpha:0.6f];
     confirmButton.layer.cornerRadius = 3;
+    
+    idNumTextField.inputView = ({
+        APNumberPad *numberPad = [APNumberPad numberPadWithDelegate:self];
+        [numberPad.leftFunctionButton setTitle:@"X" forState:UIControlStateNormal];
+        numberPad.leftFunctionButton.titleLabel.adjustsFontSizeToFitWidth = YES;
+        numberPad;
+    });
 }
 
 - (void)didReceiveMemoryWarning {
@@ -112,6 +119,12 @@
         }];
 
     }
+}
+
+#pragma mark - APNumberPadDelegate
+
+- (void)numberPad:(APNumberPad *)numberPad functionButtonAction:(UIButton *)functionButton textInput:(UIResponder<UITextInput> *)textInput {
+    [textInput insertText:@"X"];
 }
 
 -(IBAction)textFiledReturnEditing:(id)sender {

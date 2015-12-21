@@ -30,6 +30,8 @@
     
     [Fabric with:@[[Crashlytics class]]];
     
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+    
     return YES;
 }
 

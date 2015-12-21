@@ -119,6 +119,7 @@
                 hud.labelText = @"注册成功";
                 [hud hide:YES afterDelay:1.5f];
                 [userDefaults setObject:usernameTextField.text forKey:USERNAME];
+                [userDefaults setObject:[responseObject objectForKey:@"nickname"] forKey:NICKNAME];
                 [userDefaults setObject:passwordTextField.text forKey:PASSWORD];
                 [userDefaults setBool:YES forKey:ISLOGIN];
                 [userDefaults synchronize];

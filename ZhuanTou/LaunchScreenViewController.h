@@ -10,6 +10,7 @@
 #import "ZTTabBarViewController.h"
 #import "WaveView.h"
 #import "SetpasswordViewController.h"
+#import "LeftViewController.h"
 
 @interface LaunchScreenViewController : UIViewController
 

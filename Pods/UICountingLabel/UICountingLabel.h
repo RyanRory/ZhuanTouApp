@@ -1,15 +1,15 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-typedef NS_ENUM(NSInteger, UILabelCountingMethod) {
+typedef enum {
     UILabelCountingMethodEaseInOut,
     UILabelCountingMethodEaseIn,
     UILabelCountingMethodEaseOut,
     UILabelCountingMethodLinear
-};
+} UILabelCountingMethod;
 
-typedef NSString* (^UICountingLabelFormatBlock)(CGFloat value);
-typedef NSAttributedString* (^UICountingLabelAttributedFormatBlock)(CGFloat value);
+typedef NSString* (^UICountingLabelFormatBlock)(float value);
+typedef NSAttributedString* (^UICountingLabelAttributedFormatBlock)(float value);
 
 @interface UICountingLabel : UILabel
 
@@ -21,14 +21,14 @@ typedef NSAttributedString* (^UICountingLabelAttributedFormatBlock)(CGFloat valu
 @property (nonatomic, copy) UICountingLabelAttributedFormatBlock attributedFormatBlock;
 @property (nonatomic, copy) void (^completionBlock)();
 
--(void)countFrom:(CGFloat)startValue to:(CGFloat)endValue;
--(void)countFrom:(CGFloat)startValue to:(CGFloat)endValue withDuration:(NSTimeInterval)duration;
+-(void)countFrom:(float)startValue to:(float)endValue;
+-(void)countFrom:(float)startValue to:(float)endValue withDuration:(NSTimeInterval)duration;
 
--(void)countFromCurrentValueTo:(CGFloat)endValue;
--(void)countFromCurrentValueTo:(CGFloat)endValue withDuration:(NSTimeInterval)duration;
+-(void)countFromCurrentValueTo:(float)endValue;
+-(void)countFromCurrentValueTo:(float)endValue withDuration:(NSTimeInterval)duration;
 
--(void)countFromZeroTo:(CGFloat)endValue;
--(void)countFromZeroTo:(CGFloat)endValue withDuration:(NSTimeInterval)duration;
+-(void)countFromZeroTo:(float)endValue;
+-(void)countFromZeroTo:(float)endValue withDuration:(NSTimeInterval)duration;
 
 - (CGFloat)currentValue;
 

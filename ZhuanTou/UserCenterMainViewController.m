@@ -24,6 +24,21 @@
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor darkGrayColor],NSForegroundColorAttributeName,nil]];
     self.navigationController.interactivePopGestureRecognizer.delegate = self;
     
+    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 100, 30)];
+    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 30, 30)];
+    imageView.image = [UIImage imageNamed:@"defaultHeadPortrait.png"];
+    imageView.layer.cornerRadius = 15;
+    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(35, 0, 65, 30)];
+    label.font = [UIFont systemFontOfSize:13.0];
+    label.text = @"Ryan";
+    UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 100, 30)];
+    [button addTarget:self action:@selector(Slide:) forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:imageView];
+    [view addSubview:label];
+    [view addSubview:button];
+    UIBarButtonItem *slideButton = [[UIBarButtonItem alloc]initWithCustomView:view];
+    self.navigationItem.leftBarButtonItem = slideButton;
+    
     chargeButton.layer.cornerRadius = 3;
     drawButton.layer.cornerRadius = 3;
     
@@ -43,6 +58,14 @@
     
     scrollView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         [self setupData];
+    }];
+}
+
+- (void)Slide:(id)sender
+{
+    [self.revealSideViewController pushOldViewControllerOnDirection:PPRevealSideDirectionLeft animated:YES completion:^(){
+        [self.navigationController.view setUserInteractionEnabled:NO];
+        [self.navigationController.tabBarController.tabBar setUserInteractionEnabled:NO];
     }];
 }
 

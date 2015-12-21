@@ -160,7 +160,7 @@
         }
         else
         {
-            NSString *str = @"itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=1055235910";
+            NSString *str =  [NSString stringWithFormat:@"itms-apps://itunes.apple.com/app/id%d",1055235910];
             
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
         }
