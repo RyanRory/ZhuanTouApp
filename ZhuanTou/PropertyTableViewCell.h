@@ -14,5 +14,10 @@
 @property (strong, nonatomic) IBOutlet UILabel *balanceLabel;
 @property (strong, nonatomic) IBOutlet UIButton *chargeButton;
 @property (strong, nonatomic) IBOutlet UIButton *toProfitButton;
+@property (strong, nonatomic) IBOutlet UIButton *drawButton;
+@property (strong, nonatomic) IBOutlet UILabel *yesterdayProfitLabel;
+@property (strong, nonatomic) IBOutlet UILabel *allProfitLabel;
+@property (strong, nonatomic) IBOutlet UIButton *toYesterdayButton;
+@property (strong, nonatomic) IBOutlet UIButton *toAllButon;
 
 @end

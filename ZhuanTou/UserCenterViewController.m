@@ -156,6 +156,12 @@
     [[self navigationController]pushViewController:vc animated:YES];
 }
 
+- (void)toDraw:(id)sender
+{
+    DrawViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"DrawViewController"];
+    [[self navigationController]pushViewController:vc animated:YES];
+}
+
 - (void)toProfit:(id)sender
 {
     ProfitViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ProfitViewController"];
@@ -183,7 +189,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 4;
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -202,7 +208,7 @@
 {
     if (indexPath.section == 0)
     {
-        return 250;
+        return 305;
     }
     else
     {
@@ -222,6 +228,7 @@
             cell = [[PropertyTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier1];
         }
         [cell.chargeButton addTarget:self action:@selector(toCharge:) forControlEvents:UIControlEventTouchUpInside];
+        [cell.drawButton addTarget:self action:@selector(toDraw:) forControlEvents:UIControlEventTouchUpInside];
         [cell.toProfitButton addTarget:self action:@selector(toProfit:) forControlEvents:UIControlEventTouchUpInside];
         if (data.count == 0)
         {
@@ -251,29 +258,35 @@
             if (indexPath.row == 0)
             {
                 cell.titleLabel.text = @"定期理财";
-                cell.descriptionLabel.text = @"查看分红宝、稳盈宝收益";
+                if (data.count == 0)
+                {
+                    cell.descriptionLabel.text = @"0元";
+                }
+                else
+                {
+                    NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
+                    [formatter setPositiveFormat:@"###,##0.00"];
+                    cell.descriptionLabel.text = [NSString stringWithFormat:@"%@元", [formatter stringFromNumber:[data objectForKey:@"activeInvestAmount"]]];
+                }
             }
             else
             {
                 cell.titleLabel.text = @"活期理财";
-                cell.descriptionLabel.text = @"查看专投宝收益";
-            }
-        }
-        else if (indexPath.section == 2)
-        {
-            if (indexPath.row == 0)
-            {
-                cell.titleLabel.text = @"我的银行卡";
                 if (data.count == 0)
                 {
-                    cell.descriptionLabel.text = @"0张";
+                    cell.descriptionLabel.text = @"0元";
                 }
                 else
                 {
-                    //cell.descriptionLabel.text = [NSString stringWithFormat:@"%@张", [data objectForKey:@"acitveCouponsAmount"]];
+                    NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
+                    [formatter setPositiveFormat:@"###,##0.00"];
+                    cell.descriptionLabel.text = [NSString stringWithFormat:@"%@元", [formatter stringFromNumber:[data objectForKey:@"ztbBalance"]]];
                 }
             }
-            else
+        }
+        else
+        {
+            if (indexPath.row == 0)
             {
                 cell.titleLabel.text = @"我的优惠券";
                 if (data.count == 0)
@@ -285,37 +298,9 @@
                     cell.descriptionLabel.text = [NSString stringWithFormat:@"%@张", [data objectForKey:@"acitveCouponsAmount"]];
                 }
             }
-        }
-        else
-        {
-            if (indexPath.row == 0)
-            {
-                cell.titleLabel.text = @"账户安全";
-                if (data.count == 0)
-                {
-                    cell.descriptionLabel.text = @"低";
-                }
-                else
-                {
-                    cell.descriptionLabel.text = [NSString stringWithFormat:@"%@", [data objectForKey:@"levelStr"]];
-                }
-                
-                if ([cell.descriptionLabel.text isEqualToString:@"低"])
-                {
-                    cell.descriptionLabel.textColor = ZTSECURITYGREEN;
-                }
-                else if ([cell.descriptionLabel.text isEqualToString:@"中"])
-                {
-                    cell.descriptionLabel.textColor = ZTSECURITYYELLOW;
-                }
-                else
-                {
-                    cell.descriptionLabel.textColor = ZTSECURITYGREEN;
-                }
-            }
             else
             {
-                cell.titleLabel.text = @"更多";
+                cell.titleLabel.text = @"邀请好友";
                 cell.descriptionLabel.text = @"";
             }
         }
@@ -344,20 +329,7 @@
     {
         if (indexPath.row == 0)
         {
-            BankCardViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"BankCardViewController"];
-            [[self navigationController]pushViewController:vc animated:YES];
-        }
-        else
-        {
             BonusViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"BonusViewController"];
-            [[self navigationController]pushViewController:vc animated:YES];
-        }
-    }
-    else if (indexPath.section == 3)
-    {
-        if (indexPath.row == 0)
-        {
-            SecurityViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"SecurityViewController"];
             [[self navigationController]pushViewController:vc animated:YES];
         }
         else

@@ -8,7 +8,18 @@
 
 #import <UIKit/UIKit.h>
 #import "ZTTabBarViewController.h"
+#import "LeftTableViewCell.h"
 
-@interface LeftViewController : UIViewController
+@interface LeftViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+{
+    NSMutableDictionary *data;
+}
+
+@property (strong, nonatomic) IBOutlet UIImageView *headImage;
+@property (strong, nonatomic) IBOutlet UILabel *mobileLabel;
+@property (strong, nonatomic) IBOutlet UILabel *nickNameLabel;
+@property (strong, nonatomic) IBOutlet UITableView *tView;
+
+- (void)setupData;
 
 @end

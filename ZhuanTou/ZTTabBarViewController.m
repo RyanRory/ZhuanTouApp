@@ -40,11 +40,11 @@
     [accountItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:ZTLIGHTGRAY,NSForegroundColorAttributeName, nil] forState:UIControlStateNormal];//正常
     [accountItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:ZTBLUE,NSForegroundColorAttributeName, nil]forState:UIControlStateSelected];//被选中
     
-    UITabBarItem *helpItem = items[3];
-    helpItem.image = [[UIImage imageNamed:@"help.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    helpItem.selectedImage = [[UIImage imageNamed:@"helpActive.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    [helpItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:ZTLIGHTGRAY,NSForegroundColorAttributeName, nil] forState:UIControlStateNormal];//正常
-    [helpItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:ZTBLUE,NSForegroundColorAttributeName, nil]forState:UIControlStateSelected];//被选中
+//    UITabBarItem *helpItem = items[3];
+//    helpItem.image = [[UIImage imageNamed:@"help.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+//    helpItem.selectedImage = [[UIImage imageNamed:@"helpActive.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+//    [helpItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:ZTLIGHTGRAY,NSForegroundColorAttributeName, nil] forState:UIControlStateNormal];//正常
+//    [helpItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:ZTBLUE,NSForegroundColorAttributeName, nil]forState:UIControlStateSelected];//被选中
 
 //    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
 //    NSString *password = [userDefault objectForKey:PASSWORD];

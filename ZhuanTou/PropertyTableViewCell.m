@@ -12,6 +12,8 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    [self.drawButton.layer setBorderWidth:1.0f];
+    [self.drawButton.layer setBorderColor:ZTBLUE.CGColor];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
