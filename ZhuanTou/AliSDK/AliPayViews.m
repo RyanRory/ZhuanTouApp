@@ -528,7 +528,7 @@
         BOOL isValidate = [KeychainData isSecondInputRight:resultStr];
         if (isValidate) {
             //如果验证成功
-            [self performSelector:@selector(blockAction:) withObject:resultStr afterDelay:.2];
+            [self performSelector:@selector(blockAction:) withObject:resultStr afterDelay:0];
             
         } else {
             //失败

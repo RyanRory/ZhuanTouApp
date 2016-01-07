@@ -41,13 +41,13 @@
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [UIView beginAnimations:nil context:UIGraphicsGetCurrentContext()];
-        [UIView setAnimationDuration:1.5f];
+        [UIView setAnimationDuration:1.0f];
         [titleLabel setAlpha:1.0f];
         [discriptionLabel setAlpha:1.0f];
         [UIView commitAnimations];
     });
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         NSString *password = [userDefault objectForKey:PASSWORD];

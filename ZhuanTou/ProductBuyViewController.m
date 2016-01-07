@@ -67,7 +67,8 @@
     SCNumberKeyBoard *keyboard = [SCNumberKeyBoard showWithTextField:amountTextField enter:nil close:nil];
     [keyboard.enterButton setBackgroundColor:ZTBLUE];
     [keyboard.enterButton setTitle:@"确定" forState:UIControlStateNormal];
-
+    
+    coupons = @"";
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -166,7 +167,7 @@
 
 - (void)confirm:(id)sender
 {
-    if (amountTextField.text.doubleValue > balance)
+    if ((int)round(amountTextField.text.doubleValue * 100) > (int)round(balance * 100))
     {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.mode = MBProgressHUDModeCustomView;
@@ -261,6 +262,7 @@
             vc.isFromNewer = self.isFromNewer;
             vc.investAmount = amountTextField.text;
             vc.coupons = coupons;
+            NSLog(@"%@",coupons);
             vc.idOrCode = idOrCode;
             vc.productInfo = productInfo;
             [[self navigationController]pushViewController:vc animated:YES];
@@ -384,7 +386,7 @@
     cell.checkboxButton.selected = NO;
     cell.checkboxButton.tag = indexPath.row;
     [cell.checkboxButton addTarget:self action:@selector(bonusCheckboxEnsure:) forControlEvents:UIControlEventTouchUpInside];
-    cell.titleLabel.text = [NSString stringWithFormat:@"%@-%@元", [data objectForKey:@"comments"], [data objectForKey:@"faceValue"]];
+    cell.titleLabel.text = [NSString stringWithFormat:@"满%@元可抵%@元", [data objectForKey:@"thresholdValue"], [data objectForKey:@"faceValue"]];
     
     return cell;
 }
@@ -414,13 +416,28 @@
     if (btn.selected)
     {
         [btn setImage:[UIImage imageNamed:@"checkIconActive.png"] forState:UIControlStateNormal];
-        coupons = [coupons stringByAppendingString:[NSString stringWithFormat:@",%@",[[datas objectAtIndex:btn.tag] objectForKey:@"couponCode"]]];
+        if (coupons.length == 0)
+        {
+            coupons = [coupons stringByAppendingString:[NSString stringWithFormat:@"%@",[[datas objectAtIndex:btn.tag] objectForKey:@"couponCode"]]];
+        }
+        else
+        {
+            coupons = [coupons stringByAppendingString:[NSString stringWithFormat:@",%@",[[datas objectAtIndex:btn.tag] objectForKey:@"couponCode"]]];
+        }
     }
     else
     {
         [btn setImage:[UIImage imageNamed:@"checkIcon.png"] forState:UIControlStateNormal];
-        coupons = [coupons stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@",%@",[[datas objectAtIndex:btn.tag] objectForKey:@"couponCode"]] withString:@""];
+        coupons = [coupons stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@"%@",[[datas objectAtIndex:btn.tag] objectForKey:@"couponCode"]] withString:@""];
+        if (coupons.length > 0)
+        {
+            if ([[coupons substringFromIndex:(coupons.length-1)] isEqualToString:@","])
+            {
+                coupons = [coupons substringToIndex:(coupons.length-1)];
+            }
+        }
     }
+    NSLog(@"%@",coupons);
     
 }
 

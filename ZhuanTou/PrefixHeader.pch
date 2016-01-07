@@ -20,6 +20,7 @@
 #import <QuartzCore/QuartzCore.h> 
 #import "SCNumberKeyBoard.h"
 #import "PPRevealSideViewController.h"
+#import "AttributedLabel.h"
 
 
 #endif /* PrefixHeader_pch */

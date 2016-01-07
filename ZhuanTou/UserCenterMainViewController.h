@@ -28,7 +28,7 @@
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *viewHeight;
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
-@property (strong, nonatomic) IBOutlet UILabel *propertyLabel;
+@property (strong, nonatomic) IBOutlet AttributedLabel *propertyLabel;
 @property (strong, nonatomic) IBOutlet UIButton *chargeButton;
 @property (strong, nonatomic) IBOutlet UILabel *balanceLabel;
 @property (strong, nonatomic) IBOutlet UIButton *drawButton;

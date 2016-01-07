@@ -152,6 +152,7 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSString *URL = [BASEURL stringByAppendingString:@"api/fofProd/purchase"];
+    NSLog(@"%@",coupons);
     NSDictionary *parameter = @{@"investAmount":investAmount,
                                 @"tradePassword":tradePswd,
                                 @"useZtbBalance":@"true",

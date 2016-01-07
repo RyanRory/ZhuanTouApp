@@ -43,6 +43,7 @@
     __weak NSString *weakStyle = self.style;
     __weak NSString *weakString = self.string;
     __weak UINavigationController *weakSelf = self.navigationController;
+    __weak SetpasswordViewController *weakSelfVC = self;
     
     alipay = [[AliPayViews alloc] initWithFrame:self.view.bounds];
     oldPSW = [KeychainData objectForKey:KEYCHAIN_KEY];
@@ -120,7 +121,7 @@
                              }];
                          }
 
-                         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                              ZTTabBarViewController *tabvc = [[weakSelf storyboard]instantiateViewControllerWithIdentifier:@"ZTTabBarViewController"];
                              [weakSelf presentViewController:tabvc animated:YES completion:nil];
                          });
@@ -267,7 +268,7 @@
         {
             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"您已连续5次输错手势，请重新登录" message:nil preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction* call){
-                [weakSelf performSelector:@selector(toLogin:) withObject:nil afterDelay:0];
+                [weakSelfVC performSelector:@selector(toLogin:) withObject:nil afterDelay:0];
             }];
             [alertController addAction:confirmAction];
             [weakSelf presentViewController:alertController animated:YES completion:nil];
@@ -406,7 +407,7 @@
                          
                      }];
                  }
-                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                      ZTTabBarViewController *tabvc = [[weakSelf storyboard]instantiateViewControllerWithIdentifier:@"ZTTabBarViewController"];
                      [weakSelf presentViewController:tabvc animated:YES completion:nil];
                  });

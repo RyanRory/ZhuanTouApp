@@ -318,8 +318,8 @@
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"为了您的资金安全，需补充银行卡的以下信息后才能提现。" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
             CompleteBankCardInfoViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"CompleteBankCardInfoViewController"];
-            vc.bankNameLabel.text = bankNameLabel.text;
-            vc.bankCardNoLabel.text = cardNumLabel.text;
+            vc.bankName = bankNameLabel.text;
+            vc.bankCardNum = cardNumLabel.text;
             vc.amount = editTextField.text;
             [[self navigationController]pushViewController:vc animated:YES];
         }];

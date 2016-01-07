@@ -75,7 +75,7 @@
     }
     else
     {
-        PasswordReg = @"^[a-zA-Z0-9!@#$%^&*()_+|]{8,30}$";
+        PasswordReg = @"^[0-9]{6}$";
     }
     NSPredicate *regextestpassword = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", PasswordReg];
     if(![passwordTextField.text isEqualToString: pswdAgainTextField.text])
@@ -96,7 +96,7 @@
         }
         else
         {
-            hud.labelText = @"密码至少8位，包括数字和字母";
+            hud.labelText = @"密码必须为6位数字";
         }
         [hud hide:YES afterDelay:1.5f];
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{

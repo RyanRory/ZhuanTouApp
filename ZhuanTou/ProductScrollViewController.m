@@ -371,6 +371,7 @@
             [mainScrollView.mj_header endRefreshing];
             [self bgCircleAnimation:zongheBgImageView];
         }
+        zongheSmallRateLabel.text = [NSString stringWithFormat:@"%@", [zongheData objectForKey:@"interestRate"]];
         NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];//实例化一个NSDateFormatter对象
         [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];//设定时间格式
         NSDate *startDate = [dateFormat dateFromString:[zongheData objectForKey:@"startRaisingDateTime"]];

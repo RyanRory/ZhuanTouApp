@@ -26,6 +26,9 @@
     UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithCustomView:[UIButton buttonWithType:UIButtonTypeCustom]];
     self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:backItem, item, nil];
     
+    bankCardNoLabel.text = self.bankCardNum;
+    bankNameLabel.text = self.bankName;
+    
     confirmButton.layer.cornerRadius = 3;
     [confirmButton setUserInteractionEnabled:NO];
     [confirmButton setAlpha:0.6f];
@@ -156,11 +159,12 @@
 {
     hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    NSString *URL = [BASEURL stringByAppendingString:@"api/withdraw/applyWithdrawal4M"];
-    NSDictionary *parameter = @{@"amount":self.amount,
-                                @"tradePassword":tradePswd,
-                                @"channel":@2,
-                                @"transferAccount":@"self"};
+    NSString *URL = [BASEURL stringByAppendingString:@"api/withdraw/applyWithdrawAndBindCard"];
+    NSDictionary *parameter = @{@"province": provinceLabel.text,
+                                @"city": cityLabel.text,
+                                @"subbranchName": branchTextField.text,
+                                @"withdrawAmount": self.amount,
+                                @"tradePassword": tradePswd};
     [manager POST:URL parameters:parameter success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
         NSLog(@"%@",responseObject);
         NSString *str = [responseObject objectForKey:@"isSuccess"];
@@ -177,7 +181,7 @@
             hud.labelText = @"提现申请成功";
             [hud hide:YES afterDelay:1.5f];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [[self navigationController]popViewControllerAnimated:YES];
+                [[self navigationController]popToRootViewControllerAnimated:YES];
             });
         }
         

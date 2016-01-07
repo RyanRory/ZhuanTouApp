@@ -15,7 +15,7 @@
 @implementation HomeMainViewController
 
 @synthesize scrollView, noticeScrollView, noticeButton, pageControl;
-@synthesize bgImageView, productBeforeButton, buyButton, profitPercentLabel, monthNumLabel, moryLabel, timeLabel, newerButton;
+@synthesize bgImageView, productBeforeButton, buyButton, profitPercentLabel, monthNumLabel, moryLabel, timeLabel, newerButton, detailButton;
 @synthesize outterScrollView, outterViewHeight;
 @synthesize innerScrollView, innerViewHeight;
 
@@ -100,6 +100,7 @@
     }];
 
     [newerButton addTarget:self action:@selector(toNewer:) forControlEvents:UIControlEventTouchUpInside];
+    [detailButton addTarget:self action:@selector(toDetail:) forControlEvents:UIControlEventTouchUpInside];
     
     flag = false;
     setupDataFlag = 3;
@@ -360,6 +361,14 @@
     [[self navigationController]pushViewController:vc animated:YES];
 //    NewerViewController *vc = [[self storyboard] instantiateViewControllerWithIdentifier:@"NewerViewController"];
 //    [[self navigationController] pushViewController:vc animated:YES];
+}
+
+- (void)toDetail:(id)sender
+{
+    WebDetailViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"WebDetailViewController"];
+    vc.title = @"分红宝";
+    [vc setURL:[BASEURL stringByAppendingString:@"Mobile/Home/FenDesc"]];
+    [[self navigationController]pushViewController:vc animated:YES];
 }
 
 - (void)zongheTimeCountDown

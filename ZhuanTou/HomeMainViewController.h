@@ -50,5 +50,6 @@
 @property (strong, nonatomic) IBOutlet UILabel *monthNumLabel;
 @property (strong, nonatomic) IBOutlet UILabel *moryLabel;
 @property (strong, nonatomic) IBOutlet UIButton *newerButton;
+@property (strong, nonatomic) IBOutlet UIButton *detailButton;
 
 @end

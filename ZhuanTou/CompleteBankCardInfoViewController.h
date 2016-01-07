@@ -29,6 +29,8 @@
 @property (strong, nonatomic) IBOutlet UIButton *confirmButton;
 
 @property (strong, nonatomic) NSString *amount;
+@property (strong, nonatomic) NSString *bankName;
+@property (strong, nonatomic) NSString *bankCardNum;
 
 - (IBAction)textFiledReturnEditing:(id)sender;
 

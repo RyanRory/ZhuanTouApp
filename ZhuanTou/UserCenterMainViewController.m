@@ -24,21 +24,6 @@
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor darkGrayColor],NSForegroundColorAttributeName,nil]];
     self.navigationController.interactivePopGestureRecognizer.delegate = self;
     
-    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 100, 30)];
-    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 30, 30)];
-    imageView.image = [UIImage imageNamed:@"defaultHeadPortrait.png"];
-    imageView.layer.cornerRadius = 15;
-    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(35, 0, 65, 30)];
-    label.font = [UIFont systemFontOfSize:13.0];
-    label.text = @"Ryan";
-    UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 100, 30)];
-    [button addTarget:self action:@selector(Slide:) forControlEvents:UIControlEventTouchUpInside];
-    [view addSubview:imageView];
-    [view addSubview:label];
-    [view addSubview:button];
-    UIBarButtonItem *slideButton = [[UIBarButtonItem alloc]initWithCustomView:view];
-    self.navigationItem.leftBarButtonItem = slideButton;
-    
     chargeButton.layer.cornerRadius = 3;
     drawButton.layer.cornerRadius = 3;
     
@@ -109,6 +94,7 @@
         dingqiNumLabel.text = @"0";
         huoqiNumLabel.text = @"0";
         propertyLabel.text = @"0";
+        [propertyLabel setFont:[UIFont systemFontOfSize:25.0] color:[UIColor whiteColor] fromIndex:0 length:1];
         balanceLabel.text = @"0";
         bonusNumLabel.text = @"0";
         securityLabel.text = @"低";
@@ -133,7 +119,11 @@
             double dingqi = [NSString stringWithFormat:@"%@",[responseObject objectForKey:@"activeInvestAmount"]].doubleValue;
             dingqiNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:dingqi]]];
             huoqiNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[responseObject objectForKey:@"ztbBalance"]]];
-            propertyLabel.text = [NSString stringWithString:[formatter stringFromNumber:[responseObject objectForKey:@"totalAsset"]]];
+            NSString *propertyStr = [NSString stringWithString:[formatter stringFromNumber:[responseObject objectForKey:@"totalAsset"]]];
+            propertyLabel.text = propertyStr;
+            [propertyLabel setFont:[UIFont systemFontOfSize:25.0f] fromIndex:0 length:propertyStr.length-2];
+            [propertyLabel setFont:[UIFont systemFontOfSize:25.0f] fromIndex:propertyStr.length-2 length:2];
+            [propertyLabel setColor:[UIColor whiteColor] fromIndex:0 length:propertyStr.length];
             balanceLabel.text = [NSString stringWithString:[formatter stringFromNumber:[responseObject objectForKey:@"fundsAvailable"]]];
             bonusNumLabel.text = [NSString stringWithFormat:@"%@",[responseObject objectForKey:@"acitveCouponsAmount"]];
             securityLabel.text = [responseObject objectForKey:@"levelStr"];
@@ -265,40 +255,31 @@
         [self.navigationController.view addSubview:hud];
         AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
         NSString *URL = [BASEURL stringByAppendingString:@"Account/SignOut"];
-        [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
-            NSLog(@"%@", responseObject);
-            NSString *str = [responseObject objectForKey:@"isAuthenticated"];
-            int f1 = str.intValue;
-            if (f1 == 0)
-            {
-                hud.mode = MBProgressHUDModeCustomView;
-                hud.labelText = [responseObject objectForKey:@"errorMessage"];
-                [hud hide:YES afterDelay:1.5f];
-            }
-            else
-            {
-                hud.mode = MBProgressHUDModeCustomView;
-                hud.labelText = @"登出成功";
-                [hud hide:YES afterDelay:1.0f];
-                self.navigationItem.leftBarButtonItem = nil;
-                NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-                [userDefault setBool:NO forKey:ISLOGIN];
-                [userDefault removeObjectForKey:PASSWORD];
-                [userDefault removeObjectForKey:ISTRADEPSWDSET];
-                [userDefault synchronize];
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    self.navigationItem.rightBarButtonItem = nil;
-                    dingqiNumLabel.text = @"0";
-                    huoqiNumLabel.text = @"0";
-                    propertyLabel.text = @"0";
-                    balanceLabel.text = @"0";
-                    bonusNumLabel.text = @"0";
-                    securityLabel.text = @"低";
-                    UINavigationController *nav = [[self storyboard]instantiateViewControllerWithIdentifier:@"LoginNav"];
-                    [[self tabBarController] presentViewController:nav animated:YES completion:nil];
-
-                });
-            }
+        manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+        [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSData *data) {
+            
+            hud.mode = MBProgressHUDModeCustomView;
+            hud.labelText = @"登出成功";
+            [hud hide:YES afterDelay:1.0f];
+            self.navigationItem.leftBarButtonItem = nil;
+            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+            [userDefault setBool:NO forKey:ISLOGIN];
+            [userDefault removeObjectForKey:PASSWORD];
+            [userDefault removeObjectForKey:ISTRADEPSWDSET];
+            [userDefault synchronize];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                self.navigationItem.rightBarButtonItem = nil;
+                dingqiNumLabel.text = @"0";
+                huoqiNumLabel.text = @"0";
+                propertyLabel.text = @"0";
+                [propertyLabel setFont:[UIFont systemFontOfSize:25.0f] color:[UIColor whiteColor] fromIndex:0 length:1];
+                balanceLabel.text = @"0";
+                bonusNumLabel.text = @"0";
+                securityLabel.text = @"低";
+                UINavigationController *nav = [[self storyboard]instantiateViewControllerWithIdentifier:@"LoginNav"];
+                [[self tabBarController] presentViewController:nav animated:YES completion:nil];
+                
+            });
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"Error: %@", error);
@@ -315,6 +296,7 @@
                 dingqiNumLabel.text = @"0";
                 huoqiNumLabel.text = @"0";
                 propertyLabel.text = @"0";
+                [propertyLabel setFont:[UIFont systemFontOfSize:25.0f] color:[UIColor whiteColor] fromIndex:0 length:1];
                 balanceLabel.text = @"0";
                 bonusNumLabel.text = @"0";
                 securityLabel.text = @"低";

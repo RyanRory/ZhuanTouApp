@@ -345,7 +345,16 @@
             [formatter setPositiveFormat:@"###,##0.00"];
             cell.amountLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"amount"]).doubleValue]]];
             cell.guideProfitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"totalInterestAmount"]).doubleValue]]];
-            cell.floatProfitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"floatingSharePl"]).doubleValue]]];
+            if ([NSString stringWithFormat:@"%@", [data objectForKey:@"showPl"]].boolValue)
+            {
+                cell.floatProfitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"floatingSharePl"]).doubleValue]]];
+                cell.floatProfitLabel.textColor = ZTLIGHTRED;
+            }
+            else
+            {
+                cell.floatProfitLabel.text = @"暂不计算";
+                cell.floatProfitLabel.textColor = ZTGRAY;
+            }
             cell.timeLabel.text = [data valueForKey:@"endDate"];
             
             return cell;

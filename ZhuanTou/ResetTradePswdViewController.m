@@ -41,7 +41,6 @@
         icon1.image = image;
         icon2.image = image;
         icon3.image = image;
-        oldPswdTextField.keyboardType = UIKeyboardTypeDefault;
         nPswdTextTextField.keyboardType = UIKeyboardTypeDefault;
         nPswdAgainTextField.keyboardType = UIKeyboardTypeDefault;
     }
@@ -55,7 +54,6 @@
         icon1.image = image;
         icon2.image = image;
         icon3.image = image;
-        oldPswdTextField.keyboardType = UIKeyboardTypeDecimalPad;
         nPswdTextTextField.keyboardType = UIKeyboardTypeDecimalPad;
         nPswdAgainTextField.keyboardType = UIKeyboardTypeDecimalPad;
     }
