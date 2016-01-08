@@ -5,5 +5,4 @@ pod “MBProgressHUD”
 pod “UICountingLabel”
 pod 'MJRefresh'
 pod 'SCNumberKeyBoard’
-pod 'PPRevealSideViewController', '~> 1.2.1'
 pod 'APNumberPad'

@@ -24,9 +24,6 @@ PODS:
   - IQKeyboardManager (3.3.4)
   - MBProgressHUD (0.9.1)
   - MJRefresh (3.0.7)
-  - PPHelpMe (1.0.2)
-  - PPRevealSideViewController (1.2.2):
-    - PPHelpMe
   - SCNumberKeyBoard (0.5.3)
   - UICountingLabel (1.2.0)
 
@@ -36,7 +33,6 @@ DEPENDENCIES:
   - IQKeyboardManager
   - MBProgressHUD
   - MJRefresh
-  - PPRevealSideViewController (~> 1.2.1)
   - SCNumberKeyBoard
   - UICountingLabel
 
@@ -46,8 +42,6 @@ SPEC CHECKSUMS:
   IQKeyboardManager: ac803e61e5b50efae6b3aeedd95a02c7c7d3b2b3
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
   MJRefresh: f3e1228ec3d38c7ba5208d58032631a52f39f495
-  PPHelpMe: 243c40d2fad33ebdcc6b158c0db54893e0cc2d14
-  PPRevealSideViewController: be6d88511fcf55ddcfb9e9ad6167644a421e709a
   SCNumberKeyBoard: 0d246ca7cc55b603d67f76ed9d7f0c4b5de26eaf
   UICountingLabel: 1db4e7d023e1762171eb226d6dff47a7a84f27aa
 

@@ -183,13 +183,13 @@
             else if ([weakStyle isEqualToString:@"FORGOTTEN"])
             {
                 ZTTabBarViewController *tabvc = [[weakSelf storyboard]instantiateViewControllerWithIdentifier:@"ZTTabBarViewController"];
-                PPRevealSideViewController *revealSideViewController = [[PPRevealSideViewController alloc]initWithRootViewController:tabvc];
-                [revealSideViewController setDirectionsToShowBounce:PPRevealSideDirectionNone];
-                revealSideViewController.fakeiOS7StatusBarColor = [UIColor clearColor];
-                [revealSideViewController setOption:PPRevealSideOptionsiOS7StatusBarMoving];
-                LeftViewController *leftVC = [[weakSelf storyboard]instantiateViewControllerWithIdentifier:@"LeftViewController"];
-                [revealSideViewController preloadViewController:leftVC forSide:PPRevealSideDirectionLeft];
-                [weakSelf presentViewController:revealSideViewController animated:NO completion:nil];
+//                PPRevealSideViewController *revealSideViewController = [[PPRevealSideViewController alloc]initWithRootViewController:tabvc];
+//                [revealSideViewController setDirectionsToShowBounce:PPRevealSideDirectionNone];
+//                revealSideViewController.fakeiOS7StatusBarColor = [UIColor clearColor];
+//                [revealSideViewController setOption:PPRevealSideOptionsiOS7StatusBarMoving];
+//                LeftViewController *leftVC = [[weakSelf storyboard]instantiateViewControllerWithIdentifier:@"LeftViewController"];
+//                [revealSideViewController preloadViewController:leftVC forSide:PPRevealSideDirectionLeft];
+                [weakSelf presentViewController:tabvc animated:NO completion:nil];
             }
             else
             {
@@ -253,13 +253,13 @@
                 }];
             }
             ZTTabBarViewController *tabvc = [[weakSelf storyboard]instantiateViewControllerWithIdentifier:@"ZTTabBarViewController"];
-            PPRevealSideViewController *revealSideViewController = [[PPRevealSideViewController alloc]initWithRootViewController:tabvc];
-            [revealSideViewController setDirectionsToShowBounce:PPRevealSideDirectionNone];
-            revealSideViewController.fakeiOS7StatusBarColor = [UIColor clearColor];
-            [revealSideViewController setOption:PPRevealSideOptionsiOS7StatusBarMoving];
-            LeftViewController *leftVC = [[weakSelf storyboard]instantiateViewControllerWithIdentifier:@"LeftViewController"];
-            [revealSideViewController preloadViewController:leftVC forSide:PPRevealSideDirectionLeft];
-            [weakSelf presentViewController:revealSideViewController animated:NO completion:nil];
+//            PPRevealSideViewController *revealSideViewController = [[PPRevealSideViewController alloc]initWithRootViewController:tabvc];
+//            [revealSideViewController setDirectionsToShowBounce:PPRevealSideDirectionNone];
+//            revealSideViewController.fakeiOS7StatusBarColor = [UIColor clearColor];
+//            [revealSideViewController setOption:PPRevealSideOptionsiOS7StatusBarMoving];
+//            LeftViewController *leftVC = [[weakSelf storyboard]instantiateViewControllerWithIdentifier:@"LeftViewController"];
+//            [revealSideViewController preloadViewController:leftVC forSide:PPRevealSideDirectionLeft];
+            [weakSelf presentViewController:tabvc animated:NO completion:nil];
         }
     };
     

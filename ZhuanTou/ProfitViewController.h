@@ -10,10 +10,12 @@
 #import <Charts/Charts.h>
 #import "ZhuanTou-Bridging-Header.h"
 #import "SetpasswordViewController.h"
+#import "ChargeViewController.h"
+#import "DrawViewController.h"
 
 @interface ProfitViewController : UIViewController<ChartViewDelegate>
 {
-    double dingqi, huoqi, balance, total;
+    double dingqi, huoqi, balance, frozen, total;
 }
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *viewHeight;
@@ -26,5 +28,9 @@
 @property (strong, nonatomic) IBOutlet UILabel *balanceNumLabel;
 @property (strong, nonatomic) IBOutlet PieChartView *pieChartView;
 @property (strong, nonatomic) IBOutlet UILabel *totalNumLabel;
+@property (strong, nonatomic) IBOutlet UILabel *frozenPercentLabel;
+@property (strong, nonatomic) IBOutlet UILabel *frozenNumLabel;
+@property (strong, nonatomic) IBOutlet UIButton *chargeButton;
+@property (strong, nonatomic) IBOutlet UIButton *drawButton;
 
 @end

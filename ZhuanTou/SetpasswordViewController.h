@@ -12,7 +12,6 @@
 #import "RegisterSuccessViewController.h"
 #import "LoginViewController.h"
 #import "ZTTabBarViewController.h"
-#import "LeftViewController.h"
 
 @interface SetpasswordViewController : UIViewController
 {

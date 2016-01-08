@@ -33,8 +33,7 @@
 
 - (void)toNewerReward:(id)sender
 {
-    PPRevealSideViewController *revealSideVC = (PPRevealSideViewController*)[self presentingViewController];
-    ZTTabBarViewController *tabVC = (ZTTabBarViewController*)revealSideVC.rootViewController;
+    ZTTabBarViewController *tabVC = (ZTTabBarViewController*)[self presentingViewController];
     tabVC.isRegister = 1;
     [tabVC setSelectedIndex:0];
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -42,8 +41,7 @@
 
 - (void)gotoHomePage:(id)sender
 {
-    PPRevealSideViewController *revealSideVC = (PPRevealSideViewController*)[self presentingViewController];
-    ZTTabBarViewController *tabVC = (ZTTabBarViewController*)revealSideVC.rootViewController;
+    ZTTabBarViewController *tabVC = (ZTTabBarViewController*)[self presentingViewController];
     tabVC.isRegister = 0;
     [tabVC setSelectedIndex:0];
     [self dismissViewControllerAnimated:YES completion:nil];

@@ -15,6 +15,8 @@
 @implementation UserCenterViewController
 
 @synthesize tView;
+@synthesize deSlideButton;
+@synthesize bigPortraitImageView, mobileLabel, nickNameLabel, realNameButton, realNameLabel, bankCardButton, bankCardNumLabel, loginPswdButton, tradePswdButton, tradePswdLabel, gesturePswdButton, moreButton, signOutButton;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -41,6 +43,15 @@
     tView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         [self setupData];
     }];
+    
+    tView.layer.masksToBounds = NO;
+    tView.layer.shadowColor = [UIColor blackColor].CGColor;
+    tView.layer.shadowOffset = CGSizeMake(-4, 0);
+    tView.layer.shadowOpacity = 0.5;
+    
+    deSlideButton.hidden = YES;
+    [deSlideButton addTarget:self action:@selector(Deslide) forControlEvents:UIControlEventTouchUpInside];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -69,6 +80,14 @@
 {
     [self.navigationController.navigationBar cnSetBackgroundColor:[UIColor clearColor]];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(becomeForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
+    if (SCREEN_WIDTH > 400)
+    {
+        frame = CGRectMake(0, 0, tView.frame.size.width, tView.frame.size.height);
+    }
+    else
+    {
+        frame = CGRectMake(-4, 0, tView.frame.size.width, tView.frame.size.height);
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -93,16 +112,51 @@
     });
 }
 
-- (void)Slide:(id)sender
+- (void)Slide:(UIButton*)sender
 {
-    [self.revealSideViewController pushOldViewControllerOnDirection:PPRevealSideDirectionLeft animated:YES completion:^(){
-        [self.navigationController.view setUserInteractionEnabled:NO];
-        [self.navigationController.tabBarController.tabBar setUserInteractionEnabled:NO];
-    }];
+    if (tView.frame.origin.x <= 0)
+    {
+        [self Slide];
+    }
+    else
+    {
+        [self Deslide];
+    }
+}
+
+- (void)Slide
+{
+    [UIView beginAnimations:nil context:UIGraphicsGetCurrentContext()];
+    [UIView setAnimationDuration:0.2f];
+    [self.navigationController.navigationBar setFrame:CGRectMake(SCREEN_WIDTH-50, 20, self.navigationController.navigationBar.frame.size.width, self.navigationController.navigationBar.frame.size.height)];
+    [tView setFrame:CGRectMake(SCREEN_WIDTH-50, 0, tView.frame.size.width, tView.frame.size.height)];
+    [UIView commitAnimations];
+    deSlideButton.hidden = NO;
+}
+
+- (void)Deslide
+{
+    [UIView beginAnimations:nil context:UIGraphicsGetCurrentContext()];
+    [UIView setAnimationDuration:0.2f];
+    [self.navigationController.navigationBar setFrame:CGRectMake(0, 20, self.navigationController.navigationBar.frame.size.width, self.navigationController.navigationBar.frame.size.height)];
+    [tView setFrame:frame];
+    [UIView commitAnimations];
+    deSlideButton.hidden = YES;
 }
 
 - (void)setupData
 {
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    nickNameLabel.text = [userDefault objectForKey:NICKNAME];
+    if ([userDefault boolForKey:ISTRADEPSWDSET])
+    {
+        tradePswdLabel.text = @"修改";
+    }
+    else
+    {
+        tradePswdLabel.text = @"设置";
+    }
+    
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSString *URL = [BASEURL stringByAppendingString:@"api/account/getUserInfoInAPP"];
     [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
@@ -111,6 +165,7 @@
         int f1 = str.intValue;
         if (f1 == 1)
         {
+            mobileLabel.text = [NSString stringWithFormat:@"%@", [responseObject objectForKey:@"mobilePhone"]];
             data = [NSDictionary dictionaryWithDictionary:responseObject];
             [tView reloadData];
         }
@@ -147,6 +202,30 @@
             [tView.mj_header endRefreshing];
         }
     }];
+    
+    AFHTTPRequestOperationManager *manager1 = [AFHTTPRequestOperationManager manager];
+    NSString *URL1 = [BASEURL stringByAppendingString:@"api/account/IsIdentified"];
+    [manager1 POST:URL1 parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+        NSLog(@"%@",responseObject);
+        NSString *str = [responseObject objectForKey:@"isSuccess"];
+        int f1 = str.intValue;
+        if (f1 == 1)
+        {
+            realNameLabel.text = @"已认证";
+        }
+        else
+        {
+            realNameLabel.text = @"去认证";
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = @"当前网络状况不佳，请重试";
+        [hud hide:YES afterDelay:1.5f];
+    }];
+
 
 }
 
@@ -208,7 +287,18 @@
 {
     if (indexPath.section == 0)
     {
-        return 305;
+        if (SCREEN_WIDTH < 350)
+        {
+            return 305;
+        }
+        else if (SCREEN_WIDTH > 400)
+        {
+            return 355;
+        }
+        else
+        {
+            return 325;
+        }
     }
     else
     {

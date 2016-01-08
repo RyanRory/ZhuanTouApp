@@ -137,8 +137,7 @@
     [passwordTextField resignFirstResponder];
     if (![self.style isEqualToString:@"FORGOTTEN"])
     {
-        PPRevealSideViewController *revealSideVC = (PPRevealSideViewController*)[self presentingViewController];
-        ZTTabBarViewController *vc = (ZTTabBarViewController*)revealSideVC.rootViewController;
+        ZTTabBarViewController *vc = (ZTTabBarViewController*)[self presentingViewController];
         [vc setSelectedIndex:vc.lastSelectedIndex];
         [self dismissViewControllerAnimated:YES completion:nil];
     }

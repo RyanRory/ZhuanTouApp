@@ -22,7 +22,7 @@
 #define ZTGRAY ([UIColor colorWithRed:136.0/255.0 green:136.0/255.0 blue:136.0/255.0 alpha:1.0f])
 #define ZTCHARTSGRAY ([UIColor colorWithRed:136.0/255.0 green:136.0/255.0 blue:136.0/255.0 alpha:0.2f])
 #define ZTPIECHARTPURPLE ([UIColor colorWithRed:161.0/255.0 green:115.0/255.0 blue:209.0/255.0 alpha:0.6f])
-#define ZTPIECHARTBLUE ([UIColor colorWithRed:104.0/255.0 green:215.0/255.0 blue:220.0/255.0 alpha:0.6f])
+#define ZTPIECHARTBLUE ([UIColor colorWithRed:59.0/255.0 green:148.0/255.0 blue:238.0/255.0 alpha:0.6f])
 #define ZTPIECHARTRED ([UIColor colorWithRed:248.0/255.0 green:115.0/255.0 blue:98.0/255.0 alpha:0.6f])
 #define ZTPIECHARTGREEN ([UIColor colorWithRed:156.0/255.0 green:235.0/255.0 blue:158.0/255.0 alpha:0.6f])
 #define ZTPIECHARTYELLOW ([UIColor colorWithRed:255.0/255.0 green:194.0/255.0 blue:15.0/255.0 alpha:0.6f])

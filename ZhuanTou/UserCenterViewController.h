@@ -28,8 +28,23 @@
 @interface UserCenterViewController : UIViewController<UIGestureRecognizerDelegate, UITableViewDataSource, UITableViewDelegate>
 {
     NSDictionary *data;
+    CGRect frame;
 }
 
 @property (strong, nonatomic) IBOutlet UITableView *tView;
+@property (strong, nonatomic) IBOutlet UIButton *deSlideButton;
+@property (strong, nonatomic) IBOutlet UIImageView *bigPortraitImageView;
+@property (strong, nonatomic) IBOutlet UILabel *mobileLabel;
+@property (strong, nonatomic) IBOutlet UILabel *nickNameLabel;
+@property (strong, nonatomic) IBOutlet UILabel *realNameLabel;
+@property (strong, nonatomic) IBOutlet UIButton *realNameButton;
+@property (strong, nonatomic) IBOutlet UILabel *bankCardNumLabel;
+@property (strong, nonatomic) IBOutlet UIButton *bankCardButton;
+@property (strong, nonatomic) IBOutlet UIButton *loginPswdButton;
+@property (strong, nonatomic) IBOutlet UILabel *tradePswdLabel;
+@property (strong, nonatomic) IBOutlet UIButton *tradePswdButton;
+@property (strong, nonatomic) IBOutlet UIButton *gesturePswdButton;
+@property (strong, nonatomic) IBOutlet UIButton *moreButton;
+@property (strong, nonatomic) IBOutlet UIButton *signOutButton;
 
 @end

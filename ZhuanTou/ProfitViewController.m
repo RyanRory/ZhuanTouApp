@@ -14,10 +14,11 @@
 
 @implementation ProfitViewController
 
-@synthesize dingqiPercentLabel, huoqiPercentLabel, balancePercentLabel;
-@synthesize dingqiNumLabel, huoqiNumLabel, balanceNumLabel;
+@synthesize dingqiPercentLabel, huoqiPercentLabel, balancePercentLabel, frozenPercentLabel;
+@synthesize dingqiNumLabel, huoqiNumLabel, balanceNumLabel, frozenNumLabel;
 @synthesize contentView, pieChartView, totalNumLabel;
 @synthesize scrollView, viewHeight;
+@synthesize chargeButton, drawButton;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -52,6 +53,11 @@
     scrollView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         [self setupData];
     }];
+    
+    [drawButton.layer setBorderColor:ZTBLUE.CGColor];
+    [drawButton.layer setBorderWidth:1.0f];
+    [chargeButton addTarget:self action:@selector(toCharge:) forControlEvents:UIControlEventTouchUpInside];
+    [drawButton addTarget:self action:@selector(toDraw:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)updateViewConstraints
@@ -99,6 +105,7 @@
             dingqi = ((NSString*)[responseObject objectForKey:@"activeInvestAmount"]).doubleValue;
             huoqi = ((NSString*)[responseObject objectForKey:@"ztbBalance"]).doubleValue;
             balance = ((NSString*)[responseObject objectForKey:@"fundsAvailable"]).doubleValue;
+            frozen = ((NSString*)[responseObject objectForKey:@"frozenAmount"]).doubleValue;
             total = ((NSString*)[responseObject objectForKey:@"totalAsset"]).doubleValue;
             
             NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
@@ -107,21 +114,24 @@
             huoqiNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:huoqi]]];
             balanceNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:balance]]];
             totalNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:total]]];
+            frozenNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:frozen]]];
             
             if (total == 0)
             {
                 dingqiPercentLabel.text = @"0.00%";
                 huoqiPercentLabel.text = @"0.00%";
                 balancePercentLabel.text = @"0.00%";
+                frozenPercentLabel.text = @"0.00%";
             }
             else
             {
                 dingqiPercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",dingqi*100/total];
                 huoqiPercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",huoqi*100/total];
                 balancePercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",balance*100/total];
+                balancePercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",frozen*100/total];
             }
             
-            [self setDataCount:3 range:100];
+            [self setDataCount:4 range:100];
             [pieChartView animateWithXAxisDuration:1.5 yAxisDuration:1.5 easingOption:ChartEasingOptionEaseOutBack];
         }
         else
@@ -159,6 +169,18 @@
     }];
 }
 
+- (void)toCharge:(id)sender
+{
+    ChargeViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ChargeViewController"];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)toDraw:(id)sender
+{
+    DrawViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"DrawViewController"];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 - (void)setDataCount:(int)count range:(double)range
 {
     
@@ -168,6 +190,7 @@
     [yVals1 addObject:[[BarChartDataEntry alloc] initWithValue:huoqi/total xIndex:0]];
     [yVals1 addObject:[[BarChartDataEntry alloc] initWithValue:dingqi/total xIndex:1]];
     [yVals1 addObject:[[BarChartDataEntry alloc] initWithValue:balance/total xIndex:2]];
+    [yVals1 addObject:[[BarChartDataEntry alloc] initWithValue:frozen/total xIndex:3]];
     
     NSMutableArray *xVals = [[NSMutableArray alloc] init];
     
@@ -187,6 +210,7 @@
     [colors addObject:ZTPIECHARTPURPLE];
     [colors addObject:ZTPIECHARTBLUE];
     [colors addObject:ZTPIECHARTRED];
+    [colors addObject:ZTPIECHARTYELLOW];
     
     dataSet.colors = colors;
     

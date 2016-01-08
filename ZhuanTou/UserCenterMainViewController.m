@@ -46,14 +46,6 @@
     }];
 }
 
-- (void)Slide:(id)sender
-{
-    [self.revealSideViewController pushOldViewControllerOnDirection:PPRevealSideDirectionLeft animated:YES completion:^(){
-        [self.navigationController.view setUserInteractionEnabled:NO];
-        [self.navigationController.tabBarController.tabBar setUserInteractionEnabled:NO];
-    }];
-}
-
 - (void)updateViewConstraints
 {
     [super updateViewConstraints];
