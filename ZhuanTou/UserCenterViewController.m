@@ -18,27 +18,11 @@
 @synthesize deSlideButton;
 @synthesize bigPortraitImageView, mobileLabel, nickNameLabel, realNameButton, realNameLabel, bankCardButton, bankCardNumLabel, loginPswdButton, tradePswdButton, tradePswdLabel, gesturePswdButton, moreButton, signOutButton;
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     self.view.clipsToBounds = YES;
     self.navigationController.interactivePopGestureRecognizer.delegate = self;
-    
-    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 100, 30)];
-    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 30, 30)];
-    imageView.image = [UIImage imageNamed:@"defaultHeadPortrait.png"];
-    imageView.layer.cornerRadius = 15;
-    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(35, 0, 65, 30)];
-    label.font = [UIFont systemFontOfSize:13.0];
-    label.textColor = [UIColor whiteColor];
-    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-    label.text = [userDefault objectForKey:NICKNAME];
-    UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 100, 30)];
-    [button addTarget:self action:@selector(Slide:) forControlEvents:UIControlEventTouchUpInside];
-    [view addSubview:imageView];
-    [view addSubview:label];
-    [view addSubview:button];
-    UIBarButtonItem *slideButton = [[UIBarButtonItem alloc]initWithCustomView:view];
-    self.navigationItem.leftBarButtonItem = slideButton;
     
     tView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         [self setupData];
@@ -51,6 +35,14 @@
     
     deSlideButton.hidden = YES;
     [deSlideButton addTarget:self action:@selector(Deslide) forControlEvents:UIControlEventTouchUpInside];
+    
+    [signOutButton addTarget:self action:@selector(signOut:) forControlEvents:UIControlEventTouchUpInside];
+    [realNameButton addTarget:self action:@selector(toRealName:) forControlEvents:UIControlEventTouchUpInside];
+    [bankCardButton addTarget:self action:@selector(toBankCard:) forControlEvents:UIControlEventTouchUpInside];
+    [loginPswdButton addTarget:self action:@selector(toLoginPswd:) forControlEvents:UIControlEventTouchUpInside];
+    [tradePswdButton addTarget:self action:@selector(toTradePswd:) forControlEvents:UIControlEventTouchUpInside];
+    [gesturePswdButton addTarget:self action:@selector(toGesture:) forControlEvents:UIControlEventTouchUpInside];
+    [moreButton addTarget:self action:@selector(toMore:) forControlEvents:UIControlEventTouchUpInside];
     
 }
 
@@ -73,12 +65,30 @@
     else
     {
         [self setupData];
+        
+        UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 100, 30)];
+        UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 30, 30)];
+        imageView.image = [UIImage imageNamed:@"defaultHeadPortrait.png"];
+        imageView.layer.cornerRadius = 15;
+        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(35, 0, 65, 30)];
+        label.font = [UIFont systemFontOfSize:13.0];
+        label.textColor = [UIColor whiteColor];
+        label.text = [userDefault objectForKey:NICKNAME];
+        UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 100, 30)];
+        [button addTarget:self action:@selector(Slide:) forControlEvents:UIControlEventTouchUpInside];
+        [view addSubview:imageView];
+        [view addSubview:label];
+        [view addSubview:button];
+        UIBarButtonItem *slideButton = [[UIBarButtonItem alloc]initWithCustomView:view];
+        self.navigationItem.leftBarButtonItem = slideButton;
+        
     }
+    
+    [self.navigationController.navigationBar cnSetBackgroundColor:[UIColor clearColor]];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    [self.navigationController.navigationBar cnSetBackgroundColor:[UIColor clearColor]];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(becomeForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
     if (SCREEN_WIDTH > 400)
     {
@@ -99,10 +109,14 @@
     CGContextFillRect(context, rect);
     UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
-    [self.navigationController.navigationBar setShadowImage:theImage];
-    [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor darkGrayColor],NSForegroundColorAttributeName,nil]];
-    self.navigationController.navigationBar.translucent = NO;
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    if ([userDefault boolForKey:ISLOGIN])
+    {
+        [self.navigationController.navigationBar cnSetBackgroundColor:[UIColor whiteColor]];
+        [self.navigationController.navigationBar setShadowImage:theImage];
+        [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor darkGrayColor],NSForegroundColorAttributeName,nil]];
+        self.navigationController.navigationBar.translucent = NO;
+    }
 }
 
 - (void)becomeForeground
@@ -166,7 +180,7 @@
         if (f1 == 1)
         {
             mobileLabel.text = [NSString stringWithFormat:@"%@", [responseObject objectForKey:@"mobilePhone"]];
-            data = [NSDictionary dictionaryWithDictionary:responseObject];
+            data = [NSMutableDictionary dictionaryWithDictionary:responseObject];
             [tView reloadData];
         }
         else
@@ -229,6 +243,8 @@
 
 }
 
+#pragma ButtonActions
+
 - (void)toCharge:(id)sender
 {
     ChargeViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ChargeViewController"];
@@ -246,6 +262,148 @@
     ProfitViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ProfitViewController"];
     [[self navigationController]pushViewController:vc animated:YES];
 }
+
+- (void)toAllIcome:(id)sender
+{
+    AllIncomeViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"AllIncomeViewController"];
+    [[self navigationController]pushViewController:vc animated:YES];
+}
+
+- (void)toBankCard:(id)sender
+{
+    [self Deslide];
+    BankCardViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"BankCardViewController"];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.navigationController pushViewController:vc animated:YES];
+    });
+}
+
+- (void)toMore:(id)sender
+{
+    [self Deslide];
+    HelpMainViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"HelpMainViewController"];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.navigationController pushViewController:vc animated:YES];
+    });
+}
+
+- (void)toRealName:(id)sender
+{
+    if ([realNameLabel.text isEqualToString:@"未认证"])
+    {
+        [self Deslide];
+        RealNameViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"RealNameViewController"];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.navigationController pushViewController:vc animated:YES];
+        });
+    }
+    else
+    {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.mode = MBProgressHUDModeCustomView;
+        hud.labelText = @"您已认证，不可更改";
+        [hud hide:YES afterDelay:1.5f];
+    }
+}
+
+- (void)toTradePswd:(id)sender
+{
+    [self Deslide];
+    if ([tradePswdLabel.text isEqualToString:@"未设置"])
+    {
+        SetTradePswdViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"SetTradePswdViewController"];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.navigationController pushViewController:vc animated:YES];
+        });
+    }
+    else
+    {
+        ResetTradePswdViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ResetTradePswdViewController"];
+        [vc setStyle:RESETTRADEPSWD];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.navigationController pushViewController:vc animated:YES];
+        });
+    }
+}
+
+- (void)toLoginPswd:(id)sender
+{
+    [self Deslide];
+    ResetTradePswdViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ResetTradePswdViewController"];
+    [vc setStyle:RESETLOGINPSWD];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.navigationController pushViewController:vc animated:YES];
+    });
+}
+
+- (void)toGesture:(id)sender
+{
+    [self Deslide];
+    SetpasswordViewController *setpass = [[self storyboard]instantiateViewControllerWithIdentifier:@"SetpasswordViewController"];
+    setpass.string = @"修改密码";
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.navigationController pushViewController:setpass animated:YES];
+    });
+}
+
+- (void)signOut:(id)sender
+{
+    [self Deslide];
+    UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:@"是否确认安全退出当前账户？" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        [self.navigationController.view addSubview:hud];
+        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+        NSString *URL = [BASEURL stringByAppendingString:@"Account/SignOut"];
+        manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+        [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSData *responseObject) {
+            
+            hud.mode = MBProgressHUDModeCustomView;
+            hud.labelText = @"登出成功";
+            [hud hide:YES afterDelay:1.0f];
+            self.navigationItem.leftBarButtonItem = nil;
+            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+            [userDefault setBool:NO forKey:ISLOGIN];
+            [userDefault removeObjectForKey:PASSWORD];
+            [userDefault removeObjectForKey:ISTRADEPSWDSET];
+            [userDefault synchronize];
+            [data removeAllObjects];
+            [tView reloadData];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                self.navigationItem.rightBarButtonItem = nil;
+                UINavigationController *nav = [[self storyboard]instantiateViewControllerWithIdentifier:@"LoginNav"];
+                [[self tabBarController] presentViewController:nav animated:YES completion:nil];
+                
+            });
+            
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            NSLog(@"Error: %@", error);
+            hud.mode = MBProgressHUDModeCustomView;
+            hud.labelText = @"登出成功";
+            [hud hide:YES afterDelay:1.0f];
+            self.navigationItem.leftBarButtonItem = nil;
+            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+            [userDefault setBool:NO forKey:ISLOGIN];
+            [userDefault removeObjectForKey:PASSWORD];
+            [userDefault synchronize];
+            [data removeAllObjects];
+            [tView reloadData];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                UINavigationController *nav = [[self storyboard]instantiateViewControllerWithIdentifier:@"LoginNav"];
+                [[self tabBarController] presentViewController:nav animated:YES completion:nil];
+                
+            });
+        }];
+    }];
+    
+    [alertVC addAction:cancelAction];
+    [alertVC addAction:confirmAction];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self presentViewController:alertVC animated:YES completion:nil];
+    });
+}
+
 
 #pragma TableView Delegate
 
@@ -320,6 +478,7 @@
         [cell.chargeButton addTarget:self action:@selector(toCharge:) forControlEvents:UIControlEventTouchUpInside];
         [cell.drawButton addTarget:self action:@selector(toDraw:) forControlEvents:UIControlEventTouchUpInside];
         [cell.toProfitButton addTarget:self action:@selector(toProfit:) forControlEvents:UIControlEventTouchUpInside];
+        [cell.toAllButon addTarget:self action:@selector(toAllIcome:) forControlEvents:UIControlEventTouchUpInside];
         if (data.count == 0)
         {
             cell.propertyLabel.text = @"0.00";
@@ -424,7 +583,8 @@
         }
         else
         {
-            
+            InvitationViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"InvitationViewController"];
+            [[self navigationController]pushViewController:vc animated:YES];
         }
     }
 }

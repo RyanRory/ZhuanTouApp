@@ -14,20 +14,24 @@
 #import "HuoqiViewController.h"
 #import "DingqiViewController.h"
 #import "ProfitViewController.h"
-#import "AutoViewController.h"
-#import "SecurityViewController.h"
 #import "DetailViewController.h"
 #import "BonusViewController.h"
 #import "BankCardViewController.h"
 #import "ChargeViewController.h"
 #import "DrawViewController.h"
+#import "HelpMainViewController.h"
+#import "RealNameViewController.h"
+#import "SetTradePswdViewController.h"
+#import "ResetTradePswdViewController.h"
+#import "AllIncomeViewController.h"
+#import "InvitationViewController.h"
 
 #import "SetpasswordViewController.h"
 #import "ZTTabBarViewController.h"
 
 @interface UserCenterViewController : UIViewController<UIGestureRecognizerDelegate, UITableViewDataSource, UITableViewDelegate>
 {
-    NSDictionary *data;
+    NSMutableDictionary *data;
     CGRect frame;
 }
 

@@ -14,12 +14,12 @@
 @interface BonusViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 {
     int bonusNum;
-    NSMutableArray *datas, *canDatas, *cannotDatas;
+    NSMutableArray *datas, *bonusDatas, *interestRateDatas;
 }
 
 @property (strong, nonatomic) IBOutlet UITableView *tView;
-@property (strong, nonatomic) IBOutlet UIButton *canUseButton;
-@property (strong, nonatomic) IBOutlet UIButton *cannotUseButton;
+@property (strong, nonatomic) IBOutlet UIButton *bonusButton;
+@property (strong, nonatomic) IBOutlet UIButton *interestRateButton;
 @property (strong, nonatomic) IBOutlet UILabel *noBonusLabel;
 
 @end

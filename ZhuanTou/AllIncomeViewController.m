@@ -1,24 +1,22 @@
 //
-//  ProfitViewController.m
+//  AllIncomeViewController.m
 //  ZhuanTou
 //
-//  Created by 赵润声 on 15/10/20.
-//  Copyright © 2015年 Shanghai Momu Financial Information Service  Shanghai Momu Financial Information Service Co., Ltd. All rights reserved.
+//  Created by 赵润声 on 16/1/11.
+//  Copyright © 2016年 Shanghai Momu Financial Information Service  Shanghai Momu Financial Information Service Co., Ltd. All rights reserved.
 //
 
-#import "ProfitViewController.h"
+#import "AllIncomeViewController.h"
 
-@interface ProfitViewController ()
+@interface AllIncomeViewController ()
 
 @end
 
-@implementation ProfitViewController
+@implementation AllIncomeViewController
 
-@synthesize dingqiPercentLabel, huoqiPercentLabel, balancePercentLabel, frozenPercentLabel;
-@synthesize dingqiNumLabel, huoqiNumLabel, balanceNumLabel, frozenNumLabel;
-@synthesize contentView, pieChartView, totalNumLabel;
-@synthesize scrollView, viewHeight;
-@synthesize chargeButton, drawButton;
+@synthesize pieChartView, viewHeight;
+@synthesize contentView, scrollView;
+@synthesize totalNumLabel, fhbPercentLabel, fhbNumLabel, wybPercentLabel, wybNumLabel, ztbNumLabel, ztbPercentLabel, otherNumLabel, otherPercentLabel;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -53,11 +51,7 @@
     scrollView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         [self setupData];
     }];
-    
-    [drawButton.layer setBorderColor:ZTBLUE.CGColor];
-    [drawButton.layer setBorderWidth:1.0f];
-    [chargeButton addTarget:self action:@selector(toCharge:) forControlEvents:UIControlEventTouchUpInside];
-    [drawButton addTarget:self action:@selector(toDraw:) forControlEvents:UIControlEventTouchUpInside];
+
 }
 
 - (void)updateViewConstraints
@@ -103,33 +97,33 @@
         int f1 = str.intValue;
         if (f1 == 1)
         {
-            dingqi = ((NSString*)[responseObject objectForKey:@"activeInvestAmount"]).doubleValue;
-            huoqi = ((NSString*)[responseObject objectForKey:@"ztbBalance"]).doubleValue;
-            balance = ((NSString*)[responseObject objectForKey:@"fundsAvailable"]).doubleValue;
-            frozen = ((NSString*)[responseObject objectForKey:@"frozenAmount"]).doubleValue;
+            fhb = ((NSString*)[responseObject objectForKey:@"activeInvestAmount"]).doubleValue;
+            wyb = ((NSString*)[responseObject objectForKey:@"ztbBalance"]).doubleValue;
+            ztb = ((NSString*)[responseObject objectForKey:@"fundsAvailable"]).doubleValue;
+            other = ((NSString*)[responseObject objectForKey:@"frozenAmount"]).doubleValue;
             total = ((NSString*)[responseObject objectForKey:@"totalAsset"]).doubleValue;
             
             NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
             [formatter setPositiveFormat:@"###,##0.00元"];
-            dingqiNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:dingqi]]];
-            huoqiNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:huoqi]]];
-            balanceNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:balance]]];
+            fhbNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:fhb]]];
+            wybNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:wyb]]];
+            ztbNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:ztb]]];
             totalNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:total]]];
-            frozenNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:frozen]]];
+            otherNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:other]]];
             
             if (total == 0)
             {
-                dingqiPercentLabel.text = @"0.00%";
-                huoqiPercentLabel.text = @"0.00%";
-                balancePercentLabel.text = @"0.00%";
-                frozenPercentLabel.text = @"0.00%";
+                fhbPercentLabel.text = @"0.00%";
+                wybPercentLabel.text = @"0.00%";
+                ztbPercentLabel.text = @"0.00%";
+                otherPercentLabel.text = @"0.00%";
             }
             else
             {
-                dingqiPercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",dingqi*100/total];
-                huoqiPercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",huoqi*100/total];
-                balancePercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",balance*100/total];
-                balancePercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",frozen*100/total];
+                fhbPercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",fhb*100/total];
+                wybPercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",wyb*100/total];
+                ztbPercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",ztb*100/total];
+                otherPercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",other*100/total];
             }
             
             [self setDataCount:4 range:100];
@@ -170,28 +164,16 @@
     }];
 }
 
-- (void)toCharge:(id)sender
-{
-    ChargeViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ChargeViewController"];
-    [self.navigationController pushViewController:vc animated:YES];
-}
-
-- (void)toDraw:(id)sender
-{
-    DrawViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"DrawViewController"];
-    [self.navigationController pushViewController:vc animated:YES];
-}
-
 - (void)setDataCount:(int)count range:(double)range
 {
     
     NSMutableArray *yVals1 = [[NSMutableArray alloc] init];
     
     // IMPORTANT: In a PieChart, no values (Entry) should have the same xIndex (even if from different DataSets), since no values can be drawn above each other.
-    [yVals1 addObject:[[BarChartDataEntry alloc] initWithValue:huoqi/total xIndex:0]];
-    [yVals1 addObject:[[BarChartDataEntry alloc] initWithValue:dingqi/total xIndex:1]];
-    [yVals1 addObject:[[BarChartDataEntry alloc] initWithValue:balance/total xIndex:2]];
-    [yVals1 addObject:[[BarChartDataEntry alloc] initWithValue:frozen/total xIndex:3]];
+    [yVals1 addObject:[[BarChartDataEntry alloc] initWithValue:fhb/total xIndex:0]];
+    [yVals1 addObject:[[BarChartDataEntry alloc] initWithValue:wyb/total xIndex:1]];
+    [yVals1 addObject:[[BarChartDataEntry alloc] initWithValue:ztb/total xIndex:2]];
+    [yVals1 addObject:[[BarChartDataEntry alloc] initWithValue:other/total xIndex:3]];
     
     NSMutableArray *xVals = [[NSMutableArray alloc] init];
     
@@ -208,10 +190,10 @@
     
     NSMutableArray *colors = [[NSMutableArray alloc] init];
     
-    [colors addObject:ZTPIECHARTPURPLE];
     [colors addObject:ZTPIECHARTBLUE];
-    [colors addObject:ZTPIECHARTRED];
     [colors addObject:ZTPIECHARTYELLOW];
+    [colors addObject:ZTPIECHARTRED];
+    [colors addObject:ZTPIECHARTPURPLE];
     
     dataSet.colors = colors;
     
@@ -220,6 +202,5 @@
     pieChartView.data = data;
     [pieChartView highlightValues:nil];
 }
-
 
 @end
