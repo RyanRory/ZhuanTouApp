@@ -17,6 +17,7 @@
 @synthesize tView;
 @synthesize deSlideButton;
 @synthesize bigPortraitImageView, mobileLabel, nickNameLabel, realNameButton, realNameLabel, bankCardButton, bankCardNumLabel, loginPswdButton, tradePswdButton, tradePswdLabel, gesturePswdButton, moreButton, signOutButton;
+@synthesize navigationView, navigationLeftButton, headImageView, usernameLabel, navigationRightButton;
 
 - (void)viewDidLoad
 {
@@ -35,6 +36,8 @@
     
     deSlideButton.hidden = YES;
     [deSlideButton addTarget:self action:@selector(Deslide) forControlEvents:UIControlEventTouchUpInside];
+    [navigationLeftButton addTarget:self action:@selector(Slide:) forControlEvents:UIControlEventTouchUpInside];
+    [navigationRightButton addTarget:self action:@selector(toDetail:) forControlEvents:UIControlEventTouchUpInside];
     
     [signOutButton addTarget:self action:@selector(signOut:) forControlEvents:UIControlEventTouchUpInside];
     [realNameButton addTarget:self action:@selector(toRealName:) forControlEvents:UIControlEventTouchUpInside];
@@ -44,6 +47,62 @@
     [gesturePswdButton addTarget:self action:@selector(toGesture:) forControlEvents:UIControlEventTouchUpInside];
     [moreButton addTarget:self action:@selector(toMore:) forControlEvents:UIControlEventTouchUpInside];
     
+    navigationView.hidden = YES;
+    
+    pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pan:)];
+    [tView addGestureRecognizer:pan];
+    tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)];
+    tap.numberOfTapsRequired = 1;
+    isSlide = false;
+    
+}
+
+- (void)tap:(UITapGestureRecognizer *)sender
+{
+    [self Deslide];
+}
+
+-(void)pan:(UIPanGestureRecognizer *)sender
+{
+    if (sender.state == UIGestureRecognizerStateBegan)
+    {
+        
+    }
+    else if(sender.state == UIGestureRecognizerStateChanged)
+    {
+        CGPoint translation = [sender translationInView:self.view];
+        if (((translation.x > 0) && (tView.frame.origin.x < SCREEN_WIDTH-75)) || ((translation.x < 0) && (tView.frame.origin.x > frame.origin.x)))
+        {
+            tView.center = CGPointMake(initalCenter.x + translation.x,initalCenter.y);
+            navigationView.center = CGPointMake(navigationCenter.x + translation.x, navigationCenter.y);
+        }
+    }
+    else
+    {
+        CGPoint translation = [sender translationInView:self.view];
+        if (translation.x > 0)
+        {
+            if (tView.frame.origin.x > (SCREEN_WIDTH-75)/3)
+            {
+                [self Slide];
+            }
+            else
+            {
+                [self Deslide];
+            }
+        }
+        else
+        {
+            if (tView.frame.origin.x < (SCREEN_WIDTH-75)/3*2)
+            {
+                [self Deslide];
+            }
+            else
+            {
+                [self Slide];
+            }
+        }
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -53,8 +112,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    self.navigationController.navigationBar.translucent = YES;
-    [self.navigationController.navigationBar setShadowImage:[[UIImage alloc]init]];
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
     BOOL flag = [userDefault boolForKey:ISLOGIN];
     if (!flag)
@@ -64,24 +122,11 @@
     }
     else
     {
+        navigationView.hidden = NO;
         [self setupData];
-        
-        UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 100, 30)];
-        UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 30, 30)];
-        imageView.image = [UIImage imageNamed:@"defaultHeadPortrait.png"];
-        imageView.layer.cornerRadius = 15;
-        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(35, 0, 65, 30)];
-        label.font = [UIFont systemFontOfSize:13.0];
-        label.textColor = [UIColor whiteColor];
-        label.text = [userDefault objectForKey:NICKNAME];
-        UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 100, 30)];
-        [button addTarget:self action:@selector(Slide:) forControlEvents:UIControlEventTouchUpInside];
-        [view addSubview:imageView];
-        [view addSubview:label];
-        [view addSubview:button];
-        UIBarButtonItem *slideButton = [[UIBarButtonItem alloc]initWithCustomView:view];
-        self.navigationItem.leftBarButtonItem = slideButton;
-        
+        headImageView.image = [UIImage imageNamed:@"defaultHeadPortrait.png"];
+        usernameLabel.text = [userDefault objectForKey:NICKNAME];
+
     }
     
     [self.navigationController.navigationBar cnSetBackgroundColor:[UIColor clearColor]];
@@ -98,24 +143,16 @@
     {
         frame = CGRectMake(-4, 0, tView.frame.size.width, tView.frame.size.height);
     }
+    initalCenter = tView.center;
+    navigationCenter = navigationView.center;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    CGRect rect=CGRectMake(0,0, 0.5, 0.5);
-    UIGraphicsBeginImageContext(rect.size);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetFillColorWithColor(context, [[UIColor darkGrayColor] CGColor]);
-    CGContextFillRect(context, rect);
-    UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
     if ([userDefault boolForKey:ISLOGIN])
     {
-        [self.navigationController.navigationBar cnSetBackgroundColor:[UIColor whiteColor]];
-        [self.navigationController.navigationBar setShadowImage:theImage];
-        [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor darkGrayColor],NSForegroundColorAttributeName,nil]];
-        self.navigationController.navigationBar.translucent = NO;
+        [self.navigationController setNavigationBarHidden:NO animated:YES];
     }
 }
 
@@ -140,22 +177,28 @@
 
 - (void)Slide
 {
+    isSlide = true;
     [UIView beginAnimations:nil context:UIGraphicsGetCurrentContext()];
     [UIView setAnimationDuration:0.2f];
-    [self.navigationController.navigationBar setFrame:CGRectMake(SCREEN_WIDTH-50, 20, self.navigationController.navigationBar.frame.size.width, self.navigationController.navigationBar.frame.size.height)];
-    [tView setFrame:CGRectMake(SCREEN_WIDTH-50, 0, tView.frame.size.width, tView.frame.size.height)];
+    [navigationView setFrame:CGRectMake(SCREEN_WIDTH-75, 20, self.navigationController.navigationBar.frame.size.width, self.navigationController.navigationBar.frame.size.height)];
+    [tView setFrame:CGRectMake(SCREEN_WIDTH-75, 0, tView.frame.size.width, tView.frame.size.height)];
     [UIView commitAnimations];
-    deSlideButton.hidden = NO;
+    initalCenter = tView.center;
+    navigationCenter = navigationView.center;
+    [tView addGestureRecognizer:tap];
 }
 
 - (void)Deslide
 {
+    isSlide = false;
     [UIView beginAnimations:nil context:UIGraphicsGetCurrentContext()];
     [UIView setAnimationDuration:0.2f];
-    [self.navigationController.navigationBar setFrame:CGRectMake(0, 20, self.navigationController.navigationBar.frame.size.width, self.navigationController.navigationBar.frame.size.height)];
+    [navigationView setFrame:CGRectMake(frame.origin.x, 20, self.navigationController.navigationBar.frame.size.width, self.navigationController.navigationBar.frame.size.height)];
     [tView setFrame:frame];
     [UIView commitAnimations];
-    deSlideButton.hidden = YES;
+    initalCenter = tView.center;
+    navigationCenter = navigationView.center;
+    [tView removeGestureRecognizer:tap];
 }
 
 - (void)setupData
@@ -247,25 +290,72 @@
 
 - (void)toCharge:(id)sender
 {
-    ChargeViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ChargeViewController"];
-    [[self navigationController]pushViewController:vc animated:YES];
+    if (!isSlide)
+    {
+        ChargeViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ChargeViewController"];
+        [[self navigationController]pushViewController:vc animated:YES];
+    }
+    else
+    {
+        [self Deslide];
+    }
 }
 
 - (void)toDraw:(id)sender
 {
-    DrawViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"DrawViewController"];
-    [[self navigationController]pushViewController:vc animated:YES];
+    if (!isSlide)
+    {
+        DrawViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"DrawViewController"];
+        [[self navigationController]pushViewController:vc animated:YES];
+    }
+    else
+    {
+        [self Deslide];
+    }
 }
 
 - (void)toProfit:(id)sender
 {
-    ProfitViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ProfitViewController"];
-    [[self navigationController]pushViewController:vc animated:YES];
+    if (!isSlide)
+    {
+        ProfitViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ProfitViewController"];
+        [[self navigationController]pushViewController:vc animated:YES];
+    }
+    else
+    {
+        [self Deslide];
+    }
 }
 
 - (void)toAllIcome:(id)sender
 {
-    AllIncomeViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"AllIncomeViewController"];
+    if (!isSlide)
+    {
+        AllIncomeViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"AllIncomeViewController"];
+        [[self navigationController]pushViewController:vc animated:YES];
+    }
+    else
+    {
+        [self Deslide];
+    }
+}
+
+- (void)toYesterdayIncome:(id)sender
+{
+    if (!isSlide)
+    {
+        YesterdayIncomeViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"YesterdayIncomeViewController"];
+        [[self navigationController]pushViewController:vc animated:YES];
+    }
+    else
+    {
+        [self Deslide];
+    }
+}
+
+- (void)toDetail:(id)sender
+{
+    DetailViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"DetailViewController"];
     [[self navigationController]pushViewController:vc animated:YES];
 }
 
@@ -370,8 +460,8 @@
             [userDefault synchronize];
             [data removeAllObjects];
             [tView reloadData];
+            navigationView.hidden = YES;
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                self.navigationItem.rightBarButtonItem = nil;
                 UINavigationController *nav = [[self storyboard]instantiateViewControllerWithIdentifier:@"LoginNav"];
                 [[self tabBarController] presentViewController:nav animated:YES completion:nil];
                 
@@ -389,6 +479,7 @@
             [userDefault synchronize];
             [data removeAllObjects];
             [tView reloadData];
+            navigationView.hidden = YES;
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 UINavigationController *nav = [[self storyboard]instantiateViewControllerWithIdentifier:@"LoginNav"];
                 [[self tabBarController] presentViewController:nav animated:YES completion:nil];
@@ -479,6 +570,7 @@
         [cell.drawButton addTarget:self action:@selector(toDraw:) forControlEvents:UIControlEventTouchUpInside];
         [cell.toProfitButton addTarget:self action:@selector(toProfit:) forControlEvents:UIControlEventTouchUpInside];
         [cell.toAllButon addTarget:self action:@selector(toAllIcome:) forControlEvents:UIControlEventTouchUpInside];
+        [cell.toYesterdayButton addTarget:self action:@selector(toYesterdayIncome:) forControlEvents:UIControlEventTouchUpInside];
         if (data.count == 0)
         {
             cell.propertyLabel.text = @"0.00";

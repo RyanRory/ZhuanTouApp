@@ -388,6 +388,9 @@
 		A4FAC49D1C438BE40051B0CA /* weibo.png in Resources */ = {isa = PBXBuildFile; fileRef = A4FAC4971C438BE40051B0CA /* weibo.png */; };
 		A4FAC4A01C4393D90051B0CA /* InvitationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4FAC49F1C4393D90051B0CA /* InvitationViewController.m */; };
 		A4FAC4A31C4394340051B0CA /* InvitationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A4FAC4A21C4394340051B0CA /* InvitationTableViewCell.m */; };
+		A4FAC4A71C44AC890051B0CA /* MyInvTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A4FAC4A61C44AC890051B0CA /* MyInvTableViewCell.m */; };
+		A4FAC4AD1C44CBB00051B0CA /* YesterdayIncomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4FAC4AC1C44CBB00051B0CA /* YesterdayIncomeViewController.m */; };
+		A4FAC4B01C44CC9A0051B0CA /* YesterdayIncomeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A4FAC4AF1C44CC9A0051B0CA /* YesterdayIncomeTableViewCell.m */; };
 		A4FED4771C2A6A8A009420D9 /* AttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = A4FED4761C2A6A8A009420D9 /* AttributedLabel.m */; };
 /* End PBXBuildFile section */
 
@@ -895,6 +898,12 @@
 		A4FAC49F1C4393D90051B0CA /* InvitationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InvitationViewController.m; sourceTree = "<group>"; };
 		A4FAC4A11C4394340051B0CA /* InvitationTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InvitationTableViewCell.h; sourceTree = "<group>"; };
 		A4FAC4A21C4394340051B0CA /* InvitationTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InvitationTableViewCell.m; sourceTree = "<group>"; };
+		A4FAC4A51C44AC890051B0CA /* MyInvTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyInvTableViewCell.h; sourceTree = "<group>"; };
+		A4FAC4A61C44AC890051B0CA /* MyInvTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyInvTableViewCell.m; sourceTree = "<group>"; };
+		A4FAC4AB1C44CBB00051B0CA /* YesterdayIncomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YesterdayIncomeViewController.h; sourceTree = "<group>"; };
+		A4FAC4AC1C44CBB00051B0CA /* YesterdayIncomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YesterdayIncomeViewController.m; sourceTree = "<group>"; };
+		A4FAC4AE1C44CC9A0051B0CA /* YesterdayIncomeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YesterdayIncomeTableViewCell.h; sourceTree = "<group>"; };
+		A4FAC4AF1C44CC9A0051B0CA /* YesterdayIncomeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YesterdayIncomeTableViewCell.m; sourceTree = "<group>"; };
 		A4FED4751C2A6A8A009420D9 /* AttributedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttributedLabel.h; sourceTree = "<group>"; };
 		A4FED4761C2A6A8A009420D9 /* AttributedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttributedLabel.m; sourceTree = "<group>"; };
 		B241E5576143A7703444EB0B /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -1422,6 +1431,10 @@
 				A45CC3F31C2BA88200C5D56C /* UserCenterTableViewCell.m */,
 				A4FAC4A11C4394340051B0CA /* InvitationTableViewCell.h */,
 				A4FAC4A21C4394340051B0CA /* InvitationTableViewCell.m */,
+				A4FAC4A51C44AC890051B0CA /* MyInvTableViewCell.h */,
+				A4FAC4A61C44AC890051B0CA /* MyInvTableViewCell.m */,
+				A4FAC4AE1C44CC9A0051B0CA /* YesterdayIncomeTableViewCell.h */,
+				A4FAC4AF1C44CC9A0051B0CA /* YesterdayIncomeTableViewCell.m */,
 			);
 			name = cells;
 			sourceTree = "<group>";
@@ -1512,6 +1525,8 @@
 				A463EA981BD5FF7100CAF146 /* ProfitViewController.m */,
 				A4FAC4771C4378B40051B0CA /* AllIncomeViewController.h */,
 				A4FAC4781C4378B40051B0CA /* AllIncomeViewController.m */,
+				A4FAC4AB1C44CBB00051B0CA /* YesterdayIncomeViewController.h */,
+				A4FAC4AC1C44CBB00051B0CA /* YesterdayIncomeViewController.m */,
 				A4B2CFF51BDA370200AC2E78 /* DetailViewController.h */,
 				A4B2CFF61BDA370200AC2E78 /* DetailViewController.m */,
 				A4B2CFFC1BDC813D00AC2E78 /* BonusViewController.h */,
@@ -2145,6 +2160,7 @@
 				A49646E01BE3287B006545C2 /* AddBankCardViewController.m in Sources */,
 				A4B2CFE31BD9D26100AC2E78 /* HelpMainViewController.m in Sources */,
 				A4B227851BD3516F0020C4D5 /* SimpleSwitch.m in Sources */,
+				A4FAC4B01C44CC9A0051B0CA /* YesterdayIncomeTableViewCell.m in Sources */,
 				A49AA6AE1C168C450087F060 /* NewerViewController.m in Sources */,
 				A463EACA1BD6377700CAF146 /* WaveView.m in Sources */,
 				A4B2CFEA1BD9D3DD00AC2E78 /* HelpDescriptionTableViewCell.m in Sources */,
@@ -2190,6 +2206,7 @@
 				A41E1DED1BE5B63700641616 /* DrawViewController.m in Sources */,
 				A4B2CFF71BDA370200AC2E78 /* DetailViewController.m in Sources */,
 				A4E7F2561BCE54DD00B20EC6 /* KeychainItemWrapper.m in Sources */,
+				A4FAC4A71C44AC890051B0CA /* MyInvTableViewCell.m in Sources */,
 				A4E7F2521BCE54DD00B20EC6 /* AliPayItem.m in Sources */,
 				A4E7F2531BCE54DD00B20EC6 /* AlipaySubItem.m in Sources */,
 				A43174831BD4C9FD0001FC53 /* HeadView.m in Sources */,
@@ -2209,6 +2226,7 @@
 				A4E7F23C1BCE166B00B20EC6 /* PhoneVcodeViewController.m in Sources */,
 				A4FED4771C2A6A8A009420D9 /* AttributedLabel.m in Sources */,
 				A4B2CFD71BD8E92A00AC2E78 /* RealNameViewController.m in Sources */,
+				A4FAC4AD1C44CBB00051B0CA /* YesterdayIncomeViewController.m in Sources */,
 				A431744E1BD3950B0001FC53 /* HuoqiViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

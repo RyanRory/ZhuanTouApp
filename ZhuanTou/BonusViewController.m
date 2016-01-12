@@ -88,15 +88,13 @@
 
 - (void)setupData
 {
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    NSString *URL = [BASEURL stringByAppendingString:@"api/account/getCouponsInApp"];
-    [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSArray *responseObject) {
-        NSLog(@"%@", responseObject);
-        bonusDatas = [[NSMutableArray alloc]initWithArray:responseObject];
-        interestRateDatas = [[NSMutableArray alloc]init];
-
-        if (interestRateButton.userInteractionEnabled)
-        {
+    if (interestRateButton.userInteractionEnabled)
+    {
+        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+        NSString *URL = [BASEURL stringByAppendingString:@"api/account/getCouponsInApp"];
+        [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSArray *responseObject) {
+            NSLog(@"%@", responseObject);
+            bonusDatas = [[NSMutableArray alloc]initWithArray:responseObject];
             datas = [NSMutableArray arrayWithArray:bonusDatas];
             if (datas.count > 0)
             {
@@ -107,9 +105,36 @@
                 noBonusLabel.hidden = NO;
                 noBonusLabel.text = @"暂无红包";
             }
-        }
-        else
-        {
+            bonusNum = (int)datas.count;
+            [tView.mj_header endRefreshing];
+            [tView reloadData];
+            
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            NSLog(@"Error: %@", error);
+            [tView.mj_header endRefreshing];
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            hud.mode = MBProgressHUDModeText;
+            if (error.code == 100003)
+            {
+                hud.labelText = @"登录信息已过期，请重新登录";
+                SetpasswordViewController *setpass = [[self storyboard]instantiateViewControllerWithIdentifier:@"SetpasswordViewController"];
+                setpass.string = @"验证密码";
+                [[self tabBarController] presentViewController:setpass animated:NO completion:nil];
+            }
+            else
+            {
+                hud.labelText = @"当前网络状况不佳，请重试";
+            }
+            [hud hide:YES afterDelay:1.5f];
+        }];
+    }
+    else
+    {
+        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+        NSString *URL = [BASEURL stringByAppendingString:@"api/voucher/myVouchers"];
+        [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSArray *responseObject) {
+            NSLog(@"%@", responseObject);
+            interestRateDatas = [[NSMutableArray alloc]initWithArray:responseObject];
             datas = [NSMutableArray arrayWithArray:interestRateDatas];
             if (datas.count > 0)
             {
@@ -120,29 +145,30 @@
                 noBonusLabel.hidden = NO;
                 noBonusLabel.text = @"暂无加息券";
             }
-        }
-        bonusNum = (int)datas.count;
-        [tView.mj_header endRefreshing];
-        [tView reloadData];
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Error: %@", error);
-        [tView.mj_header endRefreshing];
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-        hud.mode = MBProgressHUDModeText;
-        if (error.code == 100003)
-        {
-            hud.labelText = @"登录信息已过期，请重新登录";
-            SetpasswordViewController *setpass = [[self storyboard]instantiateViewControllerWithIdentifier:@"SetpasswordViewController"];
-            setpass.string = @"验证密码";
-            [[self tabBarController] presentViewController:setpass animated:NO completion:nil];
-        }
-        else
-        {
-            hud.labelText = @"当前网络状况不佳，请重试";
-        }
-        [hud hide:YES afterDelay:1.5f];
-    }];
+            bonusNum = (int)datas.count;
+            [tView.mj_header endRefreshing];
+            [tView reloadData];
+            
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            NSLog(@"Error: %@", error);
+            [tView.mj_header endRefreshing];
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            hud.mode = MBProgressHUDModeText;
+            if (error.code == 100003)
+            {
+                hud.labelText = @"登录信息已过期，请重新登录";
+                SetpasswordViewController *setpass = [[self storyboard]instantiateViewControllerWithIdentifier:@"SetpasswordViewController"];
+                setpass.string = @"验证密码";
+                [[self tabBarController] presentViewController:setpass animated:NO completion:nil];
+            }
+            else
+            {
+                hud.labelText = @"当前网络状况不佳，请重试";
+            }
+            [hud hide:YES afterDelay:1.5f];
+        }];
+    }
+    
 
 }
 
@@ -174,6 +200,7 @@
 {
     return bonusNum;
 }
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     id data = [datas objectAtIndex:indexPath.row];
@@ -186,7 +213,7 @@
     [cell.toProductButton addTarget:self action:@selector(toProduct:) forControlEvents:UIControlEventTouchUpInside];
     cell.amountLabel.text = [data objectForKey:@"money"];
     cell.ddlLabel.text = [NSString stringWithFormat:@"%@过期",[data objectForKey:@"expireTime"]];
-    if (bonusButton.userInteractionEnabled)
+    if (interestRateButton.userInteractionEnabled)
     {
         cell.ruleLabel.text = [NSString stringWithFormat:@"使用规则：投资满%@元可抵%@元现金",[data objectForKey:@"thresholdValue"],[data objectForKey:@"money"]];
         if ([[NSString stringWithFormat:@"%@",[data objectForKey:@"status"]] isEqualToString:@"可使用"])

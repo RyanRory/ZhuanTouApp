@@ -8,9 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "InvitationTableViewCell.h"
+#import "MyInvTableViewCell.h"
 
 @interface InvitationViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 
 @property (strong, nonatomic) IBOutlet UITableView *tView;
+@property (strong, nonatomic) IBOutlet UIButton *invitationButton;
+@property (strong, nonatomic) IBOutlet UIButton *myInvButton;
 
 @end

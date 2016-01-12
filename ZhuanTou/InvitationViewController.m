@@ -15,6 +15,7 @@
 @implementation InvitationViewController
 
 @synthesize tView;
+@synthesize invitationButton, myInvButton;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -24,6 +25,13 @@
     backItem.tintColor = ZTBLUE;
     UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithCustomView:[UIButton buttonWithType:UIButtonTypeCustom]];
     self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:backItem, item, nil];
+    
+    [invitationButton setUserInteractionEnabled:NO];
+    [myInvButton setUserInteractionEnabled:YES];
+    invitationButton.tintColor = ZTBLUE;
+    myInvButton.tintColor = ZTGRAY;
+    [invitationButton addTarget:self action:@selector(invitation:) forControlEvents:UIControlEventTouchUpInside];
+    [myInvButton addTarget:self action:@selector(myInv:) forControlEvents:UIControlEventTouchUpInside];
     
 }
 
@@ -37,11 +45,34 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void)invitation:(id)sender
+{
+    [invitationButton setUserInteractionEnabled:NO];
+    [myInvButton setUserInteractionEnabled:YES];
+    invitationButton.tintColor = ZTBLUE;
+    myInvButton.tintColor = ZTGRAY;
+    tView.scrollEnabled = NO;
+    [tView reloadData];
+}
+
+- (void)myInv:(id)sender
+{
+    [invitationButton setUserInteractionEnabled:YES];
+    [myInvButton setUserInteractionEnabled:NO];
+    invitationButton.tintColor = ZTGRAY;
+    myInvButton.tintColor = ZTBLUE;
+    tView.scrollEnabled = YES;
+    [tView reloadData];
+}
+
 #pragma TableViewDelegates
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 15;
+    if (section == 1)
+        return 40;
+    else
+        return 15;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
@@ -49,59 +80,105 @@
     return 0.00001;
 }
 
+- (NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    if (section == 1)
+        return @"我的推荐";
+    else
+        return @"";
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    if (invitationButton.userInteractionEnabled)
+    {
+        return 4;
+    }
+    else
+    {
+        return 1;
+    }
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 44;
+    if (invitationButton.userInteractionEnabled)
+    {
+        return 134;
+    }
+    else
+    {
+        return 44;
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 6;
+    if (invitationButton.userInteractionEnabled)
+    {
+        return 1;
+    }
+    else
+    {
+        return 4;
+    }
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *identifier = @"InvitationTableViewCell";
-    InvitationTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    if (!cell)
+    static NSString *identifier1 = @"InvitationTableViewCell";
+    static NSString *identifier2 = @"MyInvTableViewCell";
+    if (invitationButton.userInteractionEnabled)
     {
-        cell = [[InvitationTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+        MyInvTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier2];
+        if (!cell)
+        {
+            cell = [[MyInvTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier2];
+        }
+        if (indexPath.section == 0)
+        {
+            
+        }
+        else
+        {
+            
+        }
+        
+        return cell;
     }
-    switch (indexPath.row) {
-        case 0:
-            cell.image.image = [UIImage imageNamed:@"wechat.png"];
-            cell.label.text = @"微信好友";
-            break;
-            
-        case 1:
-            cell.image.image = [UIImage imageNamed:@"moments.png"];
-            cell.label.text = @"微信朋友圈";
-            break;
-            
-        case 2:
-            cell.image.image = [UIImage imageNamed:@"weibo.png"];
-            cell.label.text = @"新浪微博";
-            break;
-            
-        case 3:
-            cell.image.image = [UIImage imageNamed:@"qq.png"];
-            cell.label.text = @"QQ好友";
-            break;
-            
-        case 4:
-            cell.image.image = [UIImage imageNamed:@"qzone.png"];
-            cell.label.text = @"QQ空间";
-            break;
-            
-        case 5:
-            cell.image.image = [UIImage imageNamed:@"sms.png"];
-            cell.label.text = @"手机通讯录联系人";
-            break;
-            
-        default:
-            break;
+    else
+    {
+        InvitationTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier1];
+        if (!cell)
+        {
+            cell = [[InvitationTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier1];
+        }
+        switch (indexPath.row) {
+            case 0:
+                cell.image.image = [UIImage imageNamed:@"wechat.png"];
+                cell.label.text = @"微信好友";
+                break;
+                
+            case 1:
+                cell.image.image = [UIImage imageNamed:@"moments.png"];
+                cell.label.text = @"微信朋友圈";
+                break;
+                
+            case 2:
+                cell.image.image = [UIImage imageNamed:@"weibo.png"];
+                cell.label.text = @"新浪微博";
+                break;
+                
+            case 3:
+                cell.image.image = [UIImage imageNamed:@"qq.png"];
+                cell.label.text = @"QQ好友";
+                break;
+                
+            default:
+                break;
+        }
+        
+        return cell;
     }
-    
-    return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

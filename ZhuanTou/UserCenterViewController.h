@@ -25,6 +25,7 @@
 #import "ResetTradePswdViewController.h"
 #import "AllIncomeViewController.h"
 #import "InvitationViewController.h"
+#import "YesterdayIncomeViewController.h"
 
 #import "SetpasswordViewController.h"
 #import "ZTTabBarViewController.h"
@@ -33,7 +34,17 @@
 {
     NSMutableDictionary *data;
     CGRect frame;
+    UIPanGestureRecognizer *pan;
+    UITapGestureRecognizer *tap;
+    CGPoint initalCenter, navigationCenter;
+    BOOL isSlide;
 }
+
+@property (strong, nonatomic) IBOutlet UIView *navigationView;
+@property (strong, nonatomic) IBOutlet UIImageView *headImageView;
+@property (strong, nonatomic) IBOutlet UILabel *usernameLabel;
+@property (strong, nonatomic) IBOutlet UIButton *navigationLeftButton;
+@property (strong, nonatomic) IBOutlet UIButton *navigationRightButton;
 
 @property (strong, nonatomic) IBOutlet UITableView *tView;
 @property (strong, nonatomic) IBOutlet UIButton *deSlideButton;
