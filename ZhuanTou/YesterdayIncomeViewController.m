@@ -25,11 +25,14 @@
     UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithCustomView:[UIButton buttonWithType:UIButtonTypeCustom]];
     self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:backItem, item, nil];
     
-    data = [[NSMutableArray alloc]init];
+    datas = [[NSMutableArray alloc]init];
+    buffer = [[NSMutableArray alloc]init];
     
     tView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         [self setupData];
     }];
+    
+    [tView.mj_header beginRefreshing];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -40,12 +43,30 @@
 - (void)backToParent:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
 - (void)setupData
 {
-    [tView reloadData];
-    [tView.mj_header endRefreshing];
+    [buffer removeAllObjects];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSString *URL = [BASEURL stringByAppendingString:@"api/account/yesterdayGain"];
+    [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+        NSLog(@"%@", responseObject);
+        buffer = [NSMutableArray arrayWithArray:[responseObject objectForKey:@"items"]];
+        datas = [NSMutableArray arrayWithArray:buffer];
+        dataNum = (int)datas.count;
+        [tView.mj_header endRefreshing];
+        [tView reloadData];
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+        [tView.mj_header endRefreshing];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = @"当前网络状况不佳，请重试";
+        [hud hide:YES afterDelay:1.5f];
+    }];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -60,7 +81,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return dataNum;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -75,18 +96,30 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    id data = [datas objectAtIndex:indexPath.section];
     static NSString *identifier = @"YesterdayIncomeTableViewCell";
     YesterdayIncomeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (!cell)
     {
         cell = [[YesterdayIncomeTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
-    cell.bgView.backgroundColor = ZTRED;
-    cell.titleLabel.text = @"稳盈宝  160108";
+    cell.titleLabel.text = [NSString stringWithFormat:@"%@", [data objectForKey:@"productName"]];
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
     [formatter setPositiveFormat:@"###,##0.00"];
-    cell.amountLabel.text = [formatter stringFromNumber:[NSNumber numberWithDouble:3000.21]];
-    cell.profitLabel.text = [formatter stringFromNumber:[NSNumber numberWithDouble:123.21]];
+    cell.amountLabel.text = [formatter stringFromNumber:[NSNumber numberWithDouble:[NSString stringWithFormat:@"%@", [data objectForKey:@"investAmount"]].doubleValue]];
+    cell.profitLabel.text = [formatter stringFromNumber:[NSNumber numberWithDouble:[NSString stringWithFormat:@"%@", [data objectForKey:@"profitAmount"]].doubleValue]];
+    if ([[data objectForKey:@"productType"] isEqualToString:@"浮动收益"])
+    {
+        cell.bgView.backgroundColor = ZTBLUE;
+    }
+    else if ([[data objectForKey:@"productType"] isEqualToString:@"专投宝"])
+    {
+        cell.bgView.backgroundColor = ZTRED;
+    }
+    else
+    {
+        cell.bgView.backgroundColor = ZTLIGHTRED;
+    }
     
     return cell;
 }

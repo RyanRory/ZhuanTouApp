@@ -25,6 +25,7 @@
 @property (strong, nonatomic) IBOutlet UITableView *tView;
 @property (strong, nonatomic) IBOutlet UIButton *ingButton;
 @property (strong, nonatomic) IBOutlet UIButton *endedButton;
+@property (strong, nonatomic) IBOutlet UIButton *standingButton;
 
 
 @end

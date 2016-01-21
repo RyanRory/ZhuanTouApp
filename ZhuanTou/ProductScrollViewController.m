@@ -300,13 +300,11 @@
         NSCalendar* calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
         NSDateComponents* components = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay|NSCalendarUnitHour|NSCalendarUnitMinute fromDate:startDate];
         
-        long hour = [components hour];
-        long minute = [components minute];
         long year = [components year];
         long month = [components month];
         long day = [components day];
         
-        startBuyTimeLabel.text = [NSString stringWithFormat:@"%ld:%02ld\n%4ld-%02ld-%02ld",hour,minute,year,month,day];
+        startBuyTimeLabel.text = [NSString stringWithFormat:@"%4ld-%02ld-%02ld" ,year,month,day];
         
         [dateFormat setDateFormat:@"yyyy年MM月dd日"];//设定时间格式
         NSDate *beginDate = [dateFormat dateFromString:[wenjianData objectForKey:@"beginDate"]];
@@ -314,7 +312,7 @@
         year = [components year];
         month = [components month];
         day = [components day];
-        startTradeTimeLabel.text = [NSString stringWithFormat:@"9:00\n%4ld-%02ld-%02ld",year,month,day];
+        startTradeTimeLabel.text = [NSString stringWithFormat:@"%4ld-%02ld-%02ld",year,month,day];
         [wenjianData setValue:[NSString stringWithFormat:@"%4ld-%02ld-%02ld 09:00:00",year,month,day] forKey:@"beginDateTime"];
         
         NSDate *endDate = [dateFormat dateFromString:[wenjianData objectForKey:@"endDate"]];
@@ -322,7 +320,7 @@
         year = [components year];
         month = [components month];
         day = [components day];
-        endTimeLabel.text = [NSString stringWithFormat:@"15:30\n%4ld-%02ld-%02ld",year,month,day];
+        endTimeLabel.text = [NSString stringWithFormat:@"%4ld-%02ld-%02ld",year,month,day];
         [wenjianData setValue:[NSString stringWithFormat:@"%4ld-%02ld-%02ld 15:30:00",year,month,day] forKey:@"endDateTime"];
         
         [self wenjianTimeCountDown];
@@ -378,13 +376,11 @@
         NSCalendar* calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
         NSDateComponents* components = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay|NSCalendarUnitHour|NSCalendarUnitMinute fromDate:startDate];
         
-        long hour = [components hour];
-        long minute = [components minute];
         long year = [components year];
         long month = [components month];
         long day = [components day];
         
-        zongheStartBuyTimeLabel.text = [NSString stringWithFormat:@"%ld:%02ld\n%4ld-%02ld-%02ld",hour,minute,year,month,day];
+        zongheStartBuyTimeLabel.text = [NSString stringWithFormat:@"%4ld-%02ld-%02ld",year,month,day];
         
         [dateFormat setDateFormat:@"yyyy年MM月dd日"];//设定时间格式
         NSDate *beginDate = [dateFormat dateFromString:[zongheData objectForKey:@"beginDate"]];
@@ -392,7 +388,7 @@
         year = [components year];
         month = [components month];
         day = [components day];
-        zongheStartTradeTimeLabel.text = [NSString stringWithFormat:@"9:00\n%4ld-%02ld-%02ld",year,month,day];
+        zongheStartTradeTimeLabel.text = [NSString stringWithFormat:@"%4ld-%02ld-%02ld",year,month,day];
         [zongheData setValue:[NSString stringWithFormat:@"%4ld-%02ld-%02ld 09:00:00",year,month,day] forKey:@"beginDateTime"];
         
         NSDate *endDate = [dateFormat dateFromString:[zongheData objectForKey:@"endDate"]];
@@ -400,7 +396,7 @@
         year = [components year];
         month = [components month];
         day = [components day];
-        zongheEndTimeLabel.text = [NSString stringWithFormat:@"15:30\n%4ld-%02ld-%02ld",year,month,day];
+        zongheEndTimeLabel.text = [NSString stringWithFormat:@"%4ld-%02ld-%02ld",year,month,day];
         [zongheData setValue:[NSString stringWithFormat:@"%4ld-%02ld-%02ld 15:30:00",year,month,day] forKey:@"endDateTime"];
         
         [self zongheTimeCountDown];
@@ -497,7 +493,7 @@
     }
     else
     {
-        ProductBuyViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ProductBuyViewController"];
+        ProductBuyNewViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ProductBuyNewViewController"];
         vc.style = style;
         vc.isFromNewer = false;
         NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];

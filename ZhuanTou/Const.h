@@ -9,8 +9,8 @@
 #ifndef Const_h
 #define Const_h
 
-//#define BASEURL @"http://debug.pujintianxia.com/"
-#define BASEURL @"https://www.zhuantouwang.com/"
+#define BASEURL @"http://debug.pujintianxia.com/"
+//#define BASEURL @"https://www.zhuantouwang.com/"
 
 #define SCREEN_WIDTH ([UIScreen mainScreen].bounds.size.width + 8)
 #define SCREEN_HEIGHT ([UIScreen mainScreen].bounds.size.height)
@@ -40,11 +40,17 @@
 #define TOUCHID @"TOUCHID"
 #define ISTRADEPSWDSET @"ISTRADEPSWDSET"
 #define CURRENTPHONE @"CURRENTPHONE"
+#define ISTPNUMERIC @"ISTPNUMERIC"
+#define TPTHRESHOLD @"TPTHRESHOLD"
 
 #define WENJIAN @"WENJIAN"
 #define ZONGHE @"ZONGHE"
 #define HUOQI @"HUOQI"
 #define ONLYONEBONUS @"ONLYONEBONUS"
+#define BONUS @"BONUS"
+#define COUPONS @"COUPONS"
+#define STANDINGCOUPONS @"STANDINGCOUPONS"
+
 
 #define RESETLOGINPSWD @"RESETLOGINPSWD"
 #define RESETTRADEPSWD @"RESETTRADEPSWD"

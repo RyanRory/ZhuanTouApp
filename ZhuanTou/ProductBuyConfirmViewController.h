@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "SetTradePswdViewController.h"
 #import "SetpasswordViewController.h"
+#import "TradePswdView.h"
 
 @interface ProductBuyConfirmViewController : UIViewController
 {
@@ -39,6 +40,7 @@
 
 @property (strong, nonatomic) NSString *investAmount;
 @property (strong, nonatomic) NSString *coupons;
+@property (strong, nonatomic) NSString *vouchers;
 @property (strong, nonatomic) NSString *idOrCode;
 @property (strong, nonatomic) NSDictionary *productInfo;
 

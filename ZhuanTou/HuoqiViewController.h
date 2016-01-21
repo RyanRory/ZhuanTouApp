@@ -13,6 +13,7 @@
 #import "ProductBuyViewController.h"
 #import "DrawZtbViewController.h"
 #import "SetpasswordViewController.h"
+#import "ProductBuyNewViewController.h"
 
 @interface HuoqiViewController : UIViewController<ChartViewDelegate>
 {

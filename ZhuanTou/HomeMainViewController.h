@@ -14,6 +14,7 @@
 #import "ProductBuyViewController.h"
 #import "ZTTabBarViewController.h"
 #import "NewerViewController.h"
+#import "ProductBuyNewViewController.h"
 
 @interface HomeMainViewController : UIViewController<UIScrollViewDelegate, UIGestureRecognizerDelegate>
 {

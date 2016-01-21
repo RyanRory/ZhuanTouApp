@@ -18,7 +18,7 @@
 @synthesize bgView;
 @synthesize preIncomeLabel, preIncomeNumLabel, productTimeLabel, productTimeNumLabel, lowestIncomeLabel, lowestIncomeNumLabel, amountNumLabel, amoutLabel;
 @synthesize wenjianBgView, wenjianAmountLabel, wenjianAmountNumLabel, wenjianPILabel, wenjianPINumLabel, wenjianPTLabel, wenjianPTNumLabel;
-@synthesize investAmount, coupons, idOrCode, productInfo;
+@synthesize investAmount, coupons, vouchers, idOrCode, productInfo;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -117,22 +117,91 @@
     }
     else
     {
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"请输入交易密码" message:nil preferredStyle:UIAlertControllerStyleAlert];
-        [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField){
-            textField.secureTextEntry = YES;
-            textField.returnKeyType = UIReturnKeyDone;
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(alertTextFieldDidChange:) name:UITextFieldTextDidChangeNotification object:textField];
-        }];
-        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-        UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
-            UITextField *tradePswdTextField = alertController.textFields.firstObject;
-            [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextFieldTextDidChangeNotification object:nil];
-            [self buy:tradePswdTextField.text];
-        }];
-        [alertController addAction:cancelAction];
-        [alertController addAction:confirmAction];
-        confirmAction.enabled = NO;
-        [self presentViewController:alertController animated:YES completion:nil];
+        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+        if ([userDefault boolForKey:ISTPNUMERIC])
+        {
+            TradePswdView *view = [[TradePswdView alloc]initWithFrame:self.navigationController.view.frame];
+            [self.navigationController.view addSubview:view];
+            [view showView];
+            view.block = ^(NSString *tradePswd){
+                if (coupons.length == 0) coupons = @"";
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+                NSString *URL = [BASEURL stringByAppendingString:@"api/fofProd/purchase"];
+                NSLog(@"%@",coupons);
+                NSDictionary *parameter = @{@"investAmount":investAmount,
+                                            @"tradePassword":tradePswd,
+                                            @"useZtbBalance":@"true",
+                                            @"coupons":coupons,
+                                            @"isValidate":@"false",
+                                            @"idOrCode":idOrCode,
+                                            @"vouchers":vouchers};
+                [manager POST:URL parameters:parameter success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+                    NSLog(@"%@",responseObject);
+                    NSString *str = [responseObject objectForKey:@"isSuccess"];
+                    int f1 = str.intValue;
+                    if (f1 == 0)
+                    {
+                        hud.mode = MBProgressHUDModeCustomView;
+                        [hud hide:YES afterDelay:1.5f];
+                        if ([[NSString stringWithFormat:@"%@",[responseObject objectForKey:@"errorCode"]] isEqualToString:@"100003"])
+                        {
+                            hud.labelText = @"登录信息已过期，请重新登录";
+                            SetpasswordViewController *setpass = [[self storyboard]instantiateViewControllerWithIdentifier:@"SetpasswordViewController"];
+                            setpass.string = @"验证密码";
+                            [[self tabBarController] presentViewController:setpass animated:NO completion:nil];
+                        }
+                        else
+                        {
+                            hud.labelText = [responseObject objectForKey:@"errorMessage"];
+                        }
+                    }
+                    else
+                    {
+                        hud.mode = MBProgressHUDModeCustomView;
+                        hud.labelText = @"抢购成功";
+                        [hud hide:YES afterDelay:1.5f];
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                            if (self.isFromNewer)
+                            {
+                                [[self navigationController]popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
+                            }
+                            else
+                            {
+                                [[self navigationController]popToRootViewControllerAnimated:YES];
+                            }
+                        });
+                    }
+                    
+                } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                    NSLog(@"Error: %@", error);
+                    hud.mode = MBProgressHUDModeText;
+                    hud.labelText = @"当前网络状况不佳，请重试";
+                    [hud hide:YES afterDelay:1.5f];
+                }];
+                
+            };
+        }
+        else
+        {
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"请输入交易密码" message:nil preferredStyle:UIAlertControllerStyleAlert];
+            [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField){
+                textField.secureTextEntry = YES;
+                textField.returnKeyType = UIReturnKeyDone;
+                [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(alertTextFieldDidChange:) name:UITextFieldTextDidChangeNotification object:textField];
+            }];
+            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+            UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
+                UITextField *tradePswdTextField = alertController.textFields.firstObject;
+                [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextFieldTextDidChangeNotification object:nil];
+                [self buy:tradePswdTextField.text];
+            }];
+            [alertController addAction:cancelAction];
+            [alertController addAction:confirmAction];
+            confirmAction.enabled = NO;
+            [self presentViewController:alertController animated:YES completion:nil];
+
+        }
     }
     
 }
@@ -149,6 +218,7 @@
 - (void)buy:(NSString*)tradePswd
 {
     if (coupons.length == 0) coupons = @"";
+    if (vouchers.length == 0) vouchers = @"";
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSString *URL = [BASEURL stringByAppendingString:@"api/fofProd/purchase"];
@@ -158,7 +228,8 @@
                                 @"useZtbBalance":@"true",
                                 @"coupons":coupons,
                                 @"isValidate":@"false",
-                                @"idOrCode":idOrCode};
+                                @"idOrCode":idOrCode,
+                                };
     [manager POST:URL parameters:parameter success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
         NSLog(@"%@",responseObject);
         NSString *str = [responseObject objectForKey:@"isSuccess"];
@@ -181,22 +252,10 @@
         }
         else
         {
-//            hud.mode = MBProgressHUDModeCustomView;
-//            hud.labelText = @"抢购成功";
-//            [hud hide:YES afterDelay:1.5f];
-//            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//                if (self.isFromNewer)
-//                {
-//                    [[self navigationController]popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
-//                }
-//                else
-//                {
-//                    [[self navigationController]popToRootViewControllerAnimated:YES];
-//                }
-//            });
-            [hud hide:YES];
-            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"抢购成功" message:[NSString stringWithFormat:@"您的资金将暂时锁定在专投宝中，享受专投宝利息，并在%@产品开始操盘后转入在投资产", [productInfo objectForKey:@"beginDate"]] preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
+            hud.mode = MBProgressHUDModeCustomView;
+            hud.labelText = @"抢购成功";
+            [hud hide:YES afterDelay:1.5f];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 if (self.isFromNewer)
                 {
                     [[self navigationController]popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
@@ -205,10 +264,7 @@
                 {
                     [[self navigationController]popToRootViewControllerAnimated:YES];
                 }
-
-            }];
-            [alertController addAction:confirmAction];
-            [self presentViewController:alertController animated:YES completion:nil];
+            });
             
         }
         

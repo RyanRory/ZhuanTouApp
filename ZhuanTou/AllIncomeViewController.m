@@ -85,67 +85,48 @@
 - (void)backToParent:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
 - (void)setupData
 {
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    NSString *URL = [BASEURL stringByAppendingString:@"api/account/getUserInfoInAPP"];
+    NSString *URL = [BASEURL stringByAppendingString:@"api/account/cumpldist"];
     [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
         NSLog(@"%@", responseObject);
-        NSString *str = [responseObject objectForKey:@"isSuccess"];
-        int f1 = str.intValue;
-        if (f1 == 1)
+
+        fhb = ((NSString*)[responseObject objectForKey:@"fenhongBao"]).doubleValue;
+        wyb = ((NSString*)[responseObject objectForKey:@"wenyingBao"]).doubleValue;
+        ztb = ((NSString*)[responseObject objectForKey:@"zhuantouBao"]).doubleValue;
+        other = ((NSString*)[responseObject objectForKey:@"others"]).doubleValue;
+        total = ((NSString*)[responseObject objectForKey:@"totalReturnAmount"]).doubleValue;
+        
+        NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
+        [formatter setPositiveFormat:@"###,##0.00元"];
+        fhbNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:fhb]]];
+        wybNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:wyb]]];
+        ztbNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:ztb]]];
+        totalNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:total]]];
+        otherNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:other]]];
+        
+        if (total == 0)
         {
-            fhb = ((NSString*)[responseObject objectForKey:@"activeInvestAmount"]).doubleValue;
-            wyb = ((NSString*)[responseObject objectForKey:@"ztbBalance"]).doubleValue;
-            ztb = ((NSString*)[responseObject objectForKey:@"fundsAvailable"]).doubleValue;
-            other = ((NSString*)[responseObject objectForKey:@"frozenAmount"]).doubleValue;
-            total = ((NSString*)[responseObject objectForKey:@"totalAsset"]).doubleValue;
-            
-            NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
-            [formatter setPositiveFormat:@"###,##0.00元"];
-            fhbNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:fhb]]];
-            wybNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:wyb]]];
-            ztbNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:ztb]]];
-            totalNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:total]]];
-            otherNumLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:other]]];
-            
-            if (total == 0)
-            {
-                fhbPercentLabel.text = @"0.00%";
-                wybPercentLabel.text = @"0.00%";
-                ztbPercentLabel.text = @"0.00%";
-                otherPercentLabel.text = @"0.00%";
-            }
-            else
-            {
-                fhbPercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",fhb*100/total];
-                wybPercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",wyb*100/total];
-                ztbPercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",ztb*100/total];
-                otherPercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",other*100/total];
-            }
-            
-            [self setDataCount:4 range:100];
-            [pieChartView animateWithXAxisDuration:1.5 yAxisDuration:1.5 easingOption:ChartEasingOptionEaseOutBack];
+            fhbPercentLabel.text = @"0.00%";
+            wybPercentLabel.text = @"0.00%";
+            ztbPercentLabel.text = @"0.00%";
+            otherPercentLabel.text = @"0.00%";
         }
         else
         {
-            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-            hud.mode = MBProgressHUDModeText;
-            [hud hide:YES afterDelay:1.5f];
-            if ([[NSString stringWithFormat:@"%@",[responseObject objectForKey:@"errorCode"]] isEqualToString:@"100003"])
-            {
-                hud.labelText = @"登录信息已过期，请重新登录";
-                SetpasswordViewController *setpass = [[self storyboard]instantiateViewControllerWithIdentifier:@"SetpasswordViewController"];
-                setpass.string = @"验证密码";
-                [[self tabBarController] presentViewController:setpass animated:NO completion:nil];
-            }
-            else
-            {
-                hud.labelText = [responseObject objectForKey:@"errorMessage"];
-            }
+            fhbPercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",fhb*100/total];
+            wybPercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",wyb*100/total];
+            ztbPercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",ztb*100/total];
+            otherPercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",other*100/total];
         }
+        
+        [self setDataCount:4 range:100];
+        [pieChartView animateWithXAxisDuration:1.5 yAxisDuration:1.5 easingOption:ChartEasingOptionEaseOutBack];
+        
         if ([scrollView.mj_header isRefreshing])
         {
             [scrollView.mj_header endRefreshing];

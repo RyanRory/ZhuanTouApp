@@ -16,7 +16,7 @@
 
 @synthesize editView, editTextField, descriptionLabel, drawNumLabel, confirmButton, drawCostLabel, drawCostDescriptionLabel, noFeeLabel, drawPreTimeLabel;
 @synthesize bankCardView, bankImageView, bankNameLabel, cardNumLabel, branchLabel;
-@synthesize noBankCardView, bankLabel, bankcardNoTextField, branchTextField, balanceLabel, chooseProvinceButton, chooseCityButton, chooseBankButton, provinceLabel, cityLabel, NBCVconfirmButton, NBCVnoFeeNumLabel, drawNumTextField, phoneNumLabel, smsCodeTextField, getSmsCodeButton, preTimeLabel, costLabel;
+@synthesize noBankCardView, bankLabel, nameTextField, bankcardNoTextField, branchTextField, balanceLabel, chooseProvinceButton, chooseCityButton, chooseBankButton, provinceLabel, cityLabel, NBCVconfirmButton, NBCVnoFeeNumLabel, drawNumTextField, phoneNumLabel, smsCodeTextField, getSmsCodeButton, preTimeLabel, costLabel;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -37,6 +37,7 @@
     bankCardView.layer.cornerRadius = 3;
     
     bankCardView.hidden = YES;
+    [nameTextField setUserInteractionEnabled:NO];
     descriptionLabel.hidden = YES;
     drawNumLabel.hidden = YES;
     editView.hidden = YES;
@@ -198,6 +199,7 @@
                 int f1 = str.intValue;
                 if (f1 == 1)
                 {
+                    nameTextField.text = [responseObject objectForKey:@"fullName"];
                     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"为了您的资金安全，您的资金将被限制同卡进出，请填写真实银行卡信息。" preferredStyle:UIAlertControllerStyleAlert];
                     UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
                     [alertController addAction:confirmAction];
@@ -288,6 +290,10 @@
 - (void)backToParent:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
+    if (self.isFromUserCenter)
+    {
+        [self.navigationController setNavigationBarHidden:YES animated:YES];
+    }
 }
 
 - (void)confirm:(id)sender

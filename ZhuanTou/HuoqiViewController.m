@@ -123,6 +123,7 @@
 - (void)backToParent:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
 - (void)setupDataAgain
@@ -244,7 +245,7 @@
 
 - (void)toBuyHuoqi:(id)sender
 {
-    ProductBuyViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ProductBuyViewController"];
+    ProductBuyNewViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ProductBuyNewViewController"];
     vc.style = HUOQI;
     vc.bidableAmount = bidableAmount;
     [[self navigationController]pushViewController:vc animated:YES];

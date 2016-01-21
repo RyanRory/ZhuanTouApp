@@ -11,6 +11,11 @@
 #import "MyInvTableViewCell.h"
 
 @interface InvitationViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+{
+    NSMutableDictionary *info;
+    NSMutableArray *datas, *buffer;
+    int dataNum;
+}
 
 @property (strong, nonatomic) IBOutlet UITableView *tView;
 @property (strong, nonatomic) IBOutlet UIButton *invitationButton;

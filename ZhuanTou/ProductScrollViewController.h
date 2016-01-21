@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ProductBuyViewController.h"
 #import "ProductsBeforeViewController.h"
+#import "ProductBuyNewViewController.h"
 
 @interface ProductScrollViewController : UIViewController<UIGestureRecognizerDelegate, UIScrollViewDelegate>
 {

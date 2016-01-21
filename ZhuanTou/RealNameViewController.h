@@ -14,6 +14,8 @@
 @property (strong, nonatomic) IBOutlet UITextField *idNumTextField;
 @property (strong, nonatomic) IBOutlet UIButton *confirmButton;
 
+@property (readwrite, nonatomic) BOOL isFromUserCenter;
+
 - (IBAction)textFiledReturnEditing:(id)sender;
 
 - (IBAction)backgroundTap:(id)sender;

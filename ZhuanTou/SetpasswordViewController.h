@@ -23,6 +23,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *forgottenButtonWithTouchId;
 
 @property (readwrite, nonatomic) BOOL isFromNewer;
+@property (readwrite, nonatomic) BOOL isFromUserCenter;
 
 @property(nonatomic, copy)NSString *string;
 @property(nonatomic, copy)NSString *style;

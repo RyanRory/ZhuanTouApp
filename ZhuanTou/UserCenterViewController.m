@@ -23,6 +23,7 @@
 {
     [super viewDidLoad];
     self.view.clipsToBounds = YES;
+    [[self navigationController]setNavigationBarHidden:YES animated:NO];
     self.navigationController.interactivePopGestureRecognizer.delegate = self;
     
     tView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
@@ -49,8 +50,8 @@
     
     navigationView.hidden = YES;
     
-    pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pan:)];
-    [tView addGestureRecognizer:pan];
+//    pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pan:)];
+//    [tView addGestureRecognizer:pan];
     tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)];
     tap.numberOfTapsRequired = 1;
     isSlide = false;
@@ -73,8 +74,16 @@
         CGPoint translation = [sender translationInView:self.view];
         if (((translation.x > 0) && (tView.frame.origin.x < SCREEN_WIDTH-75)) || ((translation.x < 0) && (tView.frame.origin.x > frame.origin.x)))
         {
-            tView.center = CGPointMake(initalCenter.x + translation.x,initalCenter.y);
-            navigationView.center = CGPointMake(navigationCenter.x + translation.x, navigationCenter.y);
+            if (tView.center.x + translation.x < frame.origin.x)
+            {
+                tView.center = CGPointMake(frame.origin.x,initalCenter.y);
+                navigationView.center = CGPointMake(frame.origin.x, navigationCenter.y);
+            }
+            else
+            {
+                tView.center = CGPointMake(initalCenter.x + translation.x,initalCenter.y);
+                navigationView.center = CGPointMake(navigationCenter.x + translation.x, navigationCenter.y);
+            }
         }
     }
     else
@@ -112,7 +121,10 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
+    if (!self.navigationController.navigationBarHidden)
+    {
+        [self.navigationController setNavigationBarHidden:YES animated:NO];
+    }
     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
     BOOL flag = [userDefault boolForKey:ISLOGIN];
     if (!flag)
@@ -223,6 +235,14 @@
         if (f1 == 1)
         {
             mobileLabel.text = [NSString stringWithFormat:@"%@", [responseObject objectForKey:@"mobilePhone"]];
+            if ([NSString stringWithFormat:@"%@", [responseObject objectForKey:@"isBankCardBinded"]].boolValue)
+            {
+                bankCardNumLabel.text = @"已绑定";
+            }
+            else
+            {
+                bankCardNumLabel.text = @"未绑定";
+            }
             data = [NSMutableDictionary dictionaryWithDictionary:responseObject];
             [tView reloadData];
         }
@@ -293,6 +313,7 @@
     if (!isSlide)
     {
         ChargeViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ChargeViewController"];
+        vc.isFromUserCenter = YES;
         [[self navigationController]pushViewController:vc animated:YES];
     }
     else
@@ -306,6 +327,7 @@
     if (!isSlide)
     {
         DrawViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"DrawViewController"];
+        vc.isFromUserCenter = YES;
         [[self navigationController]pushViewController:vc animated:YES];
     }
     else
@@ -383,6 +405,7 @@
     {
         [self Deslide];
         RealNameViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"RealNameViewController"];
+        vc.isFromUserCenter = YES;
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self.navigationController pushViewController:vc animated:YES];
         });
@@ -402,6 +425,7 @@
     if ([tradePswdLabel.text isEqualToString:@"未设置"])
     {
         SetTradePswdViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"SetTradePswdViewController"];
+        vc.isFromUserCenter = YES;
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self.navigationController pushViewController:vc animated:YES];
         });
@@ -409,6 +433,7 @@
     else
     {
         ResetTradePswdViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ResetTradePswdViewController"];
+        vc.isFromUserCenter = YES;
         [vc setStyle:RESETTRADEPSWD];
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self.navigationController pushViewController:vc animated:YES];
@@ -420,6 +445,7 @@
 {
     [self Deslide];
     ResetTradePswdViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ResetTradePswdViewController"];
+    vc.isFromUserCenter = YES;
     [vc setStyle:RESETLOGINPSWD];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self.navigationController pushViewController:vc animated:YES];
@@ -430,6 +456,7 @@
 {
     [self Deslide];
     SetpasswordViewController *setpass = [[self storyboard]instantiateViewControllerWithIdentifier:@"SetpasswordViewController"];
+    setpass.isFromUserCenter = YES;
     setpass.string = @"修改密码";
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self.navigationController pushViewController:setpass animated:YES];
@@ -575,6 +602,8 @@
         {
             cell.propertyLabel.text = @"0.00";
             cell.balanceLabel.text = @"可用余额(元):0.00";
+            cell.allProfitLabel.text = @"0.00";
+            cell.yesterdayProfitLabel.text = @"0.00";
         }
         else
         {
@@ -582,6 +611,8 @@
             [formatter setPositiveFormat:@"###,##0.00"];
             cell.propertyLabel.text = [formatter stringFromNumber:[NSNumber numberWithDouble:[NSString stringWithFormat:@"%@", [data objectForKey:@"totalAsset"]].doubleValue]];
             cell.balanceLabel.text = [NSString stringWithFormat:@"可用余额(元):%@", [formatter stringFromNumber:[NSNumber numberWithDouble:[NSString stringWithFormat:@"%@", [data objectForKey:@"fundsAvailable"]].doubleValue]]];
+            cell.allProfitLabel.text = [formatter stringFromNumber:[NSNumber numberWithDouble:[NSString stringWithFormat:@"%@", [data objectForKey:@"totalReturnAmount"]].doubleValue]];
+            cell.yesterdayProfitLabel.text = [formatter stringFromNumber:[NSNumber numberWithDouble:[NSString stringWithFormat:@"%@", [data objectForKey:@"ystGain"]].doubleValue]];
         }
         
         return cell;
@@ -636,7 +667,7 @@
                 }
                 else
                 {
-                    cell.descriptionLabel.text = [NSString stringWithFormat:@"%@张", [data objectForKey:@"acitveCouponsAmount"]];
+                    cell.descriptionLabel.text = [NSString stringWithFormat:@"%@张", [data objectForKey:@"activeCouponAmount"]];
                 }
             }
             else

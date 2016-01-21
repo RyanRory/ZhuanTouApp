@@ -268,6 +268,10 @@
 		A4B227841BD3516F0020C4D5 /* KnobButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A4B2277D1BD3516F0020C4D5 /* KnobButton.m */; };
 		A4B227851BD3516F0020C4D5 /* SimpleSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = A4B2277F1BD3516F0020C4D5 /* SimpleSwitch.m */; };
 		A4B227871BD3516F0020C4D5 /* UIView+InnerShadow.m in Sources */ = {isa = PBXBuildFile; fileRef = A4B227831BD3516F0020C4D5 /* UIView+InnerShadow.m */; };
+		A4B292E71C506288001390FA /* ChooseBonusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4B292E61C506288001390FA /* ChooseBonusViewController.m */; };
+		A4B292EA1C5062A6001390FA /* ChooseBonusTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A4B292E91C5062A6001390FA /* ChooseBonusTableViewCell.m */; };
+		A4B292ED1C5062B7001390FA /* ChooseCouponsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A4B292EC1C5062B7001390FA /* ChooseCouponsTableViewCell.m */; };
+		A4B292F01C509A67001390FA /* VoucherTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A4B292EF1C509A67001390FA /* VoucherTableViewCell.m */; };
 		A4B2CFBF1BD8ACF800AC2E78 /* grayRightIcon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4B2CFBC1BD8ACF800AC2E78 /* grayRightIcon@3x.png */; };
 		A4B2CFC01BD8ACF800AC2E78 /* pointer@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4B2CFBD1BD8ACF800AC2E78 /* pointer@3x.png */; };
 		A4B2CFC11BD8ACF800AC2E78 /* uSecurityCircle@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4B2CFBE1BD8ACF800AC2E78 /* uSecurityCircle@3x.png */; };
@@ -391,6 +395,8 @@
 		A4FAC4A71C44AC890051B0CA /* MyInvTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A4FAC4A61C44AC890051B0CA /* MyInvTableViewCell.m */; };
 		A4FAC4AD1C44CBB00051B0CA /* YesterdayIncomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4FAC4AC1C44CBB00051B0CA /* YesterdayIncomeViewController.m */; };
 		A4FAC4B01C44CC9A0051B0CA /* YesterdayIncomeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A4FAC4AF1C44CC9A0051B0CA /* YesterdayIncomeTableViewCell.m */; };
+		A4FAC4B51C4F09CE0051B0CA /* TradePswdView.m in Sources */ = {isa = PBXBuildFile; fileRef = A4FAC4B41C4F09CE0051B0CA /* TradePswdView.m */; };
+		A4FAC4B81C4F37D40051B0CA /* ProductBuyNewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4FAC4B71C4F37D40051B0CA /* ProductBuyNewViewController.m */; };
 		A4FED4771C2A6A8A009420D9 /* AttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = A4FED4761C2A6A8A009420D9 /* AttributedLabel.m */; };
 /* End PBXBuildFile section */
 
@@ -747,6 +753,14 @@
 		A4B2277F1BD3516F0020C4D5 /* SimpleSwitch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SimpleSwitch.m; path = SimpleSwitch/SimpleSwitch.m; sourceTree = "<group>"; };
 		A4B227821BD3516F0020C4D5 /* UIView+InnerShadow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+InnerShadow.h"; path = "SimpleSwitch/UIView+InnerShadow.h"; sourceTree = "<group>"; };
 		A4B227831BD3516F0020C4D5 /* UIView+InnerShadow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+InnerShadow.m"; path = "SimpleSwitch/UIView+InnerShadow.m"; sourceTree = "<group>"; };
+		A4B292E51C506288001390FA /* ChooseBonusViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseBonusViewController.h; sourceTree = "<group>"; };
+		A4B292E61C506288001390FA /* ChooseBonusViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseBonusViewController.m; sourceTree = "<group>"; };
+		A4B292E81C5062A6001390FA /* ChooseBonusTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseBonusTableViewCell.h; sourceTree = "<group>"; };
+		A4B292E91C5062A6001390FA /* ChooseBonusTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseBonusTableViewCell.m; sourceTree = "<group>"; };
+		A4B292EB1C5062B7001390FA /* ChooseCouponsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseCouponsTableViewCell.h; sourceTree = "<group>"; };
+		A4B292EC1C5062B7001390FA /* ChooseCouponsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseCouponsTableViewCell.m; sourceTree = "<group>"; };
+		A4B292EE1C509A66001390FA /* VoucherTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VoucherTableViewCell.h; sourceTree = "<group>"; };
+		A4B292EF1C509A67001390FA /* VoucherTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VoucherTableViewCell.m; sourceTree = "<group>"; };
 		A4B2CFBC1BD8ACF800AC2E78 /* grayRightIcon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "grayRightIcon@3x.png"; path = "images/@3x/grayRightIcon@3x.png"; sourceTree = "<group>"; };
 		A4B2CFBD1BD8ACF800AC2E78 /* pointer@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "pointer@3x.png"; path = "images/@3x/pointer@3x.png"; sourceTree = "<group>"; };
 		A4B2CFBE1BD8ACF800AC2E78 /* uSecurityCircle@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "uSecurityCircle@3x.png"; path = "images/@3x/uSecurityCircle@3x.png"; sourceTree = "<group>"; };
@@ -904,6 +918,10 @@
 		A4FAC4AC1C44CBB00051B0CA /* YesterdayIncomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YesterdayIncomeViewController.m; sourceTree = "<group>"; };
 		A4FAC4AE1C44CC9A0051B0CA /* YesterdayIncomeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YesterdayIncomeTableViewCell.h; sourceTree = "<group>"; };
 		A4FAC4AF1C44CC9A0051B0CA /* YesterdayIncomeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YesterdayIncomeTableViewCell.m; sourceTree = "<group>"; };
+		A4FAC4B31C4F09CE0051B0CA /* TradePswdView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradePswdView.h; sourceTree = "<group>"; };
+		A4FAC4B41C4F09CE0051B0CA /* TradePswdView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TradePswdView.m; sourceTree = "<group>"; };
+		A4FAC4B61C4F37D40051B0CA /* ProductBuyNewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductBuyNewViewController.h; sourceTree = "<group>"; };
+		A4FAC4B71C4F37D40051B0CA /* ProductBuyNewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductBuyNewViewController.m; sourceTree = "<group>"; };
 		A4FED4751C2A6A8A009420D9 /* AttributedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttributedLabel.h; sourceTree = "<group>"; };
 		A4FED4761C2A6A8A009420D9 /* AttributedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttributedLabel.m; sourceTree = "<group>"; };
 		B241E5576143A7703444EB0B /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -1406,6 +1424,10 @@
 				A42EA2FA1BE1E2D200E35F5F /* ProductsBeforeTableViewCell.m */,
 				A44A9C111BF0703B00FE6F2E /* ProductBonusTableViewCell.h */,
 				A44A9C121BF0703B00FE6F2E /* ProductBonusTableViewCell.m */,
+				A4B292E81C5062A6001390FA /* ChooseBonusTableViewCell.h */,
+				A4B292E91C5062A6001390FA /* ChooseBonusTableViewCell.m */,
+				A4B292EB1C5062B7001390FA /* ChooseCouponsTableViewCell.h */,
+				A4B292EC1C5062B7001390FA /* ChooseCouponsTableViewCell.m */,
 			);
 			name = cells;
 			sourceTree = "<group>";
@@ -1425,6 +1447,8 @@
 				A4B2CFF91BDA3D2700AC2E78 /* DetailTableViewCell.m */,
 				A4B2CFFF1BDC832D00AC2E78 /* BonusTableViewCell.h */,
 				A4B2D0001BDC832D00AC2E78 /* BonusTableViewCell.m */,
+				A4B292EE1C509A66001390FA /* VoucherTableViewCell.h */,
+				A4B292EF1C509A67001390FA /* VoucherTableViewCell.m */,
 				A45CC3EF1C2BA87000C5D56C /* PropertyTableViewCell.h */,
 				A45CC3F01C2BA87000C5D56C /* PropertyTableViewCell.m */,
 				A45CC3F21C2BA88200C5D56C /* UserCenterTableViewCell.h */,
@@ -1444,6 +1468,8 @@
 			children = (
 				A44A9C181BF4427B00FE6F2E /* ProductScrollViewController.h */,
 				A44A9C191BF4427B00FE6F2E /* ProductScrollViewController.m */,
+				A4FAC4B61C4F37D40051B0CA /* ProductBuyNewViewController.h */,
+				A4FAC4B71C4F37D40051B0CA /* ProductBuyNewViewController.m */,
 				A4BBC1C51BD0E825006331AC /* ProductBuyViewController.h */,
 				A4BBC1C61BD0E825006331AC /* ProductBuyViewController.m */,
 				A4BBC1C81BD0E871006331AC /* ProductBuyConfirmViewController.h */,
@@ -1452,6 +1478,8 @@
 				A42EA2FD1BE1E85E00E35F5F /* ProductsBeforeViewController.m */,
 				A44A9C081BF060C000FE6F2E /* DrawZtbViewController.h */,
 				A44A9C091BF060C000FE6F2E /* DrawZtbViewController.m */,
+				A4B292E51C506288001390FA /* ChooseBonusViewController.h */,
+				A4B292E61C506288001390FA /* ChooseBonusViewController.m */,
 				A42EA2F81BE1E2B400E35F5F /* cells */,
 			);
 			name = Product;
@@ -1508,6 +1536,8 @@
 				A463EAC91BD6377700CAF146 /* WaveView.m */,
 				A41ACC7B1BDDDB4A00755C96 /* NoticeView.h */,
 				A41ACC7C1BDDDB4A00755C96 /* NoticeView.m */,
+				A4FAC4B31C4F09CE0051B0CA /* TradePswdView.h */,
+				A4FAC4B41C4F09CE0051B0CA /* TradePswdView.m */,
 			);
 			name = ZTViews;
 			sourceTree = "<group>";
@@ -2180,6 +2210,7 @@
 				A44A9C1A1BF4427B00FE6F2E /* ProductScrollViewController.m in Sources */,
 				A4E7F2551BCE54DD00B20EC6 /* KeychainData.m in Sources */,
 				A41ACC811BDDF76500755C96 /* NoticeCenterViewController.m in Sources */,
+				A4B292E71C506288001390FA /* ChooseBonusViewController.m in Sources */,
 				A4B2CFE71BD9D39F00AC2E78 /* HelpCommonTableViewCell.m in Sources */,
 				A41C6B651BBA63B9006B731D /* LoginViewController.m in Sources */,
 				A42EA2FB1BE1E2D200E35F5F /* ProductsBeforeTableViewCell.m in Sources */,
@@ -2203,18 +2234,23 @@
 				A44AFA4A1BCF481D002A8AC4 /* ZTTabBarViewController.m in Sources */,
 				A463EA941BD4E68D00CAF146 /* LaunchScreenViewController.m in Sources */,
 				A42EA3011BE1FE7500E35F5F /* ForgottenViewController.m in Sources */,
+				A4B292EA1C5062A6001390FA /* ChooseBonusTableViewCell.m in Sources */,
 				A41E1DED1BE5B63700641616 /* DrawViewController.m in Sources */,
 				A4B2CFF71BDA370200AC2E78 /* DetailViewController.m in Sources */,
 				A4E7F2561BCE54DD00B20EC6 /* KeychainItemWrapper.m in Sources */,
+				A4B292F01C509A67001390FA /* VoucherTableViewCell.m in Sources */,
 				A4FAC4A71C44AC890051B0CA /* MyInvTableViewCell.m in Sources */,
 				A4E7F2521BCE54DD00B20EC6 /* AliPayItem.m in Sources */,
+				A4FAC4B51C4F09CE0051B0CA /* TradePswdView.m in Sources */,
 				A4E7F2531BCE54DD00B20EC6 /* AlipaySubItem.m in Sources */,
 				A43174831BD4C9FD0001FC53 /* HeadView.m in Sources */,
 				A4BBC1CA1BD0E871006331AC /* ProductBuyConfirmViewController.m in Sources */,
+				A4FAC4B81C4F37D40051B0CA /* ProductBuyNewViewController.m in Sources */,
 				A4B2CFF01BD9E7A300AC2E78 /* AboutViewController.m in Sources */,
 				A4B2CFF41BDA32EA00AC2E78 /* CommonQuestionViewController.m in Sources */,
 				A4B2D0051BDCCE7E00AC2E78 /* HomeMainViewController.m in Sources */,
 				A431747A1BD4B0330001FC53 /* ZongheIngTableViewCell.m in Sources */,
+				A4B292ED1C5062B7001390FA /* ChooseCouponsTableViewCell.m in Sources */,
 				A41ACC841BDDF85F00755C96 /* NoticeCenterTableViewCell.m in Sources */,
 				A4B2CFED1BD9E4F600AC2E78 /* FeedbackViewController.m in Sources */,
 				A4E7F2591BCE552400B20EC6 /* SetpasswordViewController.m in Sources */,

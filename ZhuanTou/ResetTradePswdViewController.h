@@ -22,6 +22,8 @@
 @property (strong, nonatomic) IBOutlet UIImageView *icon2;
 @property (strong, nonatomic) IBOutlet UIImageView *icon3;
 
+@property (readwrite, nonatomic) BOOL isFromUserCenter;
+
 - (IBAction)textFiledReturnEditing:(id)sender;
 
 - (IBAction)backgroundTap:(id)sender;

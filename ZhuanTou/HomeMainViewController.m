@@ -465,7 +465,7 @@
     }
     else
     {
-        ProductBuyViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ProductBuyViewController"];
+        ProductBuyNewViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ProductBuyNewViewController"];
         vc.style = ZONGHE;
         vc.idOrCode = idCode;
         vc.bidableAmount = bidableAmount;

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "BonusTableViewCell.h"
+#import "VoucherTableViewCell.h"
 #import "ZTTabBarViewController.h"
 #import "SetpasswordViewController.h"
 

@@ -11,7 +11,7 @@
 
 @interface YesterdayIncomeViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 {
-    NSMutableArray *data;
+    NSMutableArray *datas, *buffer;
     int dataNum;
 }
 

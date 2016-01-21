@@ -14,7 +14,7 @@
 
 @implementation DingqiViewController
 
-@synthesize noneProductView, findProductButton, tView, ingButton, endedButton;
+@synthesize noneProductView, findProductButton, tView, ingButton, endedButton, standingButton;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -27,6 +27,7 @@
     
     findProductButton.layer.cornerRadius = 3;
     ingButton.tintColor = ZTBLUE;
+    standingButton.tintColor = ZTGRAY;
     endedButton.tintColor = ZTGRAY;
     [ingButton setUserInteractionEnabled:NO];
     
@@ -35,6 +36,7 @@
     tView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     [ingButton addTarget:self action:@selector(loadIngTableViewData:) forControlEvents:UIControlEventTouchUpInside];
+    [standingButton addTarget:self action:@selector(loadStandingTableViewData:) forControlEvents:UIControlEventTouchUpInside];
     [endedButton addTarget:self action:@selector(loadEndedTableViewData:) forControlEvents:UIControlEventTouchUpInside];
     [findProductButton addTarget:self action:@selector(toProducts:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -53,6 +55,10 @@
                 
             case 1:
                 [self loadEndedTableViewData];
+                break;
+            
+            case 2:
+                [self loadStandingTableViewData];
                 break;
                 
             default:
@@ -87,6 +93,7 @@
 - (void)backToParent:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
 - (void)toProducts:(id)sender
@@ -98,8 +105,10 @@
 {
     buttonTag = 0;
     [tView.mj_header beginRefreshing];
+    standingButton.tintColor = ZTGRAY;
     ingButton.tintColor = ZTBLUE;
     endedButton.tintColor = ZTGRAY;
+    [standingButton setUserInteractionEnabled:YES];
     [ingButton setUserInteractionEnabled:NO];
     [endedButton setUserInteractionEnabled:YES];
 }
@@ -153,14 +162,76 @@
     }];
 }
 
+- (void)loadStandingTableViewData:(id)sender
+{
+    buttonTag = 2;
+    [tView.mj_header beginRefreshing];
+    standingButton.tintColor = ZTBLUE;
+    ingButton.tintColor = ZTGRAY;
+    endedButton.tintColor = ZTGRAY;
+    [standingButton setUserInteractionEnabled:NO];
+    [ingButton setUserInteractionEnabled:YES];
+    [endedButton setUserInteractionEnabled:YES];
+}
+
+- (void)loadStandingTableViewData
+{
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSString *URL = [BASEURL stringByAppendingString:@"api/product/myInvestsLite/4"];
+    [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSArray *responseObject) {
+        NSLog(@"%@", responseObject);
+        [datas removeAllObjects];
+        for (int i = 0; i < responseObject.count; i++)
+        {
+            if ([[responseObject[i] objectForKey:@"productStyle"] isEqualToString:@"稳健分红"])
+            {
+                [datas addObject:responseObject[i]];
+            }
+        }
+        productsNum = (int)datas.count;
+        if (productsNum == 0)
+        {
+            [noneProductView setHidden:NO];
+            [tView setContentOffset:CGPointMake(0, 0) animated:NO];
+        }
+        else
+        {
+            [noneProductView setHidden:YES];
+            [tView setHidden:NO];
+        }
+        [tView reloadData];
+        [tView.mj_header endRefreshing];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        if (error.code == 100003)
+        {
+            hud.labelText = @"登录信息已过期，请重新登录";
+            SetpasswordViewController *setpass = [[self storyboard]instantiateViewControllerWithIdentifier:@"SetpasswordViewController"];
+            setpass.string = @"验证密码";
+            [[self tabBarController] presentViewController:setpass animated:NO completion:nil];
+        }
+        else
+        {
+            hud.labelText = @"当前网络状况不佳，请重试";
+        }
+        [hud hide:YES afterDelay:1.5f];
+        [tView.mj_header endRefreshing];
+    }];
+    [findProductButton setHidden:YES];
+}
+
 - (void)loadEndedTableViewData:(id)sender
 {
     buttonTag = 1;
     [tView.mj_header beginRefreshing];
-    endedButton.tintColor = ZTBLUE;
+    standingButton.tintColor = ZTGRAY;
     ingButton.tintColor = ZTGRAY;
-    [endedButton setUserInteractionEnabled:NO];
+    endedButton.tintColor = ZTBLUE;
+    [standingButton setUserInteractionEnabled:YES];
     [ingButton setUserInteractionEnabled:YES];
+    [endedButton setUserInteractionEnabled:NO];
 }
 
 - (void)loadEndedTableViewData
@@ -243,7 +314,7 @@
 {
     id data = datas[indexPath.row];
     NSString *str = [data valueForKey:@"productType"];
-    if (ingButton.userInteractionEnabled)
+    if (!endedButton.userInteractionEnabled)
     {
         if ([str isEqualToString:@"固定收益"])
         {
@@ -272,7 +343,7 @@
 {
     id data = datas[indexPath.row];
     NSString *str = [data valueForKey:@"productType"];
-    if (ingButton.userInteractionEnabled)
+    if (!endedButton.userInteractionEnabled)
     {
         if ([str isEqualToString:@"固定收益"])
         {

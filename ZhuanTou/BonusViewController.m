@@ -66,6 +66,7 @@
 - (void)backToParent:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
 - (void)bonus:(id)sender
@@ -204,17 +205,28 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     id data = [datas objectAtIndex:indexPath.row];
-    static NSString *identifier = @"BonusTableViewCell";
-    BonusTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    if (!cell)
-    {
-        cell = [[BonusTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-    }
-    [cell.toProductButton addTarget:self action:@selector(toProduct:) forControlEvents:UIControlEventTouchUpInside];
-    cell.amountLabel.text = [data objectForKey:@"money"];
-    cell.ddlLabel.text = [NSString stringWithFormat:@"%@过期",[data objectForKey:@"expireTime"]];
     if (interestRateButton.userInteractionEnabled)
     {
+        NSString *identifier = @"BonusTableViewCell";
+        BonusTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        if (!cell)
+        {
+            cell = [[BonusTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+        }
+        [cell.toProductButton addTarget:self action:@selector(toProduct:) forControlEvents:UIControlEventTouchUpInside];
+        cell.amountLabel.text = [data objectForKey:@"money"];
+        
+        NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];//实例化一个NSDateFormatter对象
+        [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];//设定时间格式
+        NSDate *startDate = [dateFormat dateFromString:[data objectForKey:@"expireTime"]];
+        NSCalendar* calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+        NSDateComponents* components = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay|NSCalendarUnitHour|NSCalendarUnitMinute fromDate:startDate];
+        
+        long year = [components year];
+        long month = [components month];
+        long day = [components day];
+        cell.ddlLabel.text = [NSString stringWithFormat:@"%ld年%ld月%ld日过期",year,month,day];
+        
         cell.ruleLabel.text = [NSString stringWithFormat:@"使用规则：投资满%@元可抵%@元现金",[data objectForKey:@"thresholdValue"],[data objectForKey:@"money"]];
         if ([[NSString stringWithFormat:@"%@",[data objectForKey:@"status"]] isEqualToString:@"可使用"])
         {
@@ -232,11 +244,40 @@
             cell.ddlLabel.textColor = ZTGRAY;
             [cell.toProductButton setUserInteractionEnabled:NO];
         }
+        
+        return cell;
     }
     else
     {
-        cell.ruleLabel.text = [NSString stringWithFormat:@"使用规则：投资满%@元可抵%@元现金",[data objectForKey:@"thresholdValue"],[data objectForKey:@"money"]];
-        if ([[NSString stringWithFormat:@"%@",[data objectForKey:@"status"]] isEqualToString:@"可使用"])
+        NSString *identifier = @"VoucherTableViewCell";
+        VoucherTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        if (!cell)
+        {
+            cell = [[VoucherTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+        }
+        [cell.toProductButton addTarget:self action:@selector(toProduct:) forControlEvents:UIControlEventTouchUpInside];
+        cell.amountLabel.text = [NSString stringWithFormat:@"%d",[NSString stringWithFormat:@"%@",[data objectForKey:@"raiseRate"]].intValue];
+        
+        NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];//实例化一个NSDateFormatter对象
+        [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];//设定时间格式
+        NSDate *startDate = [dateFormat dateFromString:[data objectForKey:@"expireTime"]];
+        NSCalendar* calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+        NSDateComponents* components = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay|NSCalendarUnitHour|NSCalendarUnitMinute fromDate:startDate];
+        
+        long year = [components year];
+        long month = [components month];
+        long day = [components day];
+        cell.ddlLabel.text = [NSString stringWithFormat:@"%ld年%ld月%ld日过期",year,month,day];
+        
+        if ([[NSString stringWithFormat:@"%@",[data objectForKey:@"type"]] isEqualToString:@"定期加息券"])
+        {
+            cell.ruleLabel.text = [NSString stringWithFormat:@"使用规则：对%d万元以下投资增加%d%%固定年化收益",[NSString stringWithFormat:@"%@",[data objectForKey:@"principalLimit"]].intValue/10000,[NSString stringWithFormat:@"%@",[data objectForKey:@"raiseRate"]].intValue];
+        }
+        else
+        {
+            cell.ruleLabel.text = [NSString stringWithFormat:@"使用规则：对%d万元以下投资增加%d%%募集期年化收益",[NSString stringWithFormat:@"%@",[data objectForKey:@"principalLimit"]].intValue/10000,[NSString stringWithFormat:@"%@",[data objectForKey:@"raiseRate"]].intValue];
+        }
+        if (![NSString stringWithFormat:@"%@",[data objectForKey:@"used"]].boolValue)
         {
             cell.bgView.backgroundColor = ZTBLUE;
             cell.statusLabel.text = @"选购产品";
@@ -247,14 +288,21 @@
         else
         {
             cell.bgView.backgroundColor = ZTGRAY;
-            cell.statusLabel.text = [NSString stringWithFormat:@"%@",[data objectForKey:@"status"]];
+            if ([NSString stringWithFormat:@"%@",[data objectForKey:@"expired"]].boolValue)
+            {
+                cell.statusLabel.text = @"已过期";
+            }
+            else
+            {
+                cell.statusLabel.text = @"已使用";
+            }
             cell.statusLabel.textColor = ZTGRAY;
             cell.ddlLabel.textColor = ZTGRAY;
             [cell.toProductButton setUserInteractionEnabled:NO];
         }
+        
+        return cell;
     }
-    
-    return cell;
 }
 
 

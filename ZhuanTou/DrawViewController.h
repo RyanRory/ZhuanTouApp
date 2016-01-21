@@ -41,6 +41,7 @@
 
 @property (strong, nonatomic) IBOutlet UIView *noBankCardView;
 @property (strong, nonatomic) IBOutlet UITextField *bankcardNoTextField;
+@property (strong, nonatomic) IBOutlet UITextField *nameTextField;
 @property (strong, nonatomic) IBOutlet UIButton *chooseBankButton;
 @property (strong, nonatomic) IBOutlet UILabel *bankLabel;
 @property (strong, nonatomic) IBOutlet UIButton *chooseProvinceButton;
@@ -57,6 +58,8 @@
 @property (strong, nonatomic) IBOutlet UILabel *costLabel;
 @property (strong, nonatomic) IBOutlet UILabel *preTimeLabel;
 @property (strong, nonatomic) IBOutlet UIButton *getSmsCodeButton;
+
+@property (readwrite, nonatomic) BOOL isFromUserCenter;
 
 
 - (IBAction)textFiledReturnEditing:(id)sender;

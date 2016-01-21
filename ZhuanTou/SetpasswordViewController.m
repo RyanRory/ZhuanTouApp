@@ -108,6 +108,8 @@
                                      [userDefault setBool:YES forKey:ISLOGIN];
                                      [userDefault setObject:[responseObject objectForKey:@"nickname"] forKey:NICKNAME];
                                      [userDefault setBool:[NSString stringWithFormat:@"%@",[responseObject objectForKey:@"isTradepasswordset"]].boolValue forKey:ISTRADEPSWDSET];
+                                     [userDefault setBool:[NSString stringWithFormat:@"%@", [responseObject objectForKey:@"isTpNumeric"]].boolValue forKey:ISTPNUMERIC];
+                                     [userDefault setInteger:[NSString stringWithFormat:@"%@", [responseObject objectForKey:@"tpThreshold"]].intValue *100 forKey:TPTHRESHOLD];
                                      [userDefault synchronize];
                                  }
                                  
@@ -240,6 +242,8 @@
                         [userDefault setBool:YES forKey:ISLOGIN];
                         [userDefault setObject:[responseObject objectForKey:@"nickname"] forKey:NICKNAME];
                         [userDefault setBool:[NSString stringWithFormat:@"%@",[responseObject objectForKey:@"isTradepasswordset"]].boolValue forKey:ISTRADEPSWDSET];
+                        [userDefault setBool:[NSString stringWithFormat:@"%@", [responseObject objectForKey:@"isTpNumeric"]].boolValue forKey:ISTPNUMERIC];
+                        [userDefault setInteger:[NSString stringWithFormat:@"%@", [responseObject objectForKey:@"tpThreshold"]].intValue *100 forKey:TPTHRESHOLD];
                         [userDefault synchronize];
                     }
                     
@@ -303,6 +307,14 @@
     
     [self.view addSubview:alipay];
 
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    if (self.isFromUserCenter)
+    {
+        [self.navigationController setNavigationBarHidden:YES animated:YES];
+    }
 }
 
 - (void)viewDidLayoutSubviews
@@ -395,6 +407,8 @@
                              [userDefault setBool:YES forKey:ISLOGIN];
                              [userDefault setObject:[responseObject objectForKey:@"nickname"] forKey:NICKNAME];
                              [userDefault setBool:[NSString stringWithFormat:@"%@",[responseObject objectForKey:@"isTradepasswordset"]].boolValue forKey:ISTRADEPSWDSET];
+                             [userDefault setBool:[NSString stringWithFormat:@"%@", [responseObject objectForKey:@"isTpNumeric"]].boolValue forKey:ISTPNUMERIC];
+                             [userDefault setInteger:[NSString stringWithFormat:@"%@", [responseObject objectForKey:@"tpThreshold"]].intValue *100 forKey:TPTHRESHOLD];
                              [userDefault synchronize];
                          }
                          

@@ -13,6 +13,8 @@
 @property (strong, nonatomic) IBOutlet UITextField *tradePswdAgainTextField;
 @property (strong, nonatomic) IBOutlet UIButton *confirmButton;
 
+@property (readwrite, nonatomic) BOOL isFromUserCenter;
+
 - (IBAction)textFiledReturnEditing:(id)sender;
 
 - (IBAction)backgroundTap:(id)sender;

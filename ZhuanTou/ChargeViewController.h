@@ -41,6 +41,8 @@
 @property (strong, nonatomic) IBOutlet UILabel *limitLabel;
 @property (strong, nonatomic) IBOutlet UITextField *phoneNumTextField;
 
+@property (readwrite, nonatomic) BOOL isFromUserCenter;
+
 
 - (IBAction)textFiledReturnEditing:(id)sender;
 
