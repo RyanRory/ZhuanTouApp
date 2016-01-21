@@ -21,5 +21,6 @@
 @property (readwrite, nonatomic) NSString *style;
 @property (readwrite, nonatomic) NSMutableArray *datas;
 @property (readwrite, nonatomic) id choosen;
+@property (readwrite, nonatomic) int amount;
 
 @end

@@ -26,6 +26,15 @@
     self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:backItem, item, nil];
     
     dataNum = (int)datas.count;
+    
+    if ([self.style isEqualToString:BONUS])
+    {
+        self.title = @"选择红包";
+    }
+    else
+    {
+        self.title = @"选择加息券";
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -36,6 +45,22 @@
 - (void)backToParent:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
+    ProductBuyNewViewController *vc = (ProductBuyNewViewController*)self.navigationController.viewControllers[self.navigationController.viewControllers.count-1];
+    if ([self.style isEqualToString:BONUS])
+    {
+        vc.coupon = [choosen objectForKey:@"couponCode"];
+        vc.biggestBonus = choosen;
+    }
+    else if ([self.style isEqualToString:COUPONS])
+    {
+        vc.vouchers = [vc.vouchers stringByReplacingOccurrencesOfString:[vc.biggestCoupons objectForKey:@"voucherCode"] withString:[choosen objectForKey:@"voucherCode"]];
+        vc.biggestCoupons = choosen;
+    }
+    else
+    {
+        vc.vouchers = [vc.vouchers stringByReplacingOccurrencesOfString:[vc.biggestCoupons objectForKey:@"voucherCode"] withString:[choosen objectForKey:@"voucherCode"]];
+        vc.biggestStandingCoupons = choosen;
+    }
 }
 
 #pragma TabelViewDelegate
@@ -130,6 +155,13 @@
         
         return cell;
     }
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    choosen = [datas objectAtIndex:indexPath.row];
+    [self backToParent:nil];
 }
 
 

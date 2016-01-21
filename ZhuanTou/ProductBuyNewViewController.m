@@ -71,11 +71,15 @@
         standingCouponsMoreButton.hidden = YES;
     }
     
-    restLabel.text = [NSString stringWithFormat:@"产品可够份额：%@元",bidableAmount];
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
+    [formatter setPositiveFormat:@"###,##0.00"];
+    NSLog(@"%@",bidableAmount);
+    restLabel.text = [NSString stringWithFormat:@"可购份额(元)：%@万",[formatter stringFromNumber:[NSNumber numberWithDouble:bidableAmount.doubleValue/10000]]];
     
     SCNumberKeyBoard *keyboard = [SCNumberKeyBoard showWithTextField:amountTextField enter:nil close:nil];
     [keyboard.enterButton setBackgroundColor:ZTBLUE];
     [keyboard.enterButton setTitle:@"确定" forState:UIControlStateNormal];
+    [keyboard.enterButton addTarget:self action:@selector(AIChoose:) forControlEvents:UIControlEventTouchUpInside];
     
     
     bonusBgView.backgroundColor = ZTGRAY;
@@ -110,6 +114,72 @@
     coupon = @"";
     vouchers = @"";
     [self setupCoupons];
+}
+
+- (void)AIChoose:(id)sender
+{
+    [amountTextField resignFirstResponder];
+    for (int i = 0; i<bonus.count; i++)
+    {
+        id data = [bonus objectAtIndex:i];
+        if ((biggestBonus == nil) && ([NSString stringWithFormat:@"%@",[data objectForKey:@"thresholdValue"]].intValue <= amountTextField.text.intValue))
+        {
+            biggestBonus = data;
+        }
+        else
+        {
+            if (([NSString stringWithFormat:@"%@",[biggestBonus objectForKey:@"money"]].intValue < [NSString stringWithFormat:@"%@",[data objectForKey:@"money"]].intValue) && ([NSString stringWithFormat:@"%@",[data objectForKey:@"thresholdValue"]].intValue <= amountTextField.text.intValue))
+            {
+                biggestBonus = data;
+            }
+        }
+    }
+    for (int i = 0; i<coupons.count; i++)
+    {
+        id data = [coupons objectAtIndex:i];
+        if ((biggestCoupons == nil) && ([NSString stringWithFormat:@"%@",[data objectForKey:@"threshold"]].intValue <= amountTextField.text.intValue) && ([NSString stringWithFormat:@"%@",[data objectForKey:@"principalLimit"]].intValue >= amountTextField.text.intValue))
+        {
+            biggestCoupons = data;
+        }
+        else
+        {
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+            NSDate *date1 = [dateFormatter dateFromString:[biggestCoupons objectForKey:@"expireTime"]];
+            NSDate *date2 = [dateFormatter dateFromString:[data objectForKey:@"expireTime"]];
+            if (([date1 timeIntervalSinceDate:date2] < 0.0) && ([NSString stringWithFormat:@"%@",[data objectForKey:@"threshold"]].intValue <= amountTextField.text.intValue) && ([NSString stringWithFormat:@"%@",[data objectForKey:@"principalLimit"]].intValue >= amountTextField.text.intValue))
+            {
+                biggestCoupons = data;
+            }
+            else if (([date1 timeIntervalSinceDate:date2] == 0.0) && ([NSString stringWithFormat:@"%@",[data objectForKey:@"threshold"]].intValue <= amountTextField.text.intValue) && ([NSString stringWithFormat:@"%@",[data objectForKey:@"principalLimit"]].intValue >= amountTextField.text.intValue) && ([NSString stringWithFormat:@"%@",[biggestCoupons objectForKey:@"raiseRate"]].intValue < [NSString stringWithFormat:@"%@",[data objectForKey:@"raiseRate"]].intValue))
+            {
+                biggestCoupons = data;
+            }
+        }
+    }
+    for (int i = 0; i<standingCoupons.count; i++)
+    {
+        id data = [standingCoupons objectAtIndex:i];
+        if ((biggestStandingCoupons == nil) && ([NSString stringWithFormat:@"%@",[data objectForKey:@"principalLimit"]].intValue >= amountTextField.text.intValue))
+        {
+            biggestStandingCoupons = data;
+        }
+        else
+        {
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+            NSDate *date1 = [dateFormatter dateFromString:[biggestStandingCoupons objectForKey:@"expireTime"]];
+            NSDate *date2 = [dateFormatter dateFromString:[data objectForKey:@"expireTime"]];
+            if (([date1 timeIntervalSinceDate:date2] < 0.0)  && ([NSString stringWithFormat:@"%@",[data objectForKey:@"threshold"]].intValue <= amountTextField.text.intValue) && ([NSString stringWithFormat:@"%@",[data objectForKey:@"principalLimit"]].intValue >= amountTextField.text.intValue))
+            {
+                biggestStandingCoupons = data;
+            }
+            else if (([date1 timeIntervalSinceDate:date2] == 0.0) && ([NSString stringWithFormat:@"%@",[data objectForKey:@"threshold"]].intValue <= amountTextField.text.intValue) && ([NSString stringWithFormat:@"%@",[data objectForKey:@"principalLimit"]].intValue >= amountTextField.text.intValue) && ([NSString stringWithFormat:@"%@",[biggestStandingCoupons objectForKey:@"raiseRate"]].intValue < [NSString stringWithFormat:@"%@",[data objectForKey:@"raiseRate"]].intValue))
+            {
+                biggestStandingCoupons = data;
+            }
+        }
+    }
 }
 
 - (void)chooseBonus:(id)sender
@@ -179,7 +249,21 @@
 {
     if (!couponsButton.selected)
     {
-        if (amountTextField.text.intValue <= [NSString stringWithFormat:@"%@",[biggestCoupons objectForKey:@"thresholdValue"]].intValue)
+        if (amountTextField.text.intValue > [NSString stringWithFormat:@"%@",[biggestCoupons objectForKey:@"principalLimit"]].intValue)
+        {
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = [NSString stringWithFormat:@"投资金额%d万元以下可用",[NSString stringWithFormat:@"%@",[biggestCoupons objectForKey:@"principalLimit"]].intValue/10000];
+            [hud hide:YES afterDelay:1.5];
+        }
+        else if (amountTextField.text.intValue < [NSString stringWithFormat:@"%@",[biggestCoupons objectForKey:@"threshold"]].intValue)
+        {
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = [NSString stringWithFormat:@"投资金额%d元以上可用",[NSString stringWithFormat:@"%@",[biggestCoupons objectForKey:@"threshold"]].intValue];
+            [hud hide:YES afterDelay:1.5];
+        }
+        else
         {
             couponsButton.selected = YES;
             couponsBgView.backgroundColor = ZTBLUE;
@@ -193,13 +277,6 @@
             {
                 vouchers = [biggestCoupons objectForKey:@"voucherCode"];
             }
-        }
-        else
-        {
-            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-            hud.mode = MBProgressHUDModeText;
-            hud.labelText = [NSString stringWithFormat:@"投资金额%d万元以下可用",[NSString stringWithFormat:@"%@",[biggestCoupons objectForKey:@"thresholdValue"]].intValue/10000];
-            [hud hide:YES afterDelay:1.5];
         }
     }
     else
@@ -224,7 +301,21 @@
 {
     if (!standingCouponsButton.selected)
     {
-        if (amountTextField.text.intValue <= [NSString stringWithFormat:@"%@",[biggestStandingCoupons objectForKey:@"thresholdValue"]].intValue)
+        if (amountTextField.text.intValue > [NSString stringWithFormat:@"%@",[biggestStandingCoupons objectForKey:@"principalLimit"]].intValue)
+        {
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = [NSString stringWithFormat:@"投资金额%d万元以下可用",[NSString stringWithFormat:@"%@",[biggestStandingCoupons objectForKey:@"principalLimit"]].intValue/10000];
+            [hud hide:YES afterDelay:1.5];
+        }
+        else if (amountTextField.text.intValue < [NSString stringWithFormat:@"%@",[biggestStandingCoupons objectForKey:@"threshold"]].intValue)
+        {
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = [NSString stringWithFormat:@"投资金额%d元以上可用",[NSString stringWithFormat:@"%@",[biggestStandingCoupons objectForKey:@"threshold"]].intValue];
+            [hud hide:YES afterDelay:1.5];
+        }
+        else
         {
             standingCouponsButton.selected = YES;
             standingCouponsBgView.backgroundColor = ZTBLUE;
@@ -238,14 +329,6 @@
             {
                 vouchers = [biggestCoupons objectForKey:@"voucherCode"];
             }
-
-        }
-        else
-        {
-            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-            hud.mode = MBProgressHUDModeText;
-            hud.labelText = [NSString stringWithFormat:@"投资金额%d万元以下可用",[NSString stringWithFormat:@"%@",[biggestStandingCoupons objectForKey:@"thresholdValue"]].intValue/10000];
-            [hud hide:YES afterDelay:1.5];
         }
     }
     else
@@ -276,12 +359,12 @@
         if ([style isEqualToString:HUOQI])
         {
             balance = [NSString stringWithFormat:@"%@",[responseObject objectForKey:@"fundsAvailable"]].doubleValue;
-            balanceLabel.text = [NSString stringWithFormat:@"可用余额：%@元",[formatter stringFromNumber:[responseObject objectForKey:@"fundsAvailable"]]];
+            balanceLabel.text = [NSString stringWithFormat:@"可用余额(元)：%@",[formatter stringFromNumber:[responseObject objectForKey:@"fundsAvailable"]]];
         }
         else
         {
             balance = [NSString stringWithFormat:@"%@",[responseObject objectForKey:@"fundsAvailable"]].doubleValue + [NSString stringWithFormat:@"%@",[responseObject objectForKey:@"ztbBalance"]].doubleValue;
-            balanceLabel.text = [NSString stringWithFormat:@"可投资余额：%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:balance]]];
+            balanceLabel.text = [NSString stringWithFormat:@"可投资余额(元)：%@",[formatter stringFromNumber:[NSNumber numberWithDouble:balance]]];
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -291,15 +374,66 @@
         hud.labelText = @"当前网络状况不佳";
         [hud hide:YES afterDelay:1.5f];
     }];
+    
+    if (biggestBonus)
+    {
+        bonusNumLabel.text = [biggestBonus objectForKey:@"money"];
+        bonusLimitLabel.text = [NSString stringWithFormat:@"起投金额%@元",[biggestBonus objectForKey:@"thresholdValue"]];
+        NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];//实例化一个NSDateFormatter对象
+        [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];//设定时间格式
+        NSDate *startDate = [dateFormat dateFromString:[biggestBonus objectForKey:@"expireTime"]];
+        NSCalendar* calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+        NSDateComponents* components = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay|NSCalendarUnitHour|NSCalendarUnitMinute fromDate:startDate];
+        
+        long year = [components year];
+        long month = [components month];
+        long day = [components day];
+        
+        bonusDDLLabel.text = [NSString stringWithFormat:@"%ld年%ld月%ld日过期",year,month,day];
+    }
+    
+    if (biggestCoupons)
+    {
+        couponsNumLabel.text = [NSString stringWithFormat:@"%d",[NSString stringWithFormat:@"%@",[biggestCoupons objectForKey:@"raiseRate"]].intValue];
+        couponsLimitLabel.text = [NSString stringWithFormat:@"投资上限%d万元",[NSString stringWithFormat:@"%@",[biggestCoupons objectForKey:@"principalLimit"]].intValue/10000];
+        NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];//实例化一个NSDateFormatter对象
+        [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];//设定时间格式
+        NSDate *startDate = [dateFormat dateFromString:[biggestCoupons objectForKey:@"expireTime"]];
+        NSCalendar* calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+        NSDateComponents* components = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay|NSCalendarUnitHour|NSCalendarUnitMinute fromDate:startDate];
+        
+        long year = [components year];
+        long month = [components month];
+        long day = [components day];
+        
+        couponsDDLLabel.text = [NSString stringWithFormat:@"%ld年%ld月%ld日过期",year,month,day];
+    }
+    
+    if (biggestStandingCoupons)
+    {
+        standingCouponsNumLabel.text = [NSString stringWithFormat:@"%d",[NSString stringWithFormat:@"%@",[biggestCoupons objectForKey:@"raiseRate"]].intValue];
+        standingCouponsLimitLabel.text = [NSString stringWithFormat:@"投资上限%d万元",[NSString stringWithFormat:@"%@",[biggestCoupons objectForKey:@"principalLimit"]].intValue/10000];
+        NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];//实例化一个NSDateFormatter对象
+        [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];//设定时间格式
+        NSDate *startDate = [dateFormat dateFromString:[biggestStandingCoupons objectForKey:@"expireTime"]];
+        NSCalendar* calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+        NSDateComponents* components = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay|NSCalendarUnitHour|NSCalendarUnitMinute fromDate:startDate];
+        
+        long year = [components year];
+        long month = [components month];
+        long day = [components day];
+        
+        standingCouponsDDLLabel.text = [NSString stringWithFormat:@"%ld年%ld月%ld日过期",year,month,day];
+    }
 }
 
 - (void)setupCoupons
 {
     AFHTTPRequestOperationManager *manager1 = [AFHTTPRequestOperationManager manager];
-    NSString *URL1 = [BASEURL stringByAppendingString:@"api/account/getCouponsInApp"];
-    [manager1 GET:URL1 parameters:nil success:^(AFHTTPRequestOperation *operation, NSArray *responseObject) {
+    NSString *URL1 = [BASEURL stringByAppendingString:@"api/account/couponInfo4M"];
+    [manager1 GET:URL1 parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
         NSLog(@"%@", responseObject);
-        bonus = [[NSMutableArray alloc]initWithArray:responseObject];
+        bonus = [[NSMutableArray alloc]initWithArray:[responseObject objectForKey:@"coupons"]];
         for (int i = 0; i < bonus.count; i++)
         {
             id data = [bonus objectAtIndex:i];
@@ -356,7 +490,7 @@
     }];
     
     AFHTTPRequestOperationManager *manager2 = [AFHTTPRequestOperationManager manager];
-    NSString *URL2 = [BASEURL stringByAppendingString:@"api/voucher/myVouchers"];
+    NSString *URL2 = [BASEURL stringByAppendingString:@"api/voucher/myVouchers/true"];
     [manager2 GET:URL2 parameters:nil success:^(AFHTTPRequestOperation *operation, NSArray *responseObject) {
         NSLog(@"%@", responseObject);
         coupons = [[NSMutableArray alloc]init];
@@ -373,7 +507,11 @@
                 }
                 else
                 {
-                    if ([biggestCoupons objectForKey:@"raiseRate"] < [data objectForKey:@"raiseRate"])
+                    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+                    NSDate *date1 = [dateFormatter dateFromString:[biggestCoupons objectForKey:@"expireTime"]];
+                    NSDate *date2 = [dateFormatter dateFromString:[data objectForKey:@"expireTime"]];
+                    if ([date1 timeIntervalSinceDate:date2] < 0.0)
                     {
                         biggestCoupons = data;
                     }
@@ -388,7 +526,11 @@
                 }
                 else
                 {
-                    if ([biggestStandingCoupons objectForKey:@"raiseRate"] < [data objectForKey:@"raiseRate"])
+                    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+                    NSDate *date1 = [dateFormatter dateFromString:[biggestStandingCoupons objectForKey:@"expireTime"]];
+                    NSDate *date2 = [dateFormatter dateFromString:[data objectForKey:@"expireTime"]];
+                    if ([date1 timeIntervalSinceDate:date2] < 0.0)
                     {
                         biggestStandingCoupons = data;
                     }
@@ -403,10 +545,10 @@
                 couponsMoreButton.hidden = NO;
             }
             couponsNumLabel.text = [NSString stringWithFormat:@"%d",[NSString stringWithFormat:@"%@",[biggestCoupons objectForKey:@"raiseRate"]].intValue];
-            couponsLimitLabel.text = [NSString stringWithFormat:@"投资上限%d万元",[NSString stringWithFormat:@"%@",[biggestCoupons objectForKey:@"thresholdValue"]].intValue];
+            couponsLimitLabel.text = [NSString stringWithFormat:@"投资上限%d万元",[NSString stringWithFormat:@"%@",[biggestCoupons objectForKey:@"principalLimit"]].intValue/10000];
             NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];//实例化一个NSDateFormatter对象
             [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];//设定时间格式
-            NSDate *startDate = [dateFormat dateFromString:[biggestBonus objectForKey:@"expireTime"]];
+            NSDate *startDate = [dateFormat dateFromString:[biggestCoupons objectForKey:@"expireTime"]];
             NSCalendar* calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
             NSDateComponents* components = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay|NSCalendarUnitHour|NSCalendarUnitMinute fromDate:startDate];
             
@@ -425,10 +567,10 @@
                 standingCouponsMoreButton.hidden = NO;
             }
             standingCouponsNumLabel.text = [NSString stringWithFormat:@"%d",[NSString stringWithFormat:@"%@",[biggestCoupons objectForKey:@"raiseRate"]].intValue];
-            standingCouponsLimitLabel.text = [NSString stringWithFormat:@"投资上限%d万元",[NSString stringWithFormat:@"%@",[biggestCoupons objectForKey:@"thresholdValue"]].intValue];
+            standingCouponsLimitLabel.text = [NSString stringWithFormat:@"投资上限%d万元",[NSString stringWithFormat:@"%@",[biggestCoupons objectForKey:@"principalLimit"]].intValue/10000];
             NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];//实例化一个NSDateFormatter对象
             [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];//设定时间格式
-            NSDate *startDate = [dateFormat dateFromString:[biggestBonus objectForKey:@"expireTime"]];
+            NSDate *startDate = [dateFormat dateFromString:[biggestStandingCoupons objectForKey:@"expireTime"]];
             NSCalendar* calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
             NSDateComponents* components = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay|NSCalendarUnitHour|NSCalendarUnitMinute fromDate:startDate];
             
@@ -474,6 +616,43 @@
 
 - (void)confirm:(id)sender
 {
+    BOOL flag = false;
+    if (!flag && ![style isEqualToString:HUOQI])
+    {
+        for (int i=0; i<bonus.count; i++)
+        {
+            id data = [bonus objectAtIndex:i];
+            if ([NSString stringWithFormat:@"%@",[data objectForKey:@"thresholdValue"]].intValue <= amountTextField.text.intValue)
+            {
+                flag = true;
+                break;
+            }
+        }
+    }
+    if (!flag && ![style isEqualToString:HUOQI])
+    {
+        for (int i=0; i<coupons.count; i++)
+        {
+            id data = [coupons objectAtIndex:i];
+            if (([NSString stringWithFormat:@"%@",[data objectForKey:@"threshold"]].intValue <= amountTextField.text.intValue) && ([NSString stringWithFormat:@"%@",[data objectForKey:@"principalLimit"]].intValue >= amountTextField.text.intValue))
+            {
+                flag = true;
+                break;
+            }
+        }
+    }
+    if (!flag && ![style isEqualToString:HUOQI])
+    {
+        for (int i=0; i<standingCoupons.count; i++)
+        {
+            id data = [standingCoupons objectAtIndex:i];
+            if (([NSString stringWithFormat:@"%@",[data objectForKey:@"threshold"]].intValue <= amountTextField.text.intValue) && ([NSString stringWithFormat:@"%@",[data objectForKey:@"principalLimit"]].intValue >= amountTextField.text.intValue))
+            {
+                flag = true;
+                break;
+            }
+        }
+    }
     if ((int)round(amountTextField.text.doubleValue * 100) > (int)round(balance * 100))
     {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
@@ -494,16 +673,6 @@
             [amountTextField becomeFirstResponder];
         });
     }
-    //    else if ((![style isEqualToString:HUOQI]) && (amountTextField.text.intValue > ((NSString*)[productInfo objectForKey:@"maxPurchaseAmount"]).intValue))
-    //    {
-    //        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    //        hud.mode = MBProgressHUDModeCustomView;
-    //        hud.labelText = [NSString stringWithFormat:@"最高投资额度为%@元",[productInfo objectForKey:@"maxPurchaseAmount"]];
-    //        [hud hide:YES afterDelay:1.5];
-    //        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-    //            [amountTextField becomeFirstResponder];
-    //        });
-    //    }
     else if ((![style isEqualToString:HUOQI]) && (amountTextField.text.intValue % 100 != 0))
     {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
@@ -513,6 +682,27 @@
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [amountTextField becomeFirstResponder];
         });
+    }
+    else if ((![style isEqualToString:HUOQI]) && flag)
+    {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"您还有可使用的红包或优惠券，是否前往下一页面？" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *gotoNext= [UIAlertAction actionWithTitle:@"是" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
+            ProductBuyConfirmViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ProductBuyConfirmViewController"];
+            [vc setStyle:style];
+            vc.title = self.title;
+            vc.isFromNewer = self.isFromNewer;
+            vc.investAmount = amountTextField.text;
+            vc.coupons = coupon;
+            vc.vouchers = vouchers;
+            NSLog(@"%@",coupons);
+            vc.idOrCode = idOrCode;
+            vc.productInfo = productInfo;
+            [[self navigationController]pushViewController:vc animated:YES];
+        }];
+        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"否" style:UIAlertActionStyleCancel handler:nil];
+        [alertController addAction:gotoNext];
+        [alertController addAction:cancel];
+        [self presentViewController:alertController animated:YES completion:nil];
     }
     else
     {

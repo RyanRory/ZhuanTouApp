@@ -1152,6 +1152,7 @@
                                                         <constraint firstAttribute="trailing" secondItem="i1L-2t-QVy" secondAttribute="trailing" id="EKr-aM-5xK"/>
                                                         <constraint firstItem="aZe-f5-499" firstAttribute="leading" secondItem="7ce-49-Ze0" secondAttribute="leading" id="NHZ-ip-DN2"/>
                                                         <constraint firstAttribute="trailing" secondItem="mVJ-1H-5th" secondAttribute="trailing" id="QKN-At-HOH"/>
+                                                        <constraint firstItem="mVJ-1H-5th" firstAttribute="leading" secondItem="aZe-f5-499" secondAttribute="trailing" id="SPI-9Y-Nu1"/>
                                                         <constraint firstItem="aZe-f5-499" firstAttribute="top" secondItem="7ce-49-Ze0" secondAttribute="top" id="kbe-eR-dfm"/>
                                                         <constraint firstItem="i1L-2t-QVy" firstAttribute="top" secondItem="7ce-49-Ze0" secondAttribute="top" constant="40" id="mHG-te-xv3"/>
                                                     </constraints>
@@ -1267,6 +1268,7 @@
                                                         <constraint firstItem="pcQ-AH-Ji3" firstAttribute="top" secondItem="AL4-qd-tWg" secondAttribute="top" constant="40" id="RWc-t2-Y8K"/>
                                                         <constraint firstAttribute="trailing" secondItem="cEZ-Xa-1rE" secondAttribute="trailing" id="XWb-sP-Beq"/>
                                                         <constraint firstItem="M2D-5g-VKv" firstAttribute="top" secondItem="AL4-qd-tWg" secondAttribute="top" id="dVh-on-e6O"/>
+                                                        <constraint firstItem="cEZ-Xa-1rE" firstAttribute="leading" secondItem="M2D-5g-VKv" secondAttribute="trailing" id="dz0-8B-Rqy"/>
                                                         <constraint firstAttribute="bottom" secondItem="cEZ-Xa-1rE" secondAttribute="bottom" constant="20" id="ePL-q3-WZe"/>
                                                         <constraint firstAttribute="bottom" secondItem="M2D-5g-VKv" secondAttribute="bottom" id="tJ4-k9-xPZ"/>
                                                     </constraints>
@@ -5279,6 +5281,12 @@
                                         <state key="selected">
                                             <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="3"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="clipsToBounds" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -5299,6 +5307,12 @@
                                     <constraint firstAttribute="height" constant="70" id="vvM-Ja-hHD"/>
                                     <constraint firstAttribute="bottom" secondItem="tFM-Io-YuU" secondAttribute="bottom" id="xri-gk-mLV"/>
                                 </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="3"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="clipsToBounds" value="YES"/>
+                                </userDefinedRuntimeAttributes>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="选择加息券" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yr7-ua-hjW">
                                 <rect key="frame" x="25" y="243" width="70" height="15"/>
@@ -5398,6 +5412,12 @@
                                         <state key="normal">
                                             <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="3"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="clipsToBounds" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -5418,6 +5438,12 @@
                                     <constraint firstItem="Bn8-rF-SN9" firstAttribute="leading" secondItem="fFB-aG-snb" secondAttribute="leading" id="vJc-CM-aup"/>
                                     <constraint firstItem="Bn8-rF-SN9" firstAttribute="top" secondItem="fFB-aG-snb" secondAttribute="top" id="vcE-np-LDU"/>
                                 </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="clipsToBounds" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="3"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nTk-EU-QiV">
                                 <rect key="frame" x="550" y="283" width="40" height="30"/>
@@ -5507,6 +5533,12 @@
                                         <state key="normal">
                                             <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="3"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="clipsToBounds" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -5527,6 +5559,12 @@
                                     <constraint firstItem="pmc-8X-nSQ" firstAttribute="top" secondItem="Kna-Ur-D9f" secondAttribute="top" id="lBn-75-QIB"/>
                                     <constraint firstItem="Mhq-Xn-Fqb" firstAttribute="top" secondItem="Kna-Ur-D9f" secondAttribute="top" constant="10" id="tRm-0w-I9Z"/>
                                 </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="3"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="clipsToBounds" value="YES"/>
+                                </userDefinedRuntimeAttributes>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ens-cj-wlb">
                                 <rect key="frame" x="550" y="361" width="40" height="30"/>

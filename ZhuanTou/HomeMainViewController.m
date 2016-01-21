@@ -235,17 +235,13 @@
         timeLabel.text = [NSString stringWithFormat:@"%@开始抢购",[responseObject objectForKey:@"startRaisingDate"]];
         NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
         [formatter setPositiveFormat:@"###,##0"];
-        bidableAmount = [NSString stringWithString:[formatter stringFromNumber:[responseObject objectForKey:@"bidableAmount"]]];
+        bidableAmount = [responseObject objectForKey:@"bidableAmount"];
         productInfo = [NSDictionary dictionaryWithDictionary:responseObject];
         NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];//实例化一个NSDateFormatter对象
         [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];//设定时间格式
         NSDate *startDate = [dateFormat dateFromString:[productInfo objectForKey:@"startRaisingDateTime"]];
         if (((NSString*)[responseObject objectForKey:@"bidableAmount"]).intValue == 0)
         {
-//            NSDateFormatter* nextDateFormat = [[NSDateFormatter alloc] init];//实例化一个NSDateFormatter对象
-//            [nextDateFormat setDateFormat:@"yyyy年MM月dd日 HH:mm"];//设定时间格式
-//            NSTimeInterval days = 7*24*60*60;
-//            NSString *nextDateStr = [nextDateFormat stringFromDate:[startDate dateByAddingTimeInterval:days]];
             timeLabel.text = @"";
             
             [buyButton setUserInteractionEnabled:NO];
@@ -359,8 +355,6 @@
     vc.title = @"新手专享三重礼";
     [vc setURL:[BASEURL stringByAppendingString:@"Mobile/Home/Newer"]];
     [[self navigationController]pushViewController:vc animated:YES];
-//    NewerViewController *vc = [[self storyboard] instantiateViewControllerWithIdentifier:@"NewerViewController"];
-//    [[self navigationController] pushViewController:vc animated:YES];
 }
 
 - (void)toDetail:(id)sender

@@ -502,19 +502,19 @@
         {
             vc.productInfo = wenjianData;
             vc.idOrCode = [wenjianData objectForKey:@"id"];
-            vc.bidableAmount = [NSString stringWithString:[formatter stringFromNumber:[wenjianData objectForKey:@"bidableAmount"]]];
+            vc.bidableAmount = [wenjianData objectForKey:@"bidableAmount"];
         }
         else if ([style isEqualToString:ZONGHE])
         {
             vc.productInfo = zongheData;
             vc.idOrCode = [zongheData objectForKey:@"id"];
-            vc.bidableAmount = [NSString stringWithString:[formatter stringFromNumber:[zongheData objectForKey:@"bidableAmount"]]];
+            vc.bidableAmount = [zongheData objectForKey:@"bidableAmount"];
         }
         else
         {
             flag = true;
             vc.productInfo = huoqiData;
-            vc.bidableAmount = [NSString stringWithString:[formatter stringFromNumber:[huoqiData objectForKey:@"bidableAmount"]]];
+            vc.bidableAmount = [huoqiData objectForKey:@"bidableAmount"];
         }
         [[self navigationController]pushViewController:vc animated:YES];
     }
