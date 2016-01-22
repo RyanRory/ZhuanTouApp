@@ -324,9 +324,11 @@
         long year = [components year];
         long month = [components month];
         long day = [components day];
-        cell.ddlLabel.text = [NSString stringWithFormat:@"%ld年%ld月%ld日过期",year,month,day];
+        cell.ddlLabel.text = [NSString stringWithFormat:@"有效期至:%ld-%ld-%ld",year,month,day];
         
-        cell.ruleLabel.text = [NSString stringWithFormat:@"使用规则：满%@元投资可抵%@元使用",[data objectForKey:@"thresholdValue"],[data objectForKey:@"money"]];
+        NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
+        [formatter setPositiveFormat:@"###,##0"];
+        cell.ruleLabel.text = [NSString stringWithFormat:@"使用规则：单笔投资满%@元可用",[formatter stringFromNumber:[NSNumber numberWithInt:[NSString stringWithFormat:@"%@",[data objectForKey:@"thresholdValue"]].intValue]]];
         if ([[NSString stringWithFormat:@"%@",[data objectForKey:@"status"]] isEqualToString:@"可使用"])
         {
             cell.bgView.backgroundColor = ZTRED;
@@ -366,8 +368,11 @@
         long year = [components year];
         long month = [components month];
         long day = [components day];
-        cell.ddlLabel.text = [NSString stringWithFormat:@"%ld年%ld月%ld日过期",year,month,day];
-        cell.ruleLabel.text = [NSString stringWithFormat:@"使用规则：单笔投资最高%d元",[NSString stringWithFormat:@"%@",[data objectForKey:@"principalLimit"]].intValue];
+        cell.ddlLabel.text = [NSString stringWithFormat:@"有效期至:%ld-%ld-%ld",year,month,day];
+        
+        NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
+        [formatter setPositiveFormat:@"###,##0"];
+        cell.ruleLabel.text = [NSString stringWithFormat:@"使用规则：单笔投资最高%@元",[formatter stringFromNumber:[NSNumber numberWithInt:[NSString stringWithFormat:@"%@",[data objectForKey:@"principalLimit"]].intValue]]];
         
         if (![NSString stringWithFormat:@"%@",[data objectForKey:@"used"]].boolValue)
         {

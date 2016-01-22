@@ -669,7 +669,7 @@
                 }
                 else
                 {
-                    cell.descriptionLabel.text = [NSString stringWithFormat:@"%@张", [data objectForKey:@"activeCouponAmount"]];
+                    cell.descriptionLabel.text = [NSString stringWithFormat:@"%@张", [data objectForKey:@"activeCouponCount"]];
                 }
             }
             else

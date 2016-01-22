@@ -107,9 +107,11 @@
         long month = [components month];
         long day = [components day];
         
-        cell.DDLLabel.text = [NSString stringWithFormat:@"%ld年%ld月%ld日过期",year,month,day];
+        cell.DDLLabel.text = [NSString stringWithFormat:@"有效期至:%ld-%ld-%ld",year,month,day];
         
-        cell.limitLabel.text = [NSString stringWithFormat:@"使用规则：投资满%@元可抵%@元现金",[data objectForKey:@"thresholdValue"],[data objectForKey:@"faceValue"]];
+        NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
+        [formatter setPositiveFormat:@"###,##0"];
+        cell.limitLabel.text = [NSString stringWithFormat:@"使用规则：单笔投资满%@元可用",[formatter stringFromNumber:[NSNumber numberWithInt:[NSString stringWithFormat:@"%@",[data objectForKey:@"thresholdValue"]].intValue]]];
         if (choosen && ([[choosen objectForKey:@"couponCode"] isEqualToString:[data objectForKey:@"couponCode"]]))
         {
             
@@ -150,8 +152,11 @@
         long month = [components month];
         long day = [components day];
         
-        cell.DDLLabel.text = [NSString stringWithFormat:@"%ld年%ld月%ld日过期",year,month,day];
-        cell.limitLabel.text = [NSString stringWithFormat:@"使用规则：单笔投资最高%d元",[NSString stringWithFormat:@"%@",[data objectForKey:@"principalLimit"]].intValue];
+        cell.DDLLabel.text = [NSString stringWithFormat:@"有效期至:%ld-%ld-%ld",year,month,day];
+        
+        NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
+        [formatter setPositiveFormat:@"###,##0"];
+        cell.limitLabel.text = [NSString stringWithFormat:@"使用规则：单笔投资最高%@元",[formatter stringFromNumber:[NSNumber numberWithInt:[NSString stringWithFormat:@"%@",[data objectForKey:@"principalLimit"]].intValue]]];
         
         if (choosen && ([[choosen objectForKey:@"voucherCode"] isEqualToString:[data objectForKey:@"voucherCode"]]))
         {
