@@ -10,6 +10,7 @@
 #import "AddBankCardViewController.h"
 #import "RealNameViewController.h"
 #import "CompleteBankCardInfoViewController.h"
+#import "WebDetailViewController.h"
 
 @interface DrawViewController : UIViewController<UIPickerViewDataSource, UIPickerViewDelegate>
 {

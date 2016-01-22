@@ -11,16 +11,18 @@
 #import "VoucherTableViewCell.h"
 #import "ZTTabBarViewController.h"
 #import "SetpasswordViewController.h"
+#import "WebDetailViewController.h"
 
 @interface BonusViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 {
     int bonusNum;
-    NSMutableArray *datas, *bonusDatas, *interestRateDatas;
+    NSMutableArray *datas, *bonusDatas, *interestRateDatas, *standingInterestRateDatas;
 }
 
 @property (strong, nonatomic) IBOutlet UITableView *tView;
 @property (strong, nonatomic) IBOutlet UIButton *bonusButton;
 @property (strong, nonatomic) IBOutlet UIButton *interestRateButton;
+@property (strong, nonatomic) IBOutlet UIButton *StandingInterestRateButton;
 @property (strong, nonatomic) IBOutlet UILabel *noBonusLabel;
 
 @end

@@ -16,33 +16,34 @@
     NSString *style;
     CGRect frame;
 }
+
 @property (strong, nonatomic) IBOutlet UIView *contentView;
 @property (strong, nonatomic) IBOutlet UIButton *confirmButton;
-@property (strong, nonatomic) IBOutlet HeadView *bgView;
-@property (strong, nonatomic) IBOutlet UILabel *preIncomeLabel;
+@property (strong, nonatomic) IBOutlet UIView *bgView;
+@property (strong, nonatomic) IBOutlet UILabel *incomeRateLabel;
 @property (strong, nonatomic) IBOutlet UILabel *productTimeLabel;
-@property (strong, nonatomic) IBOutlet UILabel *lowestIncomeLabel;
 @property (strong, nonatomic) IBOutlet UILabel *amoutLabel;
-@property (strong, nonatomic) IBOutlet UILabel *preIncomeNumLabel;
-@property (strong, nonatomic) IBOutlet UILabel *productTimeNumLabel;
-@property (strong, nonatomic) IBOutlet UILabel *lowestIncomeNumLabel;
-@property (strong, nonatomic) IBOutlet UILabel *amountNumLabel;
-@property (strong, nonatomic) IBOutlet UIView *wenjianView;
+@property (strong, nonatomic) IBOutlet UILabel *titleLabel;
+@property (strong, nonatomic) IBOutlet UILabel *realPayLabel;
+@property (strong, nonatomic) IBOutlet UILabel *staIncome;
+@property (strong, nonatomic) IBOutlet UILabel *youUsedLabel;
+@property (strong, nonatomic) IBOutlet UILabel *voucher1Label;
+@property (strong, nonatomic) IBOutlet UILabel *voucher1NumLabel;
+@property (strong, nonatomic) IBOutlet UILabel *voucher2Label;
+@property (strong, nonatomic) IBOutlet UILabel *voucher2NumLabel;
+@property (strong, nonatomic) IBOutlet UIView *voucher1View;
+@property (strong, nonatomic) IBOutlet UIView *voucher2View;
 
-@property (strong, nonatomic) IBOutlet HeadView *wenjianBgView;
 - (void)setStyle:(NSString*)str;
-@property (strong, nonatomic) IBOutlet UILabel *wenjianPILabel;
-@property (strong, nonatomic) IBOutlet UILabel *wenjianPTLabel;
-@property (strong, nonatomic) IBOutlet UILabel *wenjianAmountLabel;
-@property (strong, nonatomic) IBOutlet UILabel *wenjianPINumLabel;
-@property (strong, nonatomic) IBOutlet UILabel *wenjianPTNumLabel;
-@property (strong, nonatomic) IBOutlet UILabel *wenjianAmountNumLabel;
 
 @property (strong, nonatomic) NSString *investAmount;
 @property (strong, nonatomic) NSString *coupons;
 @property (strong, nonatomic) NSString *vouchers;
 @property (strong, nonatomic) NSString *idOrCode;
 @property (strong, nonatomic) NSDictionary *productInfo;
+@property (readwrite, nonatomic) id bonus;
+@property (readwrite, nonatomic) id voucher1;
+@property (readwrite, nonatomic) id voucher2;
 
 @property (readwrite, nonatomic) BOOL isFromNewer;
 

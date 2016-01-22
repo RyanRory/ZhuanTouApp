@@ -196,14 +196,14 @@
     {
         WebDetailViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"WebDetailViewController"];
         vc.title = @"稳盈宝";
-        [vc setURL:[BASEURL stringByAppendingString:@"Mobile/Home/WenDesc"]];
+        [vc setURL:[BASEURL stringByAppendingString:@"Wap/WebView/WenDesc"]];
         [[self navigationController]pushViewController:vc animated:YES];
     }
     else if ([style isEqualToString:ZONGHE])
     {
         WebDetailViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"WebDetailViewController"];
         vc.title = @"分红宝";
-        [vc setURL:[BASEURL stringByAppendingString:@"Mobile/Home/FenDesc"]];
+        [vc setURL:[BASEURL stringByAppendingString:@"Wap/WebView/FenDesc"]];
         [[self navigationController]pushViewController:vc animated:YES];
     }
     else
@@ -211,7 +211,7 @@
         flag = true;
         WebDetailViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"WebDetailViewController"];
         vc.title = @"专投宝";
-        [vc setURL:[BASEURL stringByAppendingString:@"Mobile/Home/ZhuanDesc"]];
+        [vc setURL:[BASEURL stringByAppendingString:@"Wap/WebView/ZhuanDesc"]];
         [[self navigationController]pushViewController:vc animated:YES];
     }
 }

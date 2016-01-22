@@ -353,7 +353,7 @@
 {
     WebDetailViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"WebDetailViewController"];
     vc.title = @"新手专享三重礼";
-    [vc setURL:[BASEURL stringByAppendingString:@"Mobile/Home/Newer"]];
+    [vc setURL:[BASEURL stringByAppendingString:@"Wap/WebView/Newer"]];
     [[self navigationController]pushViewController:vc animated:YES];
 }
 
@@ -361,7 +361,7 @@
 {
     WebDetailViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"WebDetailViewController"];
     vc.title = @"分红宝";
-    [vc setURL:[BASEURL stringByAppendingString:@"Mobile/Home/FenDesc"]];
+    [vc setURL:[BASEURL stringByAppendingString:@"Wap/WebView/FenDesc"]];
     [[self navigationController]pushViewController:vc animated:YES];
 }
 

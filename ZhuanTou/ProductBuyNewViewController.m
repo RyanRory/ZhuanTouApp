@@ -128,7 +128,7 @@
         }
         else
         {
-            if (([NSString stringWithFormat:@"%@",[biggestBonus objectForKey:@"money"]].intValue < [NSString stringWithFormat:@"%@",[data objectForKey:@"money"]].intValue) && ([NSString stringWithFormat:@"%@",[data objectForKey:@"thresholdValue"]].intValue <= amountTextField.text.intValue))
+            if (([NSString stringWithFormat:@"%@",[biggestBonus objectForKey:@"faceValue"]].intValue < [NSString stringWithFormat:@"%@",[data objectForKey:@"faceValue"]].intValue) && ([NSString stringWithFormat:@"%@",[data objectForKey:@"thresholdValue"]].intValue <= amountTextField.text.intValue))
             {
                 biggestBonus = data;
             }
@@ -377,7 +377,7 @@
     
     if (biggestBonus)
     {
-        bonusNumLabel.text = [biggestBonus objectForKey:@"money"];
+        bonusNumLabel.text = [NSString stringWithFormat:@"%@",[biggestBonus objectForKey:@"faceValue"]];
         bonusLimitLabel.text = [NSString stringWithFormat:@"起投金额%@元",[biggestBonus objectForKey:@"thresholdValue"]];
         NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];//实例化一个NSDateFormatter对象
         [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];//设定时间格式
@@ -443,7 +443,7 @@
             }
             else
             {
-                if ([NSString stringWithFormat:@"%@",[biggestBonus objectForKey:@"money"]].intValue < [NSString stringWithFormat:@"%@",[data objectForKey:@"money"]].intValue)
+                if ([NSString stringWithFormat:@"%@",[biggestBonus objectForKey:@"faceValue"]].intValue < [NSString stringWithFormat:@"%@",[data objectForKey:@"faceValue"]].intValue)
                 {
                     biggestBonus = data;
                 }
@@ -456,7 +456,7 @@
             {
                 bonusMoreButton.hidden = NO;
             }
-            bonusNumLabel.text = [biggestBonus objectForKey:@"money"];
+            bonusNumLabel.text = [NSString stringWithFormat:@"%@",[biggestBonus objectForKey:@"faceValue"]];
             bonusLimitLabel.text = [NSString stringWithFormat:@"起投金额%@元",[biggestBonus objectForKey:@"thresholdValue"]];
             NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];//实例化一个NSDateFormatter对象
             [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];//设定时间格式
@@ -609,7 +609,7 @@
 - (void)toAgreemet:(id)sender
 {
     WebDetailViewController *vc = [[self storyboard] instantiateViewControllerWithIdentifier:@"WebDetailViewController"];
-    [vc setURL:[NSString stringWithFormat:@"%@/Mobile/Home/InvestAgreement4M?productCode=%@", BASEURL, idOrCode]];
+    [vc setURL:[NSString stringWithFormat:@"%@Wap/WebView/InvestAgreement4M?productCode=%@", BASEURL, idOrCode]];
     vc.title = @"专投网购买协议";
     [[self navigationController]pushViewController:vc animated:YES];
 }
@@ -617,7 +617,7 @@
 - (void)confirm:(id)sender
 {
     BOOL flag = false;
-    if (!flag && ![style isEqualToString:HUOQI])
+    if (!flag && ![style isEqualToString:HUOQI] && !bonusButton.selected)
     {
         for (int i=0; i<bonus.count; i++)
         {
@@ -629,7 +629,7 @@
             }
         }
     }
-    if (!flag && ![style isEqualToString:HUOQI])
+    if (!flag && ![style isEqualToString:HUOQI] && !couponsButton.selected)
     {
         for (int i=0; i<coupons.count; i++)
         {
@@ -641,7 +641,7 @@
             }
         }
     }
-    if (!flag && ![style isEqualToString:HUOQI])
+    if (!flag && ![style isEqualToString:HUOQI] && !standingCouponsButton.selected)
     {
         for (int i=0; i<standingCoupons.count; i++)
         {
@@ -697,6 +697,18 @@
             NSLog(@"%@",coupons);
             vc.idOrCode = idOrCode;
             vc.productInfo = productInfo;
+            if (bonusButton.selected)
+            {
+                vc.bonus = biggestBonus;
+            }
+            if (couponsButton.selected)
+            {
+                vc.voucher1 = biggestCoupons;
+            }
+            if (standingCouponsButton.selected)
+            {
+                vc.voucher2 = biggestStandingCoupons;
+            }
             [[self navigationController]pushViewController:vc animated:YES];
         }];
         UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"否" style:UIAlertActionStyleCancel handler:nil];
@@ -810,6 +822,18 @@
             NSLog(@"%@",coupons);
             vc.idOrCode = idOrCode;
             vc.productInfo = productInfo;
+            if (bonusButton.selected)
+            {
+                vc.bonus = biggestBonus;
+            }
+            if (couponsButton.selected)
+            {
+                vc.voucher1 = biggestCoupons;
+            }
+            if (standingCouponsButton.selected)
+            {
+                vc.voucher2 = biggestStandingCoupons;
+            }
             [[self navigationController]pushViewController:vc animated:YES];
         }
     }

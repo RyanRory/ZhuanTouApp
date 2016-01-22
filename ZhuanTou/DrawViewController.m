@@ -25,7 +25,10 @@
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"backIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(backToParent:)];
     backItem.tintColor = ZTBLUE;
     UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithCustomView:[UIButton buttonWithType:UIButtonTypeCustom]];
+    UIBarButtonItem *ruleItem = [[UIBarButtonItem alloc]initWithTitle:@"提现规则" style:UIBarButtonItemStylePlain target:self action:@selector(toRule:)];
     self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:backItem, item, nil];
+    self.navigationItem.rightBarButtonItem = ruleItem;
+    [self.navigationItem.rightBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont boldSystemFontOfSize:13], NSFontAttributeName,nil] forState:UIControlStateNormal];
     
     [confirmButton setUserInteractionEnabled:NO];
     [confirmButton setAlpha:0.6f];
@@ -101,6 +104,14 @@
     getSmsCodeButton.layer.borderWidth = 1;
     getSmsCodeButton.layer.cornerRadius = 3;
     [getSmsCodeButton addTarget:self action:@selector(getSmsCode:) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)toRule:(id)sender
+{
+    WebDetailViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"WebDetailViewController"];
+    vc.title = @"提现规则";
+    [vc setURL:[NSString stringWithFormat:@"%@Wap/WebView/WithdrawRule",BASEURL]];
+    [[self navigationController]pushViewController:vc animated:YES];
 }
 
 - (void)viewWillAppear:(BOOL)animated

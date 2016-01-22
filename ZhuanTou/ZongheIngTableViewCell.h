@@ -16,5 +16,6 @@
 @property (strong, nonatomic) IBOutlet UILabel *timeLabel;
 @property (strong, nonatomic) IBOutlet UILabel *guideProfitLabel;
 @property (strong, nonatomic) IBOutlet UILabel *floatProfitLabel;
+@property (strong, nonatomic) IBOutlet UIButton *quitButton;
 
 @end

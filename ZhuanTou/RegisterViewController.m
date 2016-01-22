@@ -149,7 +149,7 @@
 {
     WebDetailViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"WebDetailViewController"];
     vc.title = @"专投网用户服务协议";
-    [vc setURL:[NSString stringWithFormat:@"%@/Mobile/Home/RegisterStatement", BASEURL]];
+    [vc setURL:[NSString stringWithFormat:@"%@Wap/WebView/RegisterStatement", BASEURL]];
     [[self navigationController]pushViewController:vc animated:YES];
 }
 

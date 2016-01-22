@@ -95,7 +95,7 @@
         {
             cell = [[ChooseBonusTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"ChooseBonusTableViewCell"];
         }
-        cell.amountLabel.text = [data objectForKey:@"money"];
+        cell.amountLabel.text = [NSString stringWithFormat:@"%@",[data objectForKey:@"faceValue"]];
         
         NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];//实例化一个NSDateFormatter对象
         [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];//设定时间格式
@@ -109,7 +109,7 @@
         
         cell.DDLLabel.text = [NSString stringWithFormat:@"%ld年%ld月%ld日过期",year,month,day];
         
-        cell.limitLabel.text = [NSString stringWithFormat:@"使用规则：投资满%@元可抵%@元现金",[data objectForKey:@"thresholdValue"],[data objectForKey:@"money"]];
+        cell.limitLabel.text = [NSString stringWithFormat:@"使用规则：投资满%@元可抵%@元现金",[data objectForKey:@"thresholdValue"],[data objectForKey:@"faceValue"]];
         if (choosen && ([[choosen objectForKey:@"couponCode"] isEqualToString:[data objectForKey:@"couponCode"]]))
         {
             

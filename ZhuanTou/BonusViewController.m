@@ -15,7 +15,7 @@
 @implementation BonusViewController
 
 @synthesize tView;
-@synthesize interestRateButton, bonusButton, noBonusLabel;
+@synthesize interestRateButton, bonusButton, StandingInterestRateButton, noBonusLabel;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -25,13 +25,19 @@
     backItem.tintColor = ZTBLUE;
     UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithCustomView:[UIButton buttonWithType:UIButtonTypeCustom]];
     self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:backItem, item, nil];
+    UIBarButtonItem *ruleItem = [[UIBarButtonItem alloc]initWithTitle:@"使用说明" style:UIBarButtonItemStylePlain target:self action:@selector(toRule:)];
+    self.navigationItem.rightBarButtonItem = ruleItem;
+    [self.navigationItem.rightBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont boldSystemFontOfSize:13], NSFontAttributeName,nil] forState:UIControlStateNormal];
     
-    [bonusButton setUserInteractionEnabled:NO];
-    [interestRateButton setUserInteractionEnabled:YES];
-    bonusButton.tintColor = ZTBLUE;
-    interestRateButton.tintColor = ZTGRAY;
+    [bonusButton setUserInteractionEnabled:YES];
+    [interestRateButton setUserInteractionEnabled:NO];
+    [StandingInterestRateButton setUserInteractionEnabled:YES];
+    bonusButton.tintColor = ZTGRAY;
+    interestRateButton.tintColor = ZTBLUE;
+    StandingInterestRateButton.tintColor = ZTGRAY;
     [bonusButton addTarget:self action:@selector(bonus:) forControlEvents:UIControlEventTouchUpInside];
     [interestRateButton addTarget:self action:@selector(interestRate:) forControlEvents:UIControlEventTouchUpInside];
+    [StandingInterestRateButton addTarget:self action:@selector(standingInterestRate:) forControlEvents:UIControlEventTouchUpInside];
     noBonusLabel.hidden = YES;
     
     tView.showsHorizontalScrollIndicator = NO;
@@ -40,6 +46,28 @@
            [self setupData];
     }];
     [tView.mj_header beginRefreshing];
+}
+
+- (void)toRule:(id)sender
+{
+    WebDetailViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"WebDetailViewController"];
+    if (!bonusButton.userInteractionEnabled)
+    {
+        vc.title = @"红包使用说明";
+        [vc setURL:[NSString stringWithFormat:@"%@Wap/WebView/Hb",BASEURL]];
+    }
+    else if (!interestRateButton.userInteractionEnabled)
+    {
+        vc.title = @"定期加息券使用说明";
+        [vc setURL:[NSString stringWithFormat:@"%@Wap/WebView/Dqjxq",BASEURL]];
+    }
+    else
+    {
+        vc.title = @"募集期加息券使用说明";
+        [vc setURL:[NSString stringWithFormat:@"%@Wap/WebView/Mjqjxq",BASEURL]];
+    }
+    
+    [[self navigationController]pushViewController:vc animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -73,8 +101,10 @@
 {
     [bonusButton setUserInteractionEnabled:NO];
     [interestRateButton setUserInteractionEnabled:YES];
+    [StandingInterestRateButton setUserInteractionEnabled:YES];
     bonusButton.tintColor = ZTBLUE;
     interestRateButton.tintColor = ZTGRAY;
+    StandingInterestRateButton.tintColor = ZTGRAY;
     [tView.mj_header beginRefreshing];
 }
 
@@ -82,14 +112,27 @@
 {
     [bonusButton setUserInteractionEnabled:YES];
     [interestRateButton setUserInteractionEnabled:NO];
+    [StandingInterestRateButton setUserInteractionEnabled:YES];
     bonusButton.tintColor = ZTGRAY;
     interestRateButton.tintColor = ZTBLUE;
+    StandingInterestRateButton.tintColor = ZTGRAY;
+    [tView.mj_header beginRefreshing];
+}
+
+- (void)standingInterestRate:(id)sender
+{
+    [bonusButton setUserInteractionEnabled:YES];
+    [interestRateButton setUserInteractionEnabled:YES];
+    [StandingInterestRateButton setUserInteractionEnabled:NO];
+    bonusButton.tintColor = ZTGRAY;
+    interestRateButton.tintColor = ZTGRAY;
+    StandingInterestRateButton.tintColor = ZTBLUE;
     [tView.mj_header beginRefreshing];
 }
 
 - (void)setupData
 {
-    if (interestRateButton.userInteractionEnabled)
+    if (!bonusButton.userInteractionEnabled)
     {
         AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
         NSString *URL = [BASEURL stringByAppendingString:@"api/account/getCouponsInApp"];
@@ -129,14 +172,70 @@
             [hud hide:YES afterDelay:1.5f];
         }];
     }
+    else if (!interestRateButton.userInteractionEnabled)
+    {
+        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+        NSString *URL = [BASEURL stringByAppendingString:@"api/voucher/myVouchers"];
+        [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSArray *responseObject) {
+            NSLog(@"%@", responseObject);
+            interestRateDatas = [[NSMutableArray alloc]init];
+            for (int i = 0 ; i < responseObject.count; i++)
+            {
+                id data = [responseObject objectAtIndex:i];
+                if ([[data objectForKey:@"type"] isEqualToString:@"定期加息券"])
+                {
+                    [interestRateDatas addObject:data];
+                }
+            }
+            datas = [NSMutableArray arrayWithArray:interestRateDatas];
+            if (datas.count > 0)
+            {
+                noBonusLabel.hidden = YES;
+            }
+            else
+            {
+                noBonusLabel.hidden = NO;
+                noBonusLabel.text = @"暂无加息券";
+            }
+            bonusNum = (int)datas.count;
+            [tView.mj_header endRefreshing];
+            [tView reloadData];
+            
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            NSLog(@"Error: %@", error);
+            [tView.mj_header endRefreshing];
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            hud.mode = MBProgressHUDModeText;
+            if (error.code == 100003)
+            {
+                hud.labelText = @"登录信息已过期，请重新登录";
+                SetpasswordViewController *setpass = [[self storyboard]instantiateViewControllerWithIdentifier:@"SetpasswordViewController"];
+                setpass.string = @"验证密码";
+                [[self tabBarController] presentViewController:setpass animated:NO completion:nil];
+            }
+            else
+            {
+                hud.labelText = @"当前网络状况不佳，请重试";
+            }
+            [hud hide:YES afterDelay:1.5f];
+        }];
+    }
     else
     {
         AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
         NSString *URL = [BASEURL stringByAppendingString:@"api/voucher/myVouchers"];
         [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSArray *responseObject) {
             NSLog(@"%@", responseObject);
-            interestRateDatas = [[NSMutableArray alloc]initWithArray:responseObject];
-            datas = [NSMutableArray arrayWithArray:interestRateDatas];
+            standingInterestRateDatas = [[NSMutableArray alloc]init];
+            for (int i = 0 ; i < responseObject.count; i++)
+            {
+                id data = [responseObject objectAtIndex:i];
+                if ([[data objectForKey:@"type"] isEqualToString:@"募集期加息券"])
+                {
+                    [standingInterestRateDatas addObject:data];
+                }
+            }
+            datas = [NSMutableArray arrayWithArray:standingInterestRateDatas];
             if (datas.count > 0)
             {
                 noBonusLabel.hidden = YES;
@@ -205,7 +304,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     id data = [datas objectAtIndex:indexPath.row];
-    if (interestRateButton.userInteractionEnabled)
+    if (!bonusButton.userInteractionEnabled)
     {
         NSString *identifier = @"BonusTableViewCell";
         BonusTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];

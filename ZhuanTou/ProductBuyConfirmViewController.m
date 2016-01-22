@@ -14,11 +14,9 @@
 
 @implementation ProductBuyConfirmViewController
 
-@synthesize confirmButton, contentView, wenjianView;
-@synthesize bgView;
-@synthesize preIncomeLabel, preIncomeNumLabel, productTimeLabel, productTimeNumLabel, lowestIncomeLabel, lowestIncomeNumLabel, amountNumLabel, amoutLabel;
-@synthesize wenjianBgView, wenjianAmountLabel, wenjianAmountNumLabel, wenjianPILabel, wenjianPINumLabel, wenjianPTLabel, wenjianPTNumLabel;
-@synthesize investAmount, coupons, vouchers, idOrCode, productInfo;
+@synthesize confirmButton;
+@synthesize bgView, titleLabel, incomeRateLabel, amoutLabel, realPayLabel, productTimeLabel, staIncome, youUsedLabel, voucher1Label, voucher1NumLabel, voucher2Label, voucher2NumLabel, voucher1View, voucher2View, contentView;
+@synthesize investAmount, coupons, vouchers, idOrCode, productInfo, bonus, voucher1, voucher2;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -29,11 +27,11 @@
     UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithCustomView:[UIButton buttonWithType:UIButtonTypeCustom]];
     self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:backItem, item, nil];
     
-    contentView.layer.cornerRadius = 3;
     confirmButton.layer.cornerRadius = 3;
-    wenjianView.layer.cornerRadius = 3;
     
     [confirmButton addTarget:self action:@selector(confirm:) forControlEvents:UIControlEventTouchUpInside];
+    voucher1View.hidden = YES;
+    voucher2View.hidden = YES;
     
     if ([style isEqualToString:WENJIAN])
     {
@@ -50,6 +48,46 @@
     
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    if (voucher1View.hidden && voucher2View.hidden)
+    {
+        contentView.layer.cornerRadius = 3;
+    }
+    else if (voucher2View.hidden)
+    {
+        UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:contentView.frame byRoundingCorners:UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii:CGSizeMake(3, 3)];
+        CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
+        maskLayer.frame = contentView.frame;
+        maskLayer.path = maskPath.CGPath;
+        contentView.layer.mask = maskLayer;
+        contentView.layer.masksToBounds = YES;
+        
+        UIBezierPath *maskPath1 = [UIBezierPath bezierPathWithRoundedRect:voucher1View.frame byRoundingCorners:UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii:CGSizeMake(3, 3)];
+        CAShapeLayer *maskLayer1 = [[CAShapeLayer alloc] init];
+        maskLayer1.frame = voucher1View.frame;
+        maskLayer1.path = maskPath1.CGPath;
+        voucher1View.layer.mask = maskLayer1;
+        voucher1View.layer.masksToBounds = YES;
+    }
+    else
+    {
+        UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:contentView.frame byRoundingCorners:UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii:CGSizeMake(3, 3)];
+        CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
+        maskLayer.frame = contentView.frame;
+        maskLayer.path = maskPath.CGPath;
+        contentView.layer.mask = maskLayer;
+        contentView.layer.masksToBounds = YES;
+        
+        UIBezierPath *maskPath1 = [UIBezierPath bezierPathWithRoundedRect:voucher1View.frame byRoundingCorners:UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii:CGSizeMake(3, 3)];
+        CAShapeLayer *maskLayer1 = [[CAShapeLayer alloc] init];
+        maskLayer1.frame = voucher2View.frame;
+        maskLayer1.path = maskPath1.CGPath;
+        voucher2View.layer.mask = maskLayer1;
+        voucher2View.layer.masksToBounds = YES;
+    }
+}
+
 - (void)backToParent:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
@@ -62,42 +100,122 @@
 
 -(void)setupWenjian
 {
-    [contentView setHidden:YES];
-    wenjianBgView.backgroundColor = ZTLIGHTRED;
     confirmButton.backgroundColor = ZTLIGHTRED;
-    wenjianPILabel.textColor = ZTLIGHTRED;
-    wenjianPINumLabel.textColor = ZTLIGHTRED;
-    wenjianPTLabel.textColor = ZTLIGHTRED;
-    wenjianPTNumLabel.textColor = ZTLIGHTRED;
-    wenjianAmountLabel.textColor = ZTLIGHTRED;
-    wenjianAmountNumLabel.textColor = ZTLIGHTRED;
+    bgView.backgroundColor = ZTLIGHTRED;
+    incomeRateLabel.textColor = ZTLIGHTRED;
+    amoutLabel.textColor = ZTLIGHTRED;
+    realPayLabel.textColor = ZTLIGHTRED;
+    productTimeLabel.textColor = ZTLIGHTRED;
+    staIncome.textColor = ZTLIGHTRED;
+    youUsedLabel.textColor = ZTLIGHTRED;
+    voucher1Label.textColor = ZTLIGHTRED;
+    voucher1NumLabel.textColor = ZTLIGHTRED;
+    voucher2Label.textColor = ZTLIGHTRED;
+    voucher2NumLabel.textColor = ZTLIGHTRED;
+    
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
     [formatter setPositiveFormat:@"###,##0"];
-    wenjianPINumLabel.text = [NSString stringWithFormat:@"%@%%",[productInfo objectForKey:@"interestRate"]];
-    wenjianPTNumLabel.text = [NSString stringWithFormat:@"%d天",(((NSString*)[productInfo objectForKey:@"noOfDays"]).intValue)];
-    wenjianAmountNumLabel.text = [NSString stringWithFormat:@"%@元",[NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithInt:investAmount.intValue]]]];
+    incomeRateLabel.text = [NSString stringWithFormat:@"预期年化收益率：%@%%",[productInfo objectForKey:@"interestRate"]];
+    amoutLabel.text = [NSString stringWithFormat:@"购  买  金  额 (元)：%@",[NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithInt:investAmount.intValue]]]];
+    if (bonus)
+    {
+        realPayLabel.text = [NSString stringWithFormat:@"实际支付金额(元)：%@",[NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithInt:(investAmount.intValue - [NSString stringWithFormat:@"%@",[bonus objectForKey:@"money"]].intValue)]]]];
+    }
+    else
+        
+    {
+        realPayLabel.text = [NSString stringWithFormat:@"实际支付金额(元)：%@",[NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithInt:investAmount.intValue]]]];
+    }
+    productTimeLabel.text = [NSString stringWithFormat:@"到   期   时   间 ：%@",[productInfo objectForKey:@"endDate"]];
+    
+    int jiaxiquan;
+    if (voucher1)
+    {
+        jiaxiquan = jiaxiquan + [NSString stringWithFormat:@"%@",[voucher1 objectForKey:@"raiseRate"]].intValue;
+        voucher1View.hidden = NO;
+        voucher1NumLabel.text = @"1张";
+        voucher1Label.text = [NSString stringWithFormat:@"定期加息券  (+%d%%)", [NSString stringWithFormat:@"%@",[voucher1 objectForKey:@"raiseRate"]].intValue];
+    }
+    
+    if (voucher2)
+    {
+        jiaxiquan = jiaxiquan + [NSString stringWithFormat:@"%@",[voucher1 objectForKey:@"raiseRate"]].intValue;
+        if (voucher1View.hidden)
+        {
+            voucher1View.hidden = NO;
+            voucher1NumLabel.text = @"1张";
+            voucher1Label.text = [NSString stringWithFormat:@"募集期加息券  (+%d%%)", [NSString stringWithFormat:@"%@",[voucher1 objectForKey:@"raiseRate"]].intValue];
+        }
+        else
+        {
+            voucher2View.hidden = NO;
+            voucher2NumLabel.text = @"1张";
+            voucher2Label.text = [NSString stringWithFormat:@"募集期加息券  (+%d%%)", [NSString stringWithFormat:@"%@",[voucher1 objectForKey:@"raiseRate"]].intValue];
+        }
+    }
+    
+    staIncome.text = [NSString stringWithFormat:@"固定派息总计(元)：%@",[formatter stringFromNumber:[NSNumber numberWithDouble:round( (pow(1+[NSString stringWithFormat:@"%@",[productInfo objectForKey:@"interestRate"]].intValue+jiaxiquan, 1.0/12.0)-1)/365*12*[NSString stringWithFormat:@"%@",[productInfo objectForKey:@"noOfDays"]].intValue * 100 * investAmount.intValue)/100]]];
+    
     
 }
 
 - (void)setupZonghe
 {
-    [wenjianView setHidden:YES];
     bgView.backgroundColor = ZTBLUE;
     confirmButton.backgroundColor = ZTBLUE;
-    preIncomeLabel.textColor = ZTBLUE;
-    preIncomeNumLabel.textColor = ZTBLUE;
-    productTimeLabel.textColor = ZTBLUE;
-    productTimeNumLabel.textColor = ZTBLUE;
-    lowestIncomeLabel.textColor = ZTBLUE;
-    lowestIncomeNumLabel.textColor = ZTBLUE;
+    incomeRateLabel.textColor = ZTBLUE;
     amoutLabel.textColor = ZTBLUE;
-    amountNumLabel.textColor = ZTBLUE;
+    realPayLabel.textColor = ZTBLUE;
+    productTimeLabel.textColor = ZTBLUE;
+    staIncome.textColor = ZTBLUE;
+    youUsedLabel.textColor = ZTBLUE;
+    voucher1Label.textColor = ZTBLUE;
+    voucher1NumLabel.textColor = ZTBLUE;
+    voucher2Label.textColor = ZTBLUE;
+    voucher2NumLabel.textColor = ZTBLUE;
+    
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
     [formatter setPositiveFormat:@"###,##0"];
-    preIncomeNumLabel.text = [NSString stringWithFormat:@"%@%%",[productInfo objectForKey:@"expectedReturn"]];
-    lowestIncomeNumLabel.text = [NSString stringWithFormat:@"%@%%",[productInfo objectForKey:@"interestRate"]];
-    productTimeNumLabel.text = [NSString stringWithFormat:@"%d天",(((NSString*)[productInfo objectForKey:@"noOfDays"]).intValue)];
-    amountNumLabel.text = [NSString stringWithFormat:@"%@元",[NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithInt:investAmount.intValue]]]];
+    incomeRateLabel.text = [NSString stringWithFormat:@"预期年化收益率：%@%%",[productInfo objectForKey:@"expectedReturn"]];
+    amoutLabel.text = [NSString stringWithFormat:@"购  买  金  额 (元)：%@",[NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithInt:investAmount.intValue]]]];
+    if (bonus)
+    {
+        realPayLabel.text = [NSString stringWithFormat:@"实际支付金额(元)：%@",[NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithInt:(investAmount.intValue - [NSString stringWithFormat:@"%@",[bonus objectForKey:@"money"]].intValue)]]]];
+    }
+    else
+        
+    {
+        realPayLabel.text = [NSString stringWithFormat:@"实际支付金额(元)：%@",[NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithInt:investAmount.intValue]]]];
+    }
+    productTimeLabel.text = [NSString stringWithFormat:@"到   期   时   间 ：%@",[productInfo objectForKey:@"endDate"]];
+    
+    int jiaxiquan;
+    if (voucher1)
+    {
+        jiaxiquan = jiaxiquan + [NSString stringWithFormat:@"%@",[voucher1 objectForKey:@"raiseRate"]].intValue;
+        voucher1View.hidden = NO;
+        voucher1NumLabel.text = @"1张";
+        voucher1Label.text = [NSString stringWithFormat:@"定期加息券  (+%d%%)", [NSString stringWithFormat:@"%@",[voucher1 objectForKey:@"raiseRate"]].intValue];
+    }
+    
+    if (voucher2)
+    {
+        jiaxiquan = jiaxiquan + [NSString stringWithFormat:@"%@",[voucher1 objectForKey:@"raiseRate"]].intValue;
+        if (voucher1View.hidden)
+        {
+            voucher1View.hidden = NO;
+            voucher1NumLabel.text = @"1张";
+            voucher1Label.text = [NSString stringWithFormat:@"募集期加息券  (+%d%%)", [NSString stringWithFormat:@"%@",[voucher1 objectForKey:@"raiseRate"]].intValue];
+        }
+        else
+        {
+            voucher2View.hidden = NO;
+            voucher2NumLabel.text = @"1张";
+            voucher2Label.text = [NSString stringWithFormat:@"募集期加息券  (+%d%%)", [NSString stringWithFormat:@"%@",[voucher1 objectForKey:@"raiseRate"]].intValue];
+        }
+    }
+    
+    staIncome.text = [NSString stringWithFormat:@"固定派息总计(元)：%@",[formatter stringFromNumber:[NSNumber numberWithDouble:round( (pow(1+[NSString stringWithFormat:@"%@",[productInfo objectForKey:@"interestRate"]].intValue+jiaxiquan, 1.0/12.0)-1)/365*12*[NSString stringWithFormat:@"%@",[productInfo objectForKey:@"noOfDays"]].intValue * 100 * investAmount.intValue)/100]]];
 }
 
 - (void)confirm:(id)sender
