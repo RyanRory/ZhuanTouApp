@@ -13,12 +13,16 @@
 #import "WebDetailViewController.h"
 #import "SetTradePswdViewController.h"
 #import "ChooseBonusViewController.h"
+#import "ProductCouponsTableViewCell.h"
+#import "ProductVoucherTableViewCell.h"
+#import "ProductLabelTableViewCell.h"
 
-@interface ProductBuyNewViewController : UIViewController
+@interface ProductBuyNewViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 {
     NSMutableArray *bonus, *coupons, *standingCoupons;
     int bonusNum;
     double balance;
+    BOOL couponsFlag, voucher1Flag, voucher2Flag;
 }
 
 @property (strong, nonatomic) IBOutlet UILabel *balanceLabel;
@@ -39,33 +43,9 @@
 @property (strong, nonatomic) NSString *bidableAmount;
 @property (strong, nonatomic) NSDictionary *productInfo;
 
-@property (strong, nonatomic) IBOutlet UIView *bonusBgView;
-@property (strong, nonatomic) IBOutlet UILabel *bonusNumLabel;
-@property (strong, nonatomic) IBOutlet UILabel *bonusLimitLabel;
-@property (strong, nonatomic) IBOutlet UILabel *bonusDDLLabel;
-@property (strong, nonatomic) IBOutlet UIButton *bonusButton;
-@property (strong, nonatomic) IBOutlet UIButton *bonusMoreButton;
-@property (strong, nonatomic) IBOutlet UIView *bonusView;
-
-@property (strong, nonatomic) IBOutlet UIView *couponsBgView;
-@property (strong, nonatomic) IBOutlet UILabel *couponsNumLabel;
-@property (strong, nonatomic) IBOutlet UILabel *couponsLimitLabel;
-@property (strong, nonatomic) IBOutlet UILabel *couponsDDLLabel;
-@property (strong, nonatomic) IBOutlet UIButton *couponsButton;
-@property (strong, nonatomic) IBOutlet UIButton *couponsMoreButton;
-@property (strong, nonatomic) IBOutlet UIView *couponsView;
-
-@property (strong, nonatomic) IBOutlet UIView *standingCouponsBgView;
-@property (strong, nonatomic) IBOutlet UILabel *standingCouponsNumLabel;
-@property (strong, nonatomic) IBOutlet UILabel *standingCouponsLimitLabel;
-@property (strong, nonatomic) IBOutlet UILabel *standingCouponsDDLLabel;
-@property (strong, nonatomic) IBOutlet UIButton *standingCouponsButton;
-@property (strong, nonatomic) IBOutlet UIButton *standingCouponsMoreButton;
-@property (strong, nonatomic) IBOutlet UIView *standingCouponsView;
+@property (strong, nonatomic) IBOutlet UITableView *tView;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *buttonBottomLayOut;
-@property (strong, nonatomic) IBOutlet UILabel *label1;
-@property (strong, nonatomic) IBOutlet UILabel *label2;
 @property (readwrite, nonatomic) BOOL isFromNewer;
 
 - (void)setStyle:(NSString*)str;

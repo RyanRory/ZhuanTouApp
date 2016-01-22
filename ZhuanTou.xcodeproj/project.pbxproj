@@ -258,6 +258,9 @@
 		A49AA6A91C167BA10087F060 /* newerSecureBlue.png in Resources */ = {isa = PBXBuildFile; fileRef = A49AA69B1C167BA10087F060 /* newerSecureBlue.png */; };
 		A49AA6AA1C167BA10087F060 /* newerSecureGray.png in Resources */ = {isa = PBXBuildFile; fileRef = A49AA69C1C167BA10087F060 /* newerSecureGray.png */; };
 		A49AA6AE1C168C450087F060 /* NewerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A49AA6AD1C168C450087F060 /* NewerViewController.m */; };
+		A49BCBD51C52506200287BA8 /* ProductLabelTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A49BCBD41C52506200287BA8 /* ProductLabelTableViewCell.m */; };
+		A49BCBD81C5250A100287BA8 /* ProductCouponsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A49BCBD71C5250A100287BA8 /* ProductCouponsTableViewCell.m */; };
+		A49BCBDB1C5250B400287BA8 /* ProductVoucherTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A49BCBDA1C5250B400287BA8 /* ProductVoucherTableViewCell.m */; };
 		A4A60E131C2162530032EA6A /* registerSuccess@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4A60E121C2162530032EA6A /* registerSuccess@3x.png */; };
 		A4A60E151C2162630032EA6A /* registerSuccess@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4A60E141C2162630032EA6A /* registerSuccess@2x.png */; };
 		A4A60E171C2162700032EA6A /* registerSuccess.png in Resources */ = {isa = PBXBuildFile; fileRef = A4A60E161C2162700032EA6A /* registerSuccess.png */; };
@@ -742,6 +745,12 @@
 		A49AA69C1C167BA10087F060 /* newerSecureGray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = newerSecureGray.png; path = "images/@1x/newerSecureGray.png"; sourceTree = "<group>"; };
 		A49AA6AC1C168C450087F060 /* NewerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewerViewController.h; sourceTree = "<group>"; };
 		A49AA6AD1C168C450087F060 /* NewerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewerViewController.m; sourceTree = "<group>"; };
+		A49BCBD31C52506200287BA8 /* ProductLabelTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductLabelTableViewCell.h; sourceTree = "<group>"; };
+		A49BCBD41C52506200287BA8 /* ProductLabelTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductLabelTableViewCell.m; sourceTree = "<group>"; };
+		A49BCBD61C5250A100287BA8 /* ProductCouponsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductCouponsTableViewCell.h; sourceTree = "<group>"; };
+		A49BCBD71C5250A100287BA8 /* ProductCouponsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductCouponsTableViewCell.m; sourceTree = "<group>"; };
+		A49BCBD91C5250B400287BA8 /* ProductVoucherTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductVoucherTableViewCell.h; sourceTree = "<group>"; };
+		A49BCBDA1C5250B400287BA8 /* ProductVoucherTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductVoucherTableViewCell.m; sourceTree = "<group>"; };
 		A4A60E121C2162530032EA6A /* registerSuccess@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "registerSuccess@3x.png"; path = "images/@3x/registerSuccess@3x.png"; sourceTree = "<group>"; };
 		A4A60E141C2162630032EA6A /* registerSuccess@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "registerSuccess@2x.png"; path = "images/@2x/registerSuccess@2x.png"; sourceTree = "<group>"; };
 		A4A60E161C2162700032EA6A /* registerSuccess.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = registerSuccess.png; path = "images/@1x/registerSuccess.png"; sourceTree = "<group>"; };
@@ -1431,6 +1440,12 @@
 				A4B292E91C5062A6001390FA /* ChooseBonusTableViewCell.m */,
 				A4B292EB1C5062B7001390FA /* ChooseCouponsTableViewCell.h */,
 				A4B292EC1C5062B7001390FA /* ChooseCouponsTableViewCell.m */,
+				A49BCBD31C52506200287BA8 /* ProductLabelTableViewCell.h */,
+				A49BCBD41C52506200287BA8 /* ProductLabelTableViewCell.m */,
+				A49BCBD61C5250A100287BA8 /* ProductCouponsTableViewCell.h */,
+				A49BCBD71C5250A100287BA8 /* ProductCouponsTableViewCell.m */,
+				A49BCBD91C5250B400287BA8 /* ProductVoucherTableViewCell.h */,
+				A49BCBDA1C5250B400287BA8 /* ProductVoucherTableViewCell.m */,
 			);
 			name = cells;
 			sourceTree = "<group>";
@@ -2202,6 +2217,7 @@
 				A4E7F1FD1BCDFDBD00B20EC6 /* RegisterViewController.m in Sources */,
 				A41C6B321BB9849E006B731D /* AppDelegate.m in Sources */,
 				A4B2D0011BDC832D00AC2E78 /* BonusTableViewCell.m in Sources */,
+				A49BCBDB1C5250B400287BA8 /* ProductVoucherTableViewCell.m in Sources */,
 				A4B2CFFE1BDC813D00AC2E78 /* BonusViewController.m in Sources */,
 				A4EE98F61C153716007E74E2 /* CompleteBankCardInfoViewController.m in Sources */,
 				A49646DD1BE3285E006545C2 /* BankCardViewController.m in Sources */,
@@ -2211,6 +2227,7 @@
 				A463EA991BD5FF7100CAF146 /* ProfitViewController.m in Sources */,
 				A43174771BD4B0230001FC53 /* WenjianIngTableViewCell.m in Sources */,
 				A41C6B2F1BB9849E006B731D /* main.m in Sources */,
+				A49BCBD81C5250A100287BA8 /* ProductCouponsTableViewCell.m in Sources */,
 				A41ACC7D1BDDDB4A00755C96 /* NoticeView.m in Sources */,
 				A44A9C1A1BF4427B00FE6F2E /* ProductScrollViewController.m in Sources */,
 				A4E7F2551BCE54DD00B20EC6 /* KeychainData.m in Sources */,
@@ -2262,6 +2279,7 @@
 				A4E7F2591BCE552400B20EC6 /* SetpasswordViewController.m in Sources */,
 				A4B227871BD3516F0020C4D5 /* UIView+InnerShadow.m in Sources */,
 				A41E1DEA1BE5B60800641616 /* ChargeViewController.m in Sources */,
+				A49BCBD51C52506200287BA8 /* ProductLabelTableViewCell.m in Sources */,
 				A45CC3F41C2BA88200C5D56C /* UserCenterTableViewCell.m in Sources */,
 				A4B227841BD3516F0020C4D5 /* KnobButton.m in Sources */,
 				A4B2CFDA1BD8E94B00AC2E78 /* SetTradePswdViewController.m in Sources */,
