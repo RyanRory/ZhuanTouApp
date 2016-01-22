@@ -122,6 +122,8 @@
                 [userDefaults setObject:[responseObject objectForKey:@"nickname"] forKey:NICKNAME];
                 [userDefaults setObject:passwordTextField.text forKey:PASSWORD];
                 [userDefaults setBool:YES forKey:ISLOGIN];
+                [userDefaults setBool:false forKey:ISTRADEPSWDSET];
+                [userDefaults setInteger:[NSString stringWithFormat:@"%@", [responseObject objectForKey:@"tpThreshold"]].intValue *100 forKey:TPTHRESHOLD];
                 [userDefaults synchronize];
                 
                 [KeychainData forgotPsw];

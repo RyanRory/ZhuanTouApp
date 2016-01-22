@@ -14,7 +14,7 @@
 
 @implementation ChooseBonusViewController
 
-@synthesize tView, style, datas, choosen;
+@synthesize tView, style, datas, choosen, amount;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -114,6 +114,19 @@
         {
             
         }
+        
+        if ([NSString stringWithFormat:@"%@",[data objectForKey:@"thresholdValue"]].intValue > amount)
+        {
+            cell.DDLLabel.textColor = ZTGRAY;
+            cell.limitLabel.textColor = ZTGRAY;
+            cell.bgView.backgroundColor = ZTGRAY;
+        }
+        else
+        {
+            cell.DDLLabel.textColor = ZTLIGHTRED;
+            cell.limitLabel.textColor = ZTLIGHTRED;
+            cell.bgView.backgroundColor = ZTLIGHTRED;
+        }
             
         
         return cell;
@@ -138,19 +151,24 @@
         long day = [components day];
         
         cell.DDLLabel.text = [NSString stringWithFormat:@"%ld年%ld月%ld日过期",year,month,day];
-
-        if ([[NSString stringWithFormat:@"%@",[data objectForKey:@"type"]] isEqualToString:@"定期加息券"])
-        {
-            cell.limitLabel.text = [NSString stringWithFormat:@"使用规则：对%d万元以下投资增加%d%%固定年化收益",[NSString stringWithFormat:@"%@",[data objectForKey:@"principalLimit"]].intValue/10000,[NSString stringWithFormat:@"%@",[data objectForKey:@"raiseRate"]].intValue];
-        }
-        else
-        {
-            cell.limitLabel.text = [NSString stringWithFormat:@"使用规则：对%d万元以下投资增加%d%%募集期年化收益",[NSString stringWithFormat:@"%@",[data objectForKey:@"principalLimit"]].intValue/10000,[NSString stringWithFormat:@"%@",[data objectForKey:@"raiseRate"]].intValue];
-        }
+        cell.limitLabel.text = [NSString stringWithFormat:@"使用规则：单笔投资最高%d元",[NSString stringWithFormat:@"%@",[data objectForKey:@"principalLimit"]].intValue];
         
         if (choosen && ([[choosen objectForKey:@"voucherCode"] isEqualToString:[data objectForKey:@"voucherCode"]]))
         {
             
+        }
+        
+        if (([NSString stringWithFormat:@"%@",[data objectForKey:@"threshold"]].intValue > amount) || ([NSString stringWithFormat:@"%@",[data objectForKey:@"principalLimit"]].intValue < amount))
+        {
+            cell.DDLLabel.textColor = ZTGRAY;
+            cell.limitLabel.textColor = ZTGRAY;
+            cell.bgView.backgroundColor = ZTGRAY;
+        }
+        else
+        {
+            cell.DDLLabel.textColor = ZTBLUE;
+            cell.limitLabel.textColor = ZTBLUE;
+            cell.bgView.backgroundColor = ZTBLUE;
         }
         
         return cell;

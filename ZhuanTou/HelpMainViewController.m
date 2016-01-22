@@ -31,11 +31,6 @@
     tView.showsVerticalScrollIndicator = NO;
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
-}
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -44,6 +39,7 @@
 - (void)backToParent:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
 #pragma TableViewDelegates

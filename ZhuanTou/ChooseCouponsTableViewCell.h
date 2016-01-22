@@ -13,5 +13,6 @@
 @property (strong, nonatomic) IBOutlet UILabel *amountLabel;
 @property (strong, nonatomic) IBOutlet UILabel *limitLabel;
 @property (strong, nonatomic) IBOutlet UILabel *DDLLabel;
+@property (strong, nonatomic) IBOutlet UIView *bgView;
 
 @end

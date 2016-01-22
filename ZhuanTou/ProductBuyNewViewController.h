@@ -70,6 +70,8 @@
 
 - (void)setStyle:(NSString*)str;
 
+- (IBAction)textFieldBeginEditing:(id)sender;
+
 - (IBAction)textFiledReturnEditing:(id)sender;
 
 - (IBAction)backgroundTap:(id)sender;

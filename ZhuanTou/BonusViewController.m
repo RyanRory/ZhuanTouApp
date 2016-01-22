@@ -326,7 +326,7 @@
         long day = [components day];
         cell.ddlLabel.text = [NSString stringWithFormat:@"%ld年%ld月%ld日过期",year,month,day];
         
-        cell.ruleLabel.text = [NSString stringWithFormat:@"使用规则：投资满%@元可抵%@元现金",[data objectForKey:@"thresholdValue"],[data objectForKey:@"money"]];
+        cell.ruleLabel.text = [NSString stringWithFormat:@"使用规则：满%@元投资可抵%@元使用",[data objectForKey:@"thresholdValue"],[data objectForKey:@"money"]];
         if ([[NSString stringWithFormat:@"%@",[data objectForKey:@"status"]] isEqualToString:@"可使用"])
         {
             cell.bgView.backgroundColor = ZTRED;
@@ -367,15 +367,8 @@
         long month = [components month];
         long day = [components day];
         cell.ddlLabel.text = [NSString stringWithFormat:@"%ld年%ld月%ld日过期",year,month,day];
+        cell.ruleLabel.text = [NSString stringWithFormat:@"使用规则：单笔投资最高%d元",[NSString stringWithFormat:@"%@",[data objectForKey:@"principalLimit"]].intValue];
         
-        if ([[NSString stringWithFormat:@"%@",[data objectForKey:@"type"]] isEqualToString:@"定期加息券"])
-        {
-            cell.ruleLabel.text = [NSString stringWithFormat:@"使用规则：对%d万元以下投资增加%d%%固定年化收益",[NSString stringWithFormat:@"%@",[data objectForKey:@"principalLimit"]].intValue/10000,[NSString stringWithFormat:@"%@",[data objectForKey:@"raiseRate"]].intValue];
-        }
-        else
-        {
-            cell.ruleLabel.text = [NSString stringWithFormat:@"使用规则：对%d万元以下投资增加%d%%募集期年化收益",[NSString stringWithFormat:@"%@",[data objectForKey:@"principalLimit"]].intValue/10000,[NSString stringWithFormat:@"%@",[data objectForKey:@"raiseRate"]].intValue];
-        }
         if (![NSString stringWithFormat:@"%@",[data objectForKey:@"used"]].boolValue)
         {
             cell.bgView.backgroundColor = ZTBLUE;

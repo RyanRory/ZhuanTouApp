@@ -10,11 +10,14 @@
 
 @implementation ZongheIngTableViewCell
 
-@synthesize bgView, headView;
+@synthesize bgView, headView, quitButton;
 
 - (void)awakeFromNib {
     // Initialization code
     bgView.layer.cornerRadius = 3;
+    quitButton.layer.borderColor = [UIColor whiteColor].CGColor;
+    quitButton.layer.borderWidth = 1;
+    quitButton.layer.cornerRadius = 3;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

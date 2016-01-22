@@ -117,17 +117,10 @@
 {
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    NSString *URL = [BASEURL stringByAppendingString:@"api/product/myInvestsLite/0"];
+    NSString *URL = [BASEURL stringByAppendingString:@"api/fofProd/myPurchases/99/3"];
     [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSArray *responseObject) {
         NSLog(@"%@", responseObject);
-        [datas removeAllObjects];
-        for (int i = 0; i < responseObject.count; i++)
-        {
-            if ([[responseObject[i] objectForKey:@"productStyle"] isEqualToString:@"稳健分红"])
-            {
-                [datas addObject:responseObject[i]];
-            }
-        }
+        datas = [[NSMutableArray alloc]initWithArray:responseObject];
         productsNum = (int)datas.count;
         if (productsNum == 0)
         {
@@ -177,26 +170,21 @@
 - (void)loadStandingTableViewData
 {
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    NSString *URL = [BASEURL stringByAppendingString:@"api/product/myInvestsLite/4"];
+    NSString *URL = [BASEURL stringByAppendingString:@"api/fofProd/myPurchases/99/1"];
     [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSArray *responseObject) {
         NSLog(@"%@", responseObject);
-        [datas removeAllObjects];
-        for (int i = 0; i < responseObject.count; i++)
-        {
-            if ([[responseObject[i] objectForKey:@"productStyle"] isEqualToString:@"稳健分红"])
-            {
-                [datas addObject:responseObject[i]];
-            }
-        }
+        datas = [[NSMutableArray alloc]initWithArray:responseObject];
         productsNum = (int)datas.count;
         if (productsNum == 0)
         {
             [noneProductView setHidden:NO];
+            [findProductButton setHidden:NO];
             [tView setContentOffset:CGPointMake(0, 0) animated:NO];
         }
         else
         {
             [noneProductView setHidden:YES];
+            [findProductButton setHidden:YES];
             [tView setHidden:NO];
         }
         [tView reloadData];
@@ -219,7 +207,6 @@
         [hud hide:YES afterDelay:1.5f];
         [tView.mj_header endRefreshing];
     }];
-    [findProductButton setHidden:YES];
 }
 
 - (void)loadEndedTableViewData:(id)sender
@@ -237,17 +224,10 @@
 - (void)loadEndedTableViewData
 {
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    NSString *URL = [BASEURL stringByAppendingString:@"api/product/myInvestsLite/4"];
+    NSString *URL = [BASEURL stringByAppendingString:@"api/fofProd/myPurchases/99/4"];
     [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSArray *responseObject) {
         NSLog(@"%@", responseObject);
-        [datas removeAllObjects];
-        for (int i = 0; i < responseObject.count; i++)
-        {
-            if ([[responseObject[i] objectForKey:@"productStyle"] isEqualToString:@"稳健分红"])
-            {
-                [datas addObject:responseObject[i]];
-            }
-        }
+        datas = [[NSMutableArray alloc]initWithArray:responseObject];
         productsNum = (int)datas.count;
         if (productsNum == 0)
         {
@@ -282,18 +262,20 @@
     [findProductButton setHidden:YES];
 }
 
-#pragma TableViewDelegates
+- (void)quitInvest:(id)sender
+{
+    if (!standingButton.userInteractionEnabled)
+    {
+        
+    }
+    
+    if (!ingButton.userInteractionEnabled)
+    {
+        
+    }
+}
 
-//- (UIView*)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
-//{
-//    UILabel *footer = [[UILabel alloc]init];
-//    footer.text = @"更多信息请查看zhuantouwang.com";
-//    footer.font = [UIFont systemFontOfSize:12.0f];
-//    footer.textColor = [UIColor darkGrayColor];
-//    footer.textAlignment = 1;
-//    
-//    return footer;
-//}
+#pragma TableViewDelegates
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
@@ -358,7 +340,7 @@
             NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
             [formatter setPositiveFormat:@"###,##0.00"];
             cell.amountLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"amount"]).doubleValue]]];
-            cell.profitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"totalInterestAmount"]).doubleValue]]];
+            cell.profitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"todaysInterestAmount"]).doubleValue]]];
 
             return cell;
         }
@@ -375,8 +357,8 @@
             NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
             [formatter setPositiveFormat:@"###,##0.00"];
             cell.amountLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"amount"]).doubleValue]]];
-            cell.guideProfitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"totalInterestAmount"]).doubleValue]]];
-            cell.floatProfitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"paidSharePl"]).doubleValue]]];
+            cell.guideProfitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"todaysInterestAmount"]).doubleValue]]];
+            cell.floatProfitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"paidShareAmount"]).doubleValue]]];
             
             return cell;
         }
@@ -397,8 +379,17 @@
             NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
             [formatter setPositiveFormat:@"###,##0.00"];
             cell.amountLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"amount"]).doubleValue]]];
-            cell.profitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"totalInterestAmount"]).doubleValue]]];
-            cell.timeLabel.text = [data valueForKey:@"endDate"];
+            cell.profitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"todaysInterestAmount"]).doubleValue]]];
+            cell.timeLabel.text = [data valueForKey:@"endDateDisplay"];
+            [cell.quitButton addTarget:self action:@selector(quitInvest:) forControlEvents:UIControlEventTouchUpInside];
+            if ([NSString stringWithFormat:@"%@", [data objectForKey:@"quitable"]].boolValue)
+            {
+                cell.quitButton.hidden = NO;
+            }
+            else
+            {
+                cell.quitButton.hidden = YES;
+            }
             
             return cell;
         }
@@ -415,10 +406,10 @@
             NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
             [formatter setPositiveFormat:@"###,##0.00"];
             cell.amountLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"amount"]).doubleValue]]];
-            cell.guideProfitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"totalInterestAmount"]).doubleValue]]];
-            if ([NSString stringWithFormat:@"%@", [data objectForKey:@"showPl"]].boolValue)
+            cell.guideProfitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"todaysInterestAmount"]).doubleValue]]];
+            if ([NSString stringWithFormat:@"%@", [data objectForKey:@"yearProfitNow"]].intValue != -1)
             {
-                cell.floatProfitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"floatingSharePl"]).doubleValue]]];
+                cell.floatProfitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"todaysSharedPL"]).doubleValue]]];
                 cell.floatProfitLabel.textColor = ZTLIGHTRED;
             }
             else
@@ -426,7 +417,16 @@
                 cell.floatProfitLabel.text = @"暂不计算";
                 cell.floatProfitLabel.textColor = ZTGRAY;
             }
-            cell.timeLabel.text = [data valueForKey:@"endDate"];
+            cell.timeLabel.text = [data valueForKey:@"endDateDisplay"];
+            [cell.quitButton addTarget:self action:@selector(quitInvest:) forControlEvents:UIControlEventTouchUpInside];
+            if ([NSString stringWithFormat:@"%@", [data objectForKey:@"quitable"]].boolValue)
+            {
+                cell.quitButton.hidden = NO;
+            }
+            else
+            {
+                cell.quitButton.hidden = YES;
+            }
             
             return cell;
         }

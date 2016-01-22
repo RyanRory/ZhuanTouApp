@@ -209,6 +209,7 @@
 		A463EAC71BD6359100CAF146 /* wave.png in Resources */ = {isa = PBXBuildFile; fileRef = A463EAC61BD6359100CAF146 /* wave.png */; };
 		A463EACA1BD6377700CAF146 /* WaveView.m in Sources */ = {isa = PBXBuildFile; fileRef = A463EAC91BD6377700CAF146 /* WaveView.m */; };
 		A475498B1BE61889002E929C /* BaoFooPay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A475498A1BE61889002E929C /* BaoFooPay.framework */; };
+		A49576D91C522DF600D50D0E /* QuitAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = A49576D81C522DF600D50D0E /* QuitAlertView.m */; };
 		A49646DD1BE3285E006545C2 /* BankCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A49646DC1BE3285E006545C2 /* BankCardViewController.m */; };
 		A49646E01BE3287B006545C2 /* AddBankCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A49646DF1BE3287B006545C2 /* AddBankCardViewController.m */; };
 		A49646E31BE3401A006545C2 /* bankList.plist in Resources */ = {isa = PBXBuildFile; fileRef = A49646E21BE3401A006545C2 /* bankList.plist */; };
@@ -688,6 +689,8 @@
 		A463EAC81BD6377700CAF146 /* WaveView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveView.h; sourceTree = "<group>"; };
 		A463EAC91BD6377700CAF146 /* WaveView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaveView.m; sourceTree = "<group>"; };
 		A475498A1BE61889002E929C /* BaoFooPay.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaoFooPay.framework; path = ZhuanTou/BaoFooPay.framework; sourceTree = "<group>"; };
+		A49576D71C522DF600D50D0E /* QuitAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuitAlertView.h; sourceTree = "<group>"; };
+		A49576D81C522DF600D50D0E /* QuitAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuitAlertView.m; sourceTree = "<group>"; };
 		A49646DB1BE3285E006545C2 /* BankCardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BankCardViewController.h; sourceTree = "<group>"; };
 		A49646DC1BE3285E006545C2 /* BankCardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BankCardViewController.m; sourceTree = "<group>"; };
 		A49646DE1BE3287B006545C2 /* AddBankCardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddBankCardViewController.h; sourceTree = "<group>"; };
@@ -1538,6 +1541,8 @@
 				A41ACC7C1BDDDB4A00755C96 /* NoticeView.m */,
 				A4FAC4B31C4F09CE0051B0CA /* TradePswdView.h */,
 				A4FAC4B41C4F09CE0051B0CA /* TradePswdView.m */,
+				A49576D71C522DF600D50D0E /* QuitAlertView.h */,
+				A49576D81C522DF600D50D0E /* QuitAlertView.m */,
 			);
 			name = ZTViews;
 			sourceTree = "<group>";
@@ -2221,6 +2226,7 @@
 				A4FAC4A01C4393D90051B0CA /* InvitationViewController.m in Sources */,
 				A431744B1BD394F70001FC53 /* DingqiViewController.m in Sources */,
 				A43174801BD4B0620001FC53 /* ZongheEndedTableViewCell.m in Sources */,
+				A49576D91C522DF600D50D0E /* QuitAlertView.m in Sources */,
 				A4FAC4A31C4394340051B0CA /* InvitationTableViewCell.m in Sources */,
 				A44AFA5F1BCFA565002A8AC4 /* RegisterSuccessViewController.m in Sources */,
 				A4B2CFDD1BD8E96B00AC2E78 /* ResetTradePswdViewController.m in Sources */,

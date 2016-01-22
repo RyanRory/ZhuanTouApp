@@ -215,6 +215,7 @@
 - (void)toChooseBonusView:(UIButton*)sender
 {
     ChooseBonusViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ChooseBonusViewController"];
+    vc.amount = amountTextField.text.intValue;
     if (sender == bonusMoreButton)
     {
         vc.style = BONUS;
@@ -411,8 +412,8 @@
     
     if (biggestStandingCoupons)
     {
-        standingCouponsNumLabel.text = [NSString stringWithFormat:@"%d",[NSString stringWithFormat:@"%@",[biggestCoupons objectForKey:@"raiseRate"]].intValue];
-        standingCouponsLimitLabel.text = [NSString stringWithFormat:@"投资上限%d万元",[NSString stringWithFormat:@"%@",[biggestCoupons objectForKey:@"principalLimit"]].intValue/10000];
+        standingCouponsNumLabel.text = [NSString stringWithFormat:@"%d",[NSString stringWithFormat:@"%@",[biggestStandingCoupons objectForKey:@"raiseRate"]].intValue];
+        standingCouponsLimitLabel.text = [NSString stringWithFormat:@"投资上限%d万元",[NSString stringWithFormat:@"%@",[biggestStandingCoupons objectForKey:@"principalLimit"]].intValue/10000];
         NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];//实例化一个NSDateFormatter对象
         [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];//设定时间格式
         NSDate *startDate = [dateFormat dateFromString:[biggestStandingCoupons objectForKey:@"expireTime"]];
@@ -566,8 +567,8 @@
             {
                 standingCouponsMoreButton.hidden = NO;
             }
-            standingCouponsNumLabel.text = [NSString stringWithFormat:@"%d",[NSString stringWithFormat:@"%@",[biggestCoupons objectForKey:@"raiseRate"]].intValue];
-            standingCouponsLimitLabel.text = [NSString stringWithFormat:@"投资上限%d万元",[NSString stringWithFormat:@"%@",[biggestCoupons objectForKey:@"principalLimit"]].intValue/10000];
+            standingCouponsNumLabel.text = [NSString stringWithFormat:@"%d",[NSString stringWithFormat:@"%@",[biggestStandingCoupons objectForKey:@"raiseRate"]].intValue];
+            standingCouponsLimitLabel.text = [NSString stringWithFormat:@"投资上限%d万元",[NSString stringWithFormat:@"%@",[biggestStandingCoupons objectForKey:@"principalLimit"]].intValue/10000];
             NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];//实例化一个NSDateFormatter对象
             [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];//设定时间格式
             NSDate *startDate = [dateFormat dateFromString:[biggestStandingCoupons objectForKey:@"expireTime"]];
@@ -819,7 +820,7 @@
             vc.investAmount = amountTextField.text;
             vc.coupons = coupon;
             vc.vouchers = vouchers;
-            NSLog(@"%@",coupons);
+            NSLog(@"%@",vouchers);
             vc.idOrCode = idOrCode;
             vc.productInfo = productInfo;
             if (bonusButton.selected)
@@ -917,6 +918,22 @@
         [confirmButton setAlpha:0.6f];
     }
     
+}
+
+- (IBAction)textFieldBeginEditing:(id)sender
+{
+    if (bonusButton.selected)
+    {
+        [self chooseBonus:nil];
+    }
+    if (couponsButton.selected)
+    {
+        [self chooseCoupons:nil];
+    }
+    if (standingCouponsButton.selected)
+    {
+        [self chooseStandingCoupons:nil];
+    }
 }
 
 -(IBAction)textFiledReturnEditing:(id)sender {

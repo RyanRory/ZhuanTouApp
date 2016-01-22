@@ -32,6 +32,7 @@
     [confirmButton addTarget:self action:@selector(confirm:) forControlEvents:UIControlEventTouchUpInside];
     voucher1View.hidden = YES;
     voucher2View.hidden = YES;
+    titleLabel.text = [NSString stringWithFormat:@"%@", [productInfo objectForKey:@"name"]];
     
     if ([style isEqualToString:WENJIAN])
     {
@@ -46,46 +47,6 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    if (voucher1View.hidden && voucher2View.hidden)
-    {
-        contentView.layer.cornerRadius = 3;
-    }
-    else if (voucher2View.hidden)
-    {
-        UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:contentView.frame byRoundingCorners:UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii:CGSizeMake(3, 3)];
-        CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
-        maskLayer.frame = contentView.frame;
-        maskLayer.path = maskPath.CGPath;
-        contentView.layer.mask = maskLayer;
-        contentView.layer.masksToBounds = YES;
-        
-        UIBezierPath *maskPath1 = [UIBezierPath bezierPathWithRoundedRect:voucher1View.frame byRoundingCorners:UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii:CGSizeMake(3, 3)];
-        CAShapeLayer *maskLayer1 = [[CAShapeLayer alloc] init];
-        maskLayer1.frame = voucher1View.frame;
-        maskLayer1.path = maskPath1.CGPath;
-        voucher1View.layer.mask = maskLayer1;
-        voucher1View.layer.masksToBounds = YES;
-    }
-    else
-    {
-        UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:contentView.frame byRoundingCorners:UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii:CGSizeMake(3, 3)];
-        CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
-        maskLayer.frame = contentView.frame;
-        maskLayer.path = maskPath.CGPath;
-        contentView.layer.mask = maskLayer;
-        contentView.layer.masksToBounds = YES;
-        
-        UIBezierPath *maskPath1 = [UIBezierPath bezierPathWithRoundedRect:voucher1View.frame byRoundingCorners:UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii:CGSizeMake(3, 3)];
-        CAShapeLayer *maskLayer1 = [[CAShapeLayer alloc] init];
-        maskLayer1.frame = voucher2View.frame;
-        maskLayer1.path = maskPath1.CGPath;
-        voucher2View.layer.mask = maskLayer1;
-        voucher2View.layer.masksToBounds = YES;
-    }
 }
 
 - (void)backToParent:(id)sender
@@ -119,7 +80,7 @@
     amoutLabel.text = [NSString stringWithFormat:@"购  买  金  额 (元)：%@",[NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithInt:investAmount.intValue]]]];
     if (bonus)
     {
-        realPayLabel.text = [NSString stringWithFormat:@"实际支付金额(元)：%@",[NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithInt:(investAmount.intValue - [NSString stringWithFormat:@"%@",[bonus objectForKey:@"money"]].intValue)]]]];
+        realPayLabel.text = [NSString stringWithFormat:@"实际支付金额(元)：%@",[NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithInt:(investAmount.intValue - [NSString stringWithFormat:@"%@",[bonus objectForKey:@"faceValue"]].intValue)]]]];
     }
     else
         
@@ -128,10 +89,10 @@
     }
     productTimeLabel.text = [NSString stringWithFormat:@"到   期   时   间 ：%@",[productInfo objectForKey:@"endDate"]];
     
-    int jiaxiquan;
+    double jiaxiquan;
     if (voucher1)
     {
-        jiaxiquan = jiaxiquan + [NSString stringWithFormat:@"%@",[voucher1 objectForKey:@"raiseRate"]].intValue;
+        jiaxiquan = jiaxiquan + [NSString stringWithFormat:@"%@",[voucher1 objectForKey:@"raiseRate"]].doubleValue;
         voucher1View.hidden = NO;
         voucher1NumLabel.text = @"1张";
         voucher1Label.text = [NSString stringWithFormat:@"定期加息券  (+%d%%)", [NSString stringWithFormat:@"%@",[voucher1 objectForKey:@"raiseRate"]].intValue];
@@ -139,24 +100,21 @@
     
     if (voucher2)
     {
-        jiaxiquan = jiaxiquan + [NSString stringWithFormat:@"%@",[voucher1 objectForKey:@"raiseRate"]].intValue;
         if (voucher1View.hidden)
         {
             voucher1View.hidden = NO;
             voucher1NumLabel.text = @"1张";
-            voucher1Label.text = [NSString stringWithFormat:@"募集期加息券  (+%d%%)", [NSString stringWithFormat:@"%@",[voucher1 objectForKey:@"raiseRate"]].intValue];
+            voucher1Label.text = [NSString stringWithFormat:@"募集期加息券  (+%d%%)", [NSString stringWithFormat:@"%@",[voucher2 objectForKey:@"raiseRate"]].intValue];
         }
         else
         {
             voucher2View.hidden = NO;
             voucher2NumLabel.text = @"1张";
-            voucher2Label.text = [NSString stringWithFormat:@"募集期加息券  (+%d%%)", [NSString stringWithFormat:@"%@",[voucher1 objectForKey:@"raiseRate"]].intValue];
+            voucher2Label.text = [NSString stringWithFormat:@"募集期加息券  (+%d%%)", [NSString stringWithFormat:@"%@",[voucher2 objectForKey:@"raiseRate"]].intValue];
         }
     }
-    
-    staIncome.text = [NSString stringWithFormat:@"固定派息总计(元)：%@",[formatter stringFromNumber:[NSNumber numberWithDouble:round( (pow(1+[NSString stringWithFormat:@"%@",[productInfo objectForKey:@"interestRate"]].intValue+jiaxiquan, 1.0/12.0)-1)/365*12*[NSString stringWithFormat:@"%@",[productInfo objectForKey:@"noOfDays"]].intValue * 100 * investAmount.intValue)/100]]];
-    
-    
+    [formatter setPositiveFormat:@"###,##0.00"];
+    staIncome.text = [NSString stringWithFormat:@"固定派息总计(元)：%@",[formatter stringFromNumber:[NSNumber numberWithDouble:floor( (pow(1+[NSString stringWithFormat:@"%@",[productInfo objectForKey:@"interestRate"]].doubleValue/100+jiaxiquan/100, 1.0/12.0)-1)/365*12*[NSString stringWithFormat:@"%@",[productInfo objectForKey:@"noOfDays"]].intValue * 100 * investAmount.intValue)/100]]];
 }
 
 - (void)setupZonghe
@@ -180,7 +138,7 @@
     amoutLabel.text = [NSString stringWithFormat:@"购  买  金  额 (元)：%@",[NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithInt:investAmount.intValue]]]];
     if (bonus)
     {
-        realPayLabel.text = [NSString stringWithFormat:@"实际支付金额(元)：%@",[NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithInt:(investAmount.intValue - [NSString stringWithFormat:@"%@",[bonus objectForKey:@"money"]].intValue)]]]];
+        realPayLabel.text = [NSString stringWithFormat:@"实际支付金额(元)：%@",[NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithInt:(investAmount.intValue - [NSString stringWithFormat:@"%@",[bonus objectForKey:@"faceValue"]].intValue)]]]];
     }
     else
         
@@ -189,10 +147,10 @@
     }
     productTimeLabel.text = [NSString stringWithFormat:@"到   期   时   间 ：%@",[productInfo objectForKey:@"endDate"]];
     
-    int jiaxiquan;
+    double jiaxiquan;
     if (voucher1)
     {
-        jiaxiquan = jiaxiquan + [NSString stringWithFormat:@"%@",[voucher1 objectForKey:@"raiseRate"]].intValue;
+        jiaxiquan = jiaxiquan + [NSString stringWithFormat:@"%@",[voucher1 objectForKey:@"raiseRate"]].doubleValue;
         voucher1View.hidden = NO;
         voucher1NumLabel.text = @"1张";
         voucher1Label.text = [NSString stringWithFormat:@"定期加息券  (+%d%%)", [NSString stringWithFormat:@"%@",[voucher1 objectForKey:@"raiseRate"]].intValue];
@@ -200,22 +158,21 @@
     
     if (voucher2)
     {
-        jiaxiquan = jiaxiquan + [NSString stringWithFormat:@"%@",[voucher1 objectForKey:@"raiseRate"]].intValue;
         if (voucher1View.hidden)
         {
             voucher1View.hidden = NO;
             voucher1NumLabel.text = @"1张";
-            voucher1Label.text = [NSString stringWithFormat:@"募集期加息券  (+%d%%)", [NSString stringWithFormat:@"%@",[voucher1 objectForKey:@"raiseRate"]].intValue];
+            voucher1Label.text = [NSString stringWithFormat:@"募集期加息券  (+%d%%)", [NSString stringWithFormat:@"%@",[voucher2 objectForKey:@"raiseRate"]].intValue];
         }
         else
         {
             voucher2View.hidden = NO;
             voucher2NumLabel.text = @"1张";
-            voucher2Label.text = [NSString stringWithFormat:@"募集期加息券  (+%d%%)", [NSString stringWithFormat:@"%@",[voucher1 objectForKey:@"raiseRate"]].intValue];
+            voucher2Label.text = [NSString stringWithFormat:@"募集期加息券  (+%d%%)", [NSString stringWithFormat:@"%@",[voucher2 objectForKey:@"raiseRate"]].intValue];
         }
     }
-    
-    staIncome.text = [NSString stringWithFormat:@"固定派息总计(元)：%@",[formatter stringFromNumber:[NSNumber numberWithDouble:round( (pow(1+[NSString stringWithFormat:@"%@",[productInfo objectForKey:@"interestRate"]].intValue+jiaxiquan, 1.0/12.0)-1)/365*12*[NSString stringWithFormat:@"%@",[productInfo objectForKey:@"noOfDays"]].intValue * 100 * investAmount.intValue)/100]]];
+    [formatter setPositiveFormat:@"###,##0.00"];
+    staIncome.text = [NSString stringWithFormat:@"固定派息总计(元)：%@",[formatter stringFromNumber:[NSNumber numberWithDouble:floor( (pow(1+[NSString stringWithFormat:@"%@",[productInfo objectForKey:@"interestRate"]].doubleValue/100+jiaxiquan/100, 1.0/12.0)-1)/365*12*[NSString stringWithFormat:@"%@",[productInfo objectForKey:@"noOfDays"]].intValue * 100 * investAmount.intValue)/100]]];
 }
 
 - (void)confirm:(id)sender

@@ -216,14 +216,13 @@
 - (void)setupData
 {
     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-    nickNameLabel.text = [userDefault objectForKey:NICKNAME];
     if ([userDefault boolForKey:ISTRADEPSWDSET])
     {
         tradePswdLabel.text = @"修改";
     }
     else
     {
-        tradePswdLabel.text = @"设置";
+        tradePswdLabel.text = @"未设置";
     }
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
@@ -243,6 +242,9 @@
             {
                 bankCardNumLabel.text = @"未绑定";
             }
+            [userDefault setObject:[NSString stringWithFormat:@"%@", [responseObject objectForKey:@"userName"]] forKey:NICKNAME];
+            usernameLabel.text = [NSString stringWithFormat:@"%@", [responseObject objectForKey:@"userName"]];
+            nickNameLabel.text = [NSString stringWithFormat:@"%@", [responseObject objectForKey:@"userName"]];
             data = [NSMutableDictionary dictionaryWithDictionary:responseObject];
             [tView reloadData];
         }
@@ -292,7 +294,7 @@
         }
         else
         {
-            realNameLabel.text = @"去认证";
+            realNameLabel.text = @"未认证";
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
