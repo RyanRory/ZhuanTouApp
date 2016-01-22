@@ -262,17 +262,158 @@
     [findProductButton setHidden:YES];
 }
 
-- (void)quitInvest:(id)sender
+- (void)quitInvest:(UIButton*)sender
 {
     if (!standingButton.userInteractionEnabled)
     {
-        
+        QuitAlertView *view = [[QuitAlertView alloc]initWithFrame:CGRectMake(self.navigationController.view.frame.size.width/2-140, self.navigationController.view.frame.size.height/2-50.5, 280, 106)];
+        view.block = ^(id object)
+        {
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+            NSString *URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/fofProd/quitPurchase/%@?tradePassword=%@", orderNo, @""]];
+            [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+                NSLog(@"%@",responseObject);
+                NSString *str = [responseObject objectForKey:@"isSuccess"];
+                int f1 = str.intValue;
+                if (f1 == 0)
+                {
+                    hud.mode = MBProgressHUDModeCustomView;
+                    hud.labelText = [responseObject objectForKey:@"errorMessage"];
+                    [hud hide:YES afterDelay:1.5f];
+                }
+                else
+                {
+                    hud.mode = MBProgressHUDModeCustomView;
+                    hud.labelText = @"退出成功";
+                    [hud hide:YES afterDelay:1.5f];
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        [[self navigationController]popViewControllerAnimated:YES];
+                    });
+                }
+                
+            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                NSLog(@"Error: %@", error);
+                hud.mode = MBProgressHUDModeText;
+                hud.labelText = @"当前网络状况不佳，请重试";
+                [hud hide:YES afterDelay:1.5f];
+            }];
+
+        };
+        [self.navigationController.view addSubview:view];
+        [view showView];
     }
     
     if (!ingButton.userInteractionEnabled)
     {
-        
+        QuitAlertView *qview = [[QuitAlertView alloc]initWithFrame:CGRectMake(self.navigationController.view.frame.size.width/2-140, self.navigationController.view.frame.size.height/2-50.5, 280, 106)];
+        qview.block = ^(id object)
+        {
+            NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+            if ([userDefault boolForKey:ISTPNUMERIC])
+            {
+                TradePswdView *view = [[TradePswdView alloc]initWithFrame:self.navigationController.view.frame];
+                view.block = ^(NSString *tradePswd) {
+                    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+                    NSString *URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/fofProd/quitPurchase/%@?tradePassword=%@", orderNo,tradePswd]];
+                    [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+                        NSLog(@"%@",responseObject);
+                        NSString *str = [responseObject objectForKey:@"isSuccess"];
+                        int f1 = str.intValue;
+                        if (f1 == 0)
+                        {
+                            hud.mode = MBProgressHUDModeCustomView;
+                            hud.labelText = [responseObject objectForKey:@"errorMessage"];
+                            [hud hide:YES afterDelay:1.5f];
+                        }
+                        else
+                        {
+                            hud.mode = MBProgressHUDModeCustomView;
+                            hud.labelText = @"转入成功";
+                            [hud hide:YES afterDelay:1.5f];
+                            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                                [[self navigationController]popViewControllerAnimated:YES];
+                            });
+                        }
+                        
+                    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                        NSLog(@"Error: %@", error);
+                        hud.mode = MBProgressHUDModeText;
+                        hud.labelText = @"当前网络状况不佳，请重试";
+                        [hud hide:YES afterDelay:1.5f];
+                    }];
+                };
+                [self.navigationController.view addSubview:view];
+                [view showView];
+            }
+            else
+            {
+                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"请输入交易密码" message:nil preferredStyle:UIAlertControllerStyleAlert];
+                [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField){
+                    textField.secureTextEntry = YES;
+                    textField.returnKeyType = UIReturnKeyDone;
+                    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(alertTextFieldDidChange:) name:UITextFieldTextDidChangeNotification object:textField];
+                }];
+                UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+                UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
+                    UITextField *tradePswdTextField = alertController.textFields.firstObject;
+                    [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextFieldTextDidChangeNotification object:nil];
+                    [self quit:tradePswdTextField.text orderNO:orderNo];
+                }];
+                [alertController addAction:cancelAction];
+                [alertController addAction:confirmAction];
+                confirmAction.enabled = NO;
+                [self presentViewController:alertController animated:YES completion:nil];
+            }
+
+        };
+        [self.navigationController.view addSubview:qview];
+        [qview showView];
     }
+}
+
+- (void)alertTextFieldDidChange:(NSNotification *)notification{
+    UIAlertController *alertController = (UIAlertController *)self.presentedViewController;
+    if (alertController) {
+        UITextField *tradePswdTextField = alertController.textFields.firstObject;
+        UIAlertAction *confirmAction = alertController.actions.lastObject;
+        confirmAction.enabled = tradePswdTextField.text.length >= 6;
+    }
+}
+
+- (void)quit:(NSString *)tradePswd orderNO:(NSString *)orderNumber
+{
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSString *URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/fofProd/quitPurchase/%@?tradePassword=%@", orderNumber,tradePswd]];
+    [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+        NSLog(@"%@",responseObject);
+        NSString *str = [responseObject objectForKey:@"isSuccess"];
+        int f1 = str.intValue;
+        if (f1 == 0)
+        {
+            hud.mode = MBProgressHUDModeCustomView;
+            hud.labelText = [responseObject objectForKey:@"errorMessage"];
+            [hud hide:YES afterDelay:1.5f];
+        }
+        else
+        {
+            hud.mode = MBProgressHUDModeCustomView;
+            hud.labelText = @"转入成功";
+            [hud hide:YES afterDelay:1.5f];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [[self navigationController]popViewControllerAnimated:YES];
+            });
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = @"当前网络状况不佳，请重试";
+        [hud hide:YES afterDelay:1.5f];
+    }];
+
 }
 
 #pragma TableViewDelegates
@@ -381,6 +522,7 @@
             cell.amountLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"amount"]).doubleValue]]];
             cell.profitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"todaysInterestAmount"]).doubleValue]]];
             cell.timeLabel.text = [data valueForKey:@"endDateDisplay"];
+            orderNo = [NSString stringWithFormat:@"%@", [data objectForKey:@"orderNo"]];
             [cell.quitButton addTarget:self action:@selector(quitInvest:) forControlEvents:UIControlEventTouchUpInside];
             if ([NSString stringWithFormat:@"%@", [data objectForKey:@"quitable"]].boolValue)
             {
@@ -418,6 +560,7 @@
                 cell.floatProfitLabel.textColor = ZTGRAY;
             }
             cell.timeLabel.text = [data valueForKey:@"endDateDisplay"];
+            orderNo = [NSString stringWithFormat:@"%@", [data objectForKey:@"orderNo"]];
             [cell.quitButton addTarget:self action:@selector(quitInvest:) forControlEvents:UIControlEventTouchUpInside];
             if ([NSString stringWithFormat:@"%@", [data objectForKey:@"quitable"]].boolValue)
             {

@@ -746,7 +746,6 @@
             }
             else
             {
-                NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
                 if ((int)(amountTextField.text.doubleValue*100) <= [userDefault integerForKey:TPTHRESHOLD])
                 {
                     [self buy:@""];
@@ -787,6 +786,7 @@
                                 [hud hide:YES afterDelay:1.5f];
                             }];
                         };
+                        [self.navigationController.view addSubview:view];
                         [view showView];
                     }
                     else

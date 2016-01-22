@@ -109,7 +109,7 @@
                                      [userDefault setObject:[responseObject objectForKey:@"nickname"] forKey:NICKNAME];
                                      [userDefault setBool:[NSString stringWithFormat:@"%@",[responseObject objectForKey:@"isTradepasswordset"]].boolValue forKey:ISTRADEPSWDSET];
                                      [userDefault setBool:[NSString stringWithFormat:@"%@", [responseObject objectForKey:@"isTpNumeric"]].boolValue forKey:ISTPNUMERIC];
-                                     [userDefault setInteger:[NSString stringWithFormat:@"%@", [responseObject objectForKey:@"tpThreshold"]].intValue *100 forKey:TPTHRESHOLD];
+                                     [userDefault setInteger:([NSString stringWithFormat:@"%@", [responseObject objectForKey:@"tpThreshold"]].intValue *100) forKey:TPTHRESHOLD];
                                      [userDefault synchronize];
                                  }
                                  

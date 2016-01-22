@@ -12,12 +12,15 @@
 #import "ZongheEndedTableViewCell.h"
 #import "ZongheIngTableViewCell.h"
 #import "SetpasswordViewController.h"
+#import "QuitAlertView.h"
+#import "TradePswdView.h"
 
 @interface DingqiViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 {
     int productsNum;
     NSMutableArray *datas;
     int buttonTag;
+    NSString *orderNo;
 }
 
 @property (strong, nonatomic) IBOutlet UIView *noneProductView;
