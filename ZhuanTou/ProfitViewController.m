@@ -130,7 +130,7 @@
                 dingqiPercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",dingqi*100/total];
                 huoqiPercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",huoqi*100/total];
                 balancePercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",balance*100/total];
-                balancePercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",frozen*100/total];
+                frozenPercentLabel.text = [NSString stringWithFormat:@"%0.2f%%",frozen*100/total];
             }
             
             [self setDataCount:4 range:100];

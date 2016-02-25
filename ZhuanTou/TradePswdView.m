@@ -23,7 +23,7 @@
         centerView.clipsToBounds = YES;
         centerView.layer.cornerRadius = 20;
         titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 10, 280, 30)];
-        titleLabel.textColor = [UIColor blackColor];
+        titleLabel.textColor = [UIColor darkTextColor];
         titleLabel.text = @"请输入交易密码";
         titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:17];
         titleLabel.textAlignment = NSTextAlignmentCenter;
@@ -42,32 +42,39 @@
         
         textField1 = [[UITextField alloc]initWithFrame:CGRectMake(15, 50, 35, 35)];
         textField1.secureTextEntry = YES;
-        textField1.borderStyle = UITextBorderStyleLine;
+        textField1.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+        textField1.layer.borderWidth = 1;
         textField1.textAlignment = NSTextAlignmentCenter;
         textField1.font = [UIFont systemFontOfSize:20];
         textField2 = [[UITextField alloc]initWithFrame:CGRectMake(58, 50, 35, 35)];
         textField2.secureTextEntry = YES;
-        textField2.borderStyle = UITextBorderStyleLine;
+        textField2.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+        textField2.layer.borderWidth = 1;
         textField2.textAlignment = NSTextAlignmentCenter;
         textField2.font = [UIFont systemFontOfSize:20];
         textField3 = [[UITextField alloc]initWithFrame:CGRectMake(101, 50, 35, 35)];
         textField3.secureTextEntry = YES;
-        textField3.borderStyle = UITextBorderStyleLine;
+        textField3.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+        textField3.layer.borderWidth = 1;
         textField3.textAlignment = NSTextAlignmentCenter;
         textField3.font = [UIFont systemFontOfSize:20];
         textField4 = [[UITextField alloc]initWithFrame:CGRectMake(144, 50, 35, 35)];
         textField4.secureTextEntry = YES;
-        textField4.borderStyle = UITextBorderStyleLine;
+        textField4.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+        textField4.layer.borderWidth = 1;
         textField4.textAlignment = NSTextAlignmentCenter;
         textField4.font = [UIFont systemFontOfSize:20];
         textField5 = [[UITextField alloc]initWithFrame:CGRectMake(187, 50, 35, 35)];
         textField5.secureTextEntry = YES;
-        textField5.borderStyle = UITextBorderStyleLine;
+        textField5.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+        textField5.layer.borderWidth = 1;
         textField5.textAlignment = NSTextAlignmentCenter;
         textField5.font = [UIFont systemFontOfSize:20];
         textField6 = [[UITextField alloc]initWithFrame:CGRectMake(230, 50, 35, 35)];
         textField6.secureTextEntry = YES;
-        textField6.borderStyle = UITextBorderStyleLine;
+        //textField6.borderStyle = UITextBorderStyleLine;
+        textField6.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+        textField6.layer.borderWidth = 1;
         textField6.textAlignment = NSTextAlignmentCenter;
         textField6.font = [UIFont systemFontOfSize:20];
         
@@ -114,18 +121,33 @@
     if (str.length > 0)
     {
         textField1.text = [str substringWithRange:NSMakeRange(0, 1)];
+        textField2.text = @"";
+        textField3.text = @"";
+        textField4.text = @"";
+        textField5.text = @"";
+        textField6.text = @"";
         if (str.length > 1)
         {
             textField2.text = [str substringWithRange:NSMakeRange(1, 1)];
+            textField3.text = @"";
+            textField4.text = @"";
+            textField5.text = @"";
+            textField6.text = @"";
             if (str.length > 2)
             {
                 textField3.text = [str substringWithRange:NSMakeRange(2, 1)];
+                textField4.text = @"";
+                textField5.text = @"";
+                textField6.text = @"";
                 if (str.length > 3)
                 {
                     textField4.text = [str substringWithRange:NSMakeRange(3, 1)];
+                    textField5.text = @"";
+                    textField6.text = @"";
                     if (str.length > 4)
                     {
                         textField5.text = [str substringWithRange:NSMakeRange(4, 1)];
+                        textField6.text = @"";
                         if (str.length > 5)
                         {
                             textField6.text = [str substringWithRange:NSMakeRange(5, 1)];

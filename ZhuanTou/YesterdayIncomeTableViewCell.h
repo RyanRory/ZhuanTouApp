@@ -15,4 +15,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *amountLabel;
 @property (strong, nonatomic) IBOutlet UILabel *profitLabel;
 
+@property (strong, nonatomic) IBOutlet UILabel *amountTitleLabel;
+@property (strong, nonatomic) IBOutlet UILabel *profitTitleLabel;
+
 @end

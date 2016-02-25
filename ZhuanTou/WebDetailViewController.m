@@ -14,7 +14,7 @@
 
 @implementation WebDetailViewController
 
-@synthesize webView, reloadButton;
+@synthesize webView, reloadButton, showInvite, inviteTitle;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -39,7 +39,7 @@
         UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithCustomView:[UIButton buttonWithType:UIButtonTypeCustom]];
         self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:backItem, item, nil];
     }
-    else if ([self.title isEqualToString:@"分红宝"] || [self.title isEqualToString:@"新手专享三重礼"])
+    else if ([self.title isEqualToString:@"分红宝"] || [self.title isEqualToString:@"新手特权"])
     {
         [self.navigationController.navigationBar setBarTintColor:ZTBLUE];
         [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,nil]];
@@ -48,8 +48,24 @@
         UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithCustomView:[UIButton buttonWithType:UIButtonTypeCustom]];
         self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:backItem, item, nil];
     }
+//    else if ([self.title isEqualToString:@"活动介绍"])
+//    {
+//        [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
+//        [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,nil]];
+//        UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"backIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(backToParent:)];
+//        backItem.tintColor = [UIColor whiteColor];
+//        UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithCustomView:[UIButton buttonWithType:UIButtonTypeCustom]];
+//        self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:backItem, item, nil];
+//    }
     else
     {
+        if (self.showInvite == YES){
+            UIBarButtonItem *inviteItem = [[UIBarButtonItem alloc]initWithTitle:inviteTitle style:UIBarButtonItemStylePlain target:self action:@selector(toInvite:)];
+            inviteItem.tintColor = ZTBLUE;
+            self.navigationItem.rightBarButtonItem = inviteItem;
+            [self.navigationItem.rightBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont boldSystemFontOfSize:13], NSFontAttributeName,nil] forState:UIControlStateNormal];
+        }
+
         [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
         [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor darkGrayColor],NSForegroundColorAttributeName,nil]];
         UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"backIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(backToParent:)];
@@ -57,9 +73,25 @@
         UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithCustomView:[UIButton buttonWithType:UIButtonTypeCustom]];
         self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:backItem, item, nil];
     }
-    
+
     reloadButton.hidden = YES;
     [reloadButton addTarget:self action:@selector(reloadWebView:) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)toInvite:(id)sender
+{
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    BOOL flag = [userDefault boolForKey:ISLOGIN];
+    if (!flag)
+    {
+        UINavigationController *nav = [[self storyboard]instantiateViewControllerWithIdentifier:@"LoginNav"];
+        [[self tabBarController] presentViewController:nav animated:YES completion:nil];
+    }
+    else{
+        InvitationViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"InvitationViewController"];
+        [[self navigationController]pushViewController:vc animated:YES];
+    }
+
 }
 
 - (void)viewDidAppear:(BOOL)animated

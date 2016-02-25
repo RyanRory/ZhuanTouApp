@@ -352,7 +352,7 @@
 - (void)toNewer:(id)sender
 {
     WebDetailViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"WebDetailViewController"];
-    vc.title = @"新手专享三重礼";
+    vc.title = @"新手特权";
     [vc setURL:[BASEURL stringByAppendingString:@"Wap/WebView/Newer"]];
     [[self navigationController]pushViewController:vc animated:YES];
 }
@@ -431,7 +431,9 @@
 - (void)toImageDetail:(id)sender
 {
     WebDetailViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"WebDetailViewController"];
-    vc.title = @"专投新闻";
+    vc.title = [bannerInfo[currentImage] objectForKey:@"title"];
+    vc.inviteTitle = [bannerInfo[currentImage] objectForKey:@"subTitle"];
+    vc.showInvite = [[bannerInfo[currentImage] objectForKey:@"showInvite"] boolValue];
     [vc setURL:[bannerInfo[currentImage] objectForKey:@"linkUrl"]];
     [[self navigationController]pushViewController:vc animated:YES];
 }

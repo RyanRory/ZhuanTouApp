@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "InvitationViewController.h"
 
 @interface WebDetailViewController : UIViewController<UIWebViewDelegate>
 {
@@ -17,6 +18,8 @@
 
 @property (strong, nonatomic) IBOutlet UIWebView *webView;
 @property (strong, nonatomic) IBOutlet UIButton *reloadButton;
+@property (readwrite, nonatomic) BOOL showInvite;
+@property (strong, nonatomic) NSString *inviteTitle;
 
 - (void)setURL:(NSString*)str;
 

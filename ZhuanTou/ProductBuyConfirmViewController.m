@@ -80,7 +80,7 @@
     amoutLabel.text = [NSString stringWithFormat:@"购  买  金  额 (元)：%@",[NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithInt:investAmount.intValue]]]];
     if (bonus)
     {
-        realPayLabel.text = [NSString stringWithFormat:@"实际支付金额(元)：%@",[NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithInt:(investAmount.intValue - [NSString stringWithFormat:@"%@",[bonus objectForKey:@"faceValue"]].intValue)]]]];
+        realPayLabel.text = [NSString stringWithFormat:@"实际支付金额(元)：%@(红包抵扣%d)",[NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithInt:(investAmount.intValue - [NSString stringWithFormat:@"%@",[bonus objectForKey:@"faceValue"]].intValue)]]], [NSString stringWithFormat:@"%@",[bonus objectForKey:@"faceValue"]].intValue];
     }
     else
         
@@ -172,7 +172,7 @@
         }
     }
     [formatter setPositiveFormat:@"###,##0.00"];
-    staIncome.text = [NSString stringWithFormat:@"固定派息总计(元)：%@",[formatter stringFromNumber:[NSNumber numberWithDouble:floor( (pow(1+[NSString stringWithFormat:@"%@",[productInfo objectForKey:@"interestRate"]].doubleValue/100+jiaxiquan/100, 1.0/12.0)-1)/365*12*[NSString stringWithFormat:@"%@",[productInfo objectForKey:@"noOfDays"]].intValue * 100 * investAmount.intValue)/100]]];
+    staIncome.text = [NSString stringWithFormat:@"固定派息总计(元)：%@(不含分红部分)",[formatter stringFromNumber:[NSNumber numberWithDouble:floor( (pow(1+[NSString stringWithFormat:@"%@",[productInfo objectForKey:@"interestRate"]].doubleValue/100+jiaxiquan/100, 1.0/12.0)-1)/365*12*[NSString stringWithFormat:@"%@",[productInfo objectForKey:@"noOfDays"]].intValue * 100 * investAmount.intValue)/100]]];
 }
 
 - (void)confirm:(id)sender

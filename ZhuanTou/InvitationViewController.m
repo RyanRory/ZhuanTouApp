@@ -21,6 +21,9 @@
     [super viewDidLoad];
     self.view.clipsToBounds = YES;
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor darkGrayColor],NSForegroundColorAttributeName,nil]];
+    UIBarButtonItem *ruleItem = [[UIBarButtonItem alloc]initWithTitle:@"活动介绍" style:UIBarButtonItemStylePlain target:self action:@selector(toIntro:)];
+    self.navigationItem.rightBarButtonItem = ruleItem;
+    [self.navigationItem.rightBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont boldSystemFontOfSize:13], NSFontAttributeName,nil] forState:UIControlStateNormal];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"backIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(backToParent:)];
     backItem.tintColor = ZTBLUE;
     UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithCustomView:[UIButton buttonWithType:UIButtonTypeCustom]];
@@ -39,8 +42,54 @@
     tView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         [self setupData];
     }];
+    AFHTTPRequestOperationManager *userinfomanager = [AFHTTPRequestOperationManager manager];
+    NSString *userinfoURL = [BASEURL stringByAppendingString:@"api/account/getUserInfoInAPP"];
+    [userinfomanager GET:userinfoURL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+        NSLog(@"%@", responseObject);
+        NSString *str = [responseObject objectForKey:@"isSuccess"];
+        int f1 = str.intValue;
+        if (f1 == 1)
+        {
+            realNameString = [responseObject objectForKey:@"realName"];
+            if ([realNameString isEqual:[NSNull null]]){
+                realNameString = [responseObject objectForKey:@"userName"];
+            }
+            phonenumString = [responseObject objectForKey:@"mobilePhone"];
+        }
+        else
+        {
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.5f];
+            if ([[NSString stringWithFormat:@"%@",[responseObject objectForKey:@"errorCode"]] isEqualToString:@"100003"])
+            {
+                hud.labelText = @"登录信息已过期，请重新登录";
+                SetpasswordViewController *setpass = [[self storyboard]instantiateViewControllerWithIdentifier:@"SetpasswordViewController"];
+                setpass.string = @"验证密码";
+                [[self tabBarController] presentViewController:setpass animated:NO completion:nil];
+            }
+            else
+            {
+                hud.labelText = [responseObject objectForKey:@"errorMessage"];
+            }
+        }
+        if ([tView.mj_header isRefreshing])
+        {
+            [tView.mj_header endRefreshing];
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = @"当前网络状况不佳，请重试";
+        [hud hide:YES afterDelay:1.5f];
+        if ([tView.mj_header isRefreshing])
+        {
+            [tView.mj_header endRefreshing];
+        }
+    }];
 }
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -73,7 +122,7 @@
 - (void)backToParent:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
+    //[self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
 - (void)invitation:(id)sender
@@ -94,6 +143,24 @@
     myInvButton.tintColor = ZTBLUE;
     tView.scrollEnabled = YES;
     [tView.mj_header beginRefreshing];
+}
+
+- (void)toIntro:(id)sender
+{
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    BOOL flag = [userDefault boolForKey:ISLOGIN];
+    if (!flag)
+    {
+        UINavigationController *nav = [[self storyboard]instantiateViewControllerWithIdentifier:@"LoginNav"];
+        [[self tabBarController] presentViewController:nav animated:YES completion:nil];
+    }
+    else{
+        WebDetailViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"WebDetailViewController"];
+        vc.title = @"活动介绍";
+        [vc setURL:[NSString stringWithFormat:@"%@Activities/Recommend/Welfare?hideAll",BASEURL]];
+        [[self navigationController]pushViewController:vc animated:YES];
+    }
+    
 }
 
 #pragma TableViewDelegates
@@ -151,7 +218,7 @@
     }
     else
     {
-        return 4;
+        return 3;
     }
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -199,12 +266,12 @@
                 cell.label.text = @"微信朋友圈";
                 break;
                 
-            case 2:
-                cell.image.image = [UIImage imageNamed:@"weibo.png"];
-                cell.label.text = @"新浪微博";
-                break;
+//            case 2:
+//                cell.image.image = [UIImage imageNamed:@"weibo.png"];
+//                cell.label.text = @"新浪微博";
+//                break;
                 
-            case 3:
+            case 2:
                 cell.image.image = [UIImage imageNamed:@"qq.png"];
                 cell.label.text = @"QQ好友";
                 break;
@@ -219,7 +286,132 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (!invitationButton.userInteractionEnabled)
+    {
+        if (indexPath.row == 0){
+            [self sendLinkContent:WXSceneSession];
+        }
+        else if (indexPath.row == 1){
+            [self sendLinkContent:WXSceneTimeline];
+        }
+        else if (indexPath.row == 2){
+            [self sendNewsMessageWithLocalImage];
+        }
+    }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
+
+- (void) sendLinkContent:(int) scene
+{
+    WXMediaMessage *message = [WXMediaMessage message];
+    message.title = @"我给你送专投网福利了！";
+    message.description = @"专投网新人活动三重壕礼，230元奖励等你拿，赶快来！";
+    [message setThumbImage:[UIImage imageNamed:@"loginLogo.png"]];
+    
+    WXWebpageObject *ext = [WXWebpageObject object];
+    ext.webpageUrl = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"Activities/Recommend/Invited?referCode=%@&name=%@", phonenumString, realNameString]];
+    
+    message.mediaObject = ext;
+    
+    SendMessageToWXReq* req = [[SendMessageToWXReq alloc] init];
+    req.bText = NO;
+    req.message = message;
+    req.scene = scene;
+    
+    [WXApi sendReq:req];
+}
+
+- (void) sendNewsMessageWithLocalImage
+{
+    NSString *utf8String = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"Activities/Recommend/Invited?referCode=%@&name=%@", phonenumString, realNameString]];
+    //NSURL *url = [NSURL URLWithString:[BASEURL stringByAppendingString:[NSString stringWithFormat:@"Activities/Recommend/Invited?referCode=%@&name=%@", phonenumString, realNameString]]];
+    NSURL *url = [[NSURL alloc] initWithString:[utf8String stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    NSString *title = @"我给你送专投网福利了！";
+    NSString *description = @"专投网新人活动三重壕礼，230元奖励等你拿，赶快来！";
+    NSString *path = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"loginLogo.png"];
+    NSData* data = [NSData dataWithContentsOfFile:path];
+    NSString *previewImageUrl = @"https://mmbiz.qlogo.cn/mmbiz/QPNwM5MMglftcts729BarkLKBgmfNJdEtzOeLa35czyYvAVsYOZ0RfncxQNj6ib6kohnW4bGTfoVLkwdV1RibyOQ/0?wx_fmt=jpeg";
+    self.tencentOAuth = [[TencentOAuth alloc] initWithAppId:@"1104913119" andDelegate:self];
+    QQApiNewsObject *newsObj = [QQApiNewsObject
+                                objectWithURL:url
+                                title:title
+                                description:description
+                                previewImageURL:[NSURL URLWithString:previewImageUrl]];
+    //QQApiCommonContentObject *newsObj = [QQApiCommonContentObject objectWithLayoutType: textArray:nil pictureArray:nil previewImageData:data];
+    //QQApiURLObject *newsObj = [QQApiURLObject objectWithURL:[NSURL URLWithString:utf8String] title:title description:description previewImageData:data targetContentType:QQApiURLTargetTypeNews];
+//    uint64_t cflag = 1;
+//    [newsObj setCflag:cflag];
+    
+    SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:newsObj];
+    
+    QQApiSendResultCode sent = [QQApiInterface sendReq:req];
+    //分享到QZone
+    //QQApiSendResultCode sent = [QQApiInterface sendReq:req];
+    
+    [self handleSendResult:sent];
+    
+//    NSURL* url = [NSURL URLWithString:@"http://zhuantouwang.com"];
+//    self.tencentOAuth = [[TencentOAuth alloc] initWithAppId:@"1104913119" andDelegate:self];
+////    QQApiURLObject* img = [QQApiNewsObject objectWithURL:url title:@"123" description:@"456" previewImageData:data];
+//    QQApiURLObject* img  = [QQApiURLObject objectWithURL:url title:@"123" description:@"456" previewImageData:data targetContentType:QQApiURLTargetTypeNotSpecified];
+//    SendMessageToQQReq* req = [SendMessageToQQReq reqWithContent:img];
+//    //QQApiSendResultCode sent = [QQApiInterface sendReq:req];
+//    //[QQApiCommonContentObject ];
+//    
+//    QQApiSendResultCode sent = [QQApiInterface sendReq:req];
+//    //[QQApiInterface sendReq:req];
+//    [self handleSendResult:sent];
+//    //[self handleSendResult:sent];
+
+}
+
+- (void)handleSendResult:(QQApiSendResultCode)sendResult
+{
+    switch (sendResult)
+    {
+        case EQQAPIAPPNOTREGISTED:
+        {
+            UIAlertView *msgbox = [[UIAlertView alloc] initWithTitle:@"Error" message:@"App未注册" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:nil];
+            [msgbox show];
+            
+            break;
+        }
+        case EQQAPIMESSAGECONTENTINVALID:
+        case EQQAPIMESSAGECONTENTNULL:
+        case EQQAPIMESSAGETYPEINVALID:
+        {
+            UIAlertView *msgbox = [[UIAlertView alloc] initWithTitle:@"Error" message:@"发送参数错误" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:nil];
+            [msgbox show];
+            
+            break;
+        }
+        case EQQAPIQQNOTINSTALLED:
+        {
+            UIAlertView *msgbox = [[UIAlertView alloc] initWithTitle:@"Error" message:@"未安装手Q" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:nil];
+            [msgbox show];
+            
+            break;
+        }
+        case EQQAPIQQNOTSUPPORTAPI:
+        {
+            UIAlertView *msgbox = [[UIAlertView alloc] initWithTitle:@"Error" message:@"API接口不支持" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:nil];
+            [msgbox show];
+            
+            break;
+        }
+        case EQQAPISENDFAILD:
+        {
+            UIAlertView *msgbox = [[UIAlertView alloc] initWithTitle:@"Error" message:@"发送失败" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:nil];
+            [msgbox show];
+            
+            break;
+        }
+        default:
+        {
+            break;
+        }
+    }
+}
+
 
 @end

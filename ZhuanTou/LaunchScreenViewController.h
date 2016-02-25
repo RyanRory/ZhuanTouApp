@@ -17,6 +17,6 @@
 @property (strong, nonatomic) IBOutlet WaveView *bgView;
 @property (strong, nonatomic) IBOutlet UILabel *titleLabel;
 @property (strong, nonatomic) IBOutlet UILabel *discriptionLabel;
-
+@property (strong, nonatomic) IBOutlet UIImageView *remainImageView;
 
 @end

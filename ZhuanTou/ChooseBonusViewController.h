@@ -14,6 +14,7 @@
 @interface ChooseBonusViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 {
     int dataNum;
+    BOOL didSelect;
 }
 
 @property (strong, nonatomic) IBOutlet UITableView *tView;
@@ -22,5 +23,6 @@
 @property (readwrite, nonatomic) NSMutableArray *datas;
 @property (readwrite, nonatomic) id choosen;
 @property (readwrite, nonatomic) int amount;
+@property (readwrite, nonatomic) BOOL chooseFlag;
 
 @end

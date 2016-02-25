@@ -14,7 +14,7 @@
 
 @implementation LaunchScreenViewController
 
-@synthesize centerImageView, bgView, titleLabel, discriptionLabel;
+@synthesize centerImageView, bgView, titleLabel, discriptionLabel, remainImageView;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -32,10 +32,17 @@
 {
     [bgView startAnimation];
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.9 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [UIView beginAnimations:nil context:UIGraphicsGetCurrentContext()];
-        [UIView setAnimationDuration:1.2f];
-        [centerImageView setAlpha:1.0f];
+        [UIView setAnimationDuration:1.0f];
+        [remainImageView setImage:[UIImage imageNamed:@"remain2sec.png"]];
+        [UIView commitAnimations];
+    });
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [UIView beginAnimations:nil context:UIGraphicsGetCurrentContext()];
+        [UIView setAnimationDuration:1.0f];
+        [remainImageView setImage:[UIImage imageNamed:@"remain1sec.png"]];
         [UIView commitAnimations];
     });
     
@@ -47,7 +54,7 @@
         [UIView commitAnimations];
     });
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         NSString *password = [userDefault objectForKey:PASSWORD];

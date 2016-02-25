@@ -114,6 +114,7 @@
     }
     else if ([[data objectForKey:@"productType"] isEqualToString:@"专投宝"])
     {
+        cell.amountTitleLabel.text = @"当前份额(元)";
         cell.bgView.backgroundColor = ZTRED;
     }
     else

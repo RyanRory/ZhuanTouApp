@@ -136,7 +136,6 @@
     {
         navigationView.hidden = NO;
         [self setupData];
-        headImageView.image = [UIImage imageNamed:@"defaultHeadPortrait.png"];
         usernameLabel.text = [userDefault objectForKey:NICKNAME];
 
     }
@@ -243,6 +242,7 @@
                 bankCardNumLabel.text = @"未绑定";
             }
             [userDefault setObject:[NSString stringWithFormat:@"%@", [responseObject objectForKey:@"userName"]] forKey:NICKNAME];
+            [userDefault setInteger:([NSString stringWithFormat:@"%@", [responseObject objectForKey:@"tpThreshold"]].intValue *100) forKey:TPTHRESHOLD];
             usernameLabel.text = [NSString stringWithFormat:@"%@", [responseObject objectForKey:@"userName"]];
             nickNameLabel.text = [NSString stringWithFormat:@"%@", [responseObject objectForKey:@"userName"]];
             data = [NSMutableDictionary dictionaryWithDictionary:responseObject];
@@ -603,7 +603,7 @@
         if (data.count == 0)
         {
             cell.propertyLabel.text = @"0.00";
-            cell.balanceLabel.text = @"可用余额(元):0.00";
+            cell.balanceLabel.text = @"可用余额(元): 0.00";
             cell.allProfitLabel.text = @"0.00";
             cell.yesterdayProfitLabel.text = @"0.00";
         }
@@ -612,7 +612,7 @@
             NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
             [formatter setPositiveFormat:@"###,##0.00"];
             cell.propertyLabel.text = [formatter stringFromNumber:[NSNumber numberWithDouble:[NSString stringWithFormat:@"%@", [data objectForKey:@"totalAsset"]].doubleValue]];
-            cell.balanceLabel.text = [NSString stringWithFormat:@"可用余额(元):%@", [formatter stringFromNumber:[NSNumber numberWithDouble:[NSString stringWithFormat:@"%@", [data objectForKey:@"fundsAvailable"]].doubleValue]]];
+            cell.balanceLabel.text = [NSString stringWithFormat:@"可用余额(元): %@", [formatter stringFromNumber:[NSNumber numberWithDouble:[NSString stringWithFormat:@"%@", [data objectForKey:@"fundsAvailable"]].doubleValue]]];
             cell.allProfitLabel.text = [formatter stringFromNumber:[NSNumber numberWithDouble:[NSString stringWithFormat:@"%@", [data objectForKey:@"totalReturnAmount"]].doubleValue]];
             cell.yesterdayProfitLabel.text = [formatter stringFromNumber:[NSNumber numberWithDouble:[NSString stringWithFormat:@"%@", [data objectForKey:@"ystGain"]].doubleValue]];
         }

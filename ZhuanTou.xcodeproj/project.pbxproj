@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A61A9D71C55E25700EC2020 /* newlanding.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A61A9D31C55E25700EC2020 /* newlanding.png */; };
+		1A61A9D81C55E25700EC2020 /* remain1sec.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A61A9D41C55E25700EC2020 /* remain1sec.png */; };
+		1A61A9D91C55E25700EC2020 /* remain2sec.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A61A9D51C55E25700EC2020 /* remain2sec.png */; };
+		1A61A9DA1C55E25700EC2020 /* remain3sec.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A61A9D61C55E25700EC2020 /* remain3sec.png */; };
 		6960161C4D1F51521E05885E /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E46C15B95A6D67780362D08 /* libPods.a */; };
 		A405AC5D1BC911FB002BFCE9 /* backIcon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A405AC581BC911FB002BFCE9 /* backIcon@3x.png */; };
 		A405AC5E1BC911FB002BFCE9 /* loginLogo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A405AC591BC911FB002BFCE9 /* loginLogo@3x.png */; };
@@ -20,6 +24,12 @@
 		A405AC741BC91233002BFCE9 /* loginLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = A405AC6F1BC91233002BFCE9 /* loginLogo.png */; };
 		A405AC751BC91233002BFCE9 /* loginPwIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = A405AC701BC91233002BFCE9 /* loginPwIcon.png */; };
 		A405AC771BC91233002BFCE9 /* loginUserIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = A405AC721BC91233002BFCE9 /* loginUserIcon.png */; };
+		A4166F1B1C7F0335008B82C0 /* accountconf@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4166F191C7F0335008B82C0 /* accountconf@3x.png */; };
+		A4166F1C1C7F0335008B82C0 /* acctlogo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4166F1A1C7F0335008B82C0 /* acctlogo@3x.png */; };
+		A4166F1F1C7F0344008B82C0 /* accountconf@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4166F1D1C7F0344008B82C0 /* accountconf@2x.png */; };
+		A4166F201C7F0344008B82C0 /* acctlogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4166F1E1C7F0344008B82C0 /* acctlogo@2x.png */; };
+		A4166F231C7F0351008B82C0 /* accountconf.png in Resources */ = {isa = PBXBuildFile; fileRef = A4166F211C7F0351008B82C0 /* accountconf.png */; };
+		A4166F241C7F0351008B82C0 /* acctlogo.png in Resources */ = {isa = PBXBuildFile; fileRef = A4166F221C7F0351008B82C0 /* acctlogo.png */; };
 		A41ACC7D1BDDDB4A00755C96 /* NoticeView.m in Sources */ = {isa = PBXBuildFile; fileRef = A41ACC7C1BDDDB4A00755C96 /* NoticeView.m */; };
 		A41ACC811BDDF76500755C96 /* NoticeCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A41ACC801BDDF76500755C96 /* NoticeCenterViewController.m */; };
 		A41ACC841BDDF85F00755C96 /* NoticeCenterTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A41ACC831BDDF85F00755C96 /* NoticeCenterTableViewCell.m */; };
@@ -402,6 +412,18 @@
 		A4FAC4B51C4F09CE0051B0CA /* TradePswdView.m in Sources */ = {isa = PBXBuildFile; fileRef = A4FAC4B41C4F09CE0051B0CA /* TradePswdView.m */; };
 		A4FAC4B81C4F37D40051B0CA /* ProductBuyNewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4FAC4B71C4F37D40051B0CA /* ProductBuyNewViewController.m */; };
 		A4FED4771C2A6A8A009420D9 /* AttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = A4FED4761C2A6A8A009420D9 /* AttributedLabel.m */; };
+		EA0246D51C537A0400A677B0 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EA0246D01C5379EB00A677B0 /* libWeChatSDK.a */; };
+		EA0246D71C537A8F00A677B0 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EA0246D61C537A8F00A677B0 /* libsqlite3.0.tbd */; };
+		EA0246DC1C53862F00A677B0 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA0246DB1C53862F00A677B0 /* Security.framework */; };
+		EA0246DE1C53863F00A677B0 /* libiconv.2.4.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EA0246DD1C53863F00A677B0 /* libiconv.2.4.0.tbd */; };
+		EA0246E01C53864C00A677B0 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA0246DF1C53864C00A677B0 /* SystemConfiguration.framework */; };
+		EA0246E21C53865900A677B0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA0246E11C53865900A677B0 /* CoreGraphics.framework */; };
+		EA0246E41C53866600A677B0 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA0246E31C53866600A677B0 /* CoreTelephony.framework */; };
+		EA0246E61C53867500A677B0 /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EA0246E51C53867500A677B0 /* libstdc++.6.0.9.tbd */; };
+		EA0246E81C53868100A677B0 /* libz.1.1.3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EA0246E71C53868100A677B0 /* libz.1.1.3.tbd */; };
+		EA0246F41C54872800A677B0 /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EA0246F21C54872800A677B0 /* TencentOpenApi_IOS_Bundle.bundle */; };
+		EA0246F61C54879900A677B0 /* TencentOpenApi_IOS_Bundle.bundle in Frameworks */ = {isa = PBXBuildFile; fileRef = EA0246F21C54872800A677B0 /* TencentOpenApi_IOS_Bundle.bundle */; };
+		EA0246F71C54879900A677B0 /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA0246F31C54872800A677B0 /* TencentOpenAPI.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -450,6 +472,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1A61A9D31C55E25700EC2020 /* newlanding.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = newlanding.png; path = "images/@1x/newlanding.png"; sourceTree = "<group>"; };
+		1A61A9D41C55E25700EC2020 /* remain1sec.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = remain1sec.png; path = "images/@1x/remain1sec.png"; sourceTree = "<group>"; };
+		1A61A9D51C55E25700EC2020 /* remain2sec.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = remain2sec.png; path = "images/@1x/remain2sec.png"; sourceTree = "<group>"; };
+		1A61A9D61C55E25700EC2020 /* remain3sec.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = remain3sec.png; path = "images/@1x/remain3sec.png"; sourceTree = "<group>"; };
 		1E46C15B95A6D67780362D08 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		69A1B34D9815045875A56A3A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		A405AC581BC911FB002BFCE9 /* backIcon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "backIcon@3x.png"; path = "images/@3x/backIcon@3x.png"; sourceTree = "<group>"; };
@@ -464,6 +490,12 @@
 		A405AC6F1BC91233002BFCE9 /* loginLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = loginLogo.png; path = "images/@1x/loginLogo.png"; sourceTree = "<group>"; };
 		A405AC701BC91233002BFCE9 /* loginPwIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = loginPwIcon.png; path = "images/@1x/loginPwIcon.png"; sourceTree = "<group>"; };
 		A405AC721BC91233002BFCE9 /* loginUserIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = loginUserIcon.png; path = "images/@1x/loginUserIcon.png"; sourceTree = "<group>"; };
+		A4166F191C7F0335008B82C0 /* accountconf@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "accountconf@3x.png"; path = "images/@3x/accountconf@3x.png"; sourceTree = "<group>"; };
+		A4166F1A1C7F0335008B82C0 /* acctlogo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "acctlogo@3x.png"; path = "images/@3x/acctlogo@3x.png"; sourceTree = "<group>"; };
+		A4166F1D1C7F0344008B82C0 /* accountconf@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "accountconf@2x.png"; path = "images/@2x/accountconf@2x.png"; sourceTree = "<group>"; };
+		A4166F1E1C7F0344008B82C0 /* acctlogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "acctlogo@2x.png"; path = "images/@2x/acctlogo@2x.png"; sourceTree = "<group>"; };
+		A4166F211C7F0351008B82C0 /* accountconf.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = accountconf.png; path = "images/@1x/accountconf.png"; sourceTree = "<group>"; };
+		A4166F221C7F0351008B82C0 /* acctlogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = acctlogo.png; path = "images/@1x/acctlogo.png"; sourceTree = "<group>"; };
 		A41ACC7B1BDDDB4A00755C96 /* NoticeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoticeView.h; sourceTree = "<group>"; };
 		A41ACC7C1BDDDB4A00755C96 /* NoticeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoticeView.m; sourceTree = "<group>"; };
 		A41ACC7F1BDDF76500755C96 /* NoticeCenterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoticeCenterViewController.h; sourceTree = "<group>"; };
@@ -938,6 +970,20 @@
 		A4FED4761C2A6A8A009420D9 /* AttributedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttributedLabel.m; sourceTree = "<group>"; };
 		B241E5576143A7703444EB0B /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		C8A74B6F96E609344BDC6A9A /* Pods.distribution.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.distribution.xcconfig; path = "Pods/Target Support Files/Pods/Pods.distribution.xcconfig"; sourceTree = "<group>"; };
+		EA0246D01C5379EB00A677B0 /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libWeChatSDK.a; path = SDK1.6.2/libWeChatSDK.a; sourceTree = "<group>"; };
+		EA0246D11C5379EB00A677B0 /* WechatAuthSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WechatAuthSDK.h; path = SDK1.6.2/WechatAuthSDK.h; sourceTree = "<group>"; };
+		EA0246D21C5379EB00A677B0 /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WXApi.h; path = SDK1.6.2/WXApi.h; sourceTree = "<group>"; };
+		EA0246D31C5379EB00A677B0 /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WXApiObject.h; path = SDK1.6.2/WXApiObject.h; sourceTree = "<group>"; };
+		EA0246D61C537A8F00A677B0 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
+		EA0246DB1C53862F00A677B0 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		EA0246DD1C53863F00A677B0 /* libiconv.2.4.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.2.4.0.tbd; path = usr/lib/libiconv.2.4.0.tbd; sourceTree = SDKROOT; };
+		EA0246DF1C53864C00A677B0 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		EA0246E11C53865900A677B0 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		EA0246E31C53866600A677B0 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		EA0246E51C53867500A677B0 /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
+		EA0246E71C53868100A677B0 /* libz.1.1.3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.1.1.3.tbd; path = usr/lib/libz.1.1.3.tbd; sourceTree = SDKROOT; };
+		EA0246F21C54872800A677B0 /* TencentOpenApi_IOS_Bundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = TencentOpenApi_IOS_Bundle.bundle; path = QQ/TencentOpenApi_IOS_Bundle.bundle; sourceTree = "<group>"; };
+		EA0246F31C54872800A677B0 /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TencentOpenAPI.framework; path = QQ/TencentOpenAPI.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -945,6 +991,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA0246F61C54879900A677B0 /* TencentOpenApi_IOS_Bundle.bundle in Frameworks */,
+				EA0246F71C54879900A677B0 /* TencentOpenAPI.framework in Frameworks */,
+				EA0246E81C53868100A677B0 /* libz.1.1.3.tbd in Frameworks */,
+				EA0246E61C53867500A677B0 /* libstdc++.6.0.9.tbd in Frameworks */,
+				EA0246E41C53866600A677B0 /* CoreTelephony.framework in Frameworks */,
+				EA0246E21C53865900A677B0 /* CoreGraphics.framework in Frameworks */,
+				EA0246E01C53864C00A677B0 /* SystemConfiguration.framework in Frameworks */,
+				EA0246DE1C53863F00A677B0 /* libiconv.2.4.0.tbd in Frameworks */,
+				EA0246DC1C53862F00A677B0 /* Security.framework in Frameworks */,
+				EA0246D71C537A8F00A677B0 /* libsqlite3.0.tbd in Frameworks */,
+				EA0246D51C537A0400A677B0 /* libWeChatSDK.a in Frameworks */,
 				6960161C4D1F51521E05885E /* libPods.a in Frameworks */,
 				A45B856B1BFDE4740041FFC7 /* Crashlytics.framework in Frameworks */,
 				A463EAB31BD60FB300CAF146 /* Charts.framework in Frameworks */,
@@ -974,6 +1031,14 @@
 		93BFBC6A64E3BA313E9C94BE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EA0246E71C53868100A677B0 /* libz.1.1.3.tbd */,
+				EA0246E51C53867500A677B0 /* libstdc++.6.0.9.tbd */,
+				EA0246E31C53866600A677B0 /* CoreTelephony.framework */,
+				EA0246E11C53865900A677B0 /* CoreGraphics.framework */,
+				EA0246DF1C53864C00A677B0 /* SystemConfiguration.framework */,
+				EA0246DD1C53863F00A677B0 /* libiconv.2.4.0.tbd */,
+				EA0246DB1C53862F00A677B0 /* Security.framework */,
+				EA0246D61C537A8F00A677B0 /* libsqlite3.0.tbd */,
 				1E46C15B95A6D67780362D08 /* libPods.a */,
 			);
 			name = Frameworks;
@@ -1117,6 +1182,12 @@
 		A41C6B711BBAAF9E006B731D /* @1x */ = {
 			isa = PBXGroup;
 			children = (
+				A4166F211C7F0351008B82C0 /* accountconf.png */,
+				A4166F221C7F0351008B82C0 /* acctlogo.png */,
+				1A61A9D31C55E25700EC2020 /* newlanding.png */,
+				1A61A9D41C55E25700EC2020 /* remain1sec.png */,
+				1A61A9D51C55E25700EC2020 /* remain2sec.png */,
+				1A61A9D61C55E25700EC2020 /* remain3sec.png */,
 				A4FAC4921C438BE40051B0CA /* moments.png */,
 				A4FAC4931C438BE40051B0CA /* qq.png */,
 				A4FAC4941C438BE40051B0CA /* qzone.png */,
@@ -1222,6 +1293,8 @@
 		A41C6B721BBAAFA7006B731D /* @2x */ = {
 			isa = PBXGroup;
 			children = (
+				A4166F1D1C7F0344008B82C0 /* accountconf@2x.png */,
+				A4166F1E1C7F0344008B82C0 /* acctlogo@2x.png */,
 				A4FAC4861C438BCB0051B0CA /* moments@2x.png */,
 				A4FAC4871C438BCB0051B0CA /* qq@2x.png */,
 				A4FAC4881C438BCB0051B0CA /* qzone@2x.png */,
@@ -1327,6 +1400,8 @@
 		A41C6B731BBAAFC0006B731D /* @3x */ = {
 			isa = PBXGroup;
 			children = (
+				A4166F191C7F0335008B82C0 /* accountconf@3x.png */,
+				A4166F1A1C7F0335008B82C0 /* acctlogo@3x.png */,
 				A4FAC47A1C438BB40051B0CA /* moments@3x.png */,
 				A4FAC47B1C438BB40051B0CA /* qq@3x.png */,
 				A4FAC47C1C438BB40051B0CA /* qzone@3x.png */,
@@ -1506,6 +1581,8 @@
 		A45B856C1BFDE7790041FFC7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EA0246D81C53858800A677B0 /* QQ */,
+				EA0246CA1C53762D00A677B0 /* WeChat */,
 				A4E8F83E1C0C53D70002D7D0 /* LLPay */,
 				A463EAAD1BD60FA100CAF146 /* Charts.xcodeproj */,
 				A45B85681BFDE4740041FFC7 /* Fabric.framework */,
@@ -1690,6 +1767,28 @@
 			name = LLPay;
 			sourceTree = "<group>";
 		};
+		EA0246CA1C53762D00A677B0 /* WeChat */ = {
+			isa = PBXGroup;
+			children = (
+				EA0246D01C5379EB00A677B0 /* libWeChatSDK.a */,
+				EA0246D11C5379EB00A677B0 /* WechatAuthSDK.h */,
+				EA0246D21C5379EB00A677B0 /* WXApi.h */,
+				EA0246D31C5379EB00A677B0 /* WXApiObject.h */,
+			);
+			name = WeChat;
+			path = ZhuanTou;
+			sourceTree = "<group>";
+		};
+		EA0246D81C53858800A677B0 /* QQ */ = {
+			isa = PBXGroup;
+			children = (
+				EA0246F21C54872800A677B0 /* TencentOpenApi_IOS_Bundle.bundle */,
+				EA0246F31C54872800A677B0 /* TencentOpenAPI.framework */,
+			);
+			name = QQ;
+			path = ZhuanTou;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1764,7 +1863,7 @@
 				TargetAttributes = {
 					A41C6B291BB9849E006B731D = {
 						CreatedOnToolsVersion = 7.0;
-						DevelopmentTeam = 9N5ML665B7;
+						DevelopmentTeam = Q98L84XUG2;
 					};
 					A41C6B421BB9849E006B731D = {
 						CreatedOnToolsVersion = 7.0;
@@ -1823,6 +1922,7 @@
 				A42EA2E21BDF835500E35F5F /* iguding.png in Resources */,
 				A405AC741BC91233002BFCE9 /* loginLogo.png in Resources */,
 				A4E7F2241BCE052500B20EC6 /* loginTelIcon@2x.png in Resources */,
+				A4166F1F1C7F0344008B82C0 /* accountconf@2x.png in Resources */,
 				A44A9BFD1BF03F3E00FE6F2E /* inUpIcon@2x.png in Resources */,
 				A49646E31BE3401A006545C2 /* bankList.plist in Resources */,
 				A44AFA161BCF47F1002A8AC4 /* dispersionIcon@2x.png in Resources */,
@@ -1853,6 +1953,7 @@
 				A42EA2E61BDF835500E35F5F /* iNewsIcon.png in Resources */,
 				A4BBC2091BD10DA1006331AC /* uWenjian.png in Resources */,
 				A44AF9F41BCF47E1002A8AC4 /* huoqi@3x.png in Resources */,
+				A4166F231C7F0351008B82C0 /* accountconf.png in Resources */,
 				A45CC3F61C2BC53F00C5D56C /* logoTitle@3x.png in Resources */,
 				A44AFA471BCF4801002A8AC4 /* zonghe.png in Resources */,
 				A42EA2D31BDF834A00E35F5F /* inbuilding@2x.png in Resources */,
@@ -1862,6 +1963,7 @@
 				A4BBC1DF1BD10D52006331AC /* uProfit@3x.png in Resources */,
 				A4FAC4841C438BB40051B0CA /* wechat@3x.png in Resources */,
 				A49AA6831C167B950087F060 /* newerBounsGray@2x.png in Resources */,
+				A4166F241C7F0351008B82C0 /* acctlogo.png in Resources */,
 				A4BBC1F51BD10D61006331AC /* uWenjian@2x.png in Resources */,
 				A463EA901BD4E50B00CAF146 /* launchCenter@2x.png in Resources */,
 				A4FAC4851C438BB40051B0CA /* weibo@3x.png in Resources */,
@@ -1875,6 +1977,7 @@
 				A42EA2E31BDF835500E35F5F /* inbuilding.png in Resources */,
 				A4EE98EF1C100588007E74E2 /* GrayTimePoint@3x.png in Resources */,
 				A49AA6AA1C167BA10087F060 /* newerSecureGray.png in Resources */,
+				1A61A9D91C55E25700EC2020 /* remain2sec.png in Resources */,
 				A4E7F21D1BCE052500B20EC6 /* checkIconActive@2x.png in Resources */,
 				A4FAC4821C438BB40051B0CA /* qzone@3x.png in Resources */,
 				A49AA6891C167B950087F060 /* newerInvestGray@2x.png in Resources */,
@@ -1890,6 +1993,7 @@
 				A4EE98EE1C100588007E74E2 /* FloatTimePoint@3x.png in Resources */,
 				A4EE98E81C10057A007E74E2 /* FloatTimePoint@2x.png in Resources */,
 				A4A60E2C1C280D640032EA6A /* defaultHeadPortrait@2x.png in Resources */,
+				1A61A9D81C55E25700EC2020 /* remain1sec.png in Resources */,
 				A44AF9FD1BCF47E1002A8AC4 /* wenjian@3x.png in Resources */,
 				A49AA6A61C167BA10087F060 /* newerLight.png in Resources */,
 				A4B8A69E1BEA16E40034E415 /* noBankCard@2x.png in Resources */,
@@ -1900,6 +2004,7 @@
 				A4EE98E91C10057A007E74E2 /* GrayTimePoint@2x.png in Resources */,
 				A44AF9F21BCF47E1002A8AC4 /* dispersionIcon@3x.png in Resources */,
 				A4BBC2071BD10DA1006331AC /* uProfit.png in Resources */,
+				A4166F1B1C7F0335008B82C0 /* accountconf@3x.png in Resources */,
 				A44AFA3B1BCF4801002A8AC4 /* help.png in Resources */,
 				A405AC611BC911FB002BFCE9 /* loginUserIcon@3x.png in Resources */,
 				A49AA6811C167B950087F060 /* infoDetail@2x.png in Resources */,
@@ -1919,6 +2024,7 @@
 				A42EA2C61BDF833F00E35F5F /* iNewsIcon@3x.png in Resources */,
 				A44AFA221BCF47F1002A8AC4 /* wenjianTriangle@2x.png in Resources */,
 				A44AF9F71BCF47E1002A8AC4 /* otherRight@3x.png in Resources */,
+				1A61A9D71C55E25700EC2020 /* newlanding.png in Resources */,
 				A405AC731BC91233002BFCE9 /* backIcon.png in Resources */,
 				A42EA2F61BE1D80E00E35F5F /* productStatus.png in Resources */,
 				A42EA2E71BDF835500E35F5F /* izhaiquan.png in Resources */,
@@ -1969,6 +2075,7 @@
 				A431745A1BD4927A0001FC53 /* pGuding@3x.png in Resources */,
 				A44AFA1E1BCF47F1002A8AC4 /* profitIcon@2x.png in Resources */,
 				A4B2CFC51BD8AD0600AC2E78 /* grayRightIcon@2x.png in Resources */,
+				EA0246F41C54872800A677B0 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				A405AC5D1BC911FB002BFCE9 /* backIcon@3x.png in Resources */,
 				A44AF9FE1BCF47E1002A8AC4 /* wenjianTriangle@3x.png in Resources */,
 				A4FAC49B1C438BE40051B0CA /* sms.png in Resources */,
@@ -1997,6 +2104,7 @@
 				A44AFA1B1BCF47F1002A8AC4 /* otherRight@2x.png in Resources */,
 				A44AFA1A1BCF47F1002A8AC4 /* otherLeft@2x.png in Resources */,
 				A44A9C071BF03F4D00FE6F2E /* inUpIcon.png in Resources */,
+				A4166F201C7F0344008B82C0 /* acctlogo@2x.png in Resources */,
 				A4BBC1F41BD10D61006331AC /* uSecurity@2x.png in Resources */,
 				A405AC751BC91233002BFCE9 /* loginPwIcon.png in Resources */,
 				A44AFA391BCF4801002A8AC4 /* detailIcon.png in Resources */,
@@ -2021,6 +2129,7 @@
 				A4E7F2091BCE050E00B20EC6 /* checkIconActive@3x.png in Resources */,
 				A4E8F8461C0C54B10002D7D0 /* CHANGELIST.txt in Resources */,
 				A405AC5E1BC911FB002BFCE9 /* loginLogo@3x.png in Resources */,
+				A4166F1C1C7F0335008B82C0 /* acctlogo@3x.png in Resources */,
 				A49AA6A31C167BA10087F060 /* newerHandGray.png in Resources */,
 				A4E7F2311BCE053200B20EC6 /* checkIconActive.png in Resources */,
 				A42EA2C31BDF833F00E35F5F /* inbuilding@3x.png in Resources */,
@@ -2076,6 +2185,7 @@
 				A43174621BD492880001FC53 /* pAmount@2x.png in Resources */,
 				A49AA6821C167B950087F060 /* newerBonusRed@2x.png in Resources */,
 				A41ACC941BDE064900755C96 /* launchCenter.png in Resources */,
+				1A61A9DA1C55E25700EC2020 /* remain3sec.png in Resources */,
 				A49AA68B1C167B950087F060 /* newerRegisterBlue@2x.png in Resources */,
 				A42EA2C21BDF833F00E35F5F /* iguding@3x.png in Resources */,
 				A49AA6671C167B870087F060 /* newerBounsGray@3x.png in Resources */,
@@ -2446,7 +2556,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Shanghai Momu Financial Information Service Co., Ltd. (Q98L84XUG2)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
@@ -2455,6 +2565,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/ZhuanTou",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/ZhuanTou/QQ",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/ZhuanTou/PrefixHeader.pch";
@@ -2464,8 +2575,29 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/LLPay_iOS_SDK_V2.4",
+					"$(PROJECT_DIR)/ZhuanTou/SDK1.6.2",
 				);
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"AFNetworking\"",
+					"-l\"APNumberPad\"",
+					"-l\"IQKeyboardManager\"",
+					"-l\"MBProgressHUD\"",
+					"-l\"MJRefresh\"",
+					"-l\"SCNumberKeyBoard\"",
+					"-l\"UICountingLabel\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-fobjc-arc",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.momu.zhuantouwang.ZhuanTou;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -2481,7 +2613,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Shanghai Momu Financial Information Service Co., Ltd. (Q98L84XUG2)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_BITCODE = NO;
@@ -2489,6 +2621,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/ZhuanTou",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/ZhuanTou/QQ",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/ZhuanTou/PrefixHeader.pch";
@@ -2498,8 +2631,29 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/LLPay_iOS_SDK_V2.4",
+					"$(PROJECT_DIR)/ZhuanTou/SDK1.6.2",
 				);
 				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"AFNetworking\"",
+					"-l\"APNumberPad\"",
+					"-l\"IQKeyboardManager\"",
+					"-l\"MBProgressHUD\"",
+					"-l\"MJRefresh\"",
+					"-l\"SCNumberKeyBoard\"",
+					"-l\"UICountingLabel\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-fobjc-arc",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.momu.zhuantouwang.ZhuanTou;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -2606,7 +2760,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Shanghai Momu Financial Information Service Co., Ltd. (Q98L84XUG2)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_BITCODE = NO;
@@ -2614,6 +2768,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/ZhuanTou",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/ZhuanTou/QQ",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/ZhuanTou/PrefixHeader.pch";
@@ -2623,8 +2778,49 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/LLPay_iOS_SDK_V2.4",
+					"$(PROJECT_DIR)/ZhuanTou/SDK1.6.2",
 				);
 				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"AFNetworking\"",
+					"-l\"APNumberPad\"",
+					"-l\"IQKeyboardManager\"",
+					"-l\"MBProgressHUD\"",
+					"-l\"MJRefresh\"",
+					"-l\"SCNumberKeyBoard\"",
+					"-l\"UICountingLabel\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-fobjc-arc",
+				);
+				"OTHER_LDFLAGS[arch=*]" = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"AFNetworking\"",
+					"-l\"APNumberPad\"",
+					"-l\"IQKeyboardManager\"",
+					"-l\"MBProgressHUD\"",
+					"-l\"MJRefresh\"",
+					"-l\"SCNumberKeyBoard\"",
+					"-l\"UICountingLabel\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-fobjc-arc",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.momu.zhuantouwang.ZhuanTou;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

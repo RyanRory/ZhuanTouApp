@@ -67,17 +67,17 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section == 0)
-        return 3;
-    else
+    if (section == 2)
         return 2;
+    else
+        return 3;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *identifier0 = @"HelpCommonTableViewCell";
     static NSString *identifier1 = @"HelpDescriptionTableViewCell";
     
-    if ((indexPath.section == 1) && (indexPath.row == 1))
+    if ((indexPath.section == 1) && (indexPath.row == 2))
     {
         HelpDescriptionTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier1];
         if (!cell)
@@ -86,9 +86,20 @@
         }
         cell.titleLabel.text = @"客服热线";
         cell.descriptionLabel.text = @"400-698-9861";
-        
         return cell;
     }
+//    }else if((indexPath.section == 1) && (indexPath.row == 2)){
+//        HelpDescriptionTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier1];
+//        if (!cell)
+//        {
+//            cell = [[HelpDescriptionTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier1];
+//        }
+//
+//        cell.titleLabel.text = @"公众号";
+//        cell.descriptionLabel.text = @"ilovezhuantou";
+//        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//        return cell;
+//    }
     else if ((indexPath.section == 2) && (indexPath.row == 1))
     {
         HelpDescriptionTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier1];
@@ -126,7 +137,14 @@
         }
         else if (indexPath.section == 1)
         {
-            cell.titleLabel.text = @"QQ联系";
+            if (indexPath.row == 0)
+            {
+                cell.titleLabel.text = @"微信公众号";
+            }
+            else
+            {
+                cell.titleLabel.text = @"QQ联系";
+            }
         }
         else
         {
@@ -179,6 +197,33 @@
     {
         if (indexPath.row == 0)
         {
+            UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+            pasteboard.string = @"ilovezhuantou";
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"复制成功" message:@"微信号ilovezhuantou已经复制，请在微信里粘贴并搜索" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *gotoLogin = [UIAlertAction actionWithTitle:@"去微信" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
+                if ([WXApi isWXAppInstalled]) {
+                    NSString *str = [NSString stringWithFormat:@"weixin://qr/%@",@""];
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+                }
+                else
+                {
+                    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                    
+                    hud.mode = MBProgressHUDModeCustomView;
+                    hud.labelText = @"请安装微信";
+                    hud.removeFromSuperViewOnHide = YES;
+                    
+                    [hud hide:YES afterDelay:1.5];
+                }
+            }];
+            UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+            [alertController addAction:gotoLogin];
+            [alertController addAction:cancel];
+            [self presentViewController:alertController animated:YES completion:nil];
+            
+        }
+        else if (indexPath.row == 1)
+        {
             if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"mqq://"]])
             {
                 UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectZero];
@@ -196,7 +241,7 @@
                 hud.labelText = @"请安装QQ";
                 hud.removeFromSuperViewOnHide = YES;
                 
-                [hud hide:YES afterDelay:2];
+                [hud hide:YES afterDelay:1.5];
             }
             
         }

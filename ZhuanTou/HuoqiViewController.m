@@ -135,8 +135,9 @@
         NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
         [formatter setPositiveFormat:@"###,##0.00"];
         myPortionLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[responseObject objectForKey:@"ztbBalance"]).doubleValue]]];
-        bidableAmount = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[responseObject objectForKey:@"restBalance"]).doubleValue]]];
-        
+        //bidableAmount = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[responseObject objectForKey:@"restBalance"]).doubleValue]]];
+        bidableAmount = [NSString stringWithFormat:@"%@",[responseObject objectForKey:@"restBalance"]];
+
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
@@ -169,7 +170,8 @@
         myPortionLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[responseObject objectForKey:@"ztbBalance"]).doubleValue]]];
         totalProfitLabel.text = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[responseObject objectForKey:@"sumReturnAmount"]).doubleValue]]];
         profitPercentLabel.text = [NSString stringWithFormat:@"%@%%",[responseObject objectForKey:@"last5DaysReturn"]];
-        bidableAmount = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[responseObject objectForKey:@"restBalance"]).doubleValue]]];
+        //bidableAmount = [NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[responseObject objectForKey:@"restBalance"]).doubleValue]]];
+        bidableAmount = [NSString stringWithFormat:@"%@",[responseObject objectForKey:@"restBalance"]];
         datas = [NSMutableArray arrayWithArray:[responseObject objectForKey:@"last7DaysCurv"]];
         [self setDataCount:7 range:((NSString*)[responseObject objectForKey:@"last5DaysReturn"]).doubleValue];
         [lineChartView animateWithXAxisDuration:0.8f];

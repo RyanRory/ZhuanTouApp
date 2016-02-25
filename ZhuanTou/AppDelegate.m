@@ -10,8 +10,6 @@
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
 
-
-
 @interface AppDelegate ()
 
 @end
@@ -20,6 +18,8 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [WXApi registerApp:@"wx0669dbeb0898a76d"];
+    //[[TencentOAuth alloc] initWithAppId:@"1104913119" andDelegate:nil];
     [[IQKeyboardManager sharedManager] disableToolbarInViewControllerClass:[UIViewController class]];
     [[IQKeyboardManager sharedManager] setKeyboardDistanceFromTextField:80.0f];
     
@@ -63,5 +63,31 @@
     }];
 
 }
+
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url{
+    return [WXApi handleOpenURL:url delegate:self];
+    //return [TencentOAuth handleOpenURL:url delegate:self];
+//    return 
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
+    return [WXApi handleOpenURL:url delegate:self];
+    //return [QQApiInterface handleOpenURL:url delegate:self];
+
+}
+
+- (void) onResp:(BaseResp*)resp
+{
+    
+}
+
+-(void) onReq:(BaseReq *)req{
+    
+}
+
+- (void)isOnlineResponse:(NSDictionary *)response{
+    
+}
+
 
 @end

@@ -14,10 +14,11 @@
 
 @implementation ProductBuyNewViewController
 
-@synthesize amountTextField, confirmButton, checkboxButton, agreementButton, chargeButton, balanceLabel, restLabel, tView;
+@synthesize amountTextField, confirmButton, checkboxButton, agreementButton, chargeButton, balanceLabel, restLabel, tView, allInButton;
 @synthesize style, idOrCode, productInfo, bidableAmount;
 @synthesize buttonBottomLayOut;
 @synthesize coupon, vouchers, biggestBonus, biggestCoupons, biggestStandingCoupons;
+@synthesize couponsFlagChosen, voucher1FlagChosen, voucher2FlagChosen;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -77,6 +78,26 @@
     {
         [self setupCoupons];
     }
+    
+    [amountTextField becomeFirstResponder];
+    [amountTextField addObserver:self forKeyPath:@"text" options:NSKeyValueObservingOptionNew context:nil];
+    
+    [allInButton addTarget:self action:@selector(allIn:) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context
+{
+    [self buttonEnableListener:nil];
+}
+
+- (void)dealloc
+{
+    [amountTextField removeObserver:self forKeyPath:@"text"];
+}
+
+- (void)allIn:(id)sender
+{
+    amountTextField.text = [NSString stringWithFormat:@"%.2f", balance];
 }
 
 - (void)AIChoose:(id)sender
@@ -152,6 +173,7 @@
         if (amountTextField.text.intValue >= [NSString stringWithFormat:@"%@",[biggestBonus objectForKey:@"thresholdValue"]].intValue)
         {
             couponsFlag = YES;
+            couponsFlagChosen = YES;
             coupon = [NSString stringWithFormat:@"%@",[biggestBonus objectForKey:@"couponCode"]];
             [tView reloadData];
         }
@@ -159,13 +181,14 @@
         {
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
             hud.mode = MBProgressHUDModeText;
-            hud.labelText = [NSString stringWithFormat:@"投资金额满%@元可用",[biggestBonus objectForKey:@"thresholdValue"]];
+            hud.labelText = [NSString stringWithFormat:@"使用红包金额不少于%@元",[biggestBonus objectForKey:@"thresholdValue"]];
             [hud hide:YES afterDelay:1.5];
         }
     }
     else
     {
         couponsFlag = NO;
+        couponsFlagChosen = NO;
         coupon = @"";
         [tView reloadData];
     }
@@ -180,18 +203,21 @@
         vc.style = BONUS;
         vc.datas = [[NSMutableArray alloc]initWithArray:bonus];
         vc.choosen = biggestBonus;
+        vc.chooseFlag = couponsFlag;
     }
     else if (sender.tag == 1)
     {
         vc.style = COUPONS;
         vc.datas = [[NSMutableArray alloc]initWithArray:coupons];
         vc.choosen = biggestCoupons;
+        vc.chooseFlag = voucher1Flag;
     }
     else
     {
         vc.style = STANDINGCOUPONS;
         vc.datas = [[NSMutableArray alloc]initWithArray:standingCoupons];
         vc.choosen = biggestStandingCoupons;
+        vc.chooseFlag = voucher2Flag;
     }
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -209,11 +235,18 @@
 {
     if (!voucher1Flag)
     {
-        if (amountTextField.text.intValue > [NSString stringWithFormat:@"%@",[biggestCoupons objectForKey:@"principalLimit"]].intValue)
+        if (amountTextField.text.length == 0)
         {
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
             hud.mode = MBProgressHUDModeText;
-            hud.labelText = [NSString stringWithFormat:@"投资金额%d万元以下可用",[NSString stringWithFormat:@"%@",[biggestCoupons objectForKey:@"principalLimit"]].intValue/10000];
+            hud.labelText = @"请输入投资金额";
+            [hud hide:YES afterDelay:1.5];
+        }
+        else if (amountTextField.text.intValue > [NSString stringWithFormat:@"%@",[biggestCoupons objectForKey:@"principalLimit"]].intValue)
+        {
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = [NSString stringWithFormat:@"单张加息券投资上限%d万，请修改金额拆分投资",[NSString stringWithFormat:@"%@",[biggestCoupons objectForKey:@"principalLimit"]].intValue/10000];
             [hud hide:YES afterDelay:1.5];
         }
         else if (amountTextField.text.intValue < [NSString stringWithFormat:@"%@",[biggestCoupons objectForKey:@"threshold"]].intValue)
@@ -226,6 +259,7 @@
         else
         {
             voucher1Flag = YES;
+            voucher1FlagChosen = YES;
             if (vouchers.length > 0)
             {
                 vouchers = [vouchers stringByAppendingString:[NSString stringWithFormat:@",%@",[biggestCoupons objectForKey:@"voucherCode"]]];
@@ -240,6 +274,7 @@
     else
     {
         voucher1Flag = NO;
+        voucher1FlagChosen = NO;
         vouchers = [vouchers stringByReplacingOccurrencesOfString:[biggestCoupons objectForKey:@"voucherCode"] withString:@""];
         if (vouchers.length > 0)
         {
@@ -256,11 +291,18 @@
 {
     if (!voucher2Flag)
     {
-        if (amountTextField.text.intValue > [NSString stringWithFormat:@"%@",[biggestStandingCoupons objectForKey:@"principalLimit"]].intValue)
+        if (amountTextField.text.length == 0)
         {
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
             hud.mode = MBProgressHUDModeText;
-            hud.labelText = [NSString stringWithFormat:@"投资金额%d万元以下可用",[NSString stringWithFormat:@"%@",[biggestStandingCoupons objectForKey:@"principalLimit"]].intValue/10000];
+            hud.labelText = @"请输入投资金额";
+            [hud hide:YES afterDelay:1.5];
+        }
+        else if (amountTextField.text.intValue > [NSString stringWithFormat:@"%@",[biggestStandingCoupons objectForKey:@"principalLimit"]].intValue)
+        {
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = [NSString stringWithFormat:@"单张加息券投资上限%d万，请修改金额拆分投资",[NSString stringWithFormat:@"%@",[biggestStandingCoupons objectForKey:@"principalLimit"]].intValue/10000];
             [hud hide:YES afterDelay:1.5];
         }
         else if (amountTextField.text.intValue < [NSString stringWithFormat:@"%@",[biggestStandingCoupons objectForKey:@"threshold"]].intValue)
@@ -273,13 +315,14 @@
         else
         {
             voucher2Flag = YES;
+            voucher2FlagChosen = YES;
             if (vouchers.length > 0)
             {
                 vouchers = [vouchers stringByAppendingString:[NSString stringWithFormat:@",%@",[biggestStandingCoupons objectForKey:@"voucherCode"]]];
             }
             else
             {
-                vouchers = [biggestCoupons objectForKey:@"voucherCode"];
+                vouchers = [biggestStandingCoupons objectForKey:@"voucherCode"];
             }
             [tView reloadData];
         }
@@ -287,6 +330,7 @@
     else
     {
         voucher2Flag = NO;
+        voucher2FlagChosen = NO;
         vouchers = [vouchers stringByReplacingOccurrencesOfString:[biggestStandingCoupons objectForKey:@"voucherCode"] withString:@""];
         if (vouchers.length > 0)
         {
@@ -301,6 +345,19 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    couponsFlag = couponsFlagChosen;
+    voucher1Flag = voucher1FlagChosen;
+    voucher2Flag = voucher2FlagChosen;
+    if ([style isEqualToString:HUOQI])
+    {
+        balanceLabel.text = @"可用余额(元)：";
+        allInButton.hidden = NO;
+    }
+    else
+    {
+        balanceLabel.text = @"可投资余额(元)：";
+        allInButton.hidden = YES;
+    }
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSString *URL = [BASEURL stringByAppendingString:@"api/account/couponInfo4M"];
     [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
@@ -325,14 +382,14 @@
         hud.labelText = @"当前网络状况不佳";
         [hud hide:YES afterDelay:1.5f];
     }];
-    
 
-    
     [tView reloadData];
 }
 
 - (void)setupCoupons
 {
+    bonusLoadFinished = NO;
+    couponLoadFinished = NO;
     AFHTTPRequestOperationManager *manager1 = [AFHTTPRequestOperationManager manager];
     NSString *URL1 = [BASEURL stringByAppendingString:@"api/account/couponInfo4M"];
     [manager1 GET:URL1 parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
@@ -353,8 +410,10 @@
                 }
             }
         }
-        [tView reloadData];
-        
+        bonusLoadFinished = YES;
+        if (bonusLoadFinished && couponLoadFinished){
+            [tView reloadData];
+        }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
@@ -421,8 +480,10 @@
                 }
             }
         }
-        [tView reloadData];
-        
+        couponLoadFinished = YES;
+        if (bonusLoadFinished && couponLoadFinished){
+            [tView reloadData];
+        }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
@@ -459,38 +520,42 @@
 - (void)confirm:(id)sender
 {
     BOOL flag = false;
-    if (!flag && ![style isEqualToString:HUOQI] && !couponsFlag)
+    BOOL coupflag = false;
+    BOOL vouc1flag = false;
+    BOOL vouc2flag = false;
+    
+    if (!flag && ![style isEqualToString:HUOQI] && couponsFlag)
     {
         for (int i=0; i<bonus.count; i++)
         {
             id data = [bonus objectAtIndex:i];
             if ([NSString stringWithFormat:@"%@",[data objectForKey:@"thresholdValue"]].intValue <= amountTextField.text.intValue)
             {
-                flag = true;
+                coupflag = true;
                 break;
             }
         }
     }
-    if (!flag && ![style isEqualToString:HUOQI] && !voucher1Flag)
+    if (!flag && ![style isEqualToString:HUOQI] && voucher1Flag)
     {
         for (int i=0; i<coupons.count; i++)
         {
             id data = [coupons objectAtIndex:i];
             if (([NSString stringWithFormat:@"%@",[data objectForKey:@"threshold"]].intValue <= amountTextField.text.intValue) && ([NSString stringWithFormat:@"%@",[data objectForKey:@"principalLimit"]].intValue >= amountTextField.text.intValue))
             {
-                flag = true;
+                vouc1flag = true;
                 break;
             }
         }
     }
-    if (!flag && ![style isEqualToString:HUOQI] && !voucher2Flag)
+    if (!flag && ![style isEqualToString:HUOQI] && voucher2Flag)
     {
         for (int i=0; i<standingCoupons.count; i++)
         {
             id data = [standingCoupons objectAtIndex:i];
             if (([NSString stringWithFormat:@"%@",[data objectForKey:@"threshold"]].intValue <= amountTextField.text.intValue) && ([NSString stringWithFormat:@"%@",[data objectForKey:@"principalLimit"]].intValue >= amountTextField.text.intValue))
             {
-                flag = true;
+                vouc2flag = true;
                 break;
             }
         }
@@ -509,7 +574,7 @@
     {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.mode = MBProgressHUDModeCustomView;
-        hud.labelText = [NSString stringWithFormat:@"最低投资额度为%@元",[productInfo objectForKey:@"minPurchaseAmount"]];
+        hud.labelText = [NSString stringWithFormat:@"最低投资限额%@元",[productInfo objectForKey:@"minPurchaseAmount"]];
         [hud hide:YES afterDelay:1.5];
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [amountTextField becomeFirstResponder];
@@ -525,10 +590,10 @@
             [amountTextField becomeFirstResponder];
         });
     }
-    else if ((![style isEqualToString:HUOQI]) && flag)
+    else if ((![style isEqualToString:HUOQI]) && !((coupflag || !biggestBonus) && (vouc1flag || !biggestCoupons) && (vouc2flag || !biggestStandingCoupons)))
     {
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"您还有可使用的红包或优惠券，是否前往下一页面？" message:nil preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *gotoNext= [UIAlertAction actionWithTitle:@"是" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"您有未使用的优惠券，是否需要使用？" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *gotoNext= [UIAlertAction actionWithTitle:@"直接购买产品" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
             ProductBuyConfirmViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ProductBuyConfirmViewController"];
             [vc setStyle:style];
             vc.title = self.title;
@@ -553,7 +618,7 @@
             }
             [[self navigationController]pushViewController:vc animated:YES];
         }];
-        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"否" style:UIAlertActionStyleCancel handler:nil];
+        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"使用优惠券" style:UIAlertActionStyleCancel handler:nil];
         [alertController addAction:gotoNext];
         [alertController addAction:cancel];
         [self presentViewController:alertController animated:YES completion:nil];
@@ -694,7 +759,7 @@
 {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    NSString *URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/transferIntoZtb4M?amount=%@&tradePassword=%@",amountTextField.text,tradePswd]];
+    NSString *URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/transferIntoZtb?amount=%@",amountTextField.text]];
     [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
         NSLog(@"%@",responseObject);
         NSString *str = [responseObject objectForKey:@"isSuccess"];
@@ -803,6 +868,9 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
+    if (section == 0) {
+        return 1;
+    }
     return 10;
 }
 
@@ -840,7 +908,12 @@
 {
     if (indexPath.row == 0 || indexPath.row == 2)
     {
-        return 15;
+        if (!biggestBonus && indexPath.row == 2){
+            return 83;
+        }
+        else{
+            return 15;
+        }
     }
     else
     {
@@ -886,7 +959,7 @@
             }
             else
             {
-                cell.bonusButton.hidden = YES;
+                cell.bonusMoreButton.hidden = YES;
             }
             cell.bonusMoreButton.tag = 0;
             [cell.bonusMoreButton addTarget:self action:@selector(toChooseBonusView:) forControlEvents:UIControlEventTouchUpInside];
@@ -974,7 +1047,7 @@
             {
                 cell = [[ProductVoucherTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier3];
             }
-            if (coupons.count > 1)
+            if (standingCoupons.count > 1)
             {
                 cell.couponsMoreButton.hidden = NO;
             }
@@ -1017,14 +1090,60 @@
     }
     else if (indexPath.row == 2)
     {
-        ProductLabelTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier1];
-        if (!cell)
-        {
-            cell = [[ProductLabelTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier1];
+        if (biggestBonus) {
+            ProductLabelTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier1];
+            if (!cell)
+            {
+                cell = [[ProductLabelTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier1];
+            }
+            cell.label.text = @"选择加息券";
+            return cell;
         }
-        cell.label.text = @"选择加息券";
-        
-        return cell;
+        else {
+            ProductVoucherTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier3];
+            if (!cell)
+            {
+                cell = [[ProductVoucherTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier3];
+            }
+            if (coupons.count > 1)
+            {
+                cell.couponsMoreButton.hidden = NO;
+            }
+            else
+            {
+                cell.couponsMoreButton.hidden = YES;
+            }
+            cell.couponsMoreButton.tag = 2;
+            [cell.couponsMoreButton addTarget:self action:@selector(toChooseBonusView:) forControlEvents:UIControlEventTouchUpInside];
+            [cell.couponsButton addTarget:self action:@selector(chooseStandingCoupons:) forControlEvents:UIControlEventTouchUpInside];
+            cell.couponsNumLabel.text = [NSString stringWithFormat:@"%d",[NSString stringWithFormat:@"%@",[biggestStandingCoupons objectForKey:@"raiseRate"]].intValue];
+            cell.couponsLimitLabel.text = [NSString stringWithFormat:@"投资上限%d万元",[NSString stringWithFormat:@"%@",[biggestStandingCoupons objectForKey:@"principalLimit"]].intValue/10000];
+            NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];//实例化一个NSDateFormatter对象
+            [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];//设定时间格式
+            NSDate *startDate = [dateFormat dateFromString:[biggestStandingCoupons objectForKey:@"expireTime"]];
+            NSCalendar* calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+            NSDateComponents* components = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay|NSCalendarUnitHour|NSCalendarUnitMinute fromDate:startDate];
+            
+            long year = [components year];
+            long month = [components month];
+            long day = [components day];
+            
+            cell.couponsDDLLabel.text = [NSString stringWithFormat:@"%ld年%ld月%ld日过期",year,month,day];
+            cell.couponsTitleLabel.text = @"募集期加息券";
+            if (voucher2Flag)
+            {
+                cell.couponsBgView.backgroundColor = ZTBLUE;
+                cell.couponsDDLLabel.textColor = ZTBLUE;
+                cell.couponsLimitLabel.textColor = ZTBLUE;
+            }
+            else
+            {
+                cell.couponsBgView.backgroundColor = ZTGRAY;
+                cell.couponsDDLLabel.textColor = ZTGRAY;
+                cell.couponsLimitLabel.textColor = ZTGRAY;
+            }
+            return cell;
+        }
     }
     else if (indexPath.row == 3)
     {
@@ -1082,7 +1201,7 @@
             {
                 cell = [[ProductVoucherTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier3];
             }
-            if (coupons.count > 1)
+            if (standingCoupons.count > 1)
             {
                 cell.couponsMoreButton.hidden = NO;
             }
@@ -1130,7 +1249,7 @@
         {
             cell = [[ProductVoucherTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier3];
         }
-        if (coupons.count > 1)
+        if (standingCoupons.count > 1)
         {
             cell.couponsMoreButton.hidden = NO;
         }

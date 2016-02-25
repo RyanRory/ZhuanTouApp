@@ -14,7 +14,7 @@
 
 @implementation ChooseBonusViewController
 
-@synthesize tView, style, datas, choosen, amount;
+@synthesize tView, style, datas, choosen, amount, chooseFlag;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -35,6 +35,7 @@
     {
         self.title = @"选择加息券";
     }
+    didSelect = chooseFlag;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -50,16 +51,34 @@
     {
         vc.coupon = [choosen objectForKey:@"couponCode"];
         vc.biggestBonus = choosen;
+        if (didSelect) {
+            vc.couponsFlagChosen = YES;
+        }
+        else{
+            vc.couponsFlagChosen = NO;
+        }
     }
     else if ([self.style isEqualToString:COUPONS])
     {
         vc.vouchers = [vc.vouchers stringByReplacingOccurrencesOfString:[vc.biggestCoupons objectForKey:@"voucherCode"] withString:[choosen objectForKey:@"voucherCode"]];
         vc.biggestCoupons = choosen;
+        if (didSelect) {
+            vc.voucher1FlagChosen = YES;
+        }
+        else{
+            vc.voucher1FlagChosen = NO;
+        }
     }
     else
     {
         vc.vouchers = [vc.vouchers stringByReplacingOccurrencesOfString:[vc.biggestCoupons objectForKey:@"voucherCode"] withString:[choosen objectForKey:@"voucherCode"]];
         vc.biggestStandingCoupons = choosen;
+        if (didSelect) {
+            vc.voucher2FlagChosen = YES;
+        }
+        else{
+            vc.voucher2FlagChosen = NO;
+        }
     }
 }
 
@@ -112,24 +131,33 @@
         NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
         [formatter setPositiveFormat:@"###,##0"];
         cell.limitLabel.text = [NSString stringWithFormat:@"使用规则：单笔投资满%@元可用",[formatter stringFromNumber:[NSNumber numberWithInt:[NSString stringWithFormat:@"%@",[data objectForKey:@"thresholdValue"]].intValue]]];
-        if (choosen && ([[choosen objectForKey:@"couponCode"] isEqualToString:[data objectForKey:@"couponCode"]]))
-        {
-            
-        }
-        
-        if ([NSString stringWithFormat:@"%@",[data objectForKey:@"thresholdValue"]].intValue > amount)
-        {
-            cell.DDLLabel.textColor = ZTGRAY;
-            cell.limitLabel.textColor = ZTGRAY;
-            cell.bgView.backgroundColor = ZTGRAY;
-        }
-        else
+        if (choosen && ([[choosen objectForKey:@"couponCode"] isEqualToString:[data objectForKey:@"couponCode"]]) && chooseFlag)
         {
             cell.DDLLabel.textColor = ZTLIGHTRED;
             cell.limitLabel.textColor = ZTLIGHTRED;
             cell.bgView.backgroundColor = ZTLIGHTRED;
         }
-            
+        else
+        {
+            cell.DDLLabel.textColor = ZTGRAY;
+            cell.limitLabel.textColor = ZTGRAY;
+            cell.bgView.backgroundColor = ZTGRAY;
+        }
+
+        
+//        if (![[NSString stringWithFormat:@"%@",[data objectForKey:@"couponCode"]] isEqualToString:[NSString stringWithFormat:@"%@",[choosen objectForKey:@"couponCode"]]])
+//        {
+//            cell.DDLLabel.textColor = ZTGRAY;
+//            cell.limitLabel.textColor = ZTGRAY;
+//            cell.bgView.backgroundColor = ZTGRAY;
+//        }
+//        else
+//        {
+//            cell.DDLLabel.textColor = ZTLIGHTRED;
+//            cell.limitLabel.textColor = ZTLIGHTRED;
+//            cell.bgView.backgroundColor = ZTLIGHTRED;
+//        }
+        
         
         return cell;
     }
@@ -158,23 +186,31 @@
         [formatter setPositiveFormat:@"###,##0"];
         cell.limitLabel.text = [NSString stringWithFormat:@"使用规则：单笔投资最高%@元",[formatter stringFromNumber:[NSNumber numberWithInt:[NSString stringWithFormat:@"%@",[data objectForKey:@"principalLimit"]].intValue]]];
         
-        if (choosen && ([[choosen objectForKey:@"voucherCode"] isEqualToString:[data objectForKey:@"voucherCode"]]))
-        {
-            
-        }
-        
-        if (([NSString stringWithFormat:@"%@",[data objectForKey:@"threshold"]].intValue > amount) || ([NSString stringWithFormat:@"%@",[data objectForKey:@"principalLimit"]].intValue < amount))
-        {
-            cell.DDLLabel.textColor = ZTGRAY;
-            cell.limitLabel.textColor = ZTGRAY;
-            cell.bgView.backgroundColor = ZTGRAY;
-        }
-        else
+        if (choosen && ([[choosen objectForKey:@"voucherCode"] isEqualToString:[data objectForKey:@"voucherCode"]]) && chooseFlag)
         {
             cell.DDLLabel.textColor = ZTBLUE;
             cell.limitLabel.textColor = ZTBLUE;
             cell.bgView.backgroundColor = ZTBLUE;
         }
+        else
+        {
+            cell.DDLLabel.textColor = ZTGRAY;
+            cell.limitLabel.textColor = ZTGRAY;
+            cell.bgView.backgroundColor = ZTGRAY;
+        }
+        
+//        if (![[NSString stringWithFormat:@"%@",[data objectForKey:@"couponCode"]] isEqualToString:[NSString stringWithFormat:@"%@",[choosen objectForKey:@"couponCode"]]])
+//        {
+//            cell.DDLLabel.textColor = ZTGRAY;
+//            cell.limitLabel.textColor = ZTGRAY;
+//            cell.bgView.backgroundColor = ZTGRAY;
+//        }
+//        else
+//        {
+//            cell.DDLLabel.textColor = ZTBLUE;
+//            cell.limitLabel.textColor = ZTBLUE;
+//            cell.bgView.backgroundColor = ZTBLUE;
+//        }
         
         return cell;
     }
@@ -184,7 +220,51 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     choosen = [datas objectAtIndex:indexPath.row];
-    [self backToParent:nil];
+    NSLog(@"%@",choosen);
+    if ([self.style isEqualToString:BONUS])
+    {
+        if (amount >= [NSString stringWithFormat:@"%@",[choosen objectForKey:@"thresholdValue"]].intValue)
+        {
+            didSelect = YES;
+            [self backToParent:nil];
+        }
+        else
+        {
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = [NSString stringWithFormat:@"投资金额满%@元可用",[choosen objectForKey:@"thresholdValue"]];
+            [hud hide:YES afterDelay:1.5];
+        }
+
+    }
+    else if ([self.style isEqualToString:COUPONS])
+    {
+        if (amount > [NSString stringWithFormat:@"%@",[choosen objectForKey:@"principalLimit"]].intValue)
+        {
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = [NSString stringWithFormat:@"投资金额%d万元以下可用",[NSString stringWithFormat:@"%@",[choosen objectForKey:@"principalLimit"]].intValue/10000];
+            [hud hide:YES afterDelay:1.5];
+        }
+        else if (amount < [NSString stringWithFormat:@"%@",[choosen objectForKey:@"threshold"]].intValue)
+        {
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = [NSString stringWithFormat:@"投资金额%d元以上可用",[NSString stringWithFormat:@"%@",[choosen objectForKey:@"threshold"]].intValue];
+            [hud hide:YES afterDelay:1.5];
+        }
+        else
+        {
+            didSelect = YES;
+            [self backToParent:nil];
+        }
+    }
+    else
+    {
+        
+    }
+
+    
 }
 
 

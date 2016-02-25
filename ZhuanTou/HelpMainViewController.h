@@ -12,6 +12,8 @@
 #import "FeedbackViewController.h"
 #import "AboutViewController.h"
 #import "CommonQuestionViewController.h"
+#import "WXApiObject.h"
+#import "WXApi.h"
 
 @interface HelpMainViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, UIWebViewDelegate, UIGestureRecognizerDelegate>
 {

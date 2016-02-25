@@ -23,6 +23,7 @@
     int bonusNum;
     double balance;
     BOOL couponsFlag, voucher1Flag, voucher2Flag;
+    BOOL bonusLoadFinished, couponLoadFinished;
 }
 
 @property (strong, nonatomic) IBOutlet UILabel *balanceLabel;
@@ -44,9 +45,15 @@
 @property (strong, nonatomic) NSDictionary *productInfo;
 
 @property (strong, nonatomic) IBOutlet UITableView *tView;
+@property (strong, nonatomic) IBOutlet UIButton *allInButton;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *buttonBottomLayOut;
 @property (readwrite, nonatomic) BOOL isFromNewer;
+
+@property (readwrite, nonatomic) BOOL couponsFlagChosen;
+@property (readwrite, nonatomic) BOOL voucher1FlagChosen;
+@property (readwrite, nonatomic) BOOL voucher2FlagChosen;
+
 
 - (void)setStyle:(NSString*)str;
 

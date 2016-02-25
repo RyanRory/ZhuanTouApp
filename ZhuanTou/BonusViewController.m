@@ -21,13 +21,14 @@
     [super viewDidLoad];
     self.view.clipsToBounds = YES;
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor darkGrayColor],NSForegroundColorAttributeName,nil]];
+    UIBarButtonItem *ruleItem = [[UIBarButtonItem alloc]initWithTitle:@"使用说明" style:UIBarButtonItemStylePlain target:self action:@selector(toRule:)];
+    self.navigationItem.rightBarButtonItem = ruleItem;
+    [self.navigationItem.rightBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont boldSystemFontOfSize:13], NSFontAttributeName,nil] forState:UIControlStateNormal];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"backIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(backToParent:)];
     backItem.tintColor = ZTBLUE;
     UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithCustomView:[UIButton buttonWithType:UIButtonTypeCustom]];
     self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:backItem, item, nil];
-    UIBarButtonItem *ruleItem = [[UIBarButtonItem alloc]initWithTitle:@"使用说明" style:UIBarButtonItemStylePlain target:self action:@selector(toRule:)];
-    self.navigationItem.rightBarButtonItem = ruleItem;
-    [self.navigationItem.rightBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont boldSystemFontOfSize:13], NSFontAttributeName,nil] forState:UIControlStateNormal];
+   
     
     [bonusButton setUserInteractionEnabled:YES];
     [interestRateButton setUserInteractionEnabled:NO];

@@ -120,7 +120,7 @@
     NSString *URL = [BASEURL stringByAppendingString:@"api/fofProd/myPurchases/99/3"];
     [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSArray *responseObject) {
         NSLog(@"%@", responseObject);
-        datas = [[NSMutableArray alloc]initWithArray:responseObject];
+        datas = [self packgeData:responseObject];
         productsNum = (int)datas.count;
         if (productsNum == 0)
         {
@@ -167,13 +167,52 @@
     [endedButton setUserInteractionEnabled:YES];
 }
 
+- (NSMutableArray*)packgeData:(NSArray*)firstLevelDatas
+{
+    NSMutableArray *datas = [[NSMutableArray alloc] init];
+    
+    for (int i = 0; i < firstLevelDatas.count; i++)
+    {
+        NSDictionary *firstLevelData = [[NSDictionary alloc]initWithDictionary:[firstLevelDatas objectAtIndex:i]];
+        NSLog(@"%@",[firstLevelData  objectForKey:@"isFresh"]);
+        if ([[firstLevelData  objectForKey:@"isFresh"] boolValue] == YES)
+        {
+            [datas insertObject:firstLevelData atIndex:0];
+        }
+        else
+        {
+            if ([[firstLevelData objectForKey:@"aggregated"] boolValue] == NO)
+            {
+                [datas addObject:firstLevelData];
+            }
+            else
+            {
+                NSMutableArray *secondLevelDatas = [[NSMutableArray alloc]initWithArray:[firstLevelData objectForKey:@"subInvests"]];
+                for (int j = 0; j < secondLevelDatas.count; j++) {
+                     NSDictionary *secondLevelData = [[NSDictionary alloc]initWithDictionary:[secondLevelDatas objectAtIndex:j]];
+                    if ([[secondLevelData objectForKey:@"isFresh"] boolValue] == YES)
+                    {
+                        [datas insertObject:secondLevelData atIndex:0];
+                    }
+                    else
+                    {
+                        [datas addObject:secondLevelData];
+                    }
+                }
+
+            }
+        }
+    }
+    return datas;
+}
+
 - (void)loadStandingTableViewData
 {
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSString *URL = [BASEURL stringByAppendingString:@"api/fofProd/myPurchases/99/1"];
     [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSArray *responseObject) {
         NSLog(@"%@", responseObject);
-        datas = [[NSMutableArray alloc]initWithArray:responseObject];
+        datas = [self packgeData:responseObject];
         productsNum = (int)datas.count;
         if (productsNum == 0)
         {
@@ -227,7 +266,7 @@
     NSString *URL = [BASEURL stringByAppendingString:@"api/fofProd/myPurchases/99/4"];
     [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSArray *responseObject) {
         NSLog(@"%@", responseObject);
-        datas = [[NSMutableArray alloc]initWithArray:responseObject];
+        datas = [self packgeData:responseObject];
         productsNum = (int)datas.count;
         if (productsNum == 0)
         {
@@ -481,7 +520,7 @@
             NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
             [formatter setPositiveFormat:@"###,##0.00"];
             cell.amountLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"amount"]).doubleValue]]];
-            cell.profitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"todaysInterestAmount"]).doubleValue]]];
+            cell.profitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"paidInterestAmount"]).doubleValue]]];
 
             return cell;
         }
@@ -498,7 +537,7 @@
             NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
             [formatter setPositiveFormat:@"###,##0.00"];
             cell.amountLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"amount"]).doubleValue]]];
-            cell.guideProfitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"todaysInterestAmount"]).doubleValue]]];
+            cell.guideProfitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"paidInterestAmount"]).doubleValue]]];
             cell.floatProfitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"paidShareAmount"]).doubleValue]]];
             
             return cell;
@@ -520,9 +559,11 @@
             NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
             [formatter setPositiveFormat:@"###,##0.00"];
             cell.amountLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"amount"]).doubleValue]]];
-            cell.profitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"todaysInterestAmount"]).doubleValue]]];
+            cell.profitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"paidInterestAmount"]).doubleValue]]];
             cell.timeLabel.text = [data valueForKey:@"endDateDisplay"];
-            orderNo = [NSString stringWithFormat:@"%@", [data objectForKey:@"orderNo"]];
+            if ([[data objectForKey:@"isFresh"] boolValue] == YES) {
+                orderNo = [NSString stringWithFormat:@"%@", [data objectForKey:@"orderNo"]];
+            }
             [cell.quitButton addTarget:self action:@selector(quitInvest:) forControlEvents:UIControlEventTouchUpInside];
             if ([NSString stringWithFormat:@"%@", [data objectForKey:@"quitable"]].boolValue)
             {
@@ -548,7 +589,7 @@
             NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
             [formatter setPositiveFormat:@"###,##0.00"];
             cell.amountLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"amount"]).doubleValue]]];
-            cell.guideProfitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"todaysInterestAmount"]).doubleValue]]];
+            cell.guideProfitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"paidInterestAmount"]).doubleValue]]];
             if ([NSString stringWithFormat:@"%@", [data objectForKey:@"yearProfitNow"]].intValue != -1)
             {
                 cell.floatProfitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"todaysSharedPL"]).doubleValue]]];
@@ -560,7 +601,9 @@
                 cell.floatProfitLabel.textColor = ZTGRAY;
             }
             cell.timeLabel.text = [data valueForKey:@"endDateDisplay"];
-            orderNo = [NSString stringWithFormat:@"%@", [data objectForKey:@"orderNo"]];
+            if ([[data objectForKey:@"isFresh"] boolValue] == YES) {
+                orderNo = [NSString stringWithFormat:@"%@", [data objectForKey:@"orderNo"]];
+            }
             [cell.quitButton addTarget:self action:@selector(quitInvest:) forControlEvents:UIControlEventTouchUpInside];
             if ([NSString stringWithFormat:@"%@", [data objectForKey:@"quitable"]].boolValue)
             {
