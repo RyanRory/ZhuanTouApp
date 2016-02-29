@@ -9,8 +9,8 @@
 #ifndef Const_h
 #define Const_h
 
-#define BASEURL @"http://debug.pujintianxia.com/"
-//#define BASEURL @"https://www.zhuantouwang.com/"
+//#define BASEURL @"http://debug.pujintianxia.com/"
+#define BASEURL @"https://www.zhuantouwang.com/"
 
 #define SCREEN_WIDTH ([UIScreen mainScreen].bounds.size.width + 8)
 #define SCREEN_HEIGHT ([UIScreen mainScreen].bounds.size.height)

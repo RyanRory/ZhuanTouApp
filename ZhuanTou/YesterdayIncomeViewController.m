@@ -122,6 +122,14 @@
     {
         cell.bgView.backgroundColor = ZTLIGHTRED;
     }
+    if ([NSString stringWithFormat:@"%@",[data objectForKey:@"isRaising"]].boolValue)
+    {
+        cell.statusLabel.text = @"操盘中";
+    }
+    else
+    {
+        cell.statusLabel.text = @"募集期";
+    }
     
     return cell;
 }
