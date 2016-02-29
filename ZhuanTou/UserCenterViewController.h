@@ -61,5 +61,6 @@
 @property (strong, nonatomic) IBOutlet UIButton *gesturePswdButton;
 @property (strong, nonatomic) IBOutlet UIButton *moreButton;
 @property (strong, nonatomic) IBOutlet UIButton *signOutButton;
+@property (strong, nonatomic) IBOutlet UILabel *onlyMobileLabel;
 
 @end

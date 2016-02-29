@@ -10,12 +10,8 @@
 
 @implementation ProductsBeforeTableViewCell
 
-@synthesize bgView;
-
 - (void)awakeFromNib {
     // Initialization code
-    bgView.layer.cornerRadius = 3;
-    bgView.clipsToBounds = YES;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

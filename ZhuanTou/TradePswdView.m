@@ -18,27 +18,25 @@
     if (self)
     {
         self.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.3];
-        centerView = [[UIView alloc]initWithFrame:CGRectMake((frame.size.width-280)/2, (frame.size.height-351)/2, 280, 136)];
+        centerView = [[UIView alloc]initWithFrame:CGRectMake((frame.size.width-280)/2, (frame.size.height-322)/2, 280, 106)];
         centerView.backgroundColor = [UIColor whiteColor];
         centerView.clipsToBounds = YES;
-        centerView.layer.cornerRadius = 20;
+        centerView.layer.cornerRadius = 10;
         titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 10, 280, 30)];
         titleLabel.textColor = [UIColor darkTextColor];
-        titleLabel.text = @"请输入交易密码";
+        titleLabel.text = @"输入交易密码";
         titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:17];
         titleLabel.textAlignment = NSTextAlignmentCenter;
         hiddenTextField = [[UITextField alloc]init];
         hiddenTextField.alpha = 0;
         hiddenTextField.keyboardType = UIKeyboardTypeNumberPad;
         [hiddenTextField addTarget:self action:@selector(textFieldEditingChanged:) forControlEvents:UIControlEventEditingChanged];
-        cancelButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 96, 280, 40)];
-        [cancelButton setTitle:@"取消" forState:UIControlStateNormal];
+        cancelButton = [[UIButton alloc]initWithFrame:CGRectMake(252, 8, 20, 20)];
+        [cancelButton setTitle:@"×" forState:UIControlStateNormal];
+        [cancelButton setTitleColor:ZTLIGHTGRAY forState:UIControlStateNormal];
         cancelButton.titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:17];
         [cancelButton addTarget:self action:@selector(cancel:) forControlEvents:UIControlEventTouchUpInside];
-        [cancelButton setTitleColor:[UIColor colorWithRed:0 green:122.0/255.0 blue:1 alpha:1] forState:UIControlStateNormal];
         [cancelButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateHighlighted];
-        lineView = [[UIView alloc]initWithFrame:CGRectMake(0, 95, 280, 1)];
-        lineView.backgroundColor = [UIColor lightGrayColor];
         
         textField1 = [[UITextField alloc]initWithFrame:CGRectMake(15, 50, 35, 35)];
         textField1.secureTextEntry = YES;
@@ -157,6 +155,15 @@
                 }
             }
         }
+    }
+    else
+    {
+        textField1.text = @"";
+        textField2.text = @"";
+        textField3.text = @"";
+        textField4.text = @"";
+        textField5.text = @"";
+        textField6.text = @"";
     }
 }
 

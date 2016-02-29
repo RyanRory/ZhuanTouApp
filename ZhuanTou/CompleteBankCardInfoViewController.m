@@ -128,7 +128,7 @@
 
 - (void)confirm:(id)sender
 {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"请输入交易密码" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"输入交易密码" message:nil preferredStyle:UIAlertControllerStyleAlert];
     [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField){
         textField.secureTextEntry = YES;
         textField.returnKeyType = UIReturnKeyDone;

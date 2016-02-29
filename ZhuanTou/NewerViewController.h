@@ -10,7 +10,7 @@
 #import "RegisterViewController.h"
 #import "WebDetailViewController.h"
 #import "ChargeViewController.h"
-#import "ProductBuyViewController.h"
+#import "ProductBuyNewViewController.h"
 
 @interface NewerViewController : UIViewController
 {

@@ -11,7 +11,6 @@
 #import "NoticeCenterViewController.h"
 #import "WebDetailViewController.h"
 #import "ProductsBeforeViewController.h"
-#import "ProductBuyViewController.h"
 #import "ZTTabBarViewController.h"
 #import "NewerViewController.h"
 #import "ProductBuyNewViewController.h"

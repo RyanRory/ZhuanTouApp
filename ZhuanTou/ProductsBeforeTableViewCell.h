@@ -11,10 +11,10 @@
 @interface ProductsBeforeTableViewCell : UITableViewCell
 
 @property (strong, nonatomic) IBOutlet UIView *bgView;
-@property (strong, nonatomic) IBOutlet HeadView *headView;
 @property (strong, nonatomic) IBOutlet UILabel *idLabel;
 @property (strong, nonatomic) IBOutlet UILabel *percentTitleLabel;
 @property (strong, nonatomic) IBOutlet UILabel *percentNumLabel;
 @property (strong, nonatomic) IBOutlet UILabel *statusLabel;
+@property (strong, nonatomic) IBOutlet UILabel *percentDetailLabel;
 
 @end

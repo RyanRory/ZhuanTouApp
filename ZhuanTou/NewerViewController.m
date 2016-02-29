@@ -795,7 +795,7 @@
     [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
         NSLog(@"%@", responseObject);
         [hud hide:YES];
-        ProductBuyViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ProductBuyViewController"];
+        ProductBuyNewViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ProductBuyViewController"];
         vc.style = WENJIAN;
         vc.isFromNewer = true;
         vc.productInfo = responseObject;
@@ -820,7 +820,7 @@
     [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
         NSLog(@"%@", responseObject);
         [hud hide:YES];
-        ProductBuyViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ProductBuyViewController"];
+        ProductBuyNewViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ProductBuyViewController"];
         vc.style = ZONGHE;
         vc.isFromNewer = true;
         vc.productInfo = responseObject;

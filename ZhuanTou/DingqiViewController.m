@@ -169,7 +169,7 @@
 
 - (NSMutableArray*)packgeData:(NSArray*)firstLevelDatas
 {
-    NSMutableArray *datas = [[NSMutableArray alloc] init];
+    NSMutableArray *tempdatas = [[NSMutableArray alloc] init];
     
     for (int i = 0; i < firstLevelDatas.count; i++)
     {
@@ -177,13 +177,13 @@
         NSLog(@"%@",[firstLevelData  objectForKey:@"isFresh"]);
         if ([[firstLevelData  objectForKey:@"isFresh"] boolValue] == YES)
         {
-            [datas insertObject:firstLevelData atIndex:0];
+            [tempdatas insertObject:firstLevelData atIndex:0];
         }
         else
         {
             if ([[firstLevelData objectForKey:@"aggregated"] boolValue] == NO)
             {
-                [datas addObject:firstLevelData];
+                [tempdatas addObject:firstLevelData];
             }
             else
             {
@@ -192,18 +192,18 @@
                      NSDictionary *secondLevelData = [[NSDictionary alloc]initWithDictionary:[secondLevelDatas objectAtIndex:j]];
                     if ([[secondLevelData objectForKey:@"isFresh"] boolValue] == YES)
                     {
-                        [datas insertObject:secondLevelData atIndex:0];
+                        [tempdatas insertObject:secondLevelData atIndex:0];
                     }
                     else
                     {
-                        [datas addObject:secondLevelData];
+                        [tempdatas addObject:secondLevelData];
                     }
                 }
 
             }
         }
     }
-    return datas;
+    return tempdatas;
 }
 
 - (void)loadStandingTableViewData
@@ -388,7 +388,7 @@
             }
             else
             {
-                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"请输入交易密码" message:nil preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"输入交易密码" message:nil preferredStyle:UIAlertControllerStyleAlert];
                 [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField){
                     textField.secureTextEntry = YES;
                     textField.returnKeyType = UIReturnKeyDone;
@@ -459,43 +459,52 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 10;
+    if (section == 0)
+        return 10;
+    return 5;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 10;
+    if (section == productsNum-1)
+        return 10;
+    return 5;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return productsNum;
 }
 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 1;
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    id data = datas[indexPath.row];
-    NSString *str = [data valueForKey:@"productType"];
+    id data = datas[indexPath.section];
+    NSString *str = [data objectForKey:@"productType"];
     if (!endedButton.userInteractionEnabled)
     {
         if ([str isEqualToString:@"固定收益"])
         {
-            return 143;
+            return 162;
         }
         else
         {
-            return 184;
+            return 203;
         }
     }
     else
     {
         if ([str isEqualToString:@"固定收益"])
         {
-            return 184;
+            return 203;
         }
         else
         {
-            return 225;
+            return 244;
         }
 
     }
@@ -503,8 +512,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    id data = datas[indexPath.row];
-    NSString *str = [data valueForKey:@"productType"];
+    id data = datas[indexPath.section];
+    NSString *str = [data objectForKey:@"productType"];
     if (!endedButton.userInteractionEnabled)
     {
         if ([str isEqualToString:@"固定收益"])
@@ -519,9 +528,26 @@
             cell.idLabel.text = [((NSString*)[data objectForKey:@"productName"]) substringFromIndex:3];
             NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
             [formatter setPositiveFormat:@"###,##0.00"];
-            cell.amountLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"amount"]).doubleValue]]];
-            cell.profitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"paidInterestAmount"]).doubleValue]]];
-
+            cell.amountLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data objectForKey:@"amount"]).doubleValue]]];
+            cell.profitNumLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data objectForKey:@"paidInterestAmount"]).doubleValue]]];
+            cell.standingNumLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data objectForKey:@"paidStandbyIntAmount"]).doubleValue]]];
+            if ([NSString stringWithFormat:@"%@",[data objectForKey:@"additionalInterestRate"]].intValue > 0)
+            {
+                cell.profitTitleLabel.text = [NSString stringWithFormat:@"固定收益(+%d%%)",[NSString stringWithFormat:@"%@",[data objectForKey:@"additionalInterestRate"]].intValue];
+            }
+            else
+            {
+                cell.profitTitleLabel.text = @"固定收益";
+            }
+            if ([NSString stringWithFormat:@"%@",[data objectForKey:@"standbySubsidyRate"]].intValue > 0)
+            {
+                cell.standingTitleLabel.text = [NSString stringWithFormat:@"募集期收益(+%d%%)",[NSString stringWithFormat:@"%@",[data objectForKey:@"standbySubsidyRate"]].intValue];
+            }
+            else
+            {
+                cell.standingTitleLabel.text = @"募集期收益";
+            }
+            
             return cell;
         }
         else
@@ -536,9 +562,26 @@
             cell.idLabel.text =[((NSString*)[data objectForKey:@"productName"]) substringFromIndex:3];
             NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
             [formatter setPositiveFormat:@"###,##0.00"];
-            cell.amountLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"amount"]).doubleValue]]];
-            cell.guideProfitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"paidInterestAmount"]).doubleValue]]];
-            cell.floatProfitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"paidShareAmount"]).doubleValue]]];
+            cell.amountLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data objectForKey:@"amount"]).doubleValue]]];
+            cell.guideProfitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data objectForKey:@"paidInterestAmount"]).doubleValue]]];
+            cell.floatProfitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data objectForKey:@"paidShareAmount"]).doubleValue]]];
+            cell.standingNumLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data objectForKey:@"paidStandbyIntAmount"]).doubleValue]]];
+            if ([NSString stringWithFormat:@"%@",[data objectForKey:@"additionalInterestRate"]].intValue > 0)
+            {
+                cell.guideProfitTitleLabel.text = [NSString stringWithFormat:@"固定收益(+%d%%)",[NSString stringWithFormat:@"%@",[data objectForKey:@"additionalInterestRate"]].intValue];
+            }
+            else
+            {
+                cell.guideProfitTitleLabel.text = @"固定收益";
+            }
+            if ([NSString stringWithFormat:@"%@",[data objectForKey:@"standbySubsidyRate"]].intValue > 0)
+            {
+                cell.standingTitleLabel.text = [NSString stringWithFormat:@"募集期收益(+%d%%)",[NSString stringWithFormat:@"%@",[data objectForKey:@"standbySubsidyRate"]].intValue];
+            }
+            else
+            {
+                cell.standingTitleLabel.text = @"募集期收益";
+            }
             
             return cell;
         }
@@ -558,9 +601,17 @@
             cell.idLabel.text = [((NSString*)[data objectForKey:@"productName"]) substringFromIndex:3];
             NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
             [formatter setPositiveFormat:@"###,##0.00"];
-            cell.amountLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"amount"]).doubleValue]]];
-            cell.profitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"paidInterestAmount"]).doubleValue]]];
-            cell.timeLabel.text = [data valueForKey:@"endDateDisplay"];
+            cell.amountLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data objectForKey:@"amount"]).doubleValue]]];
+            if ([[NSString stringWithFormat:@"%@",[data objectForKey:@"status"]] isEqualToString:@"筹款中"])
+            {
+                cell.profitLabel.text = @"尚未操盘";
+                cell.profitLabel.textColor = ZTGRAY;
+            }
+            else
+            {
+                cell.profitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data objectForKey:@"paidInterestAmount"]).doubleValue]]];
+            }
+            cell.timeLabel.text = [data objectForKey:@"endDateDisplay"];
             if ([[data objectForKey:@"isFresh"] boolValue] == YES) {
                 orderNo = [NSString stringWithFormat:@"%@", [data objectForKey:@"orderNo"]];
             }
@@ -572,6 +623,23 @@
             else
             {
                 cell.quitButton.hidden = YES;
+            }
+            cell.standingNumLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data objectForKey:@"paidStandbyIntAmount"]).doubleValue]]];
+            if ([NSString stringWithFormat:@"%@",[data objectForKey:@"additionalInterestRate"]].intValue > 0)
+            {
+                cell.profitTitleLabel.text = [NSString stringWithFormat:@"已派固定收益(+%d%%)",[NSString stringWithFormat:@"%@",[data objectForKey:@"additionalInterestRate"]].intValue];
+            }
+            else
+            {
+                cell.profitTitleLabel.text = @"已派固定收益";
+            }
+            if ([NSString stringWithFormat:@"%@",[data objectForKey:@"standbySubsidyRate"]].intValue > 0)
+            {
+                cell.standingTitleLabel.text = [NSString stringWithFormat:@"已派募集期收益(+%d%%)",[NSString stringWithFormat:@"%@",[data objectForKey:@"standbySubsidyRate"]].intValue];
+            }
+            else
+            {
+                cell.standingTitleLabel.text = @"已派募集期收益";
             }
             
             return cell;
@@ -588,19 +656,29 @@
             cell.idLabel.text = [((NSString*)[data objectForKey:@"productName"]) substringFromIndex:3];
             NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
             [formatter setPositiveFormat:@"###,##0.00"];
-            cell.amountLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"amount"]).doubleValue]]];
-            cell.guideProfitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"paidInterestAmount"]).doubleValue]]];
-            if ([NSString stringWithFormat:@"%@", [data objectForKey:@"yearProfitNow"]].intValue != -1)
+            cell.amountLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data objectForKey:@"amount"]).doubleValue]]];
+            if ([[NSString stringWithFormat:@"%@",[data objectForKey:@"status"]] isEqualToString:@"筹款中"])
             {
-                cell.floatProfitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"todaysSharedPL"]).doubleValue]]];
-                cell.floatProfitLabel.textColor = ZTLIGHTRED;
+                cell.guideProfitLabel.text = @"尚未操盘";
+                cell.guideProfitLabel.textColor = ZTGRAY;
+                cell.floatProfitLabel.text = @"尚未操盘";
+                cell.floatProfitLabel.textColor = ZTGRAY;
             }
             else
             {
-                cell.floatProfitLabel.text = @"暂不计算";
-                cell.floatProfitLabel.textColor = ZTGRAY;
+                cell.guideProfitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data objectForKey:@"paidInterestAmount"]).doubleValue]]];
+                if ([NSString stringWithFormat:@"%@", [data objectForKey:@"yearProfitNow"]].intValue != -1)
+                {
+                    cell.floatProfitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data objectForKey:@"todaysSharedPL"]).doubleValue]]];
+                    cell.floatProfitLabel.textColor = ZTLIGHTRED;
+                }
+                else
+                {
+                    cell.floatProfitLabel.text = @"暂不计算";
+                    cell.floatProfitLabel.textColor = ZTGRAY;
+                }
             }
-            cell.timeLabel.text = [data valueForKey:@"endDateDisplay"];
+            cell.timeLabel.text = [data objectForKey:@"endDateDisplay"];
             if ([[data objectForKey:@"isFresh"] boolValue] == YES) {
                 orderNo = [NSString stringWithFormat:@"%@", [data objectForKey:@"orderNo"]];
             }
@@ -612,6 +690,23 @@
             else
             {
                 cell.quitButton.hidden = YES;
+            }
+            cell.standingNumLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data objectForKey:@"paidStandbyIntAmount"]).doubleValue]]];
+            if ([NSString stringWithFormat:@"%@",[data objectForKey:@"additionalInterestRate"]].intValue > 0)
+            {
+                cell.guideProfitTitleLabel.text = [NSString stringWithFormat:@"已派固定收益(+%d%%)",[NSString stringWithFormat:@"%@",[data objectForKey:@"additionalInterestRate"]].intValue];
+            }
+            else
+            {
+                cell.guideProfitTitleLabel.text = @"已派固定收益";
+            }
+            if ([NSString stringWithFormat:@"%@",[data objectForKey:@"standbySubsidyRate"]].intValue > 0)
+            {
+                cell.standingTitleLabel.text = [NSString stringWithFormat:@"已派募集期收益(+%d%%)",[NSString stringWithFormat:@"%@",[data objectForKey:@"standbySubsidyRate"]].intValue];
+            }
+            else
+            {
+                cell.standingTitleLabel.text = @"已派募集期收益";
             }
             
             return cell;

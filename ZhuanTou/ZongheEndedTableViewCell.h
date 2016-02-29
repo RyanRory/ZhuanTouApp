@@ -15,5 +15,8 @@
 @property (strong, nonatomic) IBOutlet UILabel *amountLabel;
 @property (strong, nonatomic) IBOutlet UILabel *guideProfitLabel;
 @property (strong, nonatomic) IBOutlet UILabel *floatProfitLabel;
+@property (strong, nonatomic) IBOutlet UILabel *standingTitleLabel;
+@property (strong, nonatomic) IBOutlet UILabel *guideProfitTitleLabel;
+@property (strong, nonatomic) IBOutlet UILabel *standingNumLabel;
 
 @end

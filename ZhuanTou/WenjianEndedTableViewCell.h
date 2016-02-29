@@ -14,6 +14,10 @@
 @property (strong, nonatomic) IBOutlet HeadView *bgView;
 @property (strong, nonatomic) IBOutlet UIView *headView;
 @property (strong, nonatomic) IBOutlet UILabel *amountLabel;
-@property (strong, nonatomic) IBOutlet UILabel *profitLabel;
+@property (strong, nonatomic) IBOutlet UILabel *standingTitleLabel;
+@property (strong, nonatomic) IBOutlet UILabel *profitTitleLabel;
+@property (strong, nonatomic) IBOutlet UILabel *standingNumLabel;
+@property (strong, nonatomic) IBOutlet UILabel *profitNumLabel;
+
 
 @end

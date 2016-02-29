@@ -9,8 +9,8 @@
 #ifndef Const_h
 #define Const_h
 
-//#define BASEURL @"http://debug.pujintianxia.com/"
-#define BASEURL @"https://www.zhuantouwang.com/"
+#define BASEURL @"http://debug.pujintianxia.com/"
+//#define BASEURL @"https://www.zhuantouwang.com/"
 
 #define SCREEN_WIDTH ([UIScreen mainScreen].bounds.size.width + 8)
 #define SCREEN_HEIGHT ([UIScreen mainScreen].bounds.size.height)
@@ -23,8 +23,9 @@
 #define ZTCHARTSGRAY ([UIColor colorWithRed:136.0/255.0 green:136.0/255.0 blue:136.0/255.0 alpha:0.2f])
 #define ZTPIECHARTPURPLE ([UIColor colorWithRed:161.0/255.0 green:115.0/255.0 blue:209.0/255.0 alpha:0.6f])
 #define ZTPIECHARTBLUE ([UIColor colorWithRed:59.0/255.0 green:148.0/255.0 blue:238.0/255.0 alpha:0.6f])
-#define ZTPIECHARTRED ([UIColor colorWithRed:248.0/255.0 green:115.0/255.0 blue:98.0/255.0 alpha:0.6f])
-#define ZTPIECHARTGREEN ([UIColor colorWithRed:156.0/255.0 green:235.0/255.0 blue:158.0/255.0 alpha:0.6f])
+#define ZTPIECHARTRED ([UIColor colorWithRed:249.0/255.0 green:75.0/255.0 blue:117.0/255.0 alpha:0.6f])
+#define ZTPIECHARTORANGE ([UIColor colorWithRed:250.0/255.0 green:126.0/255.0 blue:46.0/255.0 alpha:0.6f])
+#define ZTPIECHARTGRAY ([UIColor colorWithRed:180.0/255.0 green:180.0/255.0 blue:181.0/255.0 alpha:0.6f])
 #define ZTPIECHARTYELLOW ([UIColor colorWithRed:255.0/255.0 green:194.0/255.0 blue:15.0/255.0 alpha:0.6f])
 #define ZTSECURITYRED ([UIColor colorWithRed:248.0/255.0 green:115.0/255.0 blue:98.0/255.0 alpha:1.0f])
 #define ZTSECURITYYELLOW ([UIColor colorWithRed:255.0/255.0 green:194.0/255.0 blue:15.0/255.0 alpha:1.0f])

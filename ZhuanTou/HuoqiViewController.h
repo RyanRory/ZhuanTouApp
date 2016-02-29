@@ -10,7 +10,6 @@
 #import "UICountingLabel.h"
 #import <Charts/Charts.h>
 #import "ZhuanTou-Bridging-Header.h"
-#import "ProductBuyViewController.h"
 #import "DrawZtbViewController.h"
 #import "SetpasswordViewController.h"
 #import "ProductBuyNewViewController.h"

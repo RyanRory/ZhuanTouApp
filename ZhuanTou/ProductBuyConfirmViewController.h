@@ -10,6 +10,7 @@
 #import "SetTradePswdViewController.h"
 #import "SetpasswordViewController.h"
 #import "TradePswdView.h"
+#import "ForgottenViewController.h"
 
 @interface ProductBuyConfirmViewController : UIViewController
 {

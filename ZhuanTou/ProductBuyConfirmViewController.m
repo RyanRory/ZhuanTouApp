@@ -20,6 +20,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    NSLog(@"confirm voucher:%@",vouchers);
     self.view.clipsToBounds = YES;
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor darkGrayColor],NSForegroundColorAttributeName,nil]];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"backIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(backToParent:)];
@@ -226,6 +227,22 @@
                             setpass.string = @"验证密码";
                             [[self tabBarController] presentViewController:setpass animated:NO completion:nil];
                         }
+                        else if ([[NSString stringWithFormat:@"%@",[responseObject objectForKey:@"errorCode"]] isEqualToString:@"TradelPasswordIncorrect"])
+                        {
+                            [hud hide:YES];
+                            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"交易密码错误，请重试" message:nil preferredStyle:UIAlertControllerStyleAlert];
+                            UIAlertAction *retryAction = [UIAlertAction actionWithTitle:@"重试" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
+                                [self confirm:nil];
+                            }];
+                            UIAlertAction *forgottenAction = [UIAlertAction actionWithTitle:@"忘记密码" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
+                                ForgottenViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ForgottenViewController"];
+                                [vc setStyle:RESETTRADEPSWD];
+                                [[self navigationController]pushViewController:vc animated:YES];
+                            }];
+                            [alertController addAction:retryAction];
+                            [alertController addAction:forgottenAction];
+                            [self presentViewController:alertController animated:YES completion:nil];
+                        }
                         else
                         {
                             hud.labelText = [responseObject objectForKey:@"errorMessage"];
@@ -259,7 +276,7 @@
         }
         else
         {
-            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"请输入交易密码" message:nil preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"输入交易密码" message:nil preferredStyle:UIAlertControllerStyleAlert];
             [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField){
                 textField.secureTextEntry = YES;
                 textField.returnKeyType = UIReturnKeyDone;
@@ -304,7 +321,7 @@
                                 @"coupons":coupons,
                                 @"isValidate":@"false",
                                 @"idOrCode":idOrCode,
-                                };
+                                @"vouchers":vouchers};
     [manager POST:URL parameters:parameter success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
         NSLog(@"%@",responseObject);
         NSString *str = [responseObject objectForKey:@"isSuccess"];
@@ -319,6 +336,22 @@
                 SetpasswordViewController *setpass = [[self storyboard]instantiateViewControllerWithIdentifier:@"SetpasswordViewController"];
                 setpass.string = @"验证密码";
                 [[self tabBarController] presentViewController:setpass animated:NO completion:nil];
+            }
+            else if ([[NSString stringWithFormat:@"%@",[responseObject objectForKey:@"errorCode"]] isEqualToString:@"TradelPasswordIncorrect"])
+            {
+                [hud hide:YES];
+                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"交易密码错误，请重试" message:nil preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *retryAction = [UIAlertAction actionWithTitle:@"重试" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
+                    [self confirm:nil];
+                }];
+                UIAlertAction *forgottenAction = [UIAlertAction actionWithTitle:@"忘记密码" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
+                    ForgottenViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ForgottenViewController"];
+                    [vc setStyle:RESETTRADEPSWD];
+                    [[self navigationController]pushViewController:vc animated:YES];
+                }];
+                [alertController addAction:retryAction];
+                [alertController addAction:forgottenAction];
+                [self presentViewController:alertController animated:YES completion:nil];
             }
             else
             {

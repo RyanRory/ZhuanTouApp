@@ -14,7 +14,6 @@
 
 - (void)awakeFromNib {
     // Initialization code
-    bgView.layer.cornerRadius = 3;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

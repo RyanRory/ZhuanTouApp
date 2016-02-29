@@ -312,7 +312,6 @@
 		A4B8A69C1BEA16CB0034E415 /* noBankCard@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4B8A69B1BEA16CB0034E415 /* noBankCard@3x.png */; };
 		A4B8A69E1BEA16E40034E415 /* noBankCard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4B8A69D1BEA16E40034E415 /* noBankCard@2x.png */; };
 		A4B8A6A01BEA16F20034E415 /* noBankCard.png in Resources */ = {isa = PBXBuildFile; fileRef = A4B8A69F1BEA16F20034E415 /* noBankCard.png */; };
-		A4BBC1C71BD0E825006331AC /* ProductBuyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4BBC1C61BD0E825006331AC /* ProductBuyViewController.m */; };
 		A4BBC1CA1BD0E871006331AC /* ProductBuyConfirmViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4BBC1C91BD0E871006331AC /* ProductBuyConfirmViewController.m */; };
 		A4BBC1D81BD10D52006331AC /* buyAmoutIcon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4BBC1CE1BD10D52006331AC /* buyAmoutIcon@3x.png */; };
 		A4BBC1D91BD10D52006331AC /* uAuto@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4BBC1CF1BD10D52006331AC /* uAuto@3x.png */; };
@@ -845,8 +844,6 @@
 		A4B8A69B1BEA16CB0034E415 /* noBankCard@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "noBankCard@3x.png"; path = "images/@3x/noBankCard@3x.png"; sourceTree = "<group>"; };
 		A4B8A69D1BEA16E40034E415 /* noBankCard@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "noBankCard@2x.png"; path = "images/@2x/noBankCard@2x.png"; sourceTree = "<group>"; };
 		A4B8A69F1BEA16F20034E415 /* noBankCard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = noBankCard.png; path = "images/@1x/noBankCard.png"; sourceTree = "<group>"; };
-		A4BBC1C51BD0E825006331AC /* ProductBuyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductBuyViewController.h; sourceTree = "<group>"; };
-		A4BBC1C61BD0E825006331AC /* ProductBuyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductBuyViewController.m; sourceTree = "<group>"; };
 		A4BBC1C81BD0E871006331AC /* ProductBuyConfirmViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductBuyConfirmViewController.h; sourceTree = "<group>"; };
 		A4BBC1C91BD0E871006331AC /* ProductBuyConfirmViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductBuyConfirmViewController.m; sourceTree = "<group>"; };
 		A4BBC1CE1BD10D52006331AC /* buyAmoutIcon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "buyAmoutIcon@3x.png"; path = "images/@3x/buyAmoutIcon@3x.png"; sourceTree = "<group>"; };
@@ -1563,8 +1560,6 @@
 				A44A9C191BF4427B00FE6F2E /* ProductScrollViewController.m */,
 				A4FAC4B61C4F37D40051B0CA /* ProductBuyNewViewController.h */,
 				A4FAC4B71C4F37D40051B0CA /* ProductBuyNewViewController.m */,
-				A4BBC1C51BD0E825006331AC /* ProductBuyViewController.h */,
-				A4BBC1C61BD0E825006331AC /* ProductBuyViewController.m */,
 				A4BBC1C81BD0E871006331AC /* ProductBuyConfirmViewController.h */,
 				A4BBC1C91BD0E871006331AC /* ProductBuyConfirmViewController.m */,
 				A42EA2FC1BE1E85E00E35F5F /* ProductsBeforeViewController.h */,
@@ -2363,7 +2358,6 @@
 				A42EA3041BE1FE9500E35F5F /* ForgottonResetViewController.m in Sources */,
 				A4E7F23F1BCE28DF00B20EC6 /* InformationViewController.m in Sources */,
 				A4B2CFFA1BDA3D2700AC2E78 /* DetailTableViewCell.m in Sources */,
-				A4BBC1C71BD0E825006331AC /* ProductBuyViewController.m in Sources */,
 				A44AFA4A1BCF481D002A8AC4 /* ZTTabBarViewController.m in Sources */,
 				A463EA941BD4E68D00CAF146 /* LaunchScreenViewController.m in Sources */,
 				A42EA3011BE1FE7500E35F5F /* ForgottenViewController.m in Sources */,

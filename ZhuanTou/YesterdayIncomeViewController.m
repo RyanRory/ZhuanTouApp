@@ -116,6 +116,7 @@
     {
         cell.amountTitleLabel.text = @"当前份额(元)";
         cell.bgView.backgroundColor = ZTRED;
+        cell.statusLabel.hidden = YES;
     }
     else
     {

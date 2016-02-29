@@ -93,54 +93,66 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
+    if (section == 0)
+        return 20;
     return 10;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
+    if (section == productsNum-1)
+        return 20;
     return 10;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return productsNum;
 }
 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 1;
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 143;
+    return 119;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    id data = [datas objectAtIndex:indexPath.row];
+    id data = [datas objectAtIndex:indexPath.section];
     static NSString *identifier = @"ProductsBeforeTableViewCell";
     ProductsBeforeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (!cell)
     {
         cell = [[ProductsBeforeTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
-    cell.idLabel.text = [NSString stringWithFormat:@"%@",[data objectForKey:@"time"]];
+    cell.idLabel.text = [NSString stringWithFormat:@"分红宝  %@",[data objectForKey:@"time"]];
     if ([NSString stringWithFormat:@"%@",[data objectForKey:@"profit"]].doubleValue < 0)
     {
         cell.percentNumLabel.text = @"暂不计算";
         cell.percentNumLabel.textColor = ZTGRAY;
+        cell.percentDetailLabel.text = @"(8.00%+?)";
     }
     else
     {
         cell.percentNumLabel.text = [NSString stringWithFormat:@"%.2f%%",[NSString stringWithFormat:@"%@",[data objectForKey:@"profit"]].doubleValue];
         cell.percentNumLabel.textColor = ZTLIGHTRED;
+        cell.percentDetailLabel.text = [NSString stringWithFormat:@"(8.00%%+%.2f%%)",[NSString stringWithFormat:@"%@",[data objectForKey:@"profit"]].doubleValue-8];
     }
     cell.statusLabel.text = [data objectForKey:@"status"];
     if ([cell.statusLabel.text isEqualToString:@"操盘中"])
     {
-        cell.headView.backgroundColor = ZTBLUE;
+        cell.bgView.backgroundColor = ZTBLUE;
         cell.percentTitleLabel.text = @"预期年化收益率";
     }
     else
     {
-        cell.headView.backgroundColor = ZTGRAY;
-        cell.percentTitleLabel.text = @"年化收益";
+        cell.bgView.backgroundColor = ZTGRAY;
+        cell.percentTitleLabel.text = @"产品年化收益率";
+        cell.percentNumLabel.textColor = ZTGRAY;
     }
     
     return cell;

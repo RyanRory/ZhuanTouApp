@@ -16,7 +16,7 @@
 
 @synthesize tView;
 @synthesize deSlideButton;
-@synthesize bigPortraitImageView, mobileLabel, nickNameLabel, realNameButton, realNameLabel, bankCardButton, bankCardNumLabel, loginPswdButton, tradePswdButton, tradePswdLabel, gesturePswdButton, moreButton, signOutButton;
+@synthesize bigPortraitImageView, mobileLabel, nickNameLabel, realNameButton, realNameLabel, bankCardButton, bankCardNumLabel, loginPswdButton, tradePswdButton, tradePswdLabel, gesturePswdButton, moreButton, signOutButton, onlyMobileLabel;
 @synthesize navigationView, navigationLeftButton, headImageView, usernameLabel, navigationRightButton;
 
 - (void)viewDidLoad
@@ -245,6 +245,20 @@
             [userDefault setInteger:([NSString stringWithFormat:@"%@", [responseObject objectForKey:@"tpThreshold"]].intValue *100) forKey:TPTHRESHOLD];
             usernameLabel.text = [NSString stringWithFormat:@"%@", [responseObject objectForKey:@"userName"]];
             nickNameLabel.text = [NSString stringWithFormat:@"%@", [responseObject objectForKey:@"userName"]];
+            if ([nickNameLabel.text isEqualToString:mobileLabel.text])
+            {
+                nickNameLabel.hidden = YES;
+                mobileLabel.hidden = YES;
+                onlyMobileLabel.hidden = NO;
+                onlyMobileLabel.text = nickNameLabel.text;
+            }
+            else
+            {
+                onlyMobileLabel.hidden = YES;
+                nickNameLabel.hidden = NO;
+                mobileLabel.hidden = NO;
+            }
+            
             data = [NSMutableDictionary dictionaryWithDictionary:responseObject];
             [tView reloadData];
         }

@@ -13,8 +13,7 @@
 @synthesize bgView, headView;
 
 - (void)awakeFromNib {
-    // Initialization code
-    bgView.layer.cornerRadius = 3;    
+    // Initialization code 
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

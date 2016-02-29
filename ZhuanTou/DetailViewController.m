@@ -445,22 +445,22 @@
     
     cell.statusLabel.hidden = YES;
     
-    cell.titleLabel.text = [data valueForKey:@"type"];
-    cell.timeLabel.text = [data valueForKey:@"createdOn"];
+    cell.titleLabel.text = [data objectForKey:@"type"];
+    cell.timeLabel.text = [data objectForKey:@"createdOn"];
     
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
     [formatter setPositiveFormat:@"###,##0.00"];
     if ([[data objectForKey:@"itemType"] isEqualToString:@"收入"])
     {
-        cell.numLabel.text = [NSString stringWithFormat:@"+%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"money"]).doubleValue]]];
+        cell.numLabel.text = [NSString stringWithFormat:@"+%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data objectForKey:@"money"]).doubleValue]]];
     }
     else if ([[data objectForKey:@"itemType"] isEqualToString:@"支出"])
     {
-        cell.numLabel.text = [NSString stringWithFormat:@"-%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"money"]).doubleValue]]];
+        cell.numLabel.text = [NSString stringWithFormat:@"-%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data objectForKey:@"money"]).doubleValue]]];
     }
     else
     {
-        cell.numLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data valueForKey:@"money"]).doubleValue]]];
+        cell.numLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data objectForKey:@"money"]).doubleValue]]];
     }
     return cell;
 }

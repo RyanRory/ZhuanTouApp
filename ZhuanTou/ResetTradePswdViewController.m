@@ -82,16 +82,9 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     [self.navigationController.view addSubview:hud];
     NSString *PasswordReg;
-    if ([style isEqualToString:RESETLOGINPSWD])
-    {
-        PasswordReg = @"^(?=.*[0-9])(?=.*[a-zA-Z!@#$%^&*()_+|]).{6,30}$";
-    }
-    else
-    {
-        PasswordReg = @"^[0-9]{6}$";
-    }
+    PasswordReg = @"^(?=.*[0-9])(?=.*[a-zA-Z!@#$%^&*()_+|]).{6,30}$";
     NSPredicate *regextestpassword = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", PasswordReg];
-    if (![regextestpassword evaluateWithObject: oldPswdTextField.text])
+    if ([style isEqualToString:RESETLOGINPSWD] && (![regextestpassword evaluateWithObject: oldPswdTextField.text]))
     {
         hud.mode = MBProgressHUDModeCustomView;
         hud.labelText = @"请输入正确的原始密码";
