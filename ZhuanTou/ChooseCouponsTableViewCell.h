@@ -14,5 +14,6 @@
 @property (strong, nonatomic) IBOutlet UILabel *limitLabel;
 @property (strong, nonatomic) IBOutlet UILabel *DDLLabel;
 @property (strong, nonatomic) IBOutlet UIView *bgView;
+@property (strong, nonatomic) IBOutlet UIImageView *chosenImage;
 
 @end

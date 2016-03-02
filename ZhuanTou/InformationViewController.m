@@ -124,6 +124,10 @@
                 [userDefaults setBool:YES forKey:ISLOGIN];
                 [userDefaults setBool:false forKey:ISTRADEPSWDSET];
                 [userDefaults setInteger:([NSString stringWithFormat:@"%@", [responseObject objectForKey:@"tpThreshold"]].intValue *100) forKey:TPTHRESHOLD];
+                NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];//实例化一个NSDateFormatter对象
+                [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];//设定时间格式
+                NSDate *date = [NSDate date];
+                [userDefaults setObject:[dateFormat stringFromDate:date] forKey:LASTLOGINDATE];
                 [userDefaults synchronize];
                 
                 [KeychainData forgotPsw];

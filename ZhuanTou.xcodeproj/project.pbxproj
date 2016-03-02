@@ -53,6 +53,12 @@
 		A41E1DEA1BE5B60800641616 /* ChargeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A41E1DE91BE5B60800641616 /* ChargeViewController.m */; };
 		A41E1DED1BE5B63700641616 /* DrawViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A41E1DEC1BE5B63700641616 /* DrawViewController.m */; };
 		A41E1DF21BE5E27A00641616 /* bankCodeList.plist in Resources */ = {isa = PBXBuildFile; fileRef = A41E1DF11BE5E27A00641616 /* bankCodeList.plist */; };
+		A42339011C86DE320004612D /* bonusChosen@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A42338FF1C86DE310004612D /* bonusChosen@3x.png */; };
+		A42339021C86DE320004612D /* voucherChosen@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A42339001C86DE320004612D /* voucherChosen@3x.png */; };
+		A42339051C86DE3E0004612D /* bonusChosen@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A42339031C86DE3E0004612D /* bonusChosen@2x.png */; };
+		A42339061C86DE3E0004612D /* voucherChosen@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A42339041C86DE3E0004612D /* voucherChosen@2x.png */; };
+		A42339091C86DE490004612D /* bonusChosen.png in Resources */ = {isa = PBXBuildFile; fileRef = A42339071C86DE490004612D /* bonusChosen.png */; };
+		A423390A1C86DE490004612D /* voucherChosen.png in Resources */ = {isa = PBXBuildFile; fileRef = A42339081C86DE490004612D /* voucherChosen.png */; };
 		A42EA2C11BDF833F00E35F5F /* ifudong@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A42EA2B91BDF833F00E35F5F /* ifudong@3x.png */; };
 		A42EA2C21BDF833F00E35F5F /* iguding@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A42EA2BA1BDF833F00E35F5F /* iguding@3x.png */; };
 		A42EA2C31BDF833F00E35F5F /* inbuilding@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A42EA2BB1BDF833F00E35F5F /* inbuilding@3x.png */; };
@@ -534,6 +540,12 @@
 		A41E1DEB1BE5B63700641616 /* DrawViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawViewController.h; sourceTree = "<group>"; };
 		A41E1DEC1BE5B63700641616 /* DrawViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawViewController.m; sourceTree = "<group>"; };
 		A41E1DF11BE5E27A00641616 /* bankCodeList.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = bankCodeList.plist; sourceTree = "<group>"; };
+		A42338FF1C86DE310004612D /* bonusChosen@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bonusChosen@3x.png"; path = "images/@3x/bonusChosen@3x.png"; sourceTree = "<group>"; };
+		A42339001C86DE320004612D /* voucherChosen@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "voucherChosen@3x.png"; path = "images/@3x/voucherChosen@3x.png"; sourceTree = "<group>"; };
+		A42339031C86DE3E0004612D /* bonusChosen@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bonusChosen@2x.png"; path = "images/@2x/bonusChosen@2x.png"; sourceTree = "<group>"; };
+		A42339041C86DE3E0004612D /* voucherChosen@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "voucherChosen@2x.png"; path = "images/@2x/voucherChosen@2x.png"; sourceTree = "<group>"; };
+		A42339071C86DE490004612D /* bonusChosen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bonusChosen.png; path = "images/@1x/bonusChosen.png"; sourceTree = "<group>"; };
+		A42339081C86DE490004612D /* voucherChosen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = voucherChosen.png; path = "images/@1x/voucherChosen.png"; sourceTree = "<group>"; };
 		A42EA2B91BDF833F00E35F5F /* ifudong@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ifudong@3x.png"; path = "images/@3x/ifudong@3x.png"; sourceTree = "<group>"; };
 		A42EA2BA1BDF833F00E35F5F /* iguding@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "iguding@3x.png"; path = "images/@3x/iguding@3x.png"; sourceTree = "<group>"; };
 		A42EA2BB1BDF833F00E35F5F /* inbuilding@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "inbuilding@3x.png"; path = "images/@3x/inbuilding@3x.png"; sourceTree = "<group>"; };
@@ -1179,6 +1191,8 @@
 		A41C6B711BBAAF9E006B731D /* @1x */ = {
 			isa = PBXGroup;
 			children = (
+				A42339071C86DE490004612D /* bonusChosen.png */,
+				A42339081C86DE490004612D /* voucherChosen.png */,
 				A4166F211C7F0351008B82C0 /* accountconf.png */,
 				A4166F221C7F0351008B82C0 /* acctlogo.png */,
 				1A61A9D31C55E25700EC2020 /* newlanding.png */,
@@ -1290,6 +1304,8 @@
 		A41C6B721BBAAFA7006B731D /* @2x */ = {
 			isa = PBXGroup;
 			children = (
+				A42339031C86DE3E0004612D /* bonusChosen@2x.png */,
+				A42339041C86DE3E0004612D /* voucherChosen@2x.png */,
 				A4166F1D1C7F0344008B82C0 /* accountconf@2x.png */,
 				A4166F1E1C7F0344008B82C0 /* acctlogo@2x.png */,
 				A4FAC4861C438BCB0051B0CA /* moments@2x.png */,
@@ -1397,6 +1413,8 @@
 		A41C6B731BBAAFC0006B731D /* @3x */ = {
 			isa = PBXGroup;
 			children = (
+				A42338FF1C86DE310004612D /* bonusChosen@3x.png */,
+				A42339001C86DE320004612D /* voucherChosen@3x.png */,
 				A4166F191C7F0335008B82C0 /* accountconf@3x.png */,
 				A4166F1A1C7F0335008B82C0 /* acctlogo@3x.png */,
 				A4FAC47A1C438BB40051B0CA /* moments@3x.png */,
@@ -1979,6 +1997,7 @@
 				A4BBC1D91BD10D52006331AC /* uAuto@3x.png in Resources */,
 				A4BBC1F31BD10D61006331AC /* uProfit@2x.png in Resources */,
 				A4BBC1F11BD10D61006331AC /* uGesture@2x.png in Resources */,
+				A423390A1C86DE490004612D /* voucherChosen.png in Resources */,
 				A42EA2D81BDF834A00E35F5F /* izhuantoubao@2x.png in Resources */,
 				A44AFA171BCF47F1002A8AC4 /* help@2x.png in Resources */,
 				A49AA6661C167B870087F060 /* newerBonusRed@3x.png in Resources */,
@@ -1988,6 +2007,7 @@
 				A4EE98EE1C100588007E74E2 /* FloatTimePoint@3x.png in Resources */,
 				A4EE98E81C10057A007E74E2 /* FloatTimePoint@2x.png in Resources */,
 				A4A60E2C1C280D640032EA6A /* defaultHeadPortrait@2x.png in Resources */,
+				A42339061C86DE3E0004612D /* voucherChosen@2x.png in Resources */,
 				1A61A9D81C55E25700EC2020 /* remain1sec.png in Resources */,
 				A44AF9FD1BCF47E1002A8AC4 /* wenjian@3x.png in Resources */,
 				A49AA6A61C167BA10087F060 /* newerLight.png in Resources */,
@@ -2033,6 +2053,7 @@
 				A4BBC1DD1BD10D52006331AC /* uGesture@3x.png in Resources */,
 				A44AFA521BCF4EAE002A8AC4 /* productActive@2x.png in Resources */,
 				A4BBC1EF1BD10D61006331AC /* uBonus@2x.png in Resources */,
+				A42339051C86DE3E0004612D /* bonusChosen@2x.png in Resources */,
 				A45CC3F81C2BC54D00C5D56C /* logoTitle@2x.png in Resources */,
 				A4E8F8481C0C54B10002D7D0 /* Readme.txt in Resources */,
 				A4BBC2081BD10DA1006331AC /* uSecurity.png in Resources */,
@@ -2077,6 +2098,7 @@
 				A49AA6A41C167BA10087F060 /* newerInvestBlue.png in Resources */,
 				A44A9BFC1BF03F3E00FE6F2E /* inTitleBelow@2x.png in Resources */,
 				A49AA69D1C167BA10087F060 /* infoDetail.png in Resources */,
+				A42339011C86DE320004612D /* bonusChosen@3x.png in Resources */,
 				A44AFA551BCF4EC1002A8AC4 /* home.png in Resources */,
 				A4FAC48F1C438BCB0051B0CA /* sms@2x.png in Resources */,
 				A44AFA1F1BCF47F1002A8AC4 /* quickIcon@2x.png in Resources */,
@@ -2130,6 +2152,7 @@
 				A42EA2C31BDF833F00E35F5F /* inbuilding@3x.png in Resources */,
 				A4BBC1F21BD10D61006331AC /* uHuoqi@2x.png in Resources */,
 				A4E7F2101BCE050E00B20EC6 /* loginTelIcon@3x.png in Resources */,
+				A42339021C86DE320004612D /* voucherChosen@3x.png in Resources */,
 				A4DFA2C91C192AF50050F366 /* newerBonusOpened.png in Resources */,
 				A463EAC31BD6354F00CAF146 /* wave@3x.png in Resources */,
 				A463EA811BD4D26200CAF146 /* accountActive@2x.png in Resources */,
@@ -2187,6 +2210,7 @@
 				A4BBC1EE1BD10D61006331AC /* uBankcard@2x.png in Resources */,
 				A4E8F8491C0C54B10002D7D0 /* walletResources.bundle in Resources */,
 				A44AF9FC1BCF47E1002A8AC4 /* safeIcon@3x.png in Resources */,
+				A42339091C86DE490004612D /* bonusChosen.png in Resources */,
 				A49AA6A91C167BA10087F060 /* newerSecureBlue.png in Resources */,
 				A43174651BD492880001FC53 /* pFloat@2x.png in Resources */,
 				A43174631BD492880001FC53 /* pDeadline@2x.png in Resources */,

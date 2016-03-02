@@ -289,6 +289,8 @@
             wenjianRateLabel.text = numStr;
         }
         wenjianMonthLabel.text = [NSString stringWithFormat:@"%d",(int)round((((NSString*)[wenjianData objectForKey:@"noOfDays"]).doubleValue / 30))];
+        tradingLabel.text = [NSString stringWithFormat:@"年化%@%%收益\n每日派息",[wenjianData objectForKey:@"interestRate"]];
+        
         if ([mainScrollView.mj_header isRefreshing])
         {
             [mainScrollView.mj_header endRefreshing];
@@ -370,6 +372,7 @@
             [self bgCircleAnimation:zongheBgImageView];
         }
         zongheSmallRateLabel.text = [NSString stringWithFormat:@"%@", [zongheData objectForKey:@"interestRate"]];
+        zongheTradingLabel.text = [NSString stringWithFormat:@"年化%@%%收益\n每日派息",[zongheData objectForKey:@"interestRate"]];
         NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];//实例化一个NSDateFormatter对象
         [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];//设定时间格式
         NSDate *startDate = [dateFormat dateFromString:[zongheData objectForKey:@"startRaisingDateTime"]];

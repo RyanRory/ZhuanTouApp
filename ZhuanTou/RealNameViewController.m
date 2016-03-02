@@ -101,12 +101,33 @@
             }
             else
             {
-                hud.mode = MBProgressHUDModeCustomView;
-                hud.labelText = @"认证成功";
-                [hud hide:YES afterDelay:1.0f];
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    [self.navigationController popViewControllerAnimated:YES];
-                });
+                NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+                if ([userDefault boolForKey:ISTRADEPSWDSET])
+                {
+                    hud.mode = MBProgressHUDModeCustomView;
+                    hud.labelText = @"认证成功";
+                    [hud hide:YES afterDelay:1.0f];
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        [self.navigationController popViewControllerAnimated:YES];
+                    });
+
+                }
+                else
+                {
+                    [hud hide:YES];
+                    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"实名认证成功，是否设置交易密码？" message:nil preferredStyle:UIAlertControllerStyleAlert];
+                    UIAlertAction *gotoSet = [UIAlertAction actionWithTitle:@"去设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
+                        SetTradePswdViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"SetTradePswdViewController"];
+                        [self.navigationController pushViewController:vc animated:YES];
+                    }];
+                    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action){
+                        [self.navigationController popViewControllerAnimated:YES];
+                    }];
+                    [alertController addAction:gotoSet];
+                    [alertController addAction:cancel];
+                    [self presentViewController:alertController animated:YES completion:nil];
+                }
+
             }
             
             [confirmButton setUserInteractionEnabled:YES];

@@ -133,30 +133,12 @@
         cell.limitLabel.text = [NSString stringWithFormat:@"使用规则：单笔投资满%@元可用",[formatter stringFromNumber:[NSNumber numberWithInt:[NSString stringWithFormat:@"%@",[data objectForKey:@"thresholdValue"]].intValue]]];
         if (choosen && ([[choosen objectForKey:@"couponCode"] isEqualToString:[data objectForKey:@"couponCode"]]) && chooseFlag)
         {
-            cell.DDLLabel.textColor = ZTLIGHTRED;
-            cell.limitLabel.textColor = ZTLIGHTRED;
-            cell.bgView.backgroundColor = ZTLIGHTRED;
+            cell.chosenImage.hidden = NO;
         }
         else
         {
-            cell.DDLLabel.textColor = ZTGRAY;
-            cell.limitLabel.textColor = ZTGRAY;
-            cell.bgView.backgroundColor = ZTGRAY;
+            cell.chosenImage.hidden = YES;
         }
-
-        
-//        if (![[NSString stringWithFormat:@"%@",[data objectForKey:@"couponCode"]] isEqualToString:[NSString stringWithFormat:@"%@",[choosen objectForKey:@"couponCode"]]])
-//        {
-//            cell.DDLLabel.textColor = ZTGRAY;
-//            cell.limitLabel.textColor = ZTGRAY;
-//            cell.bgView.backgroundColor = ZTGRAY;
-//        }
-//        else
-//        {
-//            cell.DDLLabel.textColor = ZTLIGHTRED;
-//            cell.limitLabel.textColor = ZTLIGHTRED;
-//            cell.bgView.backgroundColor = ZTLIGHTRED;
-//        }
         
         
         return cell;
@@ -188,29 +170,12 @@
         
         if (choosen && ([[choosen objectForKey:@"voucherCode"] isEqualToString:[data objectForKey:@"voucherCode"]]) && chooseFlag)
         {
-            cell.DDLLabel.textColor = ZTBLUE;
-            cell.limitLabel.textColor = ZTBLUE;
-            cell.bgView.backgroundColor = ZTBLUE;
+            cell.chosenImage.hidden = NO;
         }
         else
         {
-            cell.DDLLabel.textColor = ZTGRAY;
-            cell.limitLabel.textColor = ZTGRAY;
-            cell.bgView.backgroundColor = ZTGRAY;
+            cell.chosenImage.hidden = YES;
         }
-        
-//        if (![[NSString stringWithFormat:@"%@",[data objectForKey:@"couponCode"]] isEqualToString:[NSString stringWithFormat:@"%@",[choosen objectForKey:@"couponCode"]]])
-//        {
-//            cell.DDLLabel.textColor = ZTGRAY;
-//            cell.limitLabel.textColor = ZTGRAY;
-//            cell.bgView.backgroundColor = ZTGRAY;
-//        }
-//        else
-//        {
-//            cell.DDLLabel.textColor = ZTBLUE;
-//            cell.limitLabel.textColor = ZTBLUE;
-//            cell.bgView.backgroundColor = ZTBLUE;
-//        }
         
         return cell;
     }
@@ -263,8 +228,6 @@
     {
         
     }
-
-    
 }
 
 

@@ -57,6 +57,15 @@
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+        NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];//实例化一个NSDateFormatter对象
+        [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];//设定时间格式
+        NSDate *lastDate = [dateFormat dateFromString:[userDefault objectForKey:LASTLOGINDATE]];
+        NSDate *date = [NSDate date];
+        if ([date timeIntervalSinceDate:lastDate] > 7*24*60*60)
+        {
+            [userDefault removeObjectForKey:PASSWORD];
+            [userDefault synchronize];
+        }
         NSString *password = [userDefault objectForKey:PASSWORD];
         if (password.length > 0)
         {

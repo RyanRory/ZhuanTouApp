@@ -347,6 +347,15 @@
         [self performSelector:@selector(toNewer:) withObject:nil afterDelay:0];
         tabVC.isRegister = 0;
     }
+    
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    NSString *username = [userDefault objectForKey:USERNAME];
+    NSString *password = [userDefault objectForKey:PASSWORD];
+    if ((username.length > 0) && (password.length == 0))
+    {
+        UINavigationController *nav = [[self storyboard]instantiateViewControllerWithIdentifier:@"LoginNav"];
+        [[self tabBarController] presentViewController:nav animated:YES completion:nil];
+    }
 }
 
 - (void)toNewer:(id)sender

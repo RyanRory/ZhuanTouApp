@@ -110,6 +110,10 @@
                                      [userDefault setBool:[NSString stringWithFormat:@"%@",[responseObject objectForKey:@"isTradepasswordset"]].boolValue forKey:ISTRADEPSWDSET];
                                      [userDefault setBool:[NSString stringWithFormat:@"%@", [responseObject objectForKey:@"isTpNumeric"]].boolValue forKey:ISTPNUMERIC];
                                      [userDefault setInteger:([NSString stringWithFormat:@"%@", [responseObject objectForKey:@"tpThreshold"]].intValue *100) forKey:TPTHRESHOLD];
+                                     NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];//实例化一个NSDateFormatter对象
+                                     [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];//设定时间格式
+                                     NSDate *date = [NSDate date];
+                                     [userDefault setObject:[dateFormat stringFromDate:date] forKey:LASTLOGINDATE];
                                      [userDefault synchronize];
                                  }
                                  
@@ -244,6 +248,10 @@
                         [userDefault setBool:[NSString stringWithFormat:@"%@",[responseObject objectForKey:@"isTradepasswordset"]].boolValue forKey:ISTRADEPSWDSET];
                         [userDefault setBool:[NSString stringWithFormat:@"%@", [responseObject objectForKey:@"isTpNumeric"]].boolValue forKey:ISTPNUMERIC];
                         [userDefault setInteger:[NSString stringWithFormat:@"%@", [responseObject objectForKey:@"tpThreshold"]].intValue *100 forKey:TPTHRESHOLD];
+                        NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];//实例化一个NSDateFormatter对象
+                        [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];//设定时间格式
+                        NSDate *date = [NSDate date];
+                        [userDefault setObject:[dateFormat stringFromDate:date] forKey:LASTLOGINDATE];
                         [userDefault synchronize];
                     }
                     

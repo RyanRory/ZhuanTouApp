@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <APNumberPad/APNumberPad.h>
+#import "SetTradePswdViewController.h"
 
 @interface RealNameViewController : UIViewController<APNumberPadDelegate>
 @property (strong, nonatomic) IBOutlet UITextField *realNameTextField;
