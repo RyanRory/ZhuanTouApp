@@ -443,41 +443,44 @@
         for (int i = 0; i < responseObject.count; i++)
         {
             id data = [responseObject objectAtIndex:i];
-            if ([[data objectForKey:@"type"] isEqualToString:@"定期加息券"])
+            if (![NSString stringWithFormat:@"%@", [data objectForKey:@"expired"]].boolValue)
             {
-                [coupons addObject:data];
-                if (biggestCoupons == nil)
+                if ([[data objectForKey:@"type"] isEqualToString:@"定期加息券"])
                 {
-                    biggestCoupons = data;
-                }
-                else
-                {
-                    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-                    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-                    NSDate *date1 = [dateFormatter dateFromString:[biggestCoupons objectForKey:@"expireTime"]];
-                    NSDate *date2 = [dateFormatter dateFromString:[data objectForKey:@"expireTime"]];
-                    if ([date1 timeIntervalSinceDate:date2] < 0.0)
+                    [coupons addObject:data];
+                    if (biggestCoupons == nil)
                     {
                         biggestCoupons = data;
                     }
-                }
-            }
-            else
-            {
-                [standingCoupons addObject:data];
-                if (biggestStandingCoupons == nil)
-                {
-                    biggestStandingCoupons = data;
+                    else
+                    {
+                        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                        [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+                        NSDate *date1 = [dateFormatter dateFromString:[biggestCoupons objectForKey:@"expireTime"]];
+                        NSDate *date2 = [dateFormatter dateFromString:[data objectForKey:@"expireTime"]];
+                        if ([date1 timeIntervalSinceDate:date2] < 0.0)
+                        {
+                            biggestCoupons = data;
+                        }
+                    }
                 }
                 else
                 {
-                    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-                    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-                    NSDate *date1 = [dateFormatter dateFromString:[biggestStandingCoupons objectForKey:@"expireTime"]];
-                    NSDate *date2 = [dateFormatter dateFromString:[data objectForKey:@"expireTime"]];
-                    if ([date1 timeIntervalSinceDate:date2] < 0.0)
+                    [standingCoupons addObject:data];
+                    if (biggestStandingCoupons == nil)
                     {
                         biggestStandingCoupons = data;
+                    }
+                    else
+                    {
+                        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                        [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+                        NSDate *date1 = [dateFormatter dateFromString:[biggestStandingCoupons objectForKey:@"expireTime"]];
+                        NSDate *date2 = [dateFormatter dateFromString:[data objectForKey:@"expireTime"]];
+                        if ([date1 timeIntervalSinceDate:date2] < 0.0)
+                        {
+                            biggestStandingCoupons = data;
+                        }
                     }
                 }
             }

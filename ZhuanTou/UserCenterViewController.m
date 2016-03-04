@@ -499,6 +499,7 @@
             NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
             [userDefault setBool:NO forKey:ISLOGIN];
             [userDefault removeObjectForKey:PASSWORD];
+            [userDefault removeObjectForKey:USERNAME];
             [userDefault removeObjectForKey:ISTRADEPSWDSET];
             [userDefault synchronize];
             [data removeAllObjects];

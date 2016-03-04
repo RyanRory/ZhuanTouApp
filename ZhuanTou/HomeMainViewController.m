@@ -351,7 +351,11 @@
     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
     NSString *username = [userDefault objectForKey:USERNAME];
     NSString *password = [userDefault objectForKey:PASSWORD];
-    if ((username.length > 0) && (password.length == 0))
+    NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];//实例化一个NSDateFormatter对象
+    [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];//设定时间格式
+    NSDate *lastDate = [dateFormat dateFromString:[userDefault objectForKey:LASTLOGINDATE]];
+    NSDate *date = [NSDate date];
+    if ((username.length > 0) && (password.length == 0) && ([date timeIntervalSinceDate:lastDate] > 7*24*60*60))
     {
         UINavigationController *nav = [[self storyboard]instantiateViewControllerWithIdentifier:@"LoginNav"];
         [[self tabBarController] presentViewController:nav animated:YES completion:nil];
