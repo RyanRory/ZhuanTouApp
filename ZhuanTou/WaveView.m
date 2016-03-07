@@ -31,7 +31,7 @@
 - (void)startAnimation
 {
     [UIView beginAnimations:nil context:UIGraphicsGetCurrentContext()];
-    [UIView setAnimationDuration:2.7f];
+    [UIView setAnimationDuration:2.4f];
     [waveImageView setFrame:CGRectMake(-344, -20, waveImageView.frame.size.width, waveImageView.frame.size.height)];
     [UIView commitAnimations];
 }

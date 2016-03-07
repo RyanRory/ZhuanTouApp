@@ -46,6 +46,7 @@
 
 @property (strong, nonatomic) IBOutlet UITableView *tView;
 @property (strong, nonatomic) IBOutlet UIButton *allInButton;
+@property (strong, nonatomic) IBOutlet UIButton *checkboxBigButton;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *buttonBottomLayOut;
 @property (readwrite, nonatomic) BOOL isFromNewer;

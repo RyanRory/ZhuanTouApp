@@ -32,17 +32,24 @@
 {
     [bgView startAnimation];
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [UIView beginAnimations:nil context:UIGraphicsGetCurrentContext()];
-        [UIView setAnimationDuration:1.0f];
-        [remainImageView setImage:[UIImage imageNamed:@"remain2sec.png"]];
-        [UIView commitAnimations];
-    });
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        [UIView beginAnimations:nil context:UIGraphicsGetCurrentContext()];
+//        [UIView setAnimationDuration:1.0f];
+//        [remainImageView setImage:[UIImage imageNamed:@"remain2sec.png"]];
+//        [UIView commitAnimations];
+//    });
+//    
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        [UIView beginAnimations:nil context:UIGraphicsGetCurrentContext()];
+//        [UIView setAnimationDuration:1.0f];
+//        [remainImageView setImage:[UIImage imageNamed:@"remain1sec.png"]];
+//        [UIView commitAnimations];
+//    });
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [UIView beginAnimations:nil context:UIGraphicsGetCurrentContext()];
-        [UIView setAnimationDuration:1.0f];
-        [remainImageView setImage:[UIImage imageNamed:@"remain1sec.png"]];
+        [UIView setAnimationDuration:1.2f];
+        [centerImageView setAlpha:1.0f];
         [UIView commitAnimations];
     });
     
@@ -54,7 +61,7 @@
         [UIView commitAnimations];
     });
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];//实例化一个NSDateFormatter对象

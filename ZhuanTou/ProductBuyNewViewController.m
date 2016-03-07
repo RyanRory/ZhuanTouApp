@@ -14,7 +14,7 @@
 
 @implementation ProductBuyNewViewController
 
-@synthesize amountTextField, confirmButton, checkboxButton, agreementButton, chargeButton, balanceLabel, restLabel, tView, allInButton;
+@synthesize amountTextField, confirmButton, checkboxButton, agreementButton, chargeButton, balanceLabel, restLabel, tView, allInButton, checkboxBigButton;
 @synthesize style, idOrCode, productInfo, bidableAmount;
 @synthesize buttonBottomLayOut;
 @synthesize coupon, vouchers, biggestBonus, biggestCoupons, biggestStandingCoupons;
@@ -35,6 +35,7 @@
     
     checkboxButton.selected = YES;
     [checkboxButton addTarget:self action:@selector(checkboxEnsure:) forControlEvents:UIControlEventTouchUpInside];
+    [checkboxBigButton addTarget:self action:@selector(checkboxEnsure:) forControlEvents:UIControlEventTouchUpInside];
     [confirmButton addTarget:self action:@selector(confirm:) forControlEvents:UIControlEventTouchUpInside];
     [agreementButton addTarget:self action:@selector(toAgreemet:) forControlEvents:UIControlEventTouchUpInside];
     [chargeButton addTarget:self action:@selector(toCharge:) forControlEvents:UIControlEventTouchUpInside];
@@ -838,10 +839,10 @@
 
 - (void)checkboxEnsure:(UIButton*)btn
 {
-    btn.selected = !btn.selected;
-    if (btn.selected)
+    checkboxButton.selected = !checkboxButton.selected;
+    if (checkboxButton.selected)
     {
-        [btn setImage:[UIImage imageNamed:@"checkIconActive.png"] forState:UIControlStateNormal];
+        [checkboxButton setImage:[UIImage imageNamed:@"checkIconActive.png"] forState:UIControlStateNormal];
         if (amountTextField.text.length > 0)
         {
             [confirmButton setUserInteractionEnabled:YES];
@@ -850,7 +851,7 @@
     }
     else
     {
-        [btn setImage:[UIImage imageNamed:@"checkIcon.png"] forState:UIControlStateNormal];
+        [checkboxButton setImage:[UIImage imageNamed:@"checkIcon.png"] forState:UIControlStateNormal];
         [confirmButton setUserInteractionEnabled:NO];
         [confirmButton setAlpha:0.6f];
     }
