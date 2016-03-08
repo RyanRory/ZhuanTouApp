@@ -289,23 +289,23 @@
     if (!invitationButton.userInteractionEnabled)
     {
         if (indexPath.row == 0){
-            [self sendLinkContent:WXSceneSession];
+            [self sendLinkContent:WXSceneSession articleTitle:@"我给你送专投网福利了！" articleDescription:@"专投网新人活动三重壕礼，230元奖励等你拿，赶快来！"];
         }
         else if (indexPath.row == 1){
-            [self sendLinkContent:WXSceneTimeline];
+            [self sendLinkContent:WXSceneTimeline articleTitle:@"我给你送专投网福利了！" articleDescription:@"专投网新人活动三重壕礼，230元奖励等你拿，赶快来！"];
         }
         else if (indexPath.row == 2){
-            [self sendNewsMessageWithLocalImage];
+            [self sendNewsMessageWithLocalImage:@"我给你送专投网福利了！" articleDescription:@"专投网新人活动三重壕礼，230元奖励等你拿，赶快来！"];
         }
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-- (void) sendLinkContent:(int) scene
+- (void)sendLinkContent:(int)scene articleTitle:(NSString*)title articleDescription:(NSString*)description
 {
     WXMediaMessage *message = [WXMediaMessage message];
-    message.title = @"我给你送专投网福利了！";
-    message.description = @"专投网新人活动三重壕礼，230元奖励等你拿，赶快来！";
+    message.title = title;
+    message.description = description;
     [message setThumbImage:[UIImage imageNamed:@"loginLogo.png"]];
     
     WXWebpageObject *ext = [WXWebpageObject object];
@@ -321,13 +321,13 @@
     [WXApi sendReq:req];
 }
 
-- (void) sendNewsMessageWithLocalImage
+- (void) sendNewsMessageWithLocalImage:(NSString*)articleTitle articleDescription:(NSString*)articleDescription
 {
     NSString *utf8String = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"Activities/Recommend/Invited?referCode=%@&name=%@", phonenumString, realNameString]];
     //NSURL *url = [NSURL URLWithString:[BASEURL stringByAppendingString:[NSString stringWithFormat:@"Activities/Recommend/Invited?referCode=%@&name=%@", phonenumString, realNameString]]];
     NSURL *url = [[NSURL alloc] initWithString:[utf8String stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    NSString *title = @"我给你送专投网福利了！";
-    NSString *description = @"专投网新人活动三重壕礼，230元奖励等你拿，赶快来！";
+    NSString *title = articleTitle;
+    NSString *description = articleDescription;
     NSString *path = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"loginLogo.png"];
     NSData* data = [NSData dataWithContentsOfFile:path];
     NSString *previewImageUrl = @"https://mmbiz.qlogo.cn/mmbiz/QPNwM5MMglftcts729BarkLKBgmfNJdEtzOeLa35czyYvAVsYOZ0RfncxQNj6ib6kohnW4bGTfoVLkwdV1RibyOQ/0?wx_fmt=jpeg";
