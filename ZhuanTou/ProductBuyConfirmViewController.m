@@ -173,7 +173,7 @@
         }
     }
     [formatter setPositiveFormat:@"###,##0.00"];
-    staIncome.text = [NSString stringWithFormat:@"固定派息总计(元)：%@(不含分红部分)",[formatter stringFromNumber:[NSNumber numberWithDouble:floor( (pow(1+[NSString stringWithFormat:@"%@",[productInfo objectForKey:@"interestRate"]].doubleValue/100+jiaxiquan/100, 1.0/12.0)-1)/365*12*[NSString stringWithFormat:@"%@",[productInfo objectForKey:@"noOfDays"]].intValue * 100 * investAmount.intValue)/100]]];
+    staIncome.text = [NSString stringWithFormat:@"固定派息总计(元)：%@(不含分红)",[formatter stringFromNumber:[NSNumber numberWithDouble:floor( (pow(1+[NSString stringWithFormat:@"%@",[productInfo objectForKey:@"interestRate"]].doubleValue/100+jiaxiquan/100, 1.0/12.0)-1)/365*12*[NSString stringWithFormat:@"%@",[productInfo objectForKey:@"noOfDays"]].intValue * 100 * investAmount.intValue)/100]]];
 }
 
 - (void)confirm:(id)sender

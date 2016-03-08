@@ -53,7 +53,7 @@
         [UIView commitAnimations];
     });
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [UIView beginAnimations:nil context:UIGraphicsGetCurrentContext()];
         [UIView setAnimationDuration:1.0f];
         [titleLabel setAlpha:1.0f];

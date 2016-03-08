@@ -11465,9 +11465,9 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ndf-j2-gL0">
-                                        <rect key="frame" x="20" y="2" width="150" height="35"/>
+                                        <rect key="frame" x="8" y="2" width="162" height="35"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="150" id="ber-v4-pzM"/>
+                                            <constraint firstAttribute="width" constant="162" id="ber-v4-pzM"/>
                                             <constraint firstAttribute="height" constant="35" id="vEX-kf-sk7"/>
                                         </constraints>
                                     </button>
@@ -11495,7 +11495,7 @@
                                     <constraint firstItem="nDz-UA-YH4" firstAttribute="top" secondItem="wpo-9h-WOg" secondAttribute="top" constant="13" id="pTl-JG-0DP"/>
                                     <constraint firstItem="9KH-ZK-fJZ" firstAttribute="leading" secondItem="nDz-UA-YH4" secondAttribute="trailing" constant="5" id="t3N-U4-YQt"/>
                                     <constraint firstAttribute="bottom" secondItem="ndf-j2-gL0" secondAttribute="bottom" constant="7" id="u34-9J-Az9"/>
-                                    <constraint firstItem="ndf-j2-gL0" firstAttribute="leading" secondItem="wpo-9h-WOg" secondAttribute="leading" constant="20" id="uHL-UW-B78"/>
+                                    <constraint firstItem="ndf-j2-gL0" firstAttribute="leading" secondItem="wpo-9h-WOg" secondAttribute="leading" constant="8" id="uHL-UW-B78"/>
                                     <constraint firstItem="9KH-ZK-fJZ" firstAttribute="top" secondItem="wpo-9h-WOg" secondAttribute="top" constant="7" id="zyT-pF-bdz"/>
                                 </constraints>
                             </view>

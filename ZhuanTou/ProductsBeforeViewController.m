@@ -134,7 +134,7 @@
     {
         cell.percentNumLabel.text = @"暂不计算";
         cell.percentNumLabel.textColor = ZTGRAY;
-        cell.percentDetailLabel.text = @"(8.00%+?)";
+        cell.percentDetailLabel.text = @"(8.00%+x)";
     }
     else
     {

@@ -377,23 +377,27 @@
         
         if (![NSString stringWithFormat:@"%@",[data objectForKey:@"used"]].boolValue)
         {
-            cell.bgView.backgroundColor = ZTBLUE;
-            cell.statusLabel.text = @"选购产品";
-            cell.statusLabel.textColor = ZTBLUE;
-            cell.ddlLabel.textColor = ZTBLUE;
-            [cell.toProductButton setUserInteractionEnabled:YES];
+            if ([NSString stringWithFormat:@"%@",[data objectForKey:@"expired"]].boolValue)
+            {
+                cell.bgView.backgroundColor = ZTGRAY;
+                cell.statusLabel.text = @"已过期";
+                cell.statusLabel.textColor = ZTGRAY;
+                cell.ddlLabel.textColor = ZTGRAY;
+                [cell.toProductButton setUserInteractionEnabled:NO];
+            }
+            else
+            {
+                cell.bgView.backgroundColor = ZTBLUE;
+                cell.statusLabel.text = @"选购产品";
+                cell.statusLabel.textColor = ZTBLUE;
+                cell.ddlLabel.textColor = ZTBLUE;
+                [cell.toProductButton setUserInteractionEnabled:YES];
+            }
         }
         else
         {
             cell.bgView.backgroundColor = ZTGRAY;
-            if ([NSString stringWithFormat:@"%@",[data objectForKey:@"expired"]].boolValue)
-            {
-                cell.statusLabel.text = @"已过期";
-            }
-            else
-            {
-                cell.statusLabel.text = @"已使用";
-            }
+            cell.statusLabel.text = @"已使用";
             cell.statusLabel.textColor = ZTGRAY;
             cell.ddlLabel.textColor = ZTGRAY;
             [cell.toProductButton setUserInteractionEnabled:NO];
