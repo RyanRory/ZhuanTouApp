@@ -14,7 +14,7 @@
 
 @implementation LaunchScreenViewController
 
-@synthesize centerImageView, bgView, titleLabel, discriptionLabel, remainImageView;
+@synthesize centerImageView, bgView, titleLabel, discriptionLabel, remainImageView, launchImageView;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -25,7 +25,64 @@
     [centerImageView setAlpha:0.0f];
     [titleLabel setAlpha:0.0f];
     [discriptionLabel setAlpha:0.0f];
+    
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    if ([userDefault boolForKey:LAUNCHIMAGE])
+    {
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
+        NSString *filePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:[NSString stringWithFormat:@"launchImage.jpg"]];   // 保存文件的名称
+        launchImageView.image = [UIImage imageWithContentsOfFile:filePath];
+        bgView.hidden = YES;
+        centerImageView.hidden = YES;
+        titleLabel.hidden = YES;
+        discriptionLabel.hidden = YES;
+    }
+    else
+    {
+        launchImageView.hidden = YES;
+    }
+    
+    [self loadImage];
 
+}
+
+- (void)loadImage
+{
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSString *URL = [BASEURL stringByAppendingString:@"api/article/appEntryPic"];
+    [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSArray *responseObject) {
+        NSLog(@"%@", responseObject);
+        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+        if (responseObject.count > 0)
+        {
+            id data = [responseObject objectAtIndex:0];
+            UIImage *img = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[data objectForKey:@"imgUrl"]]]];
+            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
+            NSString *filePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:[NSString stringWithFormat:@"launchImage.jpg"]];   // 保存文件的名称
+            BOOL result = [UIImagePNGRepresentation(img)writeToFile: filePath    atomically:YES]; // 保存成功会返回YES
+            if (result)
+            {
+                [userDefault setBool:YES forKey:LAUNCHIMAGE];
+            }
+        }
+        else
+        {
+            NSFileManager* fileManager=[NSFileManager defaultManager];
+            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
+            //文件名
+            NSString *uniquePath=[[paths objectAtIndex:0] stringByAppendingPathComponent:[NSString stringWithFormat:@"launchImage.jpg"]];
+            BOOL blDele= [fileManager removeItemAtPath:uniquePath error:nil];
+            if (blDele)
+            {
+                [userDefault setBool:NO forKey:LAUNCHIMAGE];
+            }
+        }
+        [userDefault synchronize];
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+        [self loadImage];
+    }];
 }
 
 - (void)viewDidAppear:(BOOL)animated

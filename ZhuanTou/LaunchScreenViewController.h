@@ -19,5 +19,6 @@
 @property (strong, nonatomic) IBOutlet UILabel *titleLabel;
 @property (strong, nonatomic) IBOutlet UILabel *discriptionLabel;
 @property (strong, nonatomic) IBOutlet UIImageView *remainImageView;
+@property (strong, nonatomic) IBOutlet UIImageView *launchImageView;
 
 @end

@@ -95,19 +95,26 @@
                                     <constraint firstAttribute="height" constant="30" id="Xi2-uC-xgX"/>
                                 </constraints>
                             </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="GlH-e5-qf5">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="woS-dP-qaf" firstAttribute="centerX" secondItem="qmm-5O-ki4" secondAttribute="centerX" id="5MR-Wl-9vg"/>
+                            <constraint firstItem="YCV-Gw-Dlu" firstAttribute="top" secondItem="GlH-e5-qf5" secondAttribute="bottom" id="9dS-Tc-Pt7"/>
                             <constraint firstItem="gZ8-3k-A6n" firstAttribute="top" secondItem="Aem-Mh-XOB" secondAttribute="bottom" constant="127" id="DRw-WS-rQo"/>
+                            <constraint firstItem="GlH-e5-qf5" firstAttribute="leading" secondItem="qmm-5O-ki4" secondAttribute="leadingMargin" constant="-20" id="EaZ-od-Jms"/>
                             <constraint firstAttribute="trailingMargin" secondItem="W40-rp-qWC" secondAttribute="trailing" constant="5" id="JXO-FC-QQi"/>
                             <constraint firstItem="5kR-79-YHh" firstAttribute="leading" secondItem="qmm-5O-ki4" secondAttribute="leadingMargin" id="K2R-Hv-48n"/>
                             <constraint firstItem="kKN-EV-b3X" firstAttribute="trailing" secondItem="qmm-5O-ki4" secondAttribute="trailingMargin" id="SfR-8Z-Q6a"/>
                             <constraint firstItem="gZ8-3k-A6n" firstAttribute="centerX" secondItem="qmm-5O-ki4" secondAttribute="centerX" id="TxN-8X-0h9"/>
                             <constraint firstItem="5kR-79-YHh" firstAttribute="trailing" secondItem="qmm-5O-ki4" secondAttribute="trailingMargin" id="UKH-vG-zAg"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="GlH-e5-qf5" secondAttribute="trailing" constant="-20" id="VH5-xR-6IH"/>
                             <constraint firstItem="W40-rp-qWC" firstAttribute="top" secondItem="Aem-Mh-XOB" secondAttribute="bottom" constant="5" id="VT2-lE-v5w"/>
                             <constraint firstItem="kKN-EV-b3X" firstAttribute="top" secondItem="woS-dP-qaf" secondAttribute="bottom" constant="8" id="iLr-Jq-L1L"/>
                             <constraint firstItem="YCV-Gw-Dlu" firstAttribute="top" secondItem="5kR-79-YHh" secondAttribute="bottom" constant="65" id="mbL-RU-G8f"/>
+                            <constraint firstItem="GlH-e5-qf5" firstAttribute="top" secondItem="Aem-Mh-XOB" secondAttribute="bottom" id="mkT-Cu-aQw"/>
                             <constraint firstItem="kKN-EV-b3X" firstAttribute="leading" secondItem="qmm-5O-ki4" secondAttribute="leadingMargin" id="x3M-15-Vay"/>
                             <constraint firstItem="woS-dP-qaf" firstAttribute="top" secondItem="Aem-Mh-XOB" secondAttribute="bottom" constant="100" id="yj8-fn-7El"/>
                         </constraints>
@@ -117,6 +124,7 @@
                         <outlet property="bgView" destination="woS-dP-qaf" id="Gdd-qL-mRE"/>
                         <outlet property="centerImageView" destination="gZ8-3k-A6n" id="zan-73-bCE"/>
                         <outlet property="discriptionLabel" destination="5kR-79-YHh" id="ZCB-ph-a6w"/>
+                        <outlet property="launchImageView" destination="GlH-e5-qf5" id="y8v-EE-LQM"/>
                         <outlet property="remainImageView" destination="W40-rp-qWC" id="Mmz-ns-ezO"/>
                         <outlet property="titleLabel" destination="kKN-EV-b3X" id="ukv-Jv-Ahc"/>
                     </connections>
