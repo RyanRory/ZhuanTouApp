@@ -586,7 +586,17 @@
             [amountTextField becomeFirstResponder];
         });
     }
-    else if ((![style isEqualToString:HUOQI]) && (amountTextField.text.intValue % 100 != 0))
+    else if ((![style isEqualToString:HUOQI]) && (amountTextField.text.intValue % 100 != 0) && (!couponsFlag))
+    {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.mode = MBProgressHUDModeCustomView;
+        hud.labelText = @"投资额度必须为100的整数倍";
+        [hud hide:YES afterDelay:1.5];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [amountTextField becomeFirstResponder];
+        });
+    }
+    else if ((![style isEqualToString:HUOQI]) && ((amountTextField.text.intValue + [NSString stringWithFormat:@"%@",[biggestBonus objectForKey:@"faceValue"]].intValue) % 100 != 0) && (couponsFlag))
     {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.mode = MBProgressHUDModeCustomView;

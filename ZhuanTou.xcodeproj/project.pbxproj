@@ -59,6 +59,7 @@
 		A42339061C86DE3E0004612D /* voucherChosen@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A42339041C86DE3E0004612D /* voucherChosen@2x.png */; };
 		A42339091C86DE490004612D /* bonusChosen.png in Resources */ = {isa = PBXBuildFile; fileRef = A42339071C86DE490004612D /* bonusChosen.png */; };
 		A423390A1C86DE490004612D /* voucherChosen.png in Resources */ = {isa = PBXBuildFile; fileRef = A42339081C86DE490004612D /* voucherChosen.png */; };
+		A423391D1C9026BB0004612D /* libUMessage_Sdk_1.2.6.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A423391B1C9026BB0004612D /* libUMessage_Sdk_1.2.6.a */; };
 		A42EA2C11BDF833F00E35F5F /* ifudong@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A42EA2B91BDF833F00E35F5F /* ifudong@3x.png */; };
 		A42EA2C21BDF833F00E35F5F /* iguding@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A42EA2BA1BDF833F00E35F5F /* iguding@3x.png */; };
 		A42EA2C31BDF833F00E35F5F /* inbuilding@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A42EA2BB1BDF833F00E35F5F /* inbuilding@3x.png */; };
@@ -546,6 +547,8 @@
 		A42339041C86DE3E0004612D /* voucherChosen@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "voucherChosen@2x.png"; path = "images/@2x/voucherChosen@2x.png"; sourceTree = "<group>"; };
 		A42339071C86DE490004612D /* bonusChosen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bonusChosen.png; path = "images/@1x/bonusChosen.png"; sourceTree = "<group>"; };
 		A42339081C86DE490004612D /* voucherChosen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = voucherChosen.png; path = "images/@1x/voucherChosen.png"; sourceTree = "<group>"; };
+		A423391B1C9026BB0004612D /* libUMessage_Sdk_1.2.6.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUMessage_Sdk_1.2.6.a; sourceTree = "<group>"; };
+		A423391C1C9026BB0004612D /* UMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMessage.h; sourceTree = "<group>"; };
 		A42EA2B91BDF833F00E35F5F /* ifudong@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ifudong@3x.png"; path = "images/@3x/ifudong@3x.png"; sourceTree = "<group>"; };
 		A42EA2BA1BDF833F00E35F5F /* iguding@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "iguding@3x.png"; path = "images/@3x/iguding@3x.png"; sourceTree = "<group>"; };
 		A42EA2BB1BDF833F00E35F5F /* inbuilding@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "inbuilding@3x.png"; path = "images/@3x/inbuilding@3x.png"; sourceTree = "<group>"; };
@@ -1012,6 +1015,7 @@
 				EA0246D71C537A8F00A677B0 /* libsqlite3.0.tbd in Frameworks */,
 				EA0246D51C537A0400A677B0 /* libWeChatSDK.a in Frameworks */,
 				6960161C4D1F51521E05885E /* libPods.a in Frameworks */,
+				A423391D1C9026BB0004612D /* libUMessage_Sdk_1.2.6.a in Frameworks */,
 				A45B856B1BFDE4740041FFC7 /* Crashlytics.framework in Frameworks */,
 				A463EAB31BD60FB300CAF146 /* Charts.framework in Frameworks */,
 				A475498B1BE61889002E929C /* BaoFooPay.framework in Frameworks */,
@@ -1519,6 +1523,15 @@
 			name = "@3x";
 			sourceTree = "<group>";
 		};
+		A423391E1C9026C20004612D /* UMessage */ = {
+			isa = PBXGroup;
+			children = (
+				A423391C1C9026BB0004612D /* UMessage.h */,
+				A423391B1C9026BB0004612D /* libUMessage_Sdk_1.2.6.a */,
+			);
+			name = UMessage;
+			sourceTree = "<group>";
+		};
 		A42EA2F81BE1E2B400E35F5F /* cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -1594,6 +1607,7 @@
 		A45B856C1BFDE7790041FFC7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A423391E1C9026C20004612D /* UMessage */,
 				EA0246D81C53858800A677B0 /* QQ */,
 				EA0246CA1C53762D00A677B0 /* WeChat */,
 				A4E8F83E1C0C53D70002D7D0 /* LLPay */,
@@ -2594,6 +2608,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/LLPay_iOS_SDK_V2.4",
 					"$(PROJECT_DIR)/ZhuanTou/SDK1.6.2",
+					"$(PROJECT_DIR)",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -2618,7 +2633,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.momu.zhuantouwang.ZhuanTou;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "1e9e90fb-df92-456e-8ebb-cb04dd17f0cb";
 				SWIFT_OBJC_BRIDGING_HEADER = "ZhuanTou/ZhuanTou-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -2650,6 +2665,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/LLPay_iOS_SDK_V2.4",
 					"$(PROJECT_DIR)/ZhuanTou/SDK1.6.2",
+					"$(PROJECT_DIR)",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -2674,7 +2690,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.momu.zhuantouwang.ZhuanTou;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "1e9e90fb-df92-456e-8ebb-cb04dd17f0cb";
 				SWIFT_OBJC_BRIDGING_HEADER = "ZhuanTou/ZhuanTou-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -2797,6 +2813,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/LLPay_iOS_SDK_V2.4",
 					"$(PROJECT_DIR)/ZhuanTou/SDK1.6.2",
+					"$(PROJECT_DIR)",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -2841,7 +2858,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.momu.zhuantouwang.ZhuanTou;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "1e9e90fb-df92-456e-8ebb-cb04dd17f0cb";
 				SWIFT_OBJC_BRIDGING_HEADER = "ZhuanTou/ZhuanTou-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 			};

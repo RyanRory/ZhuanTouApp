@@ -20,6 +20,7 @@
 #import <QuartzCore/QuartzCore.h> 
 #import "SCNumberKeyBoard.h"
 #import "AttributedLabel.h"
+#import "UMessage.h"
 
 
 #endif /* PrefixHeader_pch */
