@@ -65,7 +65,7 @@
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
     [formatter setPositiveFormat:@"###,##0.00"];
     NSLog(@"%@",bidableAmount);
-    restLabel.text = [NSString stringWithFormat:@"可购份额(元)：%@万",[formatter stringFromNumber:[NSNumber numberWithDouble:bidableAmount.doubleValue/10000]]];
+    restLabel.text = [NSString stringWithFormat:@"可购份额(元):%@万",[formatter stringFromNumber:[NSNumber numberWithDouble:bidableAmount.doubleValue/10000]]];
     
     SCNumberKeyBoard *keyboard = [SCNumberKeyBoard showWithTextField:amountTextField enter:nil close:nil];
     [keyboard.enterButton setBackgroundColor:ZTBLUE];
@@ -353,12 +353,12 @@
     voucher2Flag = voucher2FlagChosen;
     if ([style isEqualToString:HUOQI])
     {
-        balanceLabel.text = @"可用余额(元)：";
+        balanceLabel.text = @"可用余额(元):";
         allInButton.hidden = NO;
     }
     else
     {
-        balanceLabel.text = @"可投资余额(元)：";
+        balanceLabel.text = @"可投资余额(元):";
         allInButton.hidden = YES;
     }
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
@@ -370,12 +370,12 @@
         if ([style isEqualToString:HUOQI])
         {
             balance = [NSString stringWithFormat:@"%@",[responseObject objectForKey:@"fundsAvailable"]].doubleValue;
-            balanceLabel.text = [NSString stringWithFormat:@"可用余额(元)：%@",[formatter stringFromNumber:[responseObject objectForKey:@"fundsAvailable"]]];
+            balanceLabel.text = [NSString stringWithFormat:@"可用余额(元):%@",[formatter stringFromNumber:[responseObject objectForKey:@"fundsAvailable"]]];
         }
         else
         {
             balance = [NSString stringWithFormat:@"%@",[responseObject objectForKey:@"fundsAvailable"]].doubleValue + [NSString stringWithFormat:@"%@",[responseObject objectForKey:@"ztbBalance"]].doubleValue;
-            balanceLabel.text = [NSString stringWithFormat:@"可投资余额(元)：%@",[formatter stringFromNumber:[NSNumber numberWithDouble:balance]]];
+            balanceLabel.text = [NSString stringWithFormat:@"可投资余额(元):%@",[formatter stringFromNumber:[NSNumber numberWithDouble:balance]]];
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -586,17 +586,7 @@
             [amountTextField becomeFirstResponder];
         });
     }
-    else if ((![style isEqualToString:HUOQI]) && (amountTextField.text.intValue % 100 != 0) && (!couponsFlag))
-    {
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-        hud.mode = MBProgressHUDModeCustomView;
-        hud.labelText = @"投资额度必须为100的整数倍";
-        [hud hide:YES afterDelay:1.5];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [amountTextField becomeFirstResponder];
-        });
-    }
-    else if ((![style isEqualToString:HUOQI]) && ((amountTextField.text.intValue + [NSString stringWithFormat:@"%@",[biggestBonus objectForKey:@"faceValue"]].intValue) % 100 != 0) && (couponsFlag))
+    else if ((![style isEqualToString:HUOQI]) && (amountTextField.text.intValue % 100 != 0))
     {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.mode = MBProgressHUDModeCustomView;

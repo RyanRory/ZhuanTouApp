@@ -82,7 +82,14 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     [self.navigationController.view addSubview:hud];
     NSString *PasswordReg;
-    PasswordReg = @"^(?=.*[0-9])(?=.*[a-zA-Z!@#$%^&*()_+|]).{6,30}$";
+    if ([style isEqualToString:RESETLOGINPSWD])
+    {
+        PasswordReg = @"^(?=.*[0-9])(?=.*[a-zA-Z!@#$%^&*()_+|]).{6,30}$";
+    }
+    else
+    {
+        PasswordReg = @"^[0-9]{6}$";
+    }
     NSPredicate *regextestpassword = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", PasswordReg];
     if ([style isEqualToString:RESETLOGINPSWD] && (![regextestpassword evaluateWithObject: oldPswdTextField.text]))
     {
