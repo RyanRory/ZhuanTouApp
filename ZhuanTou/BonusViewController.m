@@ -180,7 +180,7 @@
         [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSArray *responseObject) {
             NSLog(@"%@", responseObject);
             interestRateDatas = [[NSMutableArray alloc]init];
-            for (int i = (int)(responseObject.count-1) ; i >= 0; i--)
+            for (int i = 0; i < responseObject.count; i++)
             {
                 id data = [responseObject objectAtIndex:i];
                 if ([[data objectForKey:@"type"] isEqualToString:@"定期加息券"])

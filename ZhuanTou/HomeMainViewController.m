@@ -459,6 +459,7 @@
 
 - (void)toBuy:(id)sender
 {
+    NSLog(@"Click Buy Button!");
     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
     if (![userDefault boolForKey:ISLOGIN])
     {

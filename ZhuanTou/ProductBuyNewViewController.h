@@ -22,7 +22,7 @@
     NSMutableArray *bonus, *coupons, *standingCoupons;
     int bonusNum;
     double balance;
-    BOOL couponsFlag, voucher1Flag, voucher2Flag;
+    BOOL couponsFlag, voucher1Flag, voucher2Flag, couponsAPIFlag;
     BOOL bonusLoadFinished, couponLoadFinished;
 }
 

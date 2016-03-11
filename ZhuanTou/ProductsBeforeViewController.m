@@ -134,13 +134,13 @@
     {
         cell.percentNumLabel.text = @"暂不计算";
         cell.percentNumLabel.textColor = ZTGRAY;
-        cell.percentDetailLabel.text = @"(8.00%+x)";
+        cell.percentDetailLabel.text = [NSString stringWithFormat:@"(%.2f%%+x)",[NSString stringWithFormat:@"%@",[data objectForKey:@"interestRate"]].doubleValue];
     }
     else
     {
         cell.percentNumLabel.text = [NSString stringWithFormat:@"%.2f%%",[NSString stringWithFormat:@"%@",[data objectForKey:@"profit"]].doubleValue];
         cell.percentNumLabel.textColor = ZTLIGHTRED;
-        cell.percentDetailLabel.text = [NSString stringWithFormat:@"(8.00%%+%.2f%%)",[NSString stringWithFormat:@"%@",[data objectForKey:@"profit"]].doubleValue-8];
+        cell.percentDetailLabel.text = [NSString stringWithFormat:@"(%.2f%%+%.2f%%)",[NSString stringWithFormat:@"%@",[data objectForKey:@"interestRate"]].doubleValue, [NSString stringWithFormat:@"%@",[data objectForKey:@"floatInterestRate"]].doubleValue];
     }
     cell.statusLabel.text = [data objectForKey:@"status"];
     if ([cell.statusLabel.text isEqualToString:@"操盘中"])

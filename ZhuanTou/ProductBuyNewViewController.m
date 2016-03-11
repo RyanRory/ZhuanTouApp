@@ -64,7 +64,6 @@
     
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
     [formatter setPositiveFormat:@"###,##0.00"];
-    NSLog(@"%@",bidableAmount);
     restLabel.text = [NSString stringWithFormat:@"可购份额(元):%@万",[formatter stringFromNumber:[NSNumber numberWithDouble:bidableAmount.doubleValue/10000]]];
     
     SCNumberKeyBoard *keyboard = [SCNumberKeyBoard showWithTextField:amountTextField enter:nil close:nil];
@@ -77,6 +76,7 @@
     couponsFlag = voucher1Flag = voucher2Flag = false;
     if (![style isEqualToString:HUOQI])
     {
+        couponsAPIFlag = true;
         [self setupCoupons];
     }
     
@@ -361,9 +361,49 @@
         balanceLabel.text = @"可投资余额(元):";
         allInButton.hidden = YES;
     }
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    NSString *URL = [BASEURL stringByAppendingString:@"api/account/couponInfo4M"];
-    [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+    if (!couponsAPIFlag)
+    {
+        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+        NSString *URL = [BASEURL stringByAppendingString:@"api/account/couponInfo4M"];
+        [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+            NSLog(@"tttttt:%@", responseObject);
+            NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
+            [formatter setPositiveFormat:@"###,##0.00"];
+            if ([style isEqualToString:HUOQI])
+            {
+                balance = [NSString stringWithFormat:@"%@",[responseObject objectForKey:@"fundsAvailable"]].doubleValue;
+                balanceLabel.text = [NSString stringWithFormat:@"可用余额(元):%@",[formatter stringFromNumber:[responseObject objectForKey:@"fundsAvailable"]]];
+            }
+            else
+            {
+                balance = [NSString stringWithFormat:@"%@",[responseObject objectForKey:@"fundsAvailable"]].doubleValue + [NSString stringWithFormat:@"%@",[responseObject objectForKey:@"ztbBalance"]].doubleValue;
+                balanceLabel.text = [NSString stringWithFormat:@"可投资余额(元):%@",[formatter stringFromNumber:[NSNumber numberWithDouble:balance]]];
+            }
+            
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            NSLog(@"Error: %@", error);
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = @"当前网络状况不佳";
+            [hud hide:YES afterDelay:1.5f];
+        }];
+    }
+    else
+    {
+        couponsAPIFlag = false;
+    }
+
+    [tView reloadData];
+}
+
+- (void)setupCoupons
+{
+    bonusLoadFinished = NO;
+    couponLoadFinished = NO;
+    AFHTTPRequestOperationManager *manager1 = [AFHTTPRequestOperationManager manager];
+    NSString *URL1 = [BASEURL stringByAppendingString:@"api/account/couponInfo4M"];
+    NSLog(@"couponsAPI start!");
+    [manager1 GET:URL1 parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
         NSLog(@"%@", responseObject);
         NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
         [formatter setPositiveFormat:@"###,##0.00"];
@@ -377,26 +417,6 @@
             balance = [NSString stringWithFormat:@"%@",[responseObject objectForKey:@"fundsAvailable"]].doubleValue + [NSString stringWithFormat:@"%@",[responseObject objectForKey:@"ztbBalance"]].doubleValue;
             balanceLabel.text = [NSString stringWithFormat:@"可投资余额(元):%@",[formatter stringFromNumber:[NSNumber numberWithDouble:balance]]];
         }
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Error: %@", error);
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-        hud.mode = MBProgressHUDModeText;
-        hud.labelText = @"当前网络状况不佳";
-        [hud hide:YES afterDelay:1.5f];
-    }];
-
-    [tView reloadData];
-}
-
-- (void)setupCoupons
-{
-    bonusLoadFinished = NO;
-    couponLoadFinished = NO;
-    AFHTTPRequestOperationManager *manager1 = [AFHTTPRequestOperationManager manager];
-    NSString *URL1 = [BASEURL stringByAppendingString:@"api/account/couponInfo4M"];
-    [manager1 GET:URL1 parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
-        NSLog(@"%@", responseObject);
         bonus = [[NSMutableArray alloc]initWithArray:[responseObject objectForKey:@"coupons"]];
         for (int i = 0; i < bonus.count; i++)
         {
@@ -437,6 +457,7 @@
     
     AFHTTPRequestOperationManager *manager2 = [AFHTTPRequestOperationManager manager];
     NSString *URL2 = [BASEURL stringByAppendingString:@"api/voucher/myVouchers/true"];
+    NSLog(@"vouchersAPI start!");
     [manager2 GET:URL2 parameters:nil success:^(AFHTTPRequestOperation *operation, NSArray *responseObject) {
         NSLog(@"%@", responseObject);
         coupons = [[NSMutableArray alloc]init];
@@ -566,7 +587,17 @@
             }
         }
     }
-    if ((int)round(amountTextField.text.doubleValue * 100) > (int)round(balance * 100))
+    if (((int)round(amountTextField.text.doubleValue * 100) > (int)round(balance * 100)) && (!couponsFlag))
+    {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.mode = MBProgressHUDModeCustomView;
+        hud.labelText = @"可用余额不足";
+        [hud hide:YES afterDelay:1.5];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [amountTextField becomeFirstResponder];
+        });
+    }
+    else if ((couponsFlag) && ((int)round((amountTextField.text.doubleValue - [NSString stringWithFormat:@"%@",[biggestBonus objectForKey:@"faceValue"]].doubleValue) * 100)> (int)round(balance * 100)))
     {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.mode = MBProgressHUDModeCustomView;
