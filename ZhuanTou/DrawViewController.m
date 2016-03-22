@@ -242,7 +242,7 @@
 
             noBankCardView.hidden = NO;
             NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-            phoneNumLabel.text = [NSString stringWithFormat:@"将向您的%@手机发送验证码：", [userDefault objectForKey:CURRENTPHONE]];
+            phoneNumLabel.text = [NSString stringWithFormat:@"将向您的%@手机发送验证码：", [userDefault objectForKey:PHONENUM]];
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

@@ -33,40 +33,40 @@
     
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
     
-//    [UMessage startWithAppkey:@"56de853267e58ec8360025ae" launchOptions:launchOptions];
-//    
-//    if ([[[UIDevice currentDevice] systemVersion] compare:@"8.0"options:NSNumericSearch] != NSOrderedAscending)
-//    {
-//        //register remoteNotification types （iOS 8.0及其以上版本）
-//        UIMutableUserNotificationAction *action1 = [[UIMutableUserNotificationAction alloc] init];
-//        action1.identifier = @"action1_identifier";
-//        action1.title=@"Accept";
-//        action1.activationMode = UIUserNotificationActivationModeForeground;//当点击的时候启动程序
-//        
-//        UIMutableUserNotificationAction *action2 = [[UIMutableUserNotificationAction alloc] init];  //第二按钮
-//        action2.identifier = @"action2_identifier";
-//        action2.title=@"Reject";
-//        action2.activationMode = UIUserNotificationActivationModeBackground;//当点击的时候不启动程序，在后台处理
-//        action2.authenticationRequired = YES;//需要解锁才能处理，如果action.activationMode = UIUserNotificationActivationModeForeground;则这个属性被忽略；
-//        action2.destructive = YES;
-//        
-//        UIMutableUserNotificationCategory *categorys = [[UIMutableUserNotificationCategory alloc] init];
-//        categorys.identifier = @"category1";//这组动作的唯一标示
-//        [categorys setActions:@[action1,action2] forContext:(UIUserNotificationActionContextDefault)];
-//        
-//        UIUserNotificationSettings *userSettings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeBadge|UIUserNotificationTypeSound|UIUserNotificationTypeAlert
-//                                                                                     categories:[NSSet setWithObject:categorys]];
-//        [UMessage registerRemoteNotificationAndUserNotificationSettings:userSettings];
-//        
-//    }
-//    else
-//    {
-//        //register remoteNotification types (iOS 8.0以下)
-//        [UMessage registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge|UIRemoteNotificationTypeSound|UIRemoteNotificationTypeAlert];
-//    }
-//    //for log
-//    [UMessage setLogEnabled:YES];
-//    [UMessage setBadgeClear:NO];
+    [UMessage startWithAppkey:@"56de853267e58ec8360025ae" launchOptions:launchOptions];
+    
+    if ([[[UIDevice currentDevice] systemVersion] compare:@"8.0"options:NSNumericSearch] != NSOrderedAscending)
+    {
+        //register remoteNotification types （iOS 8.0及其以上版本）
+        UIMutableUserNotificationAction *action1 = [[UIMutableUserNotificationAction alloc] init];
+        action1.identifier = @"action1_identifier";
+        action1.title=@"Accept";
+        action1.activationMode = UIUserNotificationActivationModeForeground;//当点击的时候启动程序
+        
+        UIMutableUserNotificationAction *action2 = [[UIMutableUserNotificationAction alloc] init];  //第二按钮
+        action2.identifier = @"action2_identifier";
+        action2.title=@"Reject";
+        action2.activationMode = UIUserNotificationActivationModeBackground;//当点击的时候不启动程序，在后台处理
+        action2.authenticationRequired = YES;//需要解锁才能处理，如果action.activationMode = UIUserNotificationActivationModeForeground;则这个属性被忽略；
+        action2.destructive = YES;
+        
+        UIMutableUserNotificationCategory *categorys = [[UIMutableUserNotificationCategory alloc] init];
+        categorys.identifier = @"category1";//这组动作的唯一标示
+        [categorys setActions:@[action1,action2] forContext:(UIUserNotificationActionContextDefault)];
+        
+        UIUserNotificationSettings *userSettings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeBadge|UIUserNotificationTypeSound|UIUserNotificationTypeAlert
+                                                                                     categories:[NSSet setWithObject:categorys]];
+        [UMessage registerRemoteNotificationAndUserNotificationSettings:userSettings];
+        
+    }
+    else
+    {
+        //register remoteNotification types (iOS 8.0以下)
+        [UMessage registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge|UIRemoteNotificationTypeSound|UIRemoteNotificationTypeAlert];
+    }
+    //for log
+    [UMessage setLogEnabled:YES];
+    [UMessage setBadgeClear:NO];
     
     return YES;
 }

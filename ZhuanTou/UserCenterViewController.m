@@ -242,7 +242,9 @@
                 bankCardNumLabel.text = @"未绑定";
             }
             [userDefault setObject:[NSString stringWithFormat:@"%@", [responseObject objectForKey:@"userName"]] forKey:NICKNAME];
+            [userDefault setObject:[responseObject objectForKey:@"mobilePhone"] forKey:PHONENUM];
             [userDefault setInteger:([NSString stringWithFormat:@"%@", [responseObject objectForKey:@"tpThreshold"]].intValue *100) forKey:TPTHRESHOLD];
+            [userDefault synchronize];
             usernameLabel.text = [NSString stringWithFormat:@"%@", [responseObject objectForKey:@"userName"]];
             nickNameLabel.text = [NSString stringWithFormat:@"%@", [responseObject objectForKey:@"userName"]];
             if ([nickNameLabel.text isEqualToString:mobileLabel.text])
@@ -401,7 +403,7 @@
 {
     [self Deslide];
     BankCardViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"BankCardViewController"];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self.navigationController pushViewController:vc animated:YES];
     });
 }
@@ -410,7 +412,7 @@
 {
     [self Deslide];
     HelpMainViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"HelpMainViewController"];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self.navigationController pushViewController:vc animated:YES];
     });
 }
@@ -422,7 +424,7 @@
         [self Deslide];
         RealNameViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"RealNameViewController"];
         vc.isFromUserCenter = YES;
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self.navigationController pushViewController:vc animated:YES];
         });
     }
@@ -442,7 +444,7 @@
     {
         SetTradePswdViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"SetTradePswdViewController"];
         vc.isFromUserCenter = YES;
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self.navigationController pushViewController:vc animated:YES];
         });
     }
@@ -451,7 +453,7 @@
         ResetTradePswdViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ResetTradePswdViewController"];
         vc.isFromUserCenter = YES;
         [vc setStyle:RESETTRADEPSWD];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self.navigationController pushViewController:vc animated:YES];
         });
     }
@@ -463,7 +465,7 @@
     ResetTradePswdViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ResetTradePswdViewController"];
     vc.isFromUserCenter = YES;
     [vc setStyle:RESETLOGINPSWD];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self.navigationController pushViewController:vc animated:YES];
     });
 }
@@ -474,7 +476,7 @@
     SetpasswordViewController *setpass = [[self storyboard]instantiateViewControllerWithIdentifier:@"SetpasswordViewController"];
     setpass.isFromUserCenter = YES;
     setpass.string = @"修改密码";
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self.navigationController pushViewController:setpass animated:YES];
     });
 }
@@ -534,7 +536,7 @@
     
     [alertVC addAction:cancelAction];
     [alertVC addAction:confirmAction];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self presentViewController:alertVC animated:YES completion:nil];
     });
 }
