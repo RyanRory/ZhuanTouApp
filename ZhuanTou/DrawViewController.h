@@ -11,6 +11,7 @@
 #import "RealNameViewController.h"
 #import "CompleteBankCardInfoViewController.h"
 #import "WebDetailViewController.h"
+#import "TradePswdView.h"
 
 @interface DrawViewController : UIViewController<UIPickerViewDataSource, UIPickerViewDelegate>
 {
@@ -22,6 +23,7 @@
     int buttonTag, secondsCountDown;
     int bankTemp, provinceTemp, cityTemp;
     NSTimer *countDownTimer;
+    double drawNum;
 }
 
 @property (strong, nonatomic) IBOutlet UIView *bankCardView;

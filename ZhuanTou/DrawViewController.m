@@ -257,11 +257,12 @@
     NSString *URL1 = [BASEURL stringByAppendingString:@"api/account/userWithdrawVm4M"];
     [manager1 GET:URL1 parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject1) {
         NSLog(@"%@", responseObject1);
+        drawNum = [NSString stringWithFormat:@"%@",[responseObject1 objectForKey:@"fundsAvailable"]].doubleValue;
         NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
         [formatter setPositiveFormat:@"###,##0.00"];
-        drawNumLabel.text = [NSString stringWithFormat:@"%@元",[NSString stringWithString:[formatter stringFromNumber:[responseObject1 objectForKey:@"fundsAvailable"]]]];
+        drawNumLabel.text = [NSString stringWithFormat:@"%@元",[NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:drawNum]]]];
         noFeeLabel.text = [NSString stringWithFormat:@"(每月可免费提现3次，本月剩余免费提现次数:%@次)",[responseObject1 objectForKey:@"freeWithdrawsThisMonth"]];
-        balanceLabel.text = [NSString stringWithFormat:@"%@元",[NSString stringWithString:[formatter stringFromNumber:[responseObject1 objectForKey:@"fundsAvailable"]]]];
+        balanceLabel.text = [NSString stringWithFormat:@"%@元",[NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithDouble:drawNum]]]];
         NBCVnoFeeNumLabel.text = [NSString stringWithFormat:@"(每月可免费提现3次，本月剩余免费提现次数:%@次)",[responseObject1 objectForKey:@"freeWithdrawsThisMonth"]];
         if ([NSString stringWithFormat:@"%@",[responseObject1 objectForKey:@"freeWithdrawsThisMonth"]].intValue == 0)
         {
@@ -310,8 +311,8 @@
 
 - (void)confirm:(id)sender
 {
-    double num = [drawNumLabel.text stringByReplacingOccurrencesOfString:@"," withString:@""].doubleValue;
-    if (editTextField.text.doubleValue > num)
+    //double num = [drawNumLabel.text stringByReplacingOccurrencesOfString:@"," withString:@""].doubleValue;
+    if (editTextField.text.doubleValue > drawNum)
     {
         hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.mode = MBProgressHUDModeCustomView;
@@ -346,22 +347,80 @@
     }
     else
     {
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"输入交易密码" message:nil preferredStyle:UIAlertControllerStyleAlert];
-        [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField){
-            textField.secureTextEntry = YES;
-            textField.returnKeyType = UIReturnKeyDone;
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(alertTextFieldDidChange:) name:UITextFieldTextDidChangeNotification object:textField];
-        }];
-        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-        UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
-            UITextField *tradePswdTextField = alertController.textFields.firstObject;
-            [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextFieldTextDidChangeNotification object:nil];
-            [self draw:tradePswdTextField.text];
-        }];
-        [alertController addAction:cancelAction];
-        [alertController addAction:confirmAction];
-        confirmAction.enabled = NO;
-        [self presentViewController:alertController animated:YES completion:nil];
+        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+        if ([userDefault boolForKey:ISTPNUMERIC])
+        {
+            TradePswdView *tradeView = [[TradePswdView alloc]initWithFrame:self.navigationController.view.frame];
+            [self.navigationController.view addSubview:tradeView];
+            [tradeView showView];
+            tradeView.block = ^(NSString *tradePswd){
+                hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+                NSString *URL = [BASEURL stringByAppendingString:@"api/withdraw/applyWithdrawAndBindCard"];
+                NSDictionary *parameter;
+                if (noBankCardView.hidden)
+                {
+                    parameter = @{@"withdrawAmount": editTextField.text,
+                                  @"tradePassword": tradePswd};
+                }
+                else
+                {
+                    parameter = @{@"province": provinceLabel.text,
+                                  @"city": cityLabel.text,
+                                  @"cardCode": bankcardNoTextField.text,
+                                  @"bankCode": [[NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"bankCodeList" ofType:@"plist"]] objectForKey:bankLabel.text],
+                                  @"subbranchName": branchTextField.text,
+                                  @"withdrawAmount": drawNumTextField.text,
+                                  @"tradePassword": tradePswd,
+                                  @"smsCode": smsCodeTextField.text};
+                }
+                [manager POST:URL parameters:parameter success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+                    NSLog(@"%@",responseObject);
+                    NSString *str = [responseObject objectForKey:@"isSuccess"];
+                    int f1 = str.intValue;
+                    if (f1 == 0)
+                    {
+                        hud.mode = MBProgressHUDModeCustomView;
+                        hud.labelText = [responseObject objectForKey:@"errorMessage"];
+                        [hud hide:YES afterDelay:1.5f];
+                    }
+                    else
+                    {
+                        hud.mode = MBProgressHUDModeCustomView;
+                        hud.labelText = @"提现申请成功";
+                        [hud hide:YES afterDelay:1.5f];
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                            [[self navigationController]popViewControllerAnimated:YES];
+                        });
+                    }
+                    
+                } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                    NSLog(@"Error: %@", error);
+                    hud.mode = MBProgressHUDModeText;
+                    hud.labelText = @"当前网络状况不佳，请重试";
+                    [hud hide:YES afterDelay:1.5f];
+                }];
+            };
+        }
+        else
+        {
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"输入交易密码" message:nil preferredStyle:UIAlertControllerStyleAlert];
+            [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField){
+                textField.secureTextEntry = YES;
+                textField.returnKeyType = UIReturnKeyDone;
+                [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(alertTextFieldDidChange:) name:UITextFieldTextDidChangeNotification object:textField];
+            }];
+            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+            UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
+                UITextField *tradePswdTextField = alertController.textFields.firstObject;
+                [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextFieldTextDidChangeNotification object:nil];
+                [self draw:tradePswdTextField.text];
+            }];
+            [alertController addAction:cancelAction];
+            [alertController addAction:confirmAction];
+            confirmAction.enabled = NO;
+            [self presentViewController:alertController animated:YES completion:nil];
+        }
         
     }
 }

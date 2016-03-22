@@ -7,13 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TradePswdView.h"
 
 @interface DrawZtbViewController : UIViewController
 
 @property (strong, nonatomic) IBOutlet UIView *bgView;
 @property (strong, nonatomic) IBOutlet UILabel *balanceLabel;
 @property (strong, nonatomic) IBOutlet UITextField *drawNumTextField;
-@property (strong, nonatomic) IBOutlet UITextField *tradePswdTextField;
 @property (strong, nonatomic) IBOutlet UIButton *confirmButton;
 @property (strong, nonatomic) NSString *balance;
 
