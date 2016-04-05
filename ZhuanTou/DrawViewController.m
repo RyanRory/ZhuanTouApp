@@ -199,6 +199,25 @@
                     cityLabel.text = [responseObject[0] objectForKey:@"city"];
                     cityLabel.textColor = ZTGRAY;
                 }
+                AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+                NSString *URL = [BASEURL stringByAppendingString:@"api/account/IsIdentified"];
+                [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+                    NSLog(@"%@",responseObject);
+                    NSString *str = [responseObject objectForKey:@"isSuccess"];
+                    int f1 = str.intValue;
+                    if (f1 == 1)
+                    {
+                        nameTextField.text = [responseObject objectForKey:@"fullName"];
+                    }
+                    
+                } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                    NSLog(@"Error: %@", error);
+                    hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                    hud.mode = MBProgressHUDModeText;
+                    hud.labelText = @"当前网络状况不佳，请重试";
+                    [hud hide:YES afterDelay:1.5f];
+                }];
+
             }
         }
         else

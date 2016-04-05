@@ -149,7 +149,11 @@
                 {
                     limitLabel.text = [NSString stringWithFormat:@"(单笔限额%@元)", [responseObject[0] objectForKey:@"limitAmount"]];
                 }
-                phoneNumTextField.text = [responseObject[0] objectForKey:@"bindedMobile"];
+                //下个版本bug修正！！！目前bindedmobile字段为空会导致页面崩溃
+                if (![[responseObject[0] objectForKey:@"bindedMobile"] isKindOfClass:[NSNull class]])
+                {
+                    phoneNumTextField.text = [responseObject[0] objectForKey:@"bindedMobile"];
+                }
             }
         }
         else
