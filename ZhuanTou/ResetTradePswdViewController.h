@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ForgottenViewController.h"
 
-@interface ResetTradePswdViewController : UIViewController
+@interface ResetTradePswdViewController : ZTBaseViewController
 {
     NSString *style;
 }

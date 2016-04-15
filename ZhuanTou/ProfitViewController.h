@@ -13,7 +13,7 @@
 #import "ChargeViewController.h"
 #import "DrawViewController.h"
 
-@interface ProfitViewController : UIViewController<ChartViewDelegate>
+@interface ProfitViewController : ZTBaseViewController<ChartViewDelegate>
 {
     double fenhong, wenying, huoqi, balance, frozen, total;
 }

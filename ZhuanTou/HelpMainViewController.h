@@ -15,7 +15,7 @@
 #import "WXApiObject.h"
 #import "WXApi.h"
 
-@interface HelpMainViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, UIWebViewDelegate, UIGestureRecognizerDelegate>
+@interface HelpMainViewController : ZTBaseViewController<UITableViewDataSource, UITableViewDelegate, UIWebViewDelegate, UIGestureRecognizerDelegate>
 {
     int easterEggs;
 }

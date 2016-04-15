@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SetTradePswdViewController : UIViewController
+@interface SetTradePswdViewController : ZTBaseViewController
 @property (strong, nonatomic) IBOutlet UITextField *tradePswdTextField;
 @property (strong, nonatomic) IBOutlet UITextField *tradePswdAgainTextField;
 @property (strong, nonatomic) IBOutlet UIButton *confirmButton;

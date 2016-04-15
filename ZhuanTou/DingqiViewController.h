@@ -14,12 +14,12 @@
 #import "SetpasswordViewController.h"
 #import "QuitAlertView.h"
 #import "TradePswdView.h"
+#import "WebDetailViewController.h"
 
 @interface DingqiViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 {
     int productsNum;
     NSMutableArray *datas;
-    int buttonTag;
     NSString *orderNo;
 }
 
@@ -29,6 +29,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *ingButton;
 @property (strong, nonatomic) IBOutlet UIButton *endedButton;
 @property (strong, nonatomic) IBOutlet UIButton *standingButton;
+@property (readwrite, nonatomic) int buttonTag;
 
 
 @end

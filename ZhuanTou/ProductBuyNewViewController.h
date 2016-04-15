@@ -17,7 +17,7 @@
 #import "ProductVoucherTableViewCell.h"
 #import "ProductLabelTableViewCell.h"
 
-@interface ProductBuyNewViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+@interface ProductBuyNewViewController : ZTBaseViewController<UITableViewDataSource, UITableViewDelegate>
 {
     NSMutableArray *bonus, *coupons, *standingCoupons;
     int bonusNum;
@@ -43,6 +43,7 @@
 @property (strong, nonatomic) NSString *idOrCode;
 @property (strong, nonatomic) NSString *bidableAmount;
 @property (strong, nonatomic) NSDictionary *productInfo;
+@property (strong, nonatomic) NSString *productName;
 
 @property (strong, nonatomic) IBOutlet UITableView *tView;
 @property (strong, nonatomic) IBOutlet UIButton *allInButton;

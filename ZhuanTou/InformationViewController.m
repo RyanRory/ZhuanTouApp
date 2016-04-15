@@ -32,6 +32,8 @@
     [nextButton setAlpha:0.6f];
     
     [nextButton addTarget:self action:@selector(toNextPage:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [usernameTextField becomeFirstResponder];
 }
 
 - (void)backToParent:(id)sender
@@ -95,6 +97,7 @@
         [hud show:YES];
         
         AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         NSDictionary *parameters = @{@"username":usernameTextField.text,
                                      @"mobile":phoneNum,
                                      @"password":passwordTextField.text,
@@ -138,6 +141,14 @@
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                     [[self navigationController]pushViewController:setpass animated:YES];
                 });
+                
+                AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+                NSString *URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"/api/auth/checkLogin?devicetoken=%@",[userDefault objectForKey:DEVICETOKEN]]];
+                [manager GET:URL parameters:parameters success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+                    
+                } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                    NSLog(@"Error: %@", error);
+                }];
             }
             [nextButton setUserInteractionEnabled:YES];
             [nextButton setAlpha:1.0f];

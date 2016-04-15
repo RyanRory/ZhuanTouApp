@@ -12,7 +12,7 @@
 #import "SetpasswordViewController.h"
 #import "LoginViewController.h"
 
-@interface LaunchScreenViewController : UIViewController
+@interface LaunchScreenViewController : ZTBaseViewController
 
 @property (strong, nonatomic) IBOutlet UIImageView *centerImageView;
 @property (strong, nonatomic) IBOutlet WaveView *bgView;

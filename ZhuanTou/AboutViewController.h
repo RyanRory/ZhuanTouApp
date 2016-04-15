@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "HelpCommonTableViewCell.h"
 
-@interface AboutViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+@interface AboutViewController : ZTBaseViewController<UITableViewDataSource, UITableViewDelegate>
 
 @property (strong, nonatomic) IBOutlet UITableView *tView;
 

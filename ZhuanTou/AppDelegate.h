@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "sys/sysctl.h"
 #import "LaunchScreenViewController.h"
 #import "WXApi.h"
 #import <TencentOpenAPI/QQApiInterface.h>
@@ -17,6 +18,7 @@
 @property (strong, nonatomic) UIWindow *window;
 @property (readwrite, nonatomic) NSString *realNameString;
 @property (readwrite, nonatomic) NSString *phonenumString;
+@property (readwrite, nonatomic) NSDictionary *userInfo;
 
 @end
 

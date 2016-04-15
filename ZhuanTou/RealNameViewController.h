@@ -10,7 +10,7 @@
 #import <APNumberPad/APNumberPad.h>
 #import "SetTradePswdViewController.h"
 
-@interface RealNameViewController : UIViewController<APNumberPadDelegate>
+@interface RealNameViewController : ZTBaseViewController<APNumberPadDelegate>
 @property (strong, nonatomic) IBOutlet UITextField *realNameTextField;
 @property (strong, nonatomic) IBOutlet UITextField *idNumTextField;
 @property (strong, nonatomic) IBOutlet UIButton *confirmButton;

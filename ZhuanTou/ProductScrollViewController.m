@@ -65,22 +65,71 @@
     huoqiBuyButton.layer.cornerRadius = 3;
     [huoqiBuyButton addTarget:self action:@selector(buyNow:) forControlEvents:UIControlEventTouchUpInside];
     
-    wenjianBuyButton.hidden = YES;
-    wenjianTimeView.hidden = YES;
-    
     huoqiBuyButton.hidden = YES;
     huoqiAmountLabel.hidden = YES;
     huoqiDescriptionLabel.hidden = YES;
+    
+    AppDelegate * app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    if (app.userInfo.count > 0)
+    {
+        NSString *afterOpen = [app.userInfo objectForKey:@"after_open"];
+        if ([afterOpen isEqualToString:@"go_activity"])
+        {
+            NSString *activity = [app.userInfo objectForKey:@"activity"];
+            if ([activity isEqualToString:@"wyb"] || [activity isEqualToString:@"buywyb"])
+            {
+                zongheBuyButton.hidden = YES;
+                zongheTimeView.hidden = YES;
+                [wenjianButton setUserInteractionEnabled:NO];
+                wenjianButton.tintColor = ZTLIGHTRED;
+                zongheButton.tintColor = ZTGRAY;
+                huoqiButton.tintColor = ZTGRAY;
+                
+                style = WENJIAN;
+                [scrollView setContentOffset:CGPointMake(0, 0) animated:NO];
+            }
+            else
+            {
+                wenjianBuyButton.hidden = YES;
+                wenjianTimeView.hidden = YES;
+                [zongheButton setUserInteractionEnabled:NO];
+                wenjianButton.tintColor = ZTGRAY;
+                zongheButton.tintColor = ZTBLUE;
+                huoqiButton.tintColor = ZTGRAY;
+                
+                style = ZONGHE;
+                [scrollView setContentOffset:CGPointMake(screenWidth, 0) animated:NO];
+                productsBeforeButton.tintColor = ZTBLUE;
+            }
+        }
+        else
+        {
+            wenjianBuyButton.hidden = YES;
+            wenjianTimeView.hidden = YES;
+            [zongheButton setUserInteractionEnabled:NO];
+            wenjianButton.tintColor = ZTGRAY;
+            zongheButton.tintColor = ZTBLUE;
+            huoqiButton.tintColor = ZTGRAY;
+            
+            style = ZONGHE;
+            [scrollView setContentOffset:CGPointMake(screenWidth, 0) animated:NO];
+            productsBeforeButton.tintColor = ZTBLUE;
+        }
+    }
+    else
+    {
+        wenjianBuyButton.hidden = YES;
+        wenjianTimeView.hidden = YES;
+        [zongheButton setUserInteractionEnabled:NO];
+        wenjianButton.tintColor = ZTGRAY;
+        zongheButton.tintColor = ZTBLUE;
+        huoqiButton.tintColor = ZTGRAY;
+        
+        style = ZONGHE;
+        [scrollView setContentOffset:CGPointMake(screenWidth, 0) animated:NO];
+        productsBeforeButton.tintColor = ZTBLUE;
+    }
 
-    
-    [zongheButton setUserInteractionEnabled:NO];
-    wenjianButton.tintColor = ZTGRAY;
-    zongheButton.tintColor = ZTBLUE;
-    huoqiButton.tintColor = ZTGRAY;
-    
-    style = ZONGHE;
-    [scrollView setContentOffset:CGPointMake(screenWidth, 0) animated:NO];
-    productsBeforeButton.tintColor = ZTBLUE;
 
     mainScrollView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         if ([style isEqualToString:WENJIAN])
@@ -506,12 +555,14 @@
             vc.productInfo = wenjianData;
             vc.idOrCode = [wenjianData objectForKey:@"id"];
             vc.bidableAmount = [wenjianData objectForKey:@"bidableAmount"];
+            vc.productName = [wenjianData objectForKey:@"name"];
         }
         else if ([style isEqualToString:ZONGHE])
         {
             vc.productInfo = zongheData;
             vc.idOrCode = [zongheData objectForKey:@"id"];
             vc.bidableAmount = [zongheData objectForKey:@"bidableAmount"];
+            vc.productName = [zongheData objectForKey:@"name"];
         }
         else
         {

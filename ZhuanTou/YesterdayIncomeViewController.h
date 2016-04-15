@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "YesterdayIncomeTableViewCell.h"
 
-@interface YesterdayIncomeViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+@interface YesterdayIncomeViewController : ZTBaseViewController<UITableViewDataSource, UITableViewDelegate>
 {
     NSMutableArray *datas, *buffer;
     int dataNum;

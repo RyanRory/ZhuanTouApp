@@ -50,6 +50,14 @@
         [loginButton setUserInteractionEnabled:NO];
         [loginButton setAlpha:0.6f];
     }
+    if (usernameTextField.text.length > 0)
+    {
+        [passwordTextField becomeFirstResponder];
+    }
+    else
+    {
+        [usernameTextField becomeFirstResponder];
+    }
 }
 
 - (void)Login:(id)sender
@@ -77,8 +85,11 @@
         hud.mode = MBProgressHUDModeIndeterminate;
         [hud show:YES];
         AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         NSDictionary *parameters = @{@"login":usernameTextField.text,
-                                     @"password":passwordTextField.text};
+                                     @"password":passwordTextField.text,
+                                     @"deviceToken":[NSString stringWithFormat:@"%@",[userDefault objectForKey:DEVICETOKEN]]};
+        NSLog(@"%@",[NSString stringWithFormat:@"iOS;iOS%@;Device:%@;AppVersion:%@",[[UIDevice currentDevice] systemVersion],[userDefault objectForKey:DEVICE],[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]]);
         NSString *URL = [BASEURL stringByAppendingString:@"api/auth/signIn"];
         [manager POST:URL parameters:parameters success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
             NSLog(@"%@", responseObject);

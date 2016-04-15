@@ -153,7 +153,15 @@
 {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    NSString *URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/transferOutZtb4M?amount=%@&tradePassword=%@",drawNumTextField.text,tradePswd]];
+    NSString *URL;
+    if (tradePswd.length == 0)
+    {
+        URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/transferOutZtb?amount=%@",drawNumTextField.text]];
+    }
+    else
+    {
+        URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/transferOutZtb4M?amount=%@&tradePassword=%@",drawNumTextField.text,tradePswd]];
+    }
     [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
         NSLog(@"%@",responseObject);
         NSString *str = [responseObject objectForKey:@"isSuccess"];

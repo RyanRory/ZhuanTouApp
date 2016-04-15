@@ -25,7 +25,7 @@
     UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithCustomView:[UIButton buttonWithType:UIButtonTypeCustom]];
     self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:backItem, item, nil];
     
-    
+    [phoneTextField becomeFirstResponder];
     
     phoneView.layer.cornerRadius = 3;
     vcodeView.layer.cornerRadius = 3;

@@ -34,6 +34,8 @@
     [nextButton addTarget:self action:@selector(toNextPage:) forControlEvents:UIControlEventTouchUpInside];
     [changeButton addTarget:self action:@selector(changeVcode:) forControlEvents:UIControlEventTouchUpInside];
     [vcodeImageView addTarget:self action:@selector(changeVcode:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [phoneTextField becomeFirstResponder];
 }
 
 - (void)viewWillAppear:(BOOL)animated

@@ -10,7 +10,7 @@
 #import "NoticeCenterTableViewCell.h"
 #import "WebDetailViewController.h"
 
-@interface NoticeCenterViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+@interface NoticeCenterViewController : ZTBaseViewController<UITableViewDataSource, UITableViewDelegate>
 {
     NSMutableArray *notices;
     int noticesNum, pageNum;

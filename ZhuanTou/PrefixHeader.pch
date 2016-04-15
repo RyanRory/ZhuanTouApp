@@ -21,6 +21,8 @@
 #import "SCNumberKeyBoard.h"
 #import "AttributedLabel.h"
 #import "UMessage.h"
+#import "AppDelegate.h"
+#import "ZTBaseViewController.h"
 
 
 #endif /* PrefixHeader_pch */

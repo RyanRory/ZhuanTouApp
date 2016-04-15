@@ -49,6 +49,8 @@
         passwordTextField.placeholder = @"输入新交易密码";
         pswdAgainTextField.placeholder = @"确认新交易密码";
     }
+    
+    [passwordTextField becomeFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning {

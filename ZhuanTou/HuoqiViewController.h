@@ -14,7 +14,7 @@
 #import "SetpasswordViewController.h"
 #import "ProductBuyNewViewController.h"
 
-@interface HuoqiViewController : UIViewController<ChartViewDelegate>
+@interface HuoqiViewController : ZTBaseViewController<ChartViewDelegate>
 {
     NSMutableArray *datas;
     int showTimes;

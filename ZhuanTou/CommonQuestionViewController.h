@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CommonQuestionViewController : UIViewController<UIWebViewDelegate>
+@interface CommonQuestionViewController : ZTBaseViewController<UIWebViewDelegate>
 {
     MBProgressHUD *hud;
     NSTimer *timer;

@@ -19,14 +19,17 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    NSLog(@"launch:%@",launchOptions);
     [WXApi registerApp:@"wx0669dbeb0898a76d"];
     //[[TencentOAuth alloc] initWithAppId:@"1104913119" andDelegate:nil];
     [[IQKeyboardManager sharedManager] disableToolbarInViewControllerClass:[UIViewController class]];
     [[IQKeyboardManager sharedManager] setKeyboardDistanceFromTextField:80.0f];
     
+    NSString *str = [self doDevicePlatform];
     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
     [userDefault setBool:NO forKey:ISLOGIN];
     [userDefault setBool:NO forKey:ISTRADEPSWDSET];
+    [userDefault setObject:str forKey:DEVICE];
     [userDefault synchronize];
     
     [Fabric with:@[[Crashlytics class]]];
@@ -66,7 +69,13 @@
     }
     //for log
     [UMessage setLogEnabled:YES];
-    [UMessage setBadgeClear:NO];
+    [UMessage setBadgeClear:YES];
+    [UMessage setAutoAlert:NO];
+    
+    NSDictionary* userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+    if(userInfo){//推送信息
+        self.userInfo = userInfo;//[userInfo copy]
+    }
     
     return YES;
 }
@@ -90,29 +99,45 @@
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    NSString *URL = [BASEURL stringByAppendingString:@"Account/SignOut"];
-    [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
-        NSLog(@"%@", responseObject);
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Error: %@", error);
-    }];
 
 }
 
-//- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
-//{
-//    [UMessage registerDeviceToken:deviceToken];
-//    NSLog(@"%@",[[[[deviceToken description] stringByReplacingOccurrencesOfString: @"<" withString: @""]
-//                  stringByReplacingOccurrencesOfString: @">" withString: @""]
-//                 stringByReplacingOccurrencesOfString: @" " withString: @""]);
-//}
-//
-//- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
-//{
-//    //应用运行时的消息处理
-//    [UMessage didReceiveRemoteNotification:userInfo];
-//}
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+    [UMessage registerDeviceToken:deviceToken];
+    NSLog(@"%@",[[[[deviceToken description] stringByReplacingOccurrencesOfString: @"<" withString: @""]
+                  stringByReplacingOccurrencesOfString: @">" withString: @""]
+                 stringByReplacingOccurrencesOfString: @" " withString: @""]);
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    [userDefault setObject:[[[[deviceToken description] stringByReplacingOccurrencesOfString: @"<" withString: @""] stringByReplacingOccurrencesOfString: @">" withString: @""] stringByReplacingOccurrencesOfString: @" " withString: @""] forKey:DEVICETOKEN];
+    [userDefault synchronize];
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    NSLog(@"userInfo:%@",userInfo);
+    self.userInfo = userInfo;
+    //应用运行时的消息处理
+    [UMessage didReceiveRemoteNotification:userInfo];
+    if([UIApplication sharedApplication].applicationState == UIApplicationStateActive)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"收到推送消息" message:[[userInfo objectForKey:@"aps"] objectForKey:@"alert"] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"去看看", nil];
+        [alert show];
+    }
+    else
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"RECEIVEPUSH" object:nil];
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    [UMessage sendClickReportForRemoteNotification:self.userInfo];
+    if (buttonIndex != 0)
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"RECEIVEPUSH" object:nil];
+    }
+}
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url{
     return [WXApi handleOpenURL:url delegate:self];
@@ -137,6 +162,69 @@
 
 - (void)isOnlineResponse:(NSDictionary *)response{
     
+}
+
+- (NSString*) doDevicePlatform
+{
+    size_t size;
+    int nR = sysctlbyname("hw.machine", NULL, &size, NULL, 0);
+    char *machine = (char *)malloc(size);
+    nR = sysctlbyname("hw.machine", machine, &size, NULL, 0);
+    NSString *platform = [NSString stringWithCString:machine encoding:NSUTF8StringEncoding];
+    free(machine);
+
+    
+    if ([platform isEqualToString:@"iPhone1,1"]) return @"iPhone 2G";
+    if ([platform isEqualToString:@"iPhone1,2"]) return @"iPhone 3G";
+    if ([platform isEqualToString:@"iPhone2,1"]) return @"iPhone 3GS";
+    if ([platform isEqualToString:@"iPhone3,1"]) return @"iPhone 4";
+    if ([platform isEqualToString:@"iPhone3,2"]) return @"iPhone 4";
+    if ([platform isEqualToString:@"iPhone3,3"]) return @"iPhone 4";
+    if ([platform isEqualToString:@"iPhone4,1"]) return @"iPhone 4S";
+    if ([platform isEqualToString:@"iPhone5,1"]) return @"iPhone 5";
+    if ([platform isEqualToString:@"iPhone5,2"]) return @"iPhone 5";
+    if ([platform isEqualToString:@"iPhone5,3"]) return @"iPhone 5c";
+    if ([platform isEqualToString:@"iPhone5,4"]) return @"iPhone 5c";
+    if ([platform isEqualToString:@"iPhone6,1"]) return @"iPhone 5s";
+    if ([platform isEqualToString:@"iPhone6,2"]) return @"iPhone 5s";
+    if ([platform isEqualToString:@"iPhone7,1"]) return @"iPhone 6 Plus";
+    if ([platform isEqualToString:@"iPhone7,2"]) return @"iPhone 6";
+    if ([platform isEqualToString:@"iPhone8,1"]) return @"iPhone 6S";
+    if ([platform isEqualToString:@"iPhone8,2"]) return @"iPhone 6S Plus";
+    
+    if ([platform isEqualToString:@"iPod1,1"])   return @"iPod Touch 1G";
+    if ([platform isEqualToString:@"iPod2,1"])   return @"iPod Touch 2G";
+    if ([platform isEqualToString:@"iPod3,1"])   return @"iPod Touch 3G";
+    if ([platform isEqualToString:@"iPod4,1"])   return @"iPod Touch 4G";
+    if ([platform isEqualToString:@"iPod5,1"])   return @"iPod Touch 5G";
+    
+    if ([platform isEqualToString:@"iPad1,1"])   return @"iPad 1G";
+    
+    if ([platform isEqualToString:@"iPad2,1"])   return @"iPad 2";
+    if ([platform isEqualToString:@"iPad2,2"])   return @"iPad 2";
+    if ([platform isEqualToString:@"iPad2,3"])   return @"iPad 2";
+    if ([platform isEqualToString:@"iPad2,4"])   return @"iPad 2";
+    if ([platform isEqualToString:@"iPad2,5"])   return @"iPad Mini 1G";
+    if ([platform isEqualToString:@"iPad2,6"])   return @"iPad Mini 1G";
+    if ([platform isEqualToString:@"iPad2,7"])   return @"iPad Mini 1G";
+    
+    if ([platform isEqualToString:@"iPad3,1"])   return @"iPad 3";
+    if ([platform isEqualToString:@"iPad3,2"])   return @"iPad 3";
+    if ([platform isEqualToString:@"iPad3,3"])   return @"iPad 3";
+    if ([platform isEqualToString:@"iPad3,4"])   return @"iPad 4";
+    if ([platform isEqualToString:@"iPad3,5"])   return @"iPad 4";
+    if ([platform isEqualToString:@"iPad3,6"])   return @"iPad 4";
+    
+    if ([platform isEqualToString:@"iPad4,1"])   return @"iPad Air";
+    if ([platform isEqualToString:@"iPad4,2"])   return @"iPad Air";
+    if ([platform isEqualToString:@"iPad4,3"])   return @"iPad Air";
+    if ([platform isEqualToString:@"iPad4,4"])   return @"iPad Mini 2G";
+    if ([platform isEqualToString:@"iPad4,5"])   return @"iPad Mini 2G";
+    if ([platform isEqualToString:@"iPad4,6"])   return @"iPad Mini 2G";
+    
+    if ([platform isEqualToString:@"i386"])      return @"iPhone Simulator";
+    if ([platform isEqualToString:@"x86_64"])    return @"iPhone Simulator";
+    return platform;
 }
 
 

@@ -11,7 +11,7 @@
 #import "ChooseCouponsTableViewCell.h"
 #import "ProductBuyNewViewController.h"
 
-@interface ChooseBonusViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+@interface ChooseBonusViewController : ZTBaseViewController<UITableViewDataSource, UITableViewDelegate>
 {
     int dataNum;
     BOOL didSelect;

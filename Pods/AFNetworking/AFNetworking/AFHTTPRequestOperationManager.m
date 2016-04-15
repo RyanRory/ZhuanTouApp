@@ -97,8 +97,10 @@
                                                        success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
                                                        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
 {
+    
     NSError *serializationError = nil;
     NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:method URLString:[[NSURL URLWithString:URLString relativeToURL:self.baseURL] absoluteString] parameters:parameters error:&serializationError];
+    [request setValue:[NSString stringWithFormat:@"iOS;iOS%@;Device:%@;AppVersion:%@",[[UIDevice currentDevice] systemVersion],[[NSUserDefaults standardUserDefaults] objectForKey:@"DEVICE"],[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]] forHTTPHeaderField:@"User-Agent"];
     if (serializationError) {
         if (failure) {
 #pragma clang diagnostic push

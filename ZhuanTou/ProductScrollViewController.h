@@ -10,7 +10,7 @@
 #import "ProductsBeforeViewController.h"
 #import "ProductBuyNewViewController.h"
 
-@interface ProductScrollViewController : UIViewController<UIGestureRecognizerDelegate, UIScrollViewDelegate>
+@interface ProductScrollViewController : ZTBaseViewController<UIGestureRecognizerDelegate, UIScrollViewDelegate>
 {
     CGRect frame;
     CGPoint bgPoint;

@@ -15,7 +15,7 @@
 @implementation ProductBuyNewViewController
 
 @synthesize amountTextField, confirmButton, checkboxButton, agreementButton, chargeButton, balanceLabel, restLabel, tView, allInButton, checkboxBigButton;
-@synthesize style, idOrCode, productInfo, bidableAmount;
+@synthesize style, idOrCode, productInfo, bidableAmount, productName;
 @synthesize buttonBottomLayOut;
 @synthesize coupon, vouchers, biggestBonus, biggestCoupons, biggestStandingCoupons;
 @synthesize couponsFlagChosen, voucher1FlagChosen, voucher2FlagChosen;

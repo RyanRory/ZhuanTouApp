@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ProductsBeforeTableViewCell.h"
 
-@interface ProductsBeforeViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
+@interface ProductsBeforeViewController : ZTBaseViewController<UITableViewDelegate, UITableViewDataSource>
 {
     int productsNum;
     NSMutableArray *datas, *buffer;

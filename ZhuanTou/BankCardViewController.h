@@ -10,7 +10,7 @@
 #import "AddBankCardViewController.h"
 #import "RealNameViewController.h"
 
-@interface BankCardViewController : UIViewController
+@interface BankCardViewController : ZTBaseViewController
 @property (strong, nonatomic) IBOutlet UIView *bankCardView;
 @property (strong, nonatomic) IBOutlet UIImageView *bankImage;
 @property (strong, nonatomic) IBOutlet UILabel *bankNameLabel;

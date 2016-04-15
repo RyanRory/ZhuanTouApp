@@ -20,5 +20,6 @@
 @property (strong, nonatomic) IBOutlet UILabel *standingTitleLabel;
 @property (strong, nonatomic) IBOutlet UILabel *guideProfitTitleLabel;
 @property (strong, nonatomic) IBOutlet UILabel *standingNumLabel;
+@property (strong, nonatomic) IBOutlet UIButton *contractButton;
 
 @end

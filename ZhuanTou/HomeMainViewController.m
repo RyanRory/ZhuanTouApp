@@ -106,6 +106,22 @@
     setupDataFlag = 3;
     [self setupData];
     [self setupProduct];
+    
+    AppDelegate * app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    if (app.userInfo.count > 0)
+    {
+        NSString *afterOpen = [app.userInfo objectForKey:@"after_open"];
+        if ([afterOpen isEqualToString:@"go_url"])
+        {
+            NSString *url = [app.userInfo objectForKey:@"url"];
+            UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+            WebDetailViewController *vc = [storyBoard instantiateViewControllerWithIdentifier:@"WebDetailViewController"];
+            [vc setURL:url];
+            vc.title= [app.userInfo objectForKey:@"title"];
+            [[self navigationController]pushViewController:vc animated:YES];
+        }
+    }
+
 }
 
 - (void)updateViewConstraints
@@ -478,6 +494,7 @@
         ProductBuyNewViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"ProductBuyNewViewController"];
         vc.style = ZONGHE;
         vc.idOrCode = idCode;
+        vc.productName = [productInfo objectForKey:@"name"];
         vc.bidableAmount = bidableAmount;
         vc.productInfo = productInfo;
         [[self navigationController]pushViewController:vc animated:YES];

@@ -15,7 +15,7 @@
 #import "NewerViewController.h"
 #import "ProductBuyNewViewController.h"
 
-@interface HomeMainViewController : UIViewController<UIScrollViewDelegate, UIGestureRecognizerDelegate>
+@interface HomeMainViewController : ZTBaseViewController<UIScrollViewDelegate, UIGestureRecognizerDelegate>
 {
     UIImageView *leftImage, *midImage, *rightImage;
     NSArray *bannerInfo;

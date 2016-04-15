@@ -30,7 +30,7 @@
 #import "SetpasswordViewController.h"
 #import "ZTTabBarViewController.h"
 
-@interface UserCenterViewController : UIViewController<UIGestureRecognizerDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface UserCenterViewController : ZTBaseViewController<UIGestureRecognizerDelegate, UITableViewDataSource, UITableViewDelegate>
 {
     NSMutableDictionary *data;
     CGRect frame;

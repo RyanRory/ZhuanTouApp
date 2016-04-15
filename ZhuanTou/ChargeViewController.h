@@ -12,7 +12,7 @@
 #import "RealNameViewController.h"
 #import "LLPaySdk.h"
 
-@interface ChargeViewController : UIViewController<BaofooSdkDelegate, LLPaySdkDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
+@interface ChargeViewController : ZTBaseViewController<BaofooSdkDelegate, LLPaySdkDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
 {
     UIPickerView *picker;
     UIView *view, *bgView;

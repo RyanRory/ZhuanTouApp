@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="14F1713" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="HfA-JR-LsF">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="HfA-JR-LsF">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -5316,9 +5316,9 @@
                                                             <rect key="frame" x="0.0" y="0.0" width="600" height="40"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="稳盈宝" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P4a-mm-aFd">
-                                                                    <rect key="frame" x="20" y="8" width="71" height="24"/>
+                                                                    <rect key="frame" x="20" y="8" width="55" height="24"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="width" constant="71" id="agX-sF-y2g"/>
+                                                                        <constraint firstAttribute="width" constant="55" id="agX-sF-y2g"/>
                                                                     </constraints>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -5340,6 +5340,14 @@
                                                                         <constraint firstAttribute="height" constant="14" id="by3-f6-GXs"/>
                                                                     </constraints>
                                                                 </imageView>
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vag-ir-b6y">
+                                                                    <rect key="frame" x="75" y="9" width="13" height="22"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="13" id="j2P-Le-PGQ"/>
+                                                                        <constraint firstAttribute="height" constant="22" id="pL0-3x-XUA"/>
+                                                                    </constraints>
+                                                                    <state key="normal" image="contract.png"/>
+                                                                </button>
                                                             </subviews>
                                                             <color key="backgroundColor" red="0.92156862750000001" green="0.35294117650000001" blue="0.16862745100000001" alpha="1" colorSpace="calibratedRGB"/>
                                                             <constraints>
@@ -5349,6 +5357,8 @@
                                                                 <constraint firstAttribute="height" constant="40" id="B0r-gK-riU"/>
                                                                 <constraint firstItem="6PS-dR-tke" firstAttribute="top" secondItem="saN-yB-6iS" secondAttribute="top" constant="8" id="FwP-rW-Uvr"/>
                                                                 <constraint firstItem="6PS-dR-tke" firstAttribute="centerX" secondItem="saN-yB-6iS" secondAttribute="centerX" id="G5F-Ld-E99"/>
+                                                                <constraint firstItem="vag-ir-b6y" firstAttribute="centerY" secondItem="P4a-mm-aFd" secondAttribute="centerY" id="SXS-QX-N4J"/>
+                                                                <constraint firstItem="vag-ir-b6y" firstAttribute="leading" secondItem="P4a-mm-aFd" secondAttribute="trailing" id="VGo-To-1Tn"/>
                                                                 <constraint firstAttribute="bottom" secondItem="P4a-mm-aFd" secondAttribute="bottom" constant="8" id="eo3-vA-955"/>
                                                                 <constraint firstItem="P4a-mm-aFd" firstAttribute="top" secondItem="saN-yB-6iS" secondAttribute="top" constant="8" id="kzK-eV-8ve"/>
                                                                 <constraint firstItem="GCg-6u-Spp" firstAttribute="centerY" secondItem="saN-yB-6iS" secondAttribute="centerY" id="xuX-Vg-tqJ"/>
@@ -5495,6 +5505,7 @@
                                         <connections>
                                             <outlet property="amountLabel" destination="wkp-9M-uHb" id="KMI-3D-Ss7"/>
                                             <outlet property="bgView" destination="TEY-jm-Xvw" id="4ko-di-cB2"/>
+                                            <outlet property="contractButton" destination="vag-ir-b6y" id="28E-P0-BKs"/>
                                             <outlet property="headView" destination="saN-yB-6iS" id="ovx-Uw-hju"/>
                                             <outlet property="idLabel" destination="6PS-dR-tke" id="aD4-Xt-o6w"/>
                                             <outlet property="profitNumLabel" destination="8Ig-0Y-jOe" id="bDX-ln-1ZG"/>
@@ -5517,14 +5528,22 @@
                                                             <rect key="frame" x="0.0" y="0.0" width="600" height="40"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="分红宝" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m0F-qG-28y">
-                                                                    <rect key="frame" x="20" y="8" width="71" height="24"/>
+                                                                    <rect key="frame" x="20" y="8" width="55" height="24"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="width" constant="71" id="ePZ-H3-t1q"/>
+                                                                        <constraint firstAttribute="width" constant="55" id="ePZ-H3-t1q"/>
                                                                     </constraints>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Irs-5p-uEv">
+                                                                    <rect key="frame" x="75" y="8.5" width="13" height="22"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="22" id="2EH-wT-jEp"/>
+                                                                        <constraint firstAttribute="width" constant="13" id="x59-K4-ije"/>
+                                                                    </constraints>
+                                                                    <state key="normal" image="contract.png"/>
+                                                                </button>
                                                                 <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pDetailIcon.png" translatesAutoresizingMaskIntoConstraints="NO" id="edc-7x-PCj">
                                                                     <rect key="frame" x="570" y="13" width="10" height="14"/>
                                                                     <constraints>
@@ -5550,6 +5569,8 @@
                                                                 <constraint firstItem="m0F-qG-28y" firstAttribute="leading" secondItem="2Bn-0Y-jYv" secondAttribute="leading" constant="20" id="Iyc-l4-JX9"/>
                                                                 <constraint firstAttribute="bottom" secondItem="DYx-8Q-290" secondAttribute="bottom" constant="8" id="OQG-VP-5hV"/>
                                                                 <constraint firstAttribute="bottom" secondItem="m0F-qG-28y" secondAttribute="bottom" constant="8" id="TWE-yD-XOb"/>
+                                                                <constraint firstItem="Irs-5p-uEv" firstAttribute="leading" secondItem="m0F-qG-28y" secondAttribute="trailing" id="VpL-F3-feL"/>
+                                                                <constraint firstItem="Irs-5p-uEv" firstAttribute="centerY" secondItem="m0F-qG-28y" secondAttribute="centerY" id="e29-oG-CW3"/>
                                                                 <constraint firstAttribute="height" constant="40" id="j7J-FU-tSd"/>
                                                                 <constraint firstItem="edc-7x-PCj" firstAttribute="centerY" secondItem="2Bn-0Y-jYv" secondAttribute="centerY" id="tHp-UR-iIN"/>
                                                                 <constraint firstItem="m0F-qG-28y" firstAttribute="top" secondItem="2Bn-0Y-jYv" secondAttribute="top" constant="8" id="ysQ-p7-sYW"/>
@@ -5735,6 +5756,7 @@
                                         <connections>
                                             <outlet property="amountLabel" destination="QT5-RD-CHQ" id="z76-4p-IyX"/>
                                             <outlet property="bgView" destination="gA2-eu-OOd" id="05W-FL-cWy"/>
+                                            <outlet property="contractButton" destination="Irs-5p-uEv" id="MHf-hI-EbC"/>
                                             <outlet property="floatProfitLabel" destination="0wL-EA-ayr" id="oRf-0F-Mae"/>
                                             <outlet property="guideProfitLabel" destination="GMx-w4-Qm4" id="ANj-XS-rir"/>
                                             <outlet property="guideProfitTitleLabel" destination="aLh-Y4-9QP" id="ug6-T4-hs1"/>
@@ -5758,9 +5780,9 @@
                                                             <rect key="frame" x="0.0" y="0.0" width="600" height="40"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="稳盈宝" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N3K-YC-xLq">
-                                                                    <rect key="frame" x="20" y="8" width="71" height="24"/>
+                                                                    <rect key="frame" x="20" y="8" width="55" height="24"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="width" constant="71" id="YC3-t8-Rq2"/>
+                                                                        <constraint firstAttribute="width" constant="55" id="YC3-t8-Rq2"/>
                                                                     </constraints>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -5793,6 +5815,14 @@
                                                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     </state>
                                                                 </button>
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7pZ-Ju-wFK">
+                                                                    <rect key="frame" x="75" y="9.5" width="13" height="22"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="22" id="LHT-VR-c45"/>
+                                                                        <constraint firstAttribute="width" constant="13" id="XQV-fn-8VD"/>
+                                                                    </constraints>
+                                                                    <state key="normal" image="contract.png"/>
+                                                                </button>
                                                             </subviews>
                                                             <color key="backgroundColor" red="0.92156862750000001" green="0.35294117650000001" blue="0.16862745100000001" alpha="1" colorSpace="calibratedRGB"/>
                                                             <constraints>
@@ -5803,10 +5833,12 @@
                                                                 <constraint firstAttribute="bottom" secondItem="N3K-YC-xLq" secondAttribute="bottom" constant="8" id="QfU-9z-H6q"/>
                                                                 <constraint firstAttribute="height" constant="40" id="UgD-gl-DU8"/>
                                                                 <constraint firstItem="HXi-Yk-g7q" firstAttribute="top" secondItem="TS8-oY-dRb" secondAttribute="top" constant="9" id="YeF-Kc-tRa"/>
+                                                                <constraint firstItem="7pZ-Ju-wFK" firstAttribute="leading" secondItem="N3K-YC-xLq" secondAttribute="trailing" id="aWb-JV-sjQ"/>
                                                                 <constraint firstItem="ved-Mg-TPg" firstAttribute="top" secondItem="TS8-oY-dRb" secondAttribute="top" constant="8" id="efN-Rs-gJG"/>
                                                                 <constraint firstItem="N3K-YC-xLq" firstAttribute="top" secondItem="TS8-oY-dRb" secondAttribute="top" constant="8" id="jL5-fo-CaF"/>
                                                                 <constraint firstAttribute="bottom" secondItem="ved-Mg-TPg" secondAttribute="bottom" constant="8" id="jky-Ku-mqJ"/>
                                                                 <constraint firstItem="ved-Mg-TPg" firstAttribute="centerX" secondItem="TS8-oY-dRb" secondAttribute="centerX" id="kC8-MN-7Wx"/>
+                                                                <constraint firstItem="7pZ-Ju-wFK" firstAttribute="centerY" secondItem="N3K-YC-xLq" secondAttribute="centerY" id="pic-Ye-VmA"/>
                                                                 <constraint firstAttribute="trailing" secondItem="nNx-4e-pb0" secondAttribute="trailing" constant="20" id="xnA-ie-1mS"/>
                                                             </constraints>
                                                         </view>
@@ -5994,6 +6026,7 @@
                                         <connections>
                                             <outlet property="amountLabel" destination="VUh-YN-aLR" id="Uem-tL-iQn"/>
                                             <outlet property="bgView" destination="bRH-Wa-elv" id="18L-AC-gAb"/>
+                                            <outlet property="contractButton" destination="7pZ-Ju-wFK" id="LVi-c2-nfj"/>
                                             <outlet property="headView" destination="TS8-oY-dRb" id="Dhw-1h-qEW"/>
                                             <outlet property="idLabel" destination="ved-Mg-TPg" id="mam-cT-i0A"/>
                                             <outlet property="profitLabel" destination="5sb-hG-JuL" id="Yn5-t2-3Ew"/>
@@ -6018,14 +6051,22 @@
                                                             <rect key="frame" x="0.0" y="0.0" width="600" height="40"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="分红宝" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j7S-Ic-Dpz">
-                                                                    <rect key="frame" x="20" y="8" width="71" height="24"/>
+                                                                    <rect key="frame" x="20" y="8" width="55" height="24"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="width" constant="71" id="Shp-lP-5ZP"/>
+                                                                        <constraint firstAttribute="width" constant="55" id="Shp-lP-5ZP"/>
                                                                     </constraints>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bcq-Om-EKp">
+                                                                    <rect key="frame" x="75" y="9.5" width="13" height="22"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="22" id="qeC-C6-XZA"/>
+                                                                        <constraint firstAttribute="width" constant="13" id="y0b-2T-gdg"/>
+                                                                    </constraints>
+                                                                    <state key="normal" image="contract.png"/>
+                                                                </button>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="151015期" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qsx-Bq-wQT">
                                                                     <rect key="frame" x="270" y="8" width="60" height="24"/>
                                                                     <constraints>
@@ -6056,6 +6097,7 @@
                                                             </subviews>
                                                             <color key="backgroundColor" red="0.21960784310000001" green="0.58039215690000001" blue="0.93333333330000001" alpha="1" colorSpace="calibratedRGB"/>
                                                             <constraints>
+                                                                <constraint firstItem="Bcq-Om-EKp" firstAttribute="centerY" secondItem="j7S-Ic-Dpz" secondAttribute="centerY" id="0GS-cc-Y8d"/>
                                                                 <constraint firstItem="J4q-kx-S71" firstAttribute="centerY" secondItem="d1G-GB-mw0" secondAttribute="centerY" id="6TV-mD-xRD"/>
                                                                 <constraint firstItem="j7S-Ic-Dpz" firstAttribute="top" secondItem="d1G-GB-mw0" secondAttribute="top" constant="8" id="K5i-Gb-Dsn"/>
                                                                 <constraint firstItem="qsx-Bq-wQT" firstAttribute="top" secondItem="d1G-GB-mw0" secondAttribute="top" constant="8" id="Kab-gz-CEy"/>
@@ -6063,6 +6105,7 @@
                                                                 <constraint firstAttribute="trailing" secondItem="J4q-kx-S71" secondAttribute="trailing" constant="20" id="YaH-Hj-AIX"/>
                                                                 <constraint firstItem="qsx-Bq-wQT" firstAttribute="centerX" secondItem="d1G-GB-mw0" secondAttribute="centerX" id="aQ4-r5-S5q"/>
                                                                 <constraint firstAttribute="bottom" secondItem="qsx-Bq-wQT" secondAttribute="bottom" constant="8" id="e9j-tM-ZlU"/>
+                                                                <constraint firstItem="Bcq-Om-EKp" firstAttribute="leading" secondItem="j7S-Ic-Dpz" secondAttribute="trailing" id="fDz-vg-f5n"/>
                                                                 <constraint firstAttribute="bottom" secondItem="j7S-Ic-Dpz" secondAttribute="bottom" constant="8" id="h7f-Cn-InI"/>
                                                                 <constraint firstAttribute="bottom" secondItem="wD0-Cz-zFK" secondAttribute="bottom" constant="9" id="lZL-9E-E2v"/>
                                                                 <constraint firstItem="wD0-Cz-zFK" firstAttribute="top" secondItem="d1G-GB-mw0" secondAttribute="top" constant="9" id="svt-tx-V3o"/>
@@ -6297,6 +6340,7 @@
                                         <connections>
                                             <outlet property="amountLabel" destination="iiM-uF-x6D" id="0Qi-RH-8uL"/>
                                             <outlet property="bgView" destination="Fab-Ve-stc" id="96Q-rx-lu4"/>
+                                            <outlet property="contractButton" destination="Bcq-Om-EKp" id="FTP-xw-qRW"/>
                                             <outlet property="floatProfitLabel" destination="GW7-qT-0UR" id="ZjM-PV-xDB"/>
                                             <outlet property="guideProfitLabel" destination="hqM-GG-68N" id="WHG-3c-VvN"/>
                                             <outlet property="guideProfitTitleLabel" destination="D5F-QE-sWx" id="6wB-Od-vuI"/>
@@ -9791,7 +9835,7 @@
                                     <constraint firstAttribute="trailing" secondItem="SWa-hD-0vG" secondAttribute="trailing" constant="15" id="x4O-88-aDo"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="出于安全需要，如需修改绑定银行卡，请致电400-699-9861。" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rEo-Xi-kD4">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="出于安全需要，如需修改绑定银行卡，请致电400-698-9861。" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rEo-Xi-kD4">
                                 <rect key="frame" x="20" y="178" width="560" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="9DL-X5-LD2"/>
@@ -12929,6 +12973,7 @@
         <image name="bonusChosen.png" width="195" height="165"/>
         <image name="buyAmoutIcon.png" width="15" height="18"/>
         <image name="checkIconActive.png" width="13" height="13"/>
+        <image name="contract.png" width="13" height="15"/>
         <image name="dispersionIcon.png" width="27" height="22"/>
         <image name="grayRightIcon.png" width="10" height="16"/>
         <image name="help.png" width="23" height="22"/>

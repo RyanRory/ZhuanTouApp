@@ -10,7 +10,7 @@
 #import "DetailTableViewCell.h"
 #import "SetpasswordViewController.h"
 
-@interface DetailViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+@interface DetailViewController : ZTBaseViewController<UITableViewDataSource, UITableViewDelegate>
 {
     int detailNum, dingqiPageNum, huoqiPageNum, inAndOutPageNum, allPageNum;
     NSMutableArray *dingqiDatas, *huoqiDatas, *inAndOutDatas, *allDatas;

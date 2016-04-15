@@ -112,7 +112,8 @@
 
 - (void)setURL:(NSString *)str
 {
-    url = str;
+    NSLog(@"%@",str);
+    url =  str;
 }
 
 - (void)backToParent:(id)sender
@@ -161,6 +162,7 @@
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
     [timer invalidate];
+    NSLog(@"%@",error);
     reloadButton.hidden = NO;
     hud.mode = MBProgressHUDModeCustomView;
     hud.labelText = @"当前网络状况不佳";

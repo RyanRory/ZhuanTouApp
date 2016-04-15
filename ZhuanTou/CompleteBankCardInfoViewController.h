@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CompleteBankCardInfoViewController : UIViewController<UIPickerViewDataSource, UIPickerViewDelegate>
+@interface CompleteBankCardInfoViewController : ZTBaseViewController<UIPickerViewDataSource, UIPickerViewDelegate>
 {
     MBProgressHUD *hud;
     NSArray *provinceArray, *cityArray;

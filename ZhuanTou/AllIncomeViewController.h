@@ -11,7 +11,7 @@
 #import "ZhuanTou-Bridging-Header.h"
 #import "SetpasswordViewController.h"
 
-@interface AllIncomeViewController : UIViewController<ChartViewDelegate>
+@interface AllIncomeViewController : ZTBaseViewController<ChartViewDelegate>
 {
     double fhb, wyb, ztb, other, total;
 }

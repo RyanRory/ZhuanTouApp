@@ -13,7 +13,7 @@
 #import "SetpasswordViewController.h"
 #import "WebDetailViewController.h"
 
-@interface BonusViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+@interface BonusViewController : ZTBaseViewController<UITableViewDataSource, UITableViewDelegate>
 {
     int bonusNum;
     NSMutableArray *datas, *bonusDatas, *interestRateDatas, *standingInterestRateDatas;

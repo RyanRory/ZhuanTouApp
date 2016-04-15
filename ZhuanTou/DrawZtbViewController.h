@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "TradePswdView.h"
 
-@interface DrawZtbViewController : UIViewController
+@interface DrawZtbViewController : ZTBaseViewController
 
 @property (strong, nonatomic) IBOutlet UIView *bgView;
 @property (strong, nonatomic) IBOutlet UILabel *balanceLabel;

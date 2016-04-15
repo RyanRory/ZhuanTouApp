@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "AliPayViews.h"
 #import "KeychainData.h"
+#import "ZTBaseViewController.h"
 
 #import "SetpasswordViewController.h"
 

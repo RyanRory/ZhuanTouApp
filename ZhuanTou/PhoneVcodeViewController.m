@@ -56,6 +56,8 @@
     {
         self.title = @"确认手机验证码";
     }
+    
+    [phoneVcodeTextField becomeFirstResponder];
 }
 
 - (void)backToParent:(id)sender

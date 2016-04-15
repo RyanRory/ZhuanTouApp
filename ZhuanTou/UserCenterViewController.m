@@ -22,6 +22,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     self.view.clipsToBounds = YES;
     [[self navigationController]setNavigationBarHidden:YES animated:NO];
     self.navigationController.interactivePopGestureRecognizer.delegate = self;
@@ -55,6 +56,23 @@
     tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)];
     tap.numberOfTapsRequired = 1;
     isSlide = false;
+    
+    AppDelegate * app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    if (app.userInfo.count > 0)
+    {
+        NSString *afterOpen = [app.userInfo objectForKey:@"after_open"];
+        if ([afterOpen isEqualToString:@"go_activity"])
+        {
+            NSString *activity = [app.userInfo objectForKey:@"activity"];
+            if ([activity isEqualToString:@"endedDq"])
+            {
+                DingqiViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"DingqiViewController"];
+                vc.buttonTag = 1;
+                [[self navigationController]pushViewController:vc animated:YES];
+            }
+        }
+    }
+
     
 }
 
@@ -123,7 +141,7 @@
 {
     if (!self.navigationController.navigationBarHidden)
     {
-        [self.navigationController setNavigationBarHidden:YES animated:NO];
+        [self.navigationController setNavigationBarHidden:YES animated:animated];
     }
     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
     BOOL flag = [userDefault boolForKey:ISLOGIN];
@@ -336,7 +354,9 @@
     }
     else
     {
-        [self Deslide];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self Deslide];
+        });
     }
 }
 
@@ -350,7 +370,9 @@
     }
     else
     {
-        [self Deslide];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self Deslide];
+        });
     }
 }
 
@@ -403,9 +425,7 @@
 {
     [self Deslide];
     BankCardViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"BankCardViewController"];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self.navigationController pushViewController:vc animated:YES];
-    });
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)toMore:(id)sender
@@ -708,6 +728,7 @@
         if (indexPath.row == 0)
         {
             DingqiViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"DingqiViewController"];
+            vc.buttonTag = 0;
             [[self navigationController]pushViewController:vc animated:YES];
         }
         else

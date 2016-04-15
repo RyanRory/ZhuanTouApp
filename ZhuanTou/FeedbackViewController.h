@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FeedbackViewController : UIViewController
+@interface FeedbackViewController : ZTBaseViewController
 
 @property (strong, nonatomic) IBOutlet UITextField *feedbackTextField;
 @property (strong, nonatomic) IBOutlet UIButton *tellUsButton;

@@ -13,7 +13,7 @@
 #import "WebDetailViewController.h"
 #import "TradePswdView.h"
 
-@interface DrawViewController : UIViewController<UIPickerViewDataSource, UIPickerViewDelegate>
+@interface DrawViewController : ZTBaseViewController<UIPickerViewDataSource, UIPickerViewDelegate>
 {
     MBProgressHUD *hud;
     NSArray *bankArray, *provinceArray, *cityArray;

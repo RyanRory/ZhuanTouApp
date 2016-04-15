@@ -12,7 +12,7 @@
 #import "TradePswdView.h"
 #import "ForgottenViewController.h"
 
-@interface ProductBuyConfirmViewController : UIViewController
+@interface ProductBuyConfirmViewController : ZTBaseViewController
 {
     NSString *style;
     CGRect frame;

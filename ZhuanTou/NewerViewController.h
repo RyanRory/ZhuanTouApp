@@ -12,7 +12,7 @@
 #import "ChargeViewController.h"
 #import "ProductBuyNewViewController.h"
 
-@interface NewerViewController : UIViewController
+@interface NewerViewController : ZTBaseViewController
 {
     int status, isHttpFinished;
     BOOL bonus1, bonus2;

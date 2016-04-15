@@ -14,7 +14,7 @@
 
 @implementation DingqiViewController
 
-@synthesize noneProductView, findProductButton, tView, ingButton, endedButton, standingButton;
+@synthesize noneProductView, findProductButton, tView, ingButton, endedButton, standingButton, buttonTag;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -26,10 +26,6 @@
     self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:backItem, item, nil];
     
     findProductButton.layer.cornerRadius = 3;
-    ingButton.tintColor = ZTBLUE;
-    standingButton.tintColor = ZTGRAY;
-    endedButton.tintColor = ZTGRAY;
-    [ingButton setUserInteractionEnabled:NO];
     
     tView.showsHorizontalScrollIndicator = NO;
     tView.showsVerticalScrollIndicator = NO;
@@ -40,10 +36,32 @@
     [endedButton addTarget:self action:@selector(loadEndedTableViewData:) forControlEvents:UIControlEventTouchUpInside];
     [findProductButton addTarget:self action:@selector(toProducts:) forControlEvents:UIControlEventTouchUpInside];
     
+    NSLog(@"TAG = %d", buttonTag);
+    
+    if (buttonTag == 0)
+    {
+        ingButton.tintColor = ZTBLUE;
+        standingButton.tintColor = ZTGRAY;
+        endedButton.tintColor = ZTGRAY;
+        [ingButton setUserInteractionEnabled:NO];
+    }
+    else if (buttonTag == 1)
+    {
+        ingButton.tintColor = ZTGRAY;
+        standingButton.tintColor = ZTGRAY;
+        endedButton.tintColor = ZTBLUE;
+        [endedButton setUserInteractionEnabled:NO];
+    }
+    else
+    {
+        ingButton.tintColor = ZTGRAY;
+        standingButton.tintColor = ZTBLUE;
+        endedButton.tintColor = ZTGRAY;
+        [standingButton setUserInteractionEnabled:NO];
+    }
+    
     noneProductView.hidden = YES;
     findProductButton.hidden = YES;
-    
-    buttonTag = 0;
     
     datas = [[NSMutableArray alloc]init];
     
@@ -455,6 +473,15 @@
 
 }
 
+- (void)toAgreemet:(UIButton*)sender
+{
+    WebDetailViewController *vc = [[self storyboard] instantiateViewControllerWithIdentifier:@"WebDetailViewController"];
+    NSString *productID = [NSString stringWithFormat:@"%@",[datas[sender.tag] objectForKey:@"id"]];
+    [vc setURL:[NSString stringWithFormat:@"%@Wap/WebView/InvestAgreement4M?productCode=%@", BASEURL, productID]];
+    vc.title = @"专投网产品服务协议";
+    [[self navigationController]pushViewController:vc animated:YES];
+}
+
 #pragma TableViewDelegates
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -531,6 +558,8 @@
             cell.amountLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data objectForKey:@"amount"]).doubleValue]]];
             cell.profitNumLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data objectForKey:@"paidInterestAmount"]).doubleValue]]];
             cell.standingNumLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data objectForKey:@"paidStandbyIntAmount"]).doubleValue]]];
+            [cell.contractButton addTarget:self action:@selector(toAgreemet:) forControlEvents:UIControlEventTouchUpInside];
+            cell.contractButton.tag = indexPath.section;
             if ([NSString stringWithFormat:@"%@",[data objectForKey:@"additionalInterestRate"]].intValue > 0)
             {
                 cell.profitTitleLabel.text = [NSString stringWithFormat:@"固定收益(+%d%%)",[NSString stringWithFormat:@"%@",[data objectForKey:@"additionalInterestRate"]].intValue];
@@ -566,6 +595,8 @@
             cell.guideProfitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data objectForKey:@"paidInterestAmount"]).doubleValue]]];
             cell.floatProfitLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data objectForKey:@"paidShareAmount"]).doubleValue]]];
             cell.standingNumLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data objectForKey:@"paidStandbyIntAmount"]).doubleValue]]];
+            [cell.contractButton addTarget:self action:@selector(toAgreemet:) forControlEvents:UIControlEventTouchUpInside];
+            cell.contractButton.tag = indexPath.section;
             if ([NSString stringWithFormat:@"%@",[data objectForKey:@"additionalInterestRate"]].intValue > 0)
             {
                 cell.guideProfitTitleLabel.text = [NSString stringWithFormat:@"固定收益(+%d%%)",[NSString stringWithFormat:@"%@",[data objectForKey:@"additionalInterestRate"]].intValue];
@@ -602,6 +633,8 @@
             NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
             [formatter setPositiveFormat:@"###,##0.00"];
             cell.amountLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data objectForKey:@"amount"]).doubleValue]]];
+            [cell.contractButton addTarget:self action:@selector(toAgreemet:) forControlEvents:UIControlEventTouchUpInside];
+            cell.contractButton.tag = indexPath.section;
             if ([[NSString stringWithFormat:@"%@",[data objectForKey:@"status"]] isEqualToString:@"筹款中"])
             {
                 cell.profitLabel.text = @"尚未操盘";
@@ -657,6 +690,8 @@
             NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
             [formatter setPositiveFormat:@"###,##0.00"];
             cell.amountLabel.text = [NSString stringWithFormat:@"%@元",[formatter stringFromNumber:[NSNumber numberWithDouble:((NSString*)[data objectForKey:@"amount"]).doubleValue]]];
+            [cell.contractButton addTarget:self action:@selector(toAgreemet:) forControlEvents:UIControlEventTouchUpInside];
+            cell.contractButton.tag = indexPath.section;
             if ([[NSString stringWithFormat:@"%@",[data objectForKey:@"status"]] isEqualToString:@"筹款中"])
             {
                 cell.guideProfitLabel.text = @"尚未操盘";

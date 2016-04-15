@@ -54,8 +54,8 @@
         icon1.image = image;
         icon2.image = image;
         icon3.image = image;
-        nPswdTextTextField.keyboardType = UIKeyboardTypeDecimalPad;
-        nPswdAgainTextField.keyboardType = UIKeyboardTypeDecimalPad;
+        nPswdTextTextField.keyboardType = UIKeyboardTypeNumberPad;
+        nPswdAgainTextField.keyboardType = UIKeyboardTypeNumberPad;
     }
 }
 
@@ -181,6 +181,7 @@
                 {
                     hud.mode = MBProgressHUDModeCustomView;
                     hud.labelText = @"重置成功";
+                    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:ISTPNUMERIC];
                     [hud hide:YES afterDelay:1.5f];
                     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                         [self.navigationController popViewControllerAnimated:YES];
