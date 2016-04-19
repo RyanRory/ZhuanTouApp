@@ -76,6 +76,20 @@
 
     reloadButton.hidden = YES;
     [reloadButton addTarget:self action:@selector(reloadWebView:) forControlEvents:UIControlEventTouchUpInside];
+    
+    AppDelegate * app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    if (app.userInfo.count > 0)
+    {
+        NSString *afterOpen = [app.userInfo objectForKey:@"after_open"];
+        if ([afterOpen isEqualToString:@"go_url"])
+        {
+            NSLog(@"twtwtwtwtw");
+            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:ISURLSHOW];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+        }
+    }
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceivePush:) name:@"RECEIVEPUSH" object:nil];
 }
 
 - (void)toInvite:(id)sender
@@ -170,5 +184,54 @@
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         reloadButton.hidden = NO;
     });
+}
+
+- (void)didReceivePush:(id)sender
+{
+    if ([self isCurrentViewControllerVisible:self])
+    {
+        AppDelegate * app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        if (app.userInfo.count > 0)
+        {
+            NSString *afterOpen = [app.userInfo objectForKey:@"after_open"];
+            if ([afterOpen isEqualToString:@"go_activity"])
+            {
+                [self.navigationController popToRootViewControllerAnimated:NO];
+                NSString *afterOpen = [app.userInfo objectForKey:@"after_open"];
+                if ([afterOpen isEqualToString:@"go_activity"])
+                {
+                    NSString *activity = [app.userInfo objectForKey:@"activity"];
+                    if ([activity isEqualToString:@"endedDq"])
+                    {
+                        DingqiViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"DingqiViewController"];
+                        vc.buttonTag = 1;
+                        [[self navigationController]pushViewController:vc animated:YES];
+                    }
+                    else
+                    {
+                        [[self tabBarController] setSelectedIndex:1];
+                    }
+                }
+            }
+            else if ([afterOpen isEqualToString:@"go_url"])
+            {
+                if (![[NSUserDefaults standardUserDefaults] boolForKey:ISURLSHOW])
+                {
+                    NSLog(@"fsfsfsfsfsfsfs");
+                    NSString *tempurl = [app.userInfo objectForKey:@"url"];
+                    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+                    WebDetailViewController *vc = [storyBoard instantiateViewControllerWithIdentifier:@"WebDetailViewController"];
+                    [vc setURL:tempurl];
+                    vc.title = @"专投公告";
+                    [[self navigationController]pushViewController:vc animated:YES];
+                }
+            }
+        }
+    }
+}
+
+-(BOOL)isCurrentViewControllerVisible:(UIViewController *)viewController
+{
+    return (viewController.isViewLoaded && viewController.view.window);
 }
 @end

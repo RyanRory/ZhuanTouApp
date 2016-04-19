@@ -84,6 +84,8 @@
         }
     }];
     [tView.mj_header beginRefreshing];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceivePush:) name:@"RECEIVEPUSH" object:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -750,6 +752,52 @@
     }
 }
 
+- (void)didReceivePush:(id)sender
+{
+    if ([self isCurrentViewControllerVisible:self])
+    {
+        AppDelegate * app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        if (app.userInfo.count > 0)
+        {
+            NSString *afterOpen = [app.userInfo objectForKey:@"after_open"];
+            if ([afterOpen isEqualToString:@"go_activity"])
+            {
+                NSString *afterOpen = [app.userInfo objectForKey:@"after_open"];
+                if ([afterOpen isEqualToString:@"go_activity"])
+                {
+                    NSString *activity = [app.userInfo objectForKey:@"activity"];
+                    if ([activity isEqualToString:@"endedDq"])
+                    {
+                        [self loadEndedTableViewData:endedButton];
+                    }
+                    else
+                    {
+                        NSLog(@"dsfdsdfsds");
+                        [[self tabBarController] setSelectedIndex:1];
+                        [self.navigationController popToRootViewControllerAnimated:NO];
+                    }
+                }
+            }
+            else if ([afterOpen isEqualToString:@"go_url"])
+            {
+                if (![[NSUserDefaults standardUserDefaults] boolForKey:ISURLSHOW])
+                {
+                    NSLog(@"fsfsfsfsfsfsfs");
+                    NSString *url = [app.userInfo objectForKey:@"url"];
+                    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+                    WebDetailViewController *vc = [storyBoard instantiateViewControllerWithIdentifier:@"WebDetailViewController"];
+                    [vc setURL:url];
+                    vc.title = @"专投公告";
+                    [[self navigationController]pushViewController:vc animated:YES];
+                }
+            }
+        }
+    }
+}
 
+-(BOOL)isCurrentViewControllerVisible:(UIViewController *)viewController
+{
+    return (viewController.isViewLoaded && viewController.view.window);
+}
 
 @end

@@ -60,6 +60,7 @@
     AppDelegate * app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     if (app.userInfo.count > 0)
     {
+        NSLog(@"lslslslls");
         NSString *afterOpen = [app.userInfo objectForKey:@"after_open"];
         if ([afterOpen isEqualToString:@"go_activity"])
         {
@@ -73,7 +74,7 @@
         }
     }
 
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceivePush:) name:@"RECEIVEPUSH" object:nil];
 }
 
 - (void)tap:(UITapGestureRecognizer *)sender
@@ -752,5 +753,52 @@
     }
 }
 
+- (void)didReceivePush:(id)sender
+{
+    if ([self isCurrentViewControllerVisible:self])
+    {
+        AppDelegate * app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        if (app.userInfo.count > 0)
+        {
+            NSString *afterOpen = [app.userInfo objectForKey:@"after_open"];
+            if ([afterOpen isEqualToString:@"go_activity"])
+            {
+                NSString *afterOpen = [app.userInfo objectForKey:@"after_open"];
+                if ([afterOpen isEqualToString:@"go_activity"])
+                {
+                    NSString *activity = [app.userInfo objectForKey:@"activity"];
+                    if ([activity isEqualToString:@"endedDq"])
+                    {
+                        DingqiViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"DingqiViewController"];
+                        vc.buttonTag = 1;
+                        [[self navigationController]pushViewController:vc animated:YES];
+                    }
+                    else
+                    {
+                        [[self tabBarController] setSelectedIndex:1];
+                    }
+                }
+            }
+            else if ([afterOpen isEqualToString:@"go_url"])
+            {
+                if (![[NSUserDefaults standardUserDefaults] boolForKey:ISURLSHOW])
+                {
+                    NSLog(@"fsfsfsfsfsfsfs");
+                    NSString *url = [app.userInfo objectForKey:@"url"];
+                    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+                    WebDetailViewController *vc = [storyBoard instantiateViewControllerWithIdentifier:@"WebDetailViewController"];
+                    [vc setURL:url];
+                    vc.title = @"专投公告";
+                    [[self navigationController]pushViewController:vc animated:YES];
+                }
+            }
+        }
+    }
+}
+
+-(BOOL)isCurrentViewControllerVisible:(UIViewController *)viewController
+{
+    return (viewController.isViewLoaded && viewController.view.window);
+}
 
 @end

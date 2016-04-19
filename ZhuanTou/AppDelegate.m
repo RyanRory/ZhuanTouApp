@@ -73,6 +73,8 @@
     [UMessage setAutoAlert:NO];
     
     NSDictionary* userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+    [[NSUserDefaults standardUserDefaults] setBool:false forKey:ISURLSHOW];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     if(userInfo){//推送信息
         self.userInfo = userInfo;//[userInfo copy]
     }
@@ -117,15 +119,18 @@
 {
     NSLog(@"userInfo:%@",userInfo);
     self.userInfo = userInfo;
+    [[NSUserDefaults standardUserDefaults] setBool:false forKey:ISURLSHOW];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     //应用运行时的消息处理
     [UMessage didReceiveRemoteNotification:userInfo];
     if([UIApplication sharedApplication].applicationState == UIApplicationStateActive)
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"收到推送消息" message:[[userInfo objectForKey:@"aps"] objectForKey:@"alert"] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"去看看", nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[[[userInfo objectForKey:@"aps"] objectForKey:@"alert"] objectForKey:@"title"] message:[[[userInfo objectForKey:@"aps"] objectForKey:@"alert"] objectForKey:@"body"] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"去看看", nil];
         [alert show];
     }
     else
     {
+        
         [[NSNotificationCenter defaultCenter] postNotificationName:@"RECEIVEPUSH" object:nil];
     }
 }

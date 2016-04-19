@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "InvitationViewController.h"
+#import "DingqiViewController.h"
 
 @interface WebDetailViewController : UIViewController<UIWebViewDelegate>
 {

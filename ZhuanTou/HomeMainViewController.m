@@ -113,12 +113,16 @@
         NSString *afterOpen = [app.userInfo objectForKey:@"after_open"];
         if ([afterOpen isEqualToString:@"go_url"])
         {
-            NSString *url = [app.userInfo objectForKey:@"url"];
-            UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-            WebDetailViewController *vc = [storyBoard instantiateViewControllerWithIdentifier:@"WebDetailViewController"];
-            [vc setURL:url];
-            vc.title= [app.userInfo objectForKey:@"title"];
-            [[self navigationController]pushViewController:vc animated:YES];
+            if (![[NSUserDefaults standardUserDefaults] boolForKey:ISURLSHOW])
+            {
+                NSLog(@"dsdsdsds");
+                NSString *url = [app.userInfo objectForKey:@"url"];
+                UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+                WebDetailViewController *vc = [storyBoard instantiateViewControllerWithIdentifier:@"WebDetailViewController"];
+                [vc setURL:url];
+                vc.title = @"专投公告";
+                [[self navigationController]pushViewController:vc animated:YES];
+            }
         }
     }
 
