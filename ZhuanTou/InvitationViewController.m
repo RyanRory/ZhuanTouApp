@@ -89,10 +89,22 @@
             [tView.mj_header endRefreshing];
         }
     }];
+    
+    
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    if (self.navigationController.navigationBarHidden)
+    {
+        [self.navigationController setNavigationBarHidden:NO animated:animated];
+    }
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceivePush:) name:@"RECEIVEPUSH" object:nil];
 }
 
 - (void)setupData
@@ -347,7 +359,7 @@
     QQApiNewsObject *newsObj = [QQApiNewsObject
                                 objectWithURL:url
                                 title:title
-                                description:description
+                                description:@""
                                 previewImageURL:[NSURL URLWithString:previewImageUrl]];
     
     SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:newsObj];
@@ -406,6 +418,56 @@
         }
     }
 }
+
+-(BOOL)isCurrentViewControllerVisible:(UIViewController *)viewController
+{
+    return (viewController.isViewLoaded && viewController.view.window);
+}
+
+- (void)didReceivePush:(id)sender
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"RECEIVEPUSH" object:nil];
+    if ([self isCurrentViewControllerVisible:self])
+    {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:ISLASTPUSHHANDLE];
+        AppDelegate * app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        if (app.userInfo.count > 0)
+        {
+            NSString *afterOpen = [app.userInfo objectForKey:@"after_open"];
+            if ([afterOpen isEqualToString:@"go_activity"])
+            {
+                NSString *activity = [app.userInfo objectForKey:@"activity"];
+                if ([activity isEqualToString:@"endedDq"])
+                {
+                    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+                    DingqiViewController *vc = [storyBoard instantiateViewControllerWithIdentifier:@"DingqiViewController"];
+                    vc.buttonTag = 1;
+                    [[self navigationController]pushViewController:vc animated:YES];
+                }
+                else
+                {
+                    [[self navigationController] popToRootViewControllerAnimated:NO];
+                    [[self tabBarController] setSelectedIndex:1];
+                }
+            }
+            else if ([afterOpen isEqualToString:@"go_url"])
+            {
+                if (![[NSUserDefaults standardUserDefaults] boolForKey:ISURLSHOW])
+                {
+                    NSLog(@"fsfsfsfsfsfsfs");
+                    NSString *url = [app.userInfo objectForKey:@"url"];
+                    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+                    WebDetailViewController *vc = [storyBoard instantiateViewControllerWithIdentifier:@"WebDetailViewController"];
+                    [vc setURL:url];
+                    vc.title = [app.userInfo objectForKey:@"alert"];
+                    [[self navigationController]pushViewController:vc animated:YES];
+                }
+            }
+        }
+    }
+    
+}
+
 
 
 @end

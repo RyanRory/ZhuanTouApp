@@ -124,6 +124,16 @@
                 [[self navigationController]pushViewController:vc animated:YES];
             }
         }
+        if ([afterOpen isEqualToString:@"go_activity"])
+        {
+            NSString *activity = [app.userInfo objectForKey:@"activity"];
+            if ([activity isEqualToString:@"endedDq"])
+            {
+                DingqiViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"DingqiViewController"];
+                vc.buttonTag = 1;
+                [[self navigationController]pushViewController:vc animated:YES];
+            }
+        }
     }
 
 }
@@ -350,6 +360,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
     [[self navigationController]setNavigationBarHidden:YES animated:YES];
     if (flag)
     {

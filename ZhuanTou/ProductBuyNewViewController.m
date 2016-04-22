@@ -348,6 +348,11 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
+    if (self.navigationController.navigationBarHidden)
+    {
+        [self.navigationController setNavigationBarHidden:NO animated:animated];
+    }
     couponsFlag = couponsFlagChosen;
     voucher1Flag = voucher1FlagChosen;
     voucher2Flag = voucher2FlagChosen;

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "WebDetailViewController.h"
+#import "DingqiViewController.h"
 
 @interface ZTBaseViewController : UIViewController
 

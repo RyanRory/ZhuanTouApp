@@ -38,6 +38,7 @@
     UITapGestureRecognizer *tap;
     CGPoint initalCenter, navigationCenter;
     BOOL isSlide;
+    BOOL pushFlag;
 }
 
 @property (strong, nonatomic) IBOutlet UIView *navigationView;

@@ -85,12 +85,17 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    if (self.navigationController.navigationBarHidden)
+    {
+        [self.navigationController setNavigationBarHidden:NO animated:animated];
+    }
     showTimes++;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(becomeForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
     if (showTimes > 0)
     {
         [self setupDataAgain];

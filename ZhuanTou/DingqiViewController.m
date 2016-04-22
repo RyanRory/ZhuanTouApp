@@ -24,6 +24,10 @@
     backItem.tintColor = ZTBLUE;
     UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithCustomView:[UIButton buttonWithType:UIButtonTypeCustom]];
     self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:backItem, item, nil];
+    if (self.navigationController.navigationBarHidden)
+    {
+        [self.navigationController setNavigationBarHidden:NO animated:YES];
+    }
     
     findProductButton.layer.cornerRadius = 3;
     
@@ -85,12 +89,16 @@
     }];
     [tView.mj_header beginRefreshing];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceivePush:) name:@"RECEIVEPUSH" object:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    if (self.navigationController.navigationBarHidden)
+    {
+        [self.navigationController setNavigationBarHidden:NO animated:animated];
+    }
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(becomeForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceivePush:) name:@"RECEIVEPUSH" object:nil];
 }
 
 - (void)becomeForeground
@@ -113,7 +121,7 @@
 - (void)backToParent:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
+    //[self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
 - (void)toProducts:(id)sender
@@ -754,8 +762,10 @@
 
 - (void)didReceivePush:(id)sender
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"RECEIVEPUSH" object:nil];
     if ([self isCurrentViewControllerVisible:self])
     {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:ISLASTPUSHHANDLE];
         AppDelegate * app = (AppDelegate *)[UIApplication sharedApplication].delegate;
         if (app.userInfo.count > 0)
         {
@@ -768,6 +778,7 @@
                     NSString *activity = [app.userInfo objectForKey:@"activity"];
                     if ([activity isEqualToString:@"endedDq"])
                     {
+                        [self.navigationController setNavigationBarHidden:NO];
                         [self loadEndedTableViewData:endedButton];
                     }
                     else
@@ -780,16 +791,13 @@
             }
             else if ([afterOpen isEqualToString:@"go_url"])
             {
-                if (![[NSUserDefaults standardUserDefaults] boolForKey:ISURLSHOW])
-                {
-                    NSLog(@"fsfsfsfsfsfsfs");
-                    NSString *url = [app.userInfo objectForKey:@"url"];
-                    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-                    WebDetailViewController *vc = [storyBoard instantiateViewControllerWithIdentifier:@"WebDetailViewController"];
-                    [vc setURL:url];
-                    vc.title = @"专投公告";
-                    [[self navigationController]pushViewController:vc animated:YES];
-                }
+                NSLog(@"fsfsfsfsfsfsfs");
+                NSString *url = [app.userInfo objectForKey:@"url"];
+                UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+                WebDetailViewController *vc = [storyBoard instantiateViewControllerWithIdentifier:@"WebDetailViewController"];
+                [vc setURL:url];
+                vc.title = @"专投公告";
+                [[self navigationController]pushViewController:vc animated:YES];
             }
         }
     }

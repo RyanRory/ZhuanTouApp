@@ -24,7 +24,7 @@
     [super viewDidLoad];
     
     self.view.clipsToBounds = YES;
-    [[self navigationController]setNavigationBarHidden:YES animated:NO];
+    //[[self navigationController]setNavigationBarHidden:YES animated:NO];
     self.navigationController.interactivePopGestureRecognizer.delegate = self;
     
     tView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
@@ -57,24 +57,24 @@
     tap.numberOfTapsRequired = 1;
     isSlide = false;
     
-    AppDelegate * app = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    if (app.userInfo.count > 0)
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:ISPUSHSHOW])
     {
-        NSLog(@"lslslslls");
-        NSString *afterOpen = [app.userInfo objectForKey:@"after_open"];
-        if ([afterOpen isEqualToString:@"go_activity"])
+        AppDelegate * app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        if (app.userInfo.count > 0)
         {
-            NSString *activity = [app.userInfo objectForKey:@"activity"];
-            if ([activity isEqualToString:@"endedDq"])
+            NSString *afterOpen = [app.userInfo objectForKey:@"after_open"];
+            if ([afterOpen isEqualToString:@"go_activity"])
             {
-                DingqiViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"DingqiViewController"];
-                vc.buttonTag = 1;
-                [[self navigationController]pushViewController:vc animated:YES];
+                NSString *activity = [app.userInfo objectForKey:@"activity"];
+                if ([activity isEqualToString:@"endedDq"])
+                {
+                    DingqiViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"DingqiViewController"];
+                    vc.buttonTag = 1;
+                    [[self navigationController]pushViewController:vc animated:YES];
+                }
             }
         }
     }
-
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceivePush:) name:@"RECEIVEPUSH" object:nil];
 }
 
 - (void)tap:(UITapGestureRecognizer *)sender
@@ -140,6 +140,8 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceivePush:) name:@"RECEIVEPUSH" object:nil];
     if (!self.navigationController.navigationBarHidden)
     {
         [self.navigationController setNavigationBarHidden:YES animated:animated];
@@ -184,6 +186,7 @@
     {
         [self.navigationController setNavigationBarHidden:NO animated:YES];
     }
+    pushFlag = true;
 }
 
 - (void)becomeForeground
@@ -755,8 +758,10 @@
 
 - (void)didReceivePush:(id)sender
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"RECEIVEPUSH" object:nil];
     if ([self isCurrentViewControllerVisible:self])
     {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:ISLASTPUSHHANDLE];
         AppDelegate * app = (AppDelegate *)[UIApplication sharedApplication].delegate;
         if (app.userInfo.count > 0)
         {
@@ -781,16 +786,13 @@
             }
             else if ([afterOpen isEqualToString:@"go_url"])
             {
-                if (![[NSUserDefaults standardUserDefaults] boolForKey:ISURLSHOW])
-                {
-                    NSLog(@"fsfsfsfsfsfsfs");
-                    NSString *url = [app.userInfo objectForKey:@"url"];
-                    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-                    WebDetailViewController *vc = [storyBoard instantiateViewControllerWithIdentifier:@"WebDetailViewController"];
-                    [vc setURL:url];
-                    vc.title = @"专投公告";
-                    [[self navigationController]pushViewController:vc animated:YES];
-                }
+                NSLog(@"fsfsfsfsfsfsfs");
+                NSString *url = [app.userInfo objectForKey:@"url"];
+                UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+                WebDetailViewController *vc = [storyBoard instantiateViewControllerWithIdentifier:@"WebDetailViewController"];
+                [vc setURL:url];
+                vc.title = @"专投公告";
+                [[self navigationController]pushViewController:vc animated:YES];
             }
         }
     }

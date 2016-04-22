@@ -116,23 +116,10 @@
                                      NSDate *date = [NSDate date];
                                      [userDefault setObject:[dateFormat stringFromDate:date] forKey:LASTLOGINDATE];
                                      [userDefault synchronize];
-                                     AppDelegate * app = (AppDelegate *)[UIApplication sharedApplication].delegate;
-                                     if (app.userInfo.count > 0)
-                                     {
-                                         NSString *afterOpen = [app.userInfo objectForKey:@"after_open"];
-                                         if ([afterOpen isEqualToString:@"go_activity"])
-                                         {
-                                             NSString *activity = [app.userInfo objectForKey:@"activity"];
-                                             if ([activity isEqualToString:@"endedDq"])
-                                             {
-                                                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                                                     ZTTabBarViewController *tabvc = [[weakSelf storyboard]instantiateViewControllerWithIdentifier:@"ZTTabBarViewController"];
-                                                     [weakSelf presentViewController:tabvc animated:YES completion:nil];
-                                                 });
-                                             }
-                                         }
-                                     }
-
+                                     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                                         ZTTabBarViewController *tabvc = [[weakSelf storyboard]instantiateViewControllerWithIdentifier:@"ZTTabBarViewController"];
+                                         [weakSelf presentViewController:tabvc animated:YES completion:nil];
+                                     });
                                  }
                                  
                              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -144,38 +131,6 @@
                                  
                              }];
                          }
-
-                         AppDelegate * app = (AppDelegate *)[UIApplication sharedApplication].delegate;
-                         if (app.userInfo.count > 0)
-                         {
-                             NSString *afterOpen = [app.userInfo objectForKey:@"after_open"];
-                             if ([afterOpen isEqualToString:@"go_activity"])
-                             {
-                                 NSString *activity = [app.userInfo objectForKey:@"activity"];
-                                 if (![activity isEqualToString:@"endedDq"])
-                                 {
-                                     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                                         ZTTabBarViewController *tabvc = [[weakSelf storyboard]instantiateViewControllerWithIdentifier:@"ZTTabBarViewController"];
-                                         [weakSelf presentViewController:tabvc animated:YES completion:nil];
-                                     });
-                                 }
-                             }
-                             else
-                             {
-                                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                                     ZTTabBarViewController *tabvc = [[weakSelf storyboard]instantiateViewControllerWithIdentifier:@"ZTTabBarViewController"];
-                                     [weakSelf presentViewController:tabvc animated:YES completion:nil];
-                                 });
-                             }
-                         }
-                         else
-                         {
-                             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                                 ZTTabBarViewController *tabvc = [[weakSelf storyboard]instantiateViewControllerWithIdentifier:@"ZTTabBarViewController"];
-                                 [weakSelf presentViewController:tabvc animated:YES completion:nil];
-                             });
-                         }
-
                      }
                  }];
             }
@@ -293,22 +248,10 @@
                         NSDate *date = [NSDate date];
                         [userDefault setObject:[dateFormat stringFromDate:date] forKey:LASTLOGINDATE];
                         [userDefault synchronize];
-                        AppDelegate * app = (AppDelegate *)[UIApplication sharedApplication].delegate;
-                        if (app.userInfo.count > 0)
-                        {
-                            NSString *afterOpen = [app.userInfo objectForKey:@"after_open"];
-                            if ([afterOpen isEqualToString:@"go_activity"])
-                            {
-                                NSString *activity = [app.userInfo objectForKey:@"activity"];
-                                if ([activity isEqualToString:@"endedDq"])
-                                {
-                                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                                        ZTTabBarViewController *tabvc = [[weakSelf storyboard]instantiateViewControllerWithIdentifier:@"ZTTabBarViewController"];
-                                        [weakSelf presentViewController:tabvc animated:YES completion:nil];
-                                    });
-                                }
-                            }
-                        }
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                            ZTTabBarViewController *tabvc = [[weakSelf storyboard]instantiateViewControllerWithIdentifier:@"ZTTabBarViewController"];
+                            [weakSelf presentViewController:tabvc animated:YES completion:nil];
+                        });
                     }
                     
                 } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -320,38 +263,6 @@
                     
                 }];
             }
-            
-            AppDelegate * app = (AppDelegate *)[UIApplication sharedApplication].delegate;
-            if (app.userInfo.count > 0)
-            {
-                NSString *afterOpen = [app.userInfo objectForKey:@"after_open"];
-                if ([afterOpen isEqualToString:@"go_activity"])
-                {
-                    NSString *activity = [app.userInfo objectForKey:@"activity"];
-                    if (![activity isEqualToString:@"endedDq"])
-                    {
-                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                            ZTTabBarViewController *tabvc = [[weakSelf storyboard]instantiateViewControllerWithIdentifier:@"ZTTabBarViewController"];
-                            [weakSelf presentViewController:tabvc animated:YES completion:nil];
-                        });
-                    }
-                }
-                else
-                {
-                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                        ZTTabBarViewController *tabvc = [[weakSelf storyboard]instantiateViewControllerWithIdentifier:@"ZTTabBarViewController"];
-                        [weakSelf presentViewController:tabvc animated:YES completion:nil];
-                    });
-                }
-            }
-            else
-            {
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    ZTTabBarViewController *tabvc = [[weakSelf storyboard]instantiateViewControllerWithIdentifier:@"ZTTabBarViewController"];
-                    [weakSelf presentViewController:tabvc animated:YES completion:nil];
-                });
-            }
-
         }
     };
     
@@ -440,6 +351,16 @@
     LoginViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"LoginViewController"];
     vc.style = @"FORGOTTEN";
     [[self navigationController]pushViewController:vc animated:YES];
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSString *URL = [BASEURL stringByAppendingString:@"Account/SignOut"];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSData *responseObject){
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+    }];
+
 }
 
 - (void)setTouchID:(id)sender
@@ -499,24 +420,13 @@
                              [userDefault setBool:[NSString stringWithFormat:@"%@", [responseObject objectForKey:@"isTpNumeric"]].boolValue forKey:ISTPNUMERIC];
                              [userDefault setInteger:[NSString stringWithFormat:@"%@", [responseObject objectForKey:@"tpThreshold"]].intValue *100 forKey:TPTHRESHOLD];
                              [userDefault synchronize];
-                             AppDelegate * app = (AppDelegate *)[UIApplication sharedApplication].delegate;
-                             if (app.userInfo.count > 0)
-                             {
-                                 NSString *afterOpen = [app.userInfo objectForKey:@"after_open"];
-                                 if ([afterOpen isEqualToString:@"go_activity"])
-                                 {
-                                     NSString *activity = [app.userInfo objectForKey:@"activity"];
-                                     if ([activity isEqualToString:@"endedDq"])
-                                     {
-                                         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                                             ZTTabBarViewController *tabvc = [[weakSelf storyboard]instantiateViewControllerWithIdentifier:@"ZTTabBarViewController"];
-                                             [weakSelf presentViewController:tabvc animated:YES completion:nil];
-                                         });
-                                     }
-                                 }
-                             }
+                             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                                 ZTTabBarViewController *tabvc = [[weakSelf storyboard]instantiateViewControllerWithIdentifier:@"ZTTabBarViewController"];
+                                 [weakSelf presentViewController:tabvc animated:YES completion:nil];
+                             });
                          }
-                         
+                     
+                      
                      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                          NSLog(@"Error: %@", error);
                          MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:weakSelf.view animated:YES];
@@ -526,38 +436,8 @@
                          
                      }];
                  }
-                 AppDelegate * app = (AppDelegate *)[UIApplication sharedApplication].delegate;
-                 if (app.userInfo.count > 0)
-                 {
-                     NSString *afterOpen = [app.userInfo objectForKey:@"after_open"];
-                     if ([afterOpen isEqualToString:@"go_activity"])
-                     {
-                         NSString *activity = [app.userInfo objectForKey:@"activity"];
-                         if (![activity isEqualToString:@"endedDq"])
-                         {
-                             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                                 ZTTabBarViewController *tabvc = [[weakSelf storyboard]instantiateViewControllerWithIdentifier:@"ZTTabBarViewController"];
-                                 [weakSelf presentViewController:tabvc animated:YES completion:nil];
-                             });
-                         }
-                     }
-                     else
-                     {
-                         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                             ZTTabBarViewController *tabvc = [[weakSelf storyboard]instantiateViewControllerWithIdentifier:@"ZTTabBarViewController"];
-                             [weakSelf presentViewController:tabvc animated:YES completion:nil];
-                         });
-                     }
-                 }
-                 else
-                 {
-                     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                         ZTTabBarViewController *tabvc = [[weakSelf storyboard]instantiateViewControllerWithIdentifier:@"ZTTabBarViewController"];
-                         [weakSelf presentViewController:tabvc animated:YES completion:nil];
-                     });
-                 }
              }
-         }];
+        }];
     }
     else
     {

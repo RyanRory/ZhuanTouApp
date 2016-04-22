@@ -30,6 +30,8 @@
     [userDefault setBool:NO forKey:ISLOGIN];
     [userDefault setBool:NO forKey:ISTRADEPSWDSET];
     [userDefault setObject:str forKey:DEVICE];
+    [userDefault setBool:NO forKey:ISPUSHSHOW];
+    [userDefault setBool:YES forKey:ISLASTPUSHHANDLE];
     [userDefault synchronize];
     
     [Fabric with:@[[Crashlytics class]]];
@@ -120,18 +122,24 @@
     NSLog(@"userInfo:%@",userInfo);
     self.userInfo = userInfo;
     [[NSUserDefaults standardUserDefaults] setBool:false forKey:ISURLSHOW];
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:ISPUSHSHOW];
     [[NSUserDefaults standardUserDefaults] synchronize];
     //应用运行时的消息处理
     [UMessage didReceiveRemoteNotification:userInfo];
-    if([UIApplication sharedApplication].applicationState == UIApplicationStateActive)
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:ISLASTPUSHHANDLE])
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[[[userInfo objectForKey:@"aps"] objectForKey:@"alert"] objectForKey:@"title"] message:[[[userInfo objectForKey:@"aps"] objectForKey:@"alert"] objectForKey:@"body"] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"去看看", nil];
-        [alert show];
-    }
-    else
-    {
-        
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"RECEIVEPUSH" object:nil];
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:ISLASTPUSHHANDLE];
+        if([UIApplication sharedApplication].applicationState == UIApplicationStateActive)
+        {
+            NSLog(@"%d",[[NSUserDefaults standardUserDefaults] boolForKey:ISPUSHSHOW]);
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[[[userInfo objectForKey:@"aps"] objectForKey:@"alert"] objectForKey:@"title"] message:[[[userInfo objectForKey:@"aps"] objectForKey:@"alert"] objectForKey:@"body"] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"去看看", nil];
+            [alert show];
+        }
+        else
+        {
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"RECEIVEPUSH" object:nil];
+        }
     }
 }
 
@@ -141,6 +149,10 @@
     if (buttonIndex != 0)
     {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"RECEIVEPUSH" object:nil];
+    }
+    else
+    {
+        self.userInfo = nil;
     }
 }
 

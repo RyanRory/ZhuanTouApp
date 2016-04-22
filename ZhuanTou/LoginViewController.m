@@ -42,6 +42,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     usernameTextField.text = [userDefaults objectForKey:USERNAME];
     passwordTextField.text = [userDefaults objectForKey:PASSWORD];

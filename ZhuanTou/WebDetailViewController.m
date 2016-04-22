@@ -77,17 +77,20 @@
     reloadButton.hidden = YES;
     [reloadButton addTarget:self action:@selector(reloadWebView:) forControlEvents:UIControlEventTouchUpInside];
     
-    AppDelegate * app = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    if (app.userInfo.count > 0)
-    {
-        NSString *afterOpen = [app.userInfo objectForKey:@"after_open"];
-        if ([afterOpen isEqualToString:@"go_url"])
-        {
-            NSLog(@"twtwtwtwtw");
-            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:ISURLSHOW];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-        }
-    }
+//    if (![[NSUserDefaults standardUserDefaults] boolForKey:ISPUSHSHOW])
+//    {
+//        AppDelegate * app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+//        if (app.userInfo.count > 0)
+//        {
+//            NSString *afterOpen = [app.userInfo objectForKey:@"after_open"];
+//            if ([afterOpen isEqualToString:@"go_url"])
+//            {
+//                NSLog(@"twtwtwtwtw");
+//                [[NSUserDefaults standardUserDefaults] setBool:YES forKey:ISPUSHSHOW];
+//                [[NSUserDefaults standardUserDefaults] synchronize];
+//            }
+//        }
+//    }
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceivePush:) name:@"RECEIVEPUSH" object:nil];
 }
@@ -111,6 +114,10 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [self loadWebView];
+    if (self.navigationController.navigationBarHidden)
+    {
+        [self.navigationController setNavigationBarHidden:NO animated:animated];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -188,8 +195,10 @@
 
 - (void)didReceivePush:(id)sender
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"RECEIVEPUSH" object:nil];
     if ([self isCurrentViewControllerVisible:self])
     {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:ISLASTPUSHHANDLE];
         AppDelegate * app = (AppDelegate *)[UIApplication sharedApplication].delegate;
         if (app.userInfo.count > 0)
         {

@@ -114,6 +114,10 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    if (self.navigationController.navigationBarHidden)
+    {
+        [self.navigationController setNavigationBarHidden:NO animated:animated];
+    }
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(becomeForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
 }
 - (void)becomeForeground

@@ -68,6 +68,17 @@
     huoqiBuyButton.hidden = YES;
     huoqiAmountLabel.hidden = YES;
     huoqiDescriptionLabel.hidden = YES;
+    
+    wenjianBuyButton.hidden = YES;
+    wenjianTimeView.hidden = YES;
+    [zongheButton setUserInteractionEnabled:NO];
+    wenjianButton.tintColor = ZTGRAY;
+    zongheButton.tintColor = ZTBLUE;
+    huoqiButton.tintColor = ZTGRAY;
+    
+    style = ZONGHE;
+    [scrollView setContentOffset:CGPointMake(screenWidth, 0) animated:NO];
+    productsBeforeButton.tintColor = ZTBLUE;
 
     mainScrollView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         if ([style isEqualToString:WENJIAN])
@@ -89,24 +100,47 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    AppDelegate * app = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    if (app.userInfo.count > 0)
+    [super viewWillAppear:animated];
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:ISPUSHSHOW])
     {
-        NSString *afterOpen = [app.userInfo objectForKey:@"after_open"];
-        if ([afterOpen isEqualToString:@"go_activity"])
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:ISPUSHSHOW];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        AppDelegate * app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        if (app.userInfo.count > 0)
         {
-            NSString *activity = [app.userInfo objectForKey:@"activity"];
-            if ([activity isEqualToString:@"wyb"] || [activity isEqualToString:@"buywyb"])
+            NSString *afterOpen = [app.userInfo objectForKey:@"after_open"];
+            if ([afterOpen isEqualToString:@"go_activity"])
             {
-                zongheBuyButton.hidden = YES;
-                zongheTimeView.hidden = YES;
-                [wenjianButton setUserInteractionEnabled:NO];
-                wenjianButton.tintColor = ZTLIGHTRED;
-                zongheButton.tintColor = ZTGRAY;
-                huoqiButton.tintColor = ZTGRAY;
-                
-                style = WENJIAN;
-                [scrollView setContentOffset:CGPointMake(0, 0) animated:NO];
+                NSString *activity = [app.userInfo objectForKey:@"activity"];
+                if ([activity isEqualToString:@"wyb"] || [activity isEqualToString:@"buywyb"])
+                {
+                    zongheBuyButton.hidden = YES;
+                    zongheTimeView.hidden = YES;
+                    [wenjianButton setUserInteractionEnabled:NO];
+                    wenjianButton.tintColor = ZTLIGHTRED;
+                    zongheButton.tintColor = ZTGRAY;
+                    huoqiButton.tintColor = ZTGRAY;
+                    wenjianBuyButton.hidden = NO;
+                    wenjianTimeView.hidden = NO;
+                    
+                    style = WENJIAN;
+                    [scrollView setContentOffset:CGPointMake(0, 0) animated:NO];
+                }
+                else if ([activity isEqualToString:@"fhb"] || [activity isEqualToString:@"buyfhb"])
+                {
+                    wenjianBuyButton.hidden = YES;
+                    wenjianTimeView.hidden = YES;
+                    [zongheButton setUserInteractionEnabled:NO];
+                    wenjianButton.tintColor = ZTGRAY;
+                    zongheButton.tintColor = ZTBLUE;
+                    huoqiButton.tintColor = ZTGRAY;
+                    zongheBuyButton.hidden = NO;
+                    zongheTimeView.hidden = NO;
+                    
+                    style = ZONGHE;
+                    [scrollView setContentOffset:CGPointMake(screenWidth, 0) animated:NO];
+                    productsBeforeButton.tintColor = ZTBLUE;
+                }
             }
             else
             {
@@ -116,6 +150,8 @@
                 wenjianButton.tintColor = ZTGRAY;
                 zongheButton.tintColor = ZTBLUE;
                 huoqiButton.tintColor = ZTGRAY;
+                zongheBuyButton.hidden = NO;
+                zongheTimeView.hidden = NO;
                 
                 style = ZONGHE;
                 [scrollView setContentOffset:CGPointMake(screenWidth, 0) animated:NO];
@@ -136,20 +172,6 @@
             productsBeforeButton.tintColor = ZTBLUE;
         }
     }
-    else
-    {
-        wenjianBuyButton.hidden = YES;
-        wenjianTimeView.hidden = YES;
-        [zongheButton setUserInteractionEnabled:NO];
-        wenjianButton.tintColor = ZTGRAY;
-        zongheButton.tintColor = ZTBLUE;
-        huoqiButton.tintColor = ZTGRAY;
-        
-        style = ZONGHE;
-        [scrollView setContentOffset:CGPointMake(screenWidth, 0) animated:NO];
-        productsBeforeButton.tintColor = ZTBLUE;
-    }
-
     [self setupHuoqi];
     [self setupWenjian];
     [self setupZonghe];
@@ -843,8 +865,10 @@
 
 - (void)didReceivePush:(id)sender
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"RECEIVEPUSH" object:nil];
     if ([self isCurrentViewControllerVisible:self])
     {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:ISLASTPUSHHANDLE];
         AppDelegate * app = (AppDelegate *)[UIApplication sharedApplication].delegate;
         if (app.userInfo.count > 0)
         {
@@ -857,7 +881,10 @@
                     NSString *activity = [app.userInfo objectForKey:@"activity"];
                     if ([activity isEqualToString:@"endedDq"])
                     {
-                        [[self tabBarController] setSelectedIndex:2];
+                        UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+                        DingqiViewController *vc = [storyBoard instantiateViewControllerWithIdentifier:@"DingqiViewController"];
+                        vc.buttonTag = 1;
+                        [[self navigationController]pushViewController:vc animated:YES];
                     }
                     else
                     {
@@ -870,20 +897,18 @@
                             [self clickWenjianButton:wenjianButton];
                         }
                     }
+
                 }
             }
             else if ([afterOpen isEqualToString:@"go_url"])
             {
-                if (![[NSUserDefaults standardUserDefaults] boolForKey:ISURLSHOW])
-                {
-                    NSLog(@"fsfsfsfsfsfsfs");
-                    NSString *url = [app.userInfo objectForKey:@"url"];
-                    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-                    WebDetailViewController *vc = [storyBoard instantiateViewControllerWithIdentifier:@"WebDetailViewController"];
-                    [vc setURL:url];
-                    vc.title = @"专投公告";
-                    [[self navigationController]pushViewController:vc animated:YES];
-                }
+                NSLog(@"fsfsfsfsfsfsfs");
+                NSString *url = [app.userInfo objectForKey:@"url"];
+                UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+                WebDetailViewController *vc = [storyBoard instantiateViewControllerWithIdentifier:@"WebDetailViewController"];
+                [vc setURL:url];
+                vc.title = @"专投公告";
+                [[self navigationController]pushViewController:vc animated:YES];
             }
         }
     }

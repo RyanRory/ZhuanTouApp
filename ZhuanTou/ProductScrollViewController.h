@@ -19,7 +19,7 @@
     NSString *wenjianStartTime, *zongheStartTime;
     NSMutableDictionary *wenjianData, *zongheData, *huoqiData;
     NSTimer *wenjianTimer, *zongheTimer;
-    BOOL flag;
+    BOOL flag, pushFlag;
     float screenWidth;
 }
 

@@ -40,6 +40,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
     [NSThread detachNewThreadSelector:@selector(getVcode) toTarget:self withObject:nil];
     vcodeTextField.text =@"";
 }
