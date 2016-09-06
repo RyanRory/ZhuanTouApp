@@ -165,7 +165,7 @@
     }
     if ([style isEqualToString:RESETLOGINPSWD])
     {
-        URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/sendSmsCodeForResetPassword%@/%@/%@",isYuyin,phoneNum,vCode]];
+        URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/sendSmsCodeForResetPassword%@/%@/%@",phoneNum,vCode,isYuyin]];
     }
     else if ([style isEqualToString:RESETTRADEPSWD])
     {
@@ -173,7 +173,7 @@
     }
     else
     {
-        URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/registerSmsCode%@/%@/%@",isYuyin,phoneNum,vCode]];
+        URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/registerSmsCode%@/%@/%@",phoneNum,vCode,isYuyin]];
     }
     [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
         NSLog(@"%@", responseObject);

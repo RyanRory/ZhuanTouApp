@@ -76,6 +76,13 @@
         textField6.textAlignment = NSTextAlignmentCenter;
         textField6.font = [UIFont systemFontOfSize:20];
         
+        [textField1 setUserInteractionEnabled:NO];
+        [textField2 setUserInteractionEnabled:NO];
+        [textField3 setUserInteractionEnabled:NO];
+        [textField4 setUserInteractionEnabled:NO];
+        [textField5 setUserInteractionEnabled:NO];
+        [textField6 setUserInteractionEnabled:NO];
+        
         [centerView addSubview:titleLabel];
         [centerView addSubview:hiddenTextField];
         [centerView addSubview:textField1];

@@ -74,10 +74,16 @@
         [nextButton setUserInteractionEnabled:NO];
         [nextButton setAlpha:0.6f];
         
+        NSString *vCode = vcodeTextField.text;
+        while ([vCode rangeOfString:@" "].location != NSNotFound)
+        {
+            vCode = [vCode stringByReplacingOccurrencesOfString:@" " withString:@""];
+        }
+    
         hud.mode = MBProgressHUDModeIndeterminate;
         [hud show:YES];
         AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-        NSString *URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/checkVCode/%@",vcodeTextField.text]];
+        NSString *URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/checkVCode/%@",vCode]];
         [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
             NSLog(@"%@", responseObject);
             NSString *str = [responseObject objectForKey:@"isSuccess"];
@@ -113,7 +119,7 @@
                         [hud hide:YES];
                         NSUserDefaults *userDefauts = [NSUserDefaults standardUserDefaults];
                         [userDefauts setObject:phoneTextField.text forKey:PHONENUM];
-                        [userDefauts setObject:vcodeTextField.text forKey:VCODE];
+                        [userDefauts setObject:vCode forKey:VCODE];
                         [userDefauts synchronize];
                         
                         PhoneVcodeViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"PhoneVcodeViewController"];
