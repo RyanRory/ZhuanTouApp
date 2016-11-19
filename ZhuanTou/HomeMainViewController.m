@@ -251,10 +251,11 @@
     [manager1 GET:URL1 parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
         NSLog(@"%@", responseObject);
         idCode = [responseObject objectForKey:@"id"];
-        NSString *numStr = [NSString stringWithFormat:@"%@",[responseObject objectForKey:@"expectedReturn"]];
+        NSString *numStr = [NSString stringWithFormat:@"%.1f",[NSString stringWithFormat:@"%@",[responseObject objectForKey:@"recentReturn"]].doubleValue];
+        //NSString *numStr = @"10.2";
         if ([numStr rangeOfString:@"."].location != NSNotFound)
         {
-            profitPercentLabel.font = [UIFont fontWithName:@"EuphemiaUCAS-Bold" size:24.0f];
+            profitPercentLabel.font = [UIFont fontWithName:@"EuphemiaUCAS-Bold" size:40.0f];
         }
         else
         {

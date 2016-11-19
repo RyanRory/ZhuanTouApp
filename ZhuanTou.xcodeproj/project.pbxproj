@@ -287,6 +287,10 @@
 		A4A60E2A1C280D520032EA6A /* defaultHeadPortrait@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4A60E291C280D520032EA6A /* defaultHeadPortrait@3x.png */; };
 		A4A60E2C1C280D640032EA6A /* defaultHeadPortrait@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4A60E2B1C280D640032EA6A /* defaultHeadPortrait@2x.png */; };
 		A4A60E2E1C280D740032EA6A /* defaultHeadPortrait.png in Resources */ = {isa = PBXBuildFile; fileRef = A4A60E2D1C280D740032EA6A /* defaultHeadPortrait.png */; };
+		A4ADEC081DB65C8D009A0B15 /* whiteBackIcon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4ADEC061DB65C8D009A0B15 /* whiteBackIcon@3x.png */; };
+		A4ADEC0A1DB65CB3009A0B15 /* whiteBackIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4ADEC091DB65CB3009A0B15 /* whiteBackIcon@2x.png */; };
+		A4ADEC0C1DB65CC6009A0B15 /* whiteBackIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = A4ADEC0B1DB65CC6009A0B15 /* whiteBackIcon.png */; };
+		A4ADEC0F1DB65D94009A0B15 /* RenZhengViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4ADEC0E1DB65D94009A0B15 /* RenZhengViewController.m */; };
 		A4AE22061BE7655200101B89 /* 方正楷体简体.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A4AE22051BE7655200101B89 /* 方正楷体简体.ttf */; };
 		A4AE22131BE777EF00101B89 /* homeActive@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A4AE22121BE777EF00101B89 /* homeActive@3x.png */; };
 		A4B227841BD3516F0020C4D5 /* KnobButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A4B2277D1BD3516F0020C4D5 /* KnobButton.m */; };
@@ -810,6 +814,11 @@
 		A4A60E291C280D520032EA6A /* defaultHeadPortrait@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "defaultHeadPortrait@3x.png"; path = "images/@3x/defaultHeadPortrait@3x.png"; sourceTree = "<group>"; };
 		A4A60E2B1C280D640032EA6A /* defaultHeadPortrait@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "defaultHeadPortrait@2x.png"; path = "images/@2x/defaultHeadPortrait@2x.png"; sourceTree = "<group>"; };
 		A4A60E2D1C280D740032EA6A /* defaultHeadPortrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = defaultHeadPortrait.png; path = "images/@1x/defaultHeadPortrait.png"; sourceTree = "<group>"; };
+		A4ADEC061DB65C8D009A0B15 /* whiteBackIcon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "whiteBackIcon@3x.png"; path = "images/@3x/whiteBackIcon@3x.png"; sourceTree = "<group>"; };
+		A4ADEC091DB65CB3009A0B15 /* whiteBackIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "whiteBackIcon@2x.png"; path = "images/@2x/whiteBackIcon@2x.png"; sourceTree = "<group>"; };
+		A4ADEC0B1DB65CC6009A0B15 /* whiteBackIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = whiteBackIcon.png; path = "images/@1x/whiteBackIcon.png"; sourceTree = "<group>"; };
+		A4ADEC0D1DB65D94009A0B15 /* RenZhengViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenZhengViewController.h; sourceTree = "<group>"; };
+		A4ADEC0E1DB65D94009A0B15 /* RenZhengViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RenZhengViewController.m; sourceTree = "<group>"; };
 		A4AE22051BE7655200101B89 /* 方正楷体简体.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "方正楷体简体.ttf"; sourceTree = "<group>"; };
 		A4AE22121BE777EF00101B89 /* homeActive@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "homeActive@3x.png"; path = "images/@3x/homeActive@3x.png"; sourceTree = "<group>"; };
 		A4B2277C1BD3516F0020C4D5 /* KnobButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KnobButton.h; path = SimpleSwitch/KnobButton.h; sourceTree = "<group>"; };
@@ -1206,6 +1215,7 @@
 		A41C6B711BBAAF9E006B731D /* @1x */ = {
 			isa = PBXGroup;
 			children = (
+				A4ADEC0B1DB65CC6009A0B15 /* whiteBackIcon.png */,
 				A44901861CC0BBED00021EFF /* contract.png */,
 				A42339071C86DE490004612D /* bonusChosen.png */,
 				A42339081C86DE490004612D /* voucherChosen.png */,
@@ -1320,6 +1330,7 @@
 		A41C6B721BBAAFA7006B731D /* @2x */ = {
 			isa = PBXGroup;
 			children = (
+				A4ADEC091DB65CB3009A0B15 /* whiteBackIcon@2x.png */,
 				A44901881CC0BBF700021EFF /* contract@2x.png */,
 				A42339031C86DE3E0004612D /* bonusChosen@2x.png */,
 				A42339041C86DE3E0004612D /* voucherChosen@2x.png */,
@@ -1430,6 +1441,7 @@
 		A41C6B731BBAAFC0006B731D /* @3x */ = {
 			isa = PBXGroup;
 			children = (
+				A4ADEC061DB65C8D009A0B15 /* whiteBackIcon@3x.png */,
 				A449018A1CC0BC0100021EFF /* contract@3x.png */,
 				A42338FF1C86DE310004612D /* bonusChosen@3x.png */,
 				A42339001C86DE320004612D /* voucherChosen@3x.png */,
@@ -1713,6 +1725,8 @@
 				A49646DF1BE3287B006545C2 /* AddBankCardViewController.m */,
 				A41E1DE81BE5B60800641616 /* ChargeViewController.h */,
 				A41E1DE91BE5B60800641616 /* ChargeViewController.m */,
+				A4ADEC0D1DB65D94009A0B15 /* RenZhengViewController.h */,
+				A4ADEC0E1DB65D94009A0B15 /* RenZhengViewController.m */,
 				A41E1DEB1BE5B63700641616 /* DrawViewController.h */,
 				A41E1DEC1BE5B63700641616 /* DrawViewController.m */,
 				A4EE98F41C153716007E74E2 /* CompleteBankCardInfoViewController.h */,
@@ -2028,6 +2042,7 @@
 				A4BBC1F31BD10D61006331AC /* uProfit@2x.png in Resources */,
 				A4BBC1F11BD10D61006331AC /* uGesture@2x.png in Resources */,
 				A423390A1C86DE490004612D /* voucherChosen.png in Resources */,
+				A4ADEC081DB65C8D009A0B15 /* whiteBackIcon@3x.png in Resources */,
 				A42EA2D81BDF834A00E35F5F /* izhuantoubao@2x.png in Resources */,
 				A44AFA171BCF47F1002A8AC4 /* help@2x.png in Resources */,
 				A49AA6661C167B870087F060 /* newerBonusRed@3x.png in Resources */,
@@ -2064,6 +2079,7 @@
 				A42EA2D41BDF834A00E35F5F /* inbuildingTag@2x.png in Resources */,
 				A45CC3FA1C2BC55A00C5D56C /* logoTitle.png in Resources */,
 				A49AA6A51C167BA10087F060 /* newerInvestGray.png in Resources */,
+				A4ADEC0A1DB65CB3009A0B15 /* whiteBackIcon@2x.png in Resources */,
 				A42EA2C41BDF833F00E35F5F /* inbuildingTag@3x.png in Resources */,
 				A49AA68A1C167B950087F060 /* newerLight@2x.png in Resources */,
 				A42EA2C61BDF833F00E35F5F /* iNewsIcon@3x.png in Resources */,
@@ -2090,6 +2106,7 @@
 				A42EA2C51BDF833F00E35F5F /* inewer@3x.png in Resources */,
 				A41ACC8C1BDDFCD700755C96 /* bonusActive@2x.png in Resources */,
 				A4FAC49D1C438BE40051B0CA /* weibo.png in Resources */,
+				A4ADEC0C1DB65CC6009A0B15 /* whiteBackIcon.png in Resources */,
 				A4E7F2451BCE389100B20EC6 /* recommendIcon.png in Resources */,
 				A44AFA231BCF47F1002A8AC4 /* zonghe@2x.png in Resources */,
 				A44AFA561BCF4EC1002A8AC4 /* productActive.png in Resources */,
@@ -2414,6 +2431,7 @@
 				A42EA3041BE1FE9500E35F5F /* ForgottonResetViewController.m in Sources */,
 				A4E7F23F1BCE28DF00B20EC6 /* InformationViewController.m in Sources */,
 				A4B2CFFA1BDA3D2700AC2E78 /* DetailTableViewCell.m in Sources */,
+				A4ADEC0F1DB65D94009A0B15 /* RenZhengViewController.m in Sources */,
 				A44AFA4A1BCF481D002A8AC4 /* ZTTabBarViewController.m in Sources */,
 				A463EA941BD4E68D00CAF146 /* LaunchScreenViewController.m in Sources */,
 				A42EA3011BE1FE7500E35F5F /* ForgottenViewController.m in Sources */,
@@ -2651,7 +2669,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.momu.zhuantouwang.ZhuanTou;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "17d6b4ed-a0ca-4069-bb9a-63a78d2e036b";
 				SWIFT_OBJC_BRIDGING_HEADER = "ZhuanTou/ZhuanTou-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -2708,7 +2726,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.momu.zhuantouwang.ZhuanTou;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "17d6b4ed-a0ca-4069-bb9a-63a78d2e036b";
 				SWIFT_OBJC_BRIDGING_HEADER = "ZhuanTou/ZhuanTou-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -2876,7 +2894,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.momu.zhuantouwang.ZhuanTou;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "17d6b4ed-a0ca-4069-bb9a-63a78d2e036b";
 				SWIFT_OBJC_BRIDGING_HEADER = "ZhuanTou/ZhuanTou-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 			};

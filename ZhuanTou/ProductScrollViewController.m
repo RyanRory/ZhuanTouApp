@@ -426,10 +426,11 @@
     [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
         NSLog(@"%@", responseObject);
         zongheData = [NSMutableDictionary dictionaryWithDictionary:responseObject];
-        NSString *numStr = [NSString stringWithFormat:@"%@",[zongheData objectForKey:@"expectedReturn"]];
+        NSString *numStr = [NSString stringWithFormat:@"%.1f",[NSString stringWithFormat:@"%@",[zongheData objectForKey:@"recentReturn"]].doubleValue];
+        //NSString *numStr = @"10.2";
         if ([numStr rangeOfString:@"."].location != NSNotFound)
         {
-            zongheBigRateLabel.font = [UIFont fontWithName:@"EuphemiaUCAS-Bold" size:38.0f];
+            zongheBigRateLabel.font = [UIFont fontWithName:@"EuphemiaUCAS-Bold" size:57.0f];
             zongheBigRateLabel.text = numStr;
         }
         else

@@ -11,6 +11,7 @@
 #import "AddBankCardViewController.h"
 #import "RealNameViewController.h"
 #import "LLPaySdk.h"
+#import "RenZhengViewController.h"
 
 @interface ChargeViewController : ZTBaseViewController<BaofooSdkDelegate, LLPaySdkDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
 {

@@ -157,7 +157,7 @@
     NSString *isYuyin;
     if ([getVcodeButton.titleLabel.text isEqualToString:@"语音验证"])
     {
-        isYuyin = @"/true";
+        isYuyin = @"true";
     }
     else
     {
@@ -165,15 +165,15 @@
     }
     if ([style isEqualToString:RESETLOGINPSWD])
     {
-        URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/sendSmsCodeForResetPassword%@/%@/%@",phoneNum,vCode,isYuyin]];
+        URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/sendSmsCodeForResetPassword/%@/%@/%@",phoneNum,vCode,isYuyin]];
     }
     else if ([style isEqualToString:RESETTRADEPSWD])
     {
-        URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/sendSmsCodeForResetWP%@",isYuyin]];
+        URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/sendSmsCodeForResetWP/%@",isYuyin]];
     }
     else
     {
-        URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/registerSmsCode%@/%@/%@",phoneNum,vCode,isYuyin]];
+        URL = [BASEURL stringByAppendingString:[NSString stringWithFormat:@"api/account/registerSmsCode/%@/%@/%@",phoneNum,vCode,isYuyin]];
     }
     [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
         NSLog(@"%@", responseObject);

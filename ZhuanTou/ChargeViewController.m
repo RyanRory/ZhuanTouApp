@@ -265,7 +265,7 @@
                         [confirmButton setUserInteractionEnabled:YES];
                         [confirmButton setAlpha:1.0f];
                     }
-                    else
+                    else if ([[NSString stringWithFormat:@"%@",[dict objectForKey:@"chargeChannel"]] isEqualToString:@"连连"])
                     {
                         NSArray *array = [str componentsSeparatedByString:@"\"risk_item\":"];
                         NSArray *array2 = [array[1] componentsSeparatedByString:@"},"];
@@ -294,6 +294,12 @@
                         [[LLPaySdk sharedSdk] presentVerifyPaySdkInViewController:self withTraderInfo:lianlianData];
                         [confirmButton setUserInteractionEnabled:YES];
                         [confirmButton setAlpha:1.0f];
+                    }
+                    else
+                    {
+                        RenZhengViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"RenZhengViewController"];
+                        [vc setURL:[NSString stringWithFormat:@"%@Wap/WebView/AppPay?code=%@", BASEURL, [dict objectForKey:@"orderCode"]]];
+                        [self.navigationController presentViewController:vc animated:YES completion:nil];
                     }
                 }
 
@@ -373,7 +379,7 @@
                         [confirmButton setUserInteractionEnabled:YES];
                         [confirmButton setAlpha:1.0f];
                     }
-                    else
+                    else if ([[NSString stringWithFormat:@"%@",[dict objectForKey:@"chargeChannel"]] isEqualToString:@"连连"])
                     {
                         NSArray *array = [str componentsSeparatedByString:@"\"risk_item\":"];
                         NSArray *array2 = [array[1] componentsSeparatedByString:@"},"];
@@ -402,6 +408,12 @@
                         [[LLPaySdk sharedSdk] presentVerifyPaySdkInViewController:self withTraderInfo:lianlianData];
                         [confirmButton setUserInteractionEnabled:YES];
                         [confirmButton setAlpha:1.0f];
+                    }
+                    else
+                    {
+                        RenZhengViewController *vc = [[self storyboard]instantiateViewControllerWithIdentifier:@"RenZhengViewController"];
+                        [vc setURL:[NSString stringWithFormat:@"%@Wap/WebView/AppPay?code=%@", BASEURL, [dict objectForKey:@"orderCode"]]];
+                        [self.navigationController presentViewController:vc animated:YES completion:nil];
                     }
                 }
                 
