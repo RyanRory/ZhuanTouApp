@@ -59,8 +59,8 @@
     
     ChartYAxis *leftAxis = lineChartView.leftAxis;
     leftAxis.labelTextColor = ZTCHARTSGRAY;
-    leftAxis.customAxisMax = 10.00;
-    leftAxis.customAxisMin = 0.00;
+//    leftAxis.customAxisMax = 10.00;
+//    leftAxis.customAxisMin = 0.00;
     leftAxis.startAtZeroEnabled = NO;
     leftAxis.gridColor = ZTCHARTSGRAY;
     leftAxis.drawLimitLinesBehindDataEnabled = YES;

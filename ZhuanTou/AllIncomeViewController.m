@@ -32,8 +32,8 @@
     pieChartView.delegate = self;
     
     pieChartView.usePercentValuesEnabled = YES;
-    pieChartView.holeTransparent = YES;
-    pieChartView.centerTextFont = [UIFont systemFontOfSize:14];
+//    pieChartView.holeTransparent = YES;
+//    pieChartView.centerText = [UIFont systemFontOfSize:14];
     pieChartView.holeRadiusPercent = 0.65;
     pieChartView.transparentCircleRadiusPercent = 0.65;
     pieChartView.descriptionText = @"";

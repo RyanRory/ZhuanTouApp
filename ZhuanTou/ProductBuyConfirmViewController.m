@@ -144,7 +144,7 @@
     
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
     [formatter setPositiveFormat:@"###,##0"];
-    incomeRateLabel.text = [NSString stringWithFormat:@"预期年化收益率：%@%%",[productInfo objectForKey:@"expectedReturn"]];
+    incomeRateLabel.text = [NSString stringWithFormat:@"预期年化收益率：%@%%",[productInfo objectForKey:@"recentReturn"]];
     amoutLabel.text = [NSString stringWithFormat:@"购  买  金  额 (元)：%@",[NSString stringWithString:[formatter stringFromNumber:[NSNumber numberWithInt:investAmount.intValue]]]];
     if (bonus)
     {

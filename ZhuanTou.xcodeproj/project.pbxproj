@@ -60,6 +60,8 @@
 		A42339091C86DE490004612D /* bonusChosen.png in Resources */ = {isa = PBXBuildFile; fileRef = A42339071C86DE490004612D /* bonusChosen.png */; };
 		A423390A1C86DE490004612D /* voucherChosen.png in Resources */ = {isa = PBXBuildFile; fileRef = A42339081C86DE490004612D /* voucherChosen.png */; };
 		A423391D1C9026BB0004612D /* libUMessage_Sdk_1.2.6.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A423391B1C9026BB0004612D /* libUMessage_Sdk_1.2.6.a */; };
+		A42697F11E5972CC008A6C95 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A42697EA1E59727F008A6C95 /* Charts.framework */; };
+		A42697F21E5972CC008A6C95 /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A42697EA1E59727F008A6C95 /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A42EA2C11BDF833F00E35F5F /* ifudong@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A42EA2B91BDF833F00E35F5F /* ifudong@3x.png */; };
 		A42EA2C21BDF833F00E35F5F /* iguding@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A42EA2BA1BDF833F00E35F5F /* iguding@3x.png */; };
 		A42EA2C31BDF833F00E35F5F /* inbuilding@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A42EA2BB1BDF833F00E35F5F /* inbuilding@3x.png */; };
@@ -222,8 +224,6 @@
 		A463EA901BD4E50B00CAF146 /* launchCenter@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A463EA8E1BD4E50B00CAF146 /* launchCenter@2x.png */; };
 		A463EA941BD4E68D00CAF146 /* LaunchScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A463EA931BD4E68D00CAF146 /* LaunchScreenViewController.m */; };
 		A463EA991BD5FF7100CAF146 /* ProfitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A463EA981BD5FF7100CAF146 /* ProfitViewController.m */; };
-		A463EAB31BD60FB300CAF146 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A463EAB21BD60FA200CAF146 /* Charts.framework */; };
-		A463EAB41BD60FB300CAF146 /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A463EAB21BD60FA200CAF146 /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A463EAC31BD6354F00CAF146 /* wave@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A463EAC21BD6354F00CAF146 /* wave@3x.png */; };
 		A463EAC51BD6358400CAF146 /* wave@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A463EAC41BD6358400CAF146 /* wave@2x.png */; };
 		A463EAC71BD6359100CAF146 /* wave.png in Resources */ = {isa = PBXBuildFile; fileRef = A463EAC61BD6359100CAF146 /* wave.png */; };
@@ -455,18 +455,39 @@
 			remoteGlobalIDString = A41C6B291BB9849E006B731D;
 			remoteInfo = ZhuanTou;
 		};
-		A463EAB11BD60FA200CAF146 /* PBXContainerItemProxy */ = {
+		A42697E91E59727F008A6C95 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = A463EAAD1BD60FA100CAF146 /* Charts.xcodeproj */;
+			containerPortal = A42697E21E59727F008A6C95 /* Charts.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 5BA8EC401A9D14DC00CE82E1;
+			remoteGlobalIDString = 06165F241D8110E600722320;
 			remoteInfo = Charts;
 		};
-		A463EAB51BD60FB300CAF146 /* PBXContainerItemProxy */ = {
+		A42697EB1E59727F008A6C95 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = A463EAAD1BD60FA100CAF146 /* Charts.xcodeproj */;
+			containerPortal = A42697E21E59727F008A6C95 /* Charts.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 06165F2E1D8110E600722320;
+			remoteInfo = ChartsTests;
+		};
+		A42697ED1E59727F008A6C95 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A42697E21E59727F008A6C95 /* Charts.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 06B120D51D811E6200D14B02;
+			remoteInfo = ChartsRealm;
+		};
+		A42697EF1E59727F008A6C95 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A42697E21E59727F008A6C95 /* Charts.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 06B120FF1D811F1600D14B02;
+			remoteInfo = ChartsRealmTests;
+		};
+		A42697F31E5972CC008A6C95 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A42697E21E59727F008A6C95 /* Charts.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 5BA8EC3F1A9D14DC00CE82E1;
+			remoteGlobalIDString = 06165F231D8110E600722320;
 			remoteInfo = Charts;
 		};
 /* End PBXContainerItemProxy section */
@@ -478,7 +499,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				A463EAB41BD60FB300CAF146 /* Charts.framework in Embed Frameworks */,
+				A42697F21E5972CC008A6C95 /* Charts.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -557,6 +578,7 @@
 		A42339081C86DE490004612D /* voucherChosen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = voucherChosen.png; path = "images/@1x/voucherChosen.png"; sourceTree = "<group>"; };
 		A423391B1C9026BB0004612D /* libUMessage_Sdk_1.2.6.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUMessage_Sdk_1.2.6.a; sourceTree = "<group>"; };
 		A423391C1C9026BB0004612D /* UMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMessage.h; sourceTree = "<group>"; };
+		A42697E21E59727F008A6C95 /* Charts.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Charts.xcodeproj; path = "Charts-2.3.1/Charts.xcodeproj"; sourceTree = "<group>"; };
 		A42EA2B91BDF833F00E35F5F /* ifudong@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ifudong@3x.png"; path = "images/@3x/ifudong@3x.png"; sourceTree = "<group>"; };
 		A42EA2BA1BDF833F00E35F5F /* iguding@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "iguding@3x.png"; path = "images/@3x/iguding@3x.png"; sourceTree = "<group>"; };
 		A42EA2BB1BDF833F00E35F5F /* inbuilding@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "inbuilding@3x.png"; path = "images/@3x/inbuilding@3x.png"; sourceTree = "<group>"; };
@@ -741,7 +763,6 @@
 		A463EA931BD4E68D00CAF146 /* LaunchScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaunchScreenViewController.m; sourceTree = "<group>"; };
 		A463EA971BD5FF7100CAF146 /* ProfitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfitViewController.h; sourceTree = "<group>"; };
 		A463EA981BD5FF7100CAF146 /* ProfitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfitViewController.m; sourceTree = "<group>"; };
-		A463EAAD1BD60FA100CAF146 /* Charts.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Charts.xcodeproj; path = Charts/Charts.xcodeproj; sourceTree = "<group>"; };
 		A463EAB81BD6117C00CAF146 /* ZhuanTou-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZhuanTou-Bridging-Header.h"; sourceTree = "<group>"; };
 		A463EAC21BD6354F00CAF146 /* wave@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wave@3x.png"; path = "images/@3x/wave@3x.png"; sourceTree = "<group>"; };
 		A463EAC41BD6358400CAF146 /* wave@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wave@2x.png"; path = "images/@2x/wave@2x.png"; sourceTree = "<group>"; };
@@ -1024,6 +1045,7 @@
 				EA0246F61C54879900A677B0 /* TencentOpenApi_IOS_Bundle.bundle in Frameworks */,
 				EA0246F71C54879900A677B0 /* TencentOpenAPI.framework in Frameworks */,
 				EA0246E81C53868100A677B0 /* libz.1.1.3.tbd in Frameworks */,
+				A42697F11E5972CC008A6C95 /* Charts.framework in Frameworks */,
 				EA0246E61C53867500A677B0 /* libstdc++.6.0.9.tbd in Frameworks */,
 				EA0246E41C53866600A677B0 /* CoreTelephony.framework in Frameworks */,
 				EA0246E21C53865900A677B0 /* CoreGraphics.framework in Frameworks */,
@@ -1035,7 +1057,6 @@
 				6960161C4D1F51521E05885E /* libPods.a in Frameworks */,
 				A423391D1C9026BB0004612D /* libUMessage_Sdk_1.2.6.a in Frameworks */,
 				A45B856B1BFDE4740041FFC7 /* Crashlytics.framework in Frameworks */,
-				A463EAB31BD60FB300CAF146 /* Charts.framework in Frameworks */,
 				A475498B1BE61889002E929C /* BaoFooPay.framework in Frameworks */,
 				A45B856A1BFDE4740041FFC7 /* Fabric.framework in Frameworks */,
 				A4E8F8471C0C54B10002D7D0 /* libPaySdkColor.a in Frameworks */,
@@ -1558,6 +1579,17 @@
 			name = UMessage;
 			sourceTree = "<group>";
 		};
+		A42697E31E59727F008A6C95 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A42697EA1E59727F008A6C95 /* Charts.framework */,
+				A42697EC1E59727F008A6C95 /* ChartsTests.xctest */,
+				A42697EE1E59727F008A6C95 /* ChartsRealm.framework */,
+				A42697F01E59727F008A6C95 /* ChartsRealmTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		A42EA2F81BE1E2B400E35F5F /* cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -1633,11 +1665,11 @@
 		A45B856C1BFDE7790041FFC7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A42697E21E59727F008A6C95 /* Charts.xcodeproj */,
 				A423391E1C9026C20004612D /* UMessage */,
 				EA0246D81C53858800A677B0 /* QQ */,
 				EA0246CA1C53762D00A677B0 /* WeChat */,
 				A4E8F83E1C0C53D70002D7D0 /* LLPay */,
-				A463EAAD1BD60FA100CAF146 /* Charts.xcodeproj */,
 				A45B85681BFDE4740041FFC7 /* Fabric.framework */,
 				A45B85691BFDE4740041FFC7 /* Crashlytics.framework */,
 				A475498A1BE61889002E929C /* BaoFooPay.framework */,
@@ -1653,14 +1685,6 @@
 				A463EA931BD4E68D00CAF146 /* LaunchScreenViewController.m */,
 			);
 			name = LaunchScreen;
-			sourceTree = "<group>";
-		};
-		A463EAAE1BD60FA100CAF146 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				A463EAB21BD60FA200CAF146 /* Charts.framework */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		A463EACD1BD6435300CAF146 /* Fonts */ = {
@@ -1863,7 +1887,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				A463EAB61BD60FB300CAF146 /* PBXTargetDependency */,
+				A42697F41E5972CC008A6C95 /* PBXTargetDependency */,
 			);
 			name = ZhuanTou;
 			productName = ZhuanTou;
@@ -1919,13 +1943,16 @@
 					A41C6B291BB9849E006B731D = {
 						CreatedOnToolsVersion = 7.0;
 						DevelopmentTeam = Q98L84XUG2;
+						LastSwiftMigration = 0820;
 					};
 					A41C6B421BB9849E006B731D = {
 						CreatedOnToolsVersion = 7.0;
+						LastSwiftMigration = 0820;
 						TestTargetID = A41C6B291BB9849E006B731D;
 					};
 					A41C6B4D1BB9849E006B731D = {
 						CreatedOnToolsVersion = 7.0;
+						LastSwiftMigration = 0820;
 						TestTargetID = A41C6B291BB9849E006B731D;
 					};
 				};
@@ -1943,8 +1970,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = A463EAAE1BD60FA100CAF146 /* Products */;
-					ProjectRef = A463EAAD1BD60FA100CAF146 /* Charts.xcodeproj */;
+					ProductGroup = A42697E31E59727F008A6C95 /* Products */;
+					ProjectRef = A42697E21E59727F008A6C95 /* Charts.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -1957,11 +1984,32 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		A463EAB21BD60FA200CAF146 /* Charts.framework */ = {
+		A42697EA1E59727F008A6C95 /* Charts.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = Charts.framework;
-			remoteRef = A463EAB11BD60FA200CAF146 /* PBXContainerItemProxy */;
+			remoteRef = A42697E91E59727F008A6C95 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A42697EC1E59727F008A6C95 /* ChartsTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = ChartsTests.xctest;
+			remoteRef = A42697EB1E59727F008A6C95 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A42697EE1E59727F008A6C95 /* ChartsRealm.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ChartsRealm.framework;
+			remoteRef = A42697ED1E59727F008A6C95 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A42697F01E59727F008A6C95 /* ChartsRealmTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = ChartsRealmTests.xctest;
+			remoteRef = A42697EF1E59727F008A6C95 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -2498,10 +2546,10 @@
 			target = A41C6B291BB9849E006B731D /* ZhuanTou */;
 			targetProxy = A41C6B4F1BB9849E006B731D /* PBXContainerItemProxy */;
 		};
-		A463EAB61BD60FB300CAF146 /* PBXTargetDependency */ = {
+		A42697F41E5972CC008A6C95 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Charts;
-			targetProxy = A463EAB51BD60FB300CAF146 /* PBXContainerItemProxy */;
+			targetProxy = A42697F31E5972CC008A6C95 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -2622,10 +2670,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 69A1B34D9815045875A56A3A /* Pods.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Shanghai Momu Financial Information Service Co., Ltd. (Q98L84XUG2)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_BITCODE = NO;
@@ -2669,9 +2718,10 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.momu.zhuantouwang.ZhuanTou;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "17d6b4ed-a0ca-4069-bb9a-63a78d2e036b";
+				PROVISIONING_PROFILE = "8c4bb6a1-abdc-4960-b832-eab012ad31d7";
 				SWIFT_OBJC_BRIDGING_HEADER = "ZhuanTou/ZhuanTou-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -2680,10 +2730,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B241E5576143A7703444EB0B /* Pods.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Shanghai Momu Financial Information Service Co., Ltd. (Q98L84XUG2)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2726,8 +2777,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.momu.zhuantouwang.ZhuanTou;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "17d6b4ed-a0ca-4069-bb9a-63a78d2e036b";
+				PROVISIONING_PROFILE = "8c4bb6a1-abdc-4960-b832-eab012ad31d7";
 				SWIFT_OBJC_BRIDGING_HEADER = "ZhuanTou/ZhuanTou-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
@@ -2740,6 +2792,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Shanghai-Momu-Financial-Information-Service-Co.--Ltd..ZhuanTouTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ZhuanTou.app/ZhuanTou";
 			};
 			name = Debug;
@@ -2752,6 +2805,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Shanghai-Momu-Financial-Information-Service-Co.--Ltd..ZhuanTouTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ZhuanTou.app/ZhuanTou";
 			};
 			name = Release;
@@ -2763,6 +2817,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Shanghai-Momu-Financial-Information-Service-Co.--Ltd..ZhuanTouUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = ZhuanTou;
 				USES_XCTRUNNER = YES;
 			};
@@ -2775,6 +2830,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Shanghai-Momu-Financial-Information-Service-Co.--Ltd..ZhuanTouUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = ZhuanTou;
 				USES_XCTRUNNER = YES;
 			};
@@ -2828,10 +2884,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C8A74B6F96E609344BDC6A9A /* Pods.distribution.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Shanghai Momu Financial Information Service Co., Ltd. (Q98L84XUG2)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2894,8 +2951,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.momu.zhuantouwang.ZhuanTou;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "17d6b4ed-a0ca-4069-bb9a-63a78d2e036b";
+				PROVISIONING_PROFILE = "8c4bb6a1-abdc-4960-b832-eab012ad31d7";
 				SWIFT_OBJC_BRIDGING_HEADER = "ZhuanTou/ZhuanTou-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Distribution;
@@ -2908,6 +2966,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Shanghai-Momu-Financial-Information-Service-Co.--Ltd..ZhuanTouTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ZhuanTou.app/ZhuanTou";
 			};
 			name = Distribution;
@@ -2919,6 +2978,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Shanghai-Momu-Financial-Information-Service-Co.--Ltd..ZhuanTouUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = ZhuanTou;
 				USES_XCTRUNNER = YES;
 			};
